@@ -1,1 +1,36 @@
-"\documentclass{article} \begin{document} Hello, LaTeX! \end{document}" 
+"\documentclass{article}
+\usepackage{graphicx}
+\usepackage{tocloft}  
+\usepackage{titling}  
+\usepackage{booktabs} 
+\usepackage{tabularx}  
+\usepackage{geometry} 
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{todonotes}
+
+\setlength{\cftbeforesecskip}{10pt}
+
+\pretitle{\begin{center}\Huge\bfseries}
+\posttitle{\end{center}}
+\preauthor{\begin{center}\Large}
+\postauthor{\end{center}}
+\predate{\begin{center}\large}
+\postdate{\end{center}}
+
+\title{Software Engineering 2 RASD}
+\author{Giovanni Vaccarino - Vittorio Palladino - Nicolò Vacis}
+\date{October 2024}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+\input{chapters/introduction}
+
+\end{document}
+" 
