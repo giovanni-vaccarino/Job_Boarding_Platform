@@ -41,7 +41,7 @@ The cloud infrastructure must support horizontal dynamic scaling to handle peak 
 The platform will use HTTPS for all communications to ensure secure data transmission between users and the system.\\ \\
 Email notifications will be sent using industry-standard email protocols (SMTP) with TLS encryption to ensure secure communication. \\ \\
 In addition, the platform will support push notifications for both web and mobile interfaces, ensuring that users are promptly notified of important actions (e.g., internship recommendations, interview scheduling) in real-time. \todo{DA FARE?}
-
+\newpage
 \subsection{Functional Requirements}
 \subsubsection{Use case diagrams}
 \begin{figure}[ht!]
@@ -138,8 +138,10 @@ In addition, the platform will support push notifications for both web and mobil
         & 3a. If the data is valid, the platform creates the new internship post and confirms success to the company. \\
         & 3b. If the data is invalid, the platform returns an error: "Error in internship data, please correct the form." \\
         & 4. The company resubmits the corrected form, repeating the process until valid data is provided. \\
+        & 5. The platform performs matching to find relevant students for the internship post. \\
+        & 6. For each student that matches, the platform sends an internship post notification. \\
         \hline
-        \textbf{Exit condition} & A new internship post is successfully created on the platform. \\ \hline
+        \textbf{Exit condition} & A new internship post is successfully created on the platform, and notifications are sent to relevant students. \\ \hline
         \textbf{Exceptions} & 
         3.1. Invalid internship data: The company must correct and resubmit the form until valid data is provided. \\
     \end{tabular}
@@ -148,8 +150,9 @@ In addition, the platform will support push notifications for both web and mobil
 \end{table}
 
 
+
 \begin{center}
-    \includegraphics[scale = 0.8]{images/company_new_internship.png}
+    \includegraphics[scale = 0.8]{images/Internship_post_creation_use_case.png}
 \end{center}
 
 \newpage
@@ -158,30 +161,66 @@ In addition, the platform will support push notifications for both web and mobil
 \begin{table}[h!]
     \centering
     \begin{tabular}{lp{10cm}}
-        \textbf{Actor} & User \\ \hline
-        \textbf{Entry conditions} & The user is in the process of providing personal data and uploading a CV on the S\&C platform. \\ \hline
+        \textbf{Actor} & Student \\ \hline
+        \textbf{Entry conditions} & The student is on the S\&C platform, ready to submit personal data and optionally upload a CV. \\ \hline
         \textbf{Event Flow} & 
-        1. The user provides their personal data. \\
+        1. The student submits their skills, interests, and other personal data. \\
         & 2a. If the personal data is invalid, the platform returns an error: "Error in personal data, please correct it." \\
-        & 2b. If the personal data is valid, the platform saves the data and confirms that the upload was successful. \\
-        & 3. The user uploads their CV. \\
+        & 2b. If the personal data is valid, the platform confirms that the data was successfully uploaded. \\
+        & 3. The student optionally uploads their CV. \\
         & 4a. If the CV is invalid, the platform returns an error: "Error in CV, please re-upload." \\
-        & 4b. If the CV is valid, the platform saves the CV and confirms that the upload was successful. \\
+        & 4b. If the CV is valid, the platform confirms that the upload was successful. \\
+        & 5. The platform performs matching based on the student data. \\
+        & 6. For each matching company, the platform sends a notification about the student. \\
         \hline
-        \textbf{Exit condition} & The user's personal data and CV are successfully uploaded and stored on the platform. \\ \hline
+        \textbf{Exit condition} & The student's personal data and, if applicable, CV are successfully uploaded and relevant companies are notified. \\ \hline
         \textbf{Exceptions} & 
-        2.1. Invalid personal data: The user must correct and resubmit their personal data. \\
-        & 4.1. Invalid CV: The user must re-upload their CV until it meets the platform's requirements. \\
+        2.1. Invalid personal data: The student must correct and resubmit their personal data. \\
+        & 4.1. Invalid CV: The student must re-upload their CV until it meets the platform's requirements. \\
     \end{tabular}
-    \caption{Personal data and CV upload use case}
-    \label{tab:personal_data_cv_upload}
+    \caption{Student personal data and CV upload use case}
+    \label{tab:student_data_cv_upload}
+\end{table}
+
+
+
+\begin{center}
+    \includegraphics[scale = 0.8]{images/Personal_data_and_CV_upload.png}
+\end{center}
+
+\newpage
+\textbf{5) Student application use case}\\
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{lp{10cm}}
+        \textbf{Actor} & Student \\ \hline
+        \textbf{Entry conditions} & The student is on the S\&C platform, ready to apply for an internship. \\ \hline
+        \textbf{Event Flow} & 
+        1. The student requests a list of internships. \\
+        & 2. The platform provides the list of available internships. \\
+        & 3. The student selects an internship from the list. \\
+        & 4. The platform displays the details of the selected internship. \\
+        & 5. The student submits their application data for the selected internship. \\
+        & 6. The platform validates the application data. \\
+        & 7a. If the data is valid, the platform confirms that the application submission was successful. \\
+        & 7b. If the data is not valid, the platform returns an error message. \\
+        & 8. If valid, the platform sends the application to the company. \\
+        \hline
+        \textbf{Exit condition} & The student's application for the internship is successfully submitted and sent to the company if the data is valid. \\ \hline
+        \textbf{Exceptions} & 
+        7.1. Invalid application data: The student must correct and resubmit their application data until it meets the platform's requirements. \\
+    \end{tabular}
+    \caption{Internship application use case}
+    \label{tab:internship_application}
 \end{table}
 
 
 \begin{center}
-    \includegraphics[scale = 0.8]{images/Student_personalData_CV_upload.png}
+    \includegraphics[scale = 0.8]{images/Student_application.png}
 \end{center}
 
+\newpage
 \subsubsection{Summary of the Functional Requirements}
 \begin{longtable}{|p{0.1\textwidth}|p{0.9\textwidth}|}
 \hline
@@ -189,7 +228,7 @@ In addition, the platform will support push notifications for both web and mobil
 \hline
 \textbf{R2} & The S\&C shall allow students to create and edit profiles, upload CVs, and receive real-time validation. \\ 
 \hline
-\textbf{R3} &The S\&C shall allow students to access a search tool with filtering options for location, field of study, and required skills. \\ 
+\textbf{R3} & The S\&C shall allow students to access a search tool with filtering options for location, field of study, and required skills. \\ 
 \hline
 \textbf{R4} & The S\&C shall allow students to be guided through the application process with a step-by-step wizard, displaying deadlines and tracking progress. \\ 
 \hline
@@ -213,7 +252,7 @@ In addition, the platform will support push notifications for both web and mobil
 \hline
 \textbf{R14} & The S\&C shall allow companies to specify deadlines for internship postings, with automatic removal of expired listings. \\ 
 \hline
-\textbf{R15} & The S\&C shall allow the recommendation engine to improve over time based on feedback from completed internships. \\ 
+\textbf{R15} & The S\&C shall allow the recommendation engine to improve over time based on feedback from student internships. \\ 
 \hline
 \textbf{R16} & The S\&C shall allow companies to manage interview schedules and log outcomes, including scores and feedback. \\ 
 \hline
@@ -251,7 +290,7 @@ In addition, the platform will support push notifications for both web and mobil
 \hline
 \textbf{R33} & The S\&C shall allow automated reminders for companies about pending feedback or assessments for completed internships. \\ 
 \hline
-\textbf{R34} & The S\&C shall allow students to mark internships as "favorites" or "saved" for easy reference during application. \\ 
+\textbf{R34} & The S\&C shall allow students to mark internships as "favorites" or for easy reference during application. \\ 
 \hline
 \textbf{R35} & The S\&C shall allow companies to post exclusive internships targeted to students from specific universities or programs. \\ 
 \hline
@@ -259,75 +298,39 @@ In addition, the platform will support push notifications for both web and mobil
 \hline
 \textbf{R37} & The S\&C shall allow students and companies access to a document management tool for secure uploading, storing, and sharing of internship-related documents. \\ 
 \hline
-\textbf{R38} & The S\&C shall allow tutorials and onboarding videos to guide users through the platform features. \\ 
+\textbf{R38} & The S\&C shall allow companies to set internship visibility criteria, such as grade level, skill sets, and field of study. \\ 
 \hline
-\textbf{R39} & The S\&C shall allow companies to set internship visibility criteria, such as grade level, skill sets, and field of study. \\ 
+\textbf{R39} & The S\&C shall allow universities access to an analytics dashboard to track student engagement, successful matches, and completion rates. \\ 
 \hline
-\textbf{R40} & The S\&C shall allow universities access to an analytics dashboard to track student engagement, successful matches, and completion rates. \\ 
+\textbf{R40} & The S\&C shall allow a reporting feature for users to report inappropriate or irrelevant internship environment, ensuring a safe and professional place. \\ 
 \hline
-\textbf{R41} & The S\&C shall allow a reporting feature for users to report inappropriate or irrelevant content, ensuring a safe and professional environment. \\ 
+\textbf{R41} & The S\&C shall allow personalized reminders for students, notifying them of application deadlines, interview dates, and required documents. \\ 
 \hline
-\textbf{R42} & The S\&C shall allow personalized reminders for students, notifying them of application deadlines, interview dates, and required documents. \\ 
+\textbf{R42} & The S\&C shall allow students to set privacy levels on their profiles, determining what details are public to companies or universities. \\  
 \hline
-\textbf{R43} & The S\&C shall allow students to set privacy levels on their profiles, determining what details are public to companies or universities. \\ 
+\textbf{R43} & The S\&C shall allow integration with calendars for synchronizing dates like interview or deadline dates. \\ 
 \hline
-\textbf{R44} & The S\&C shall allow integration with LinkedIn for students to import profile details and update experience easily. \\ 
+\textbf{R44} & The S\&C shall allow a section with the best internship sorted by feedbacks. \\ 
 \hline
-\textbf{R45} & The S\&C shall allow a "Learning Resources" section with links to relevant articles, courses, and certifications. \\ 
+\textbf{R45} & The S\&C shall allow students to view average application review times by companies via an "Application Insights" feature. \\ 
 \hline
-\textbf{R46} & The S\&C shall allow a dynamic, searchable FAQ section, categorized by topics for quick access to common questions. \\ 
+\textbf{R46} & The S\&C shall allow an assessment tool for students to understand and showcase non-technical strengths. \\ 
 \hline
-\textbf{R47} & The S\&C shall allow adherence to WCAG 2.1 accessibility standards, supporting screen readers and adjustable text sizes for accessibility. \\ 
+\textbf{R47} & The S\&C shall allow tracking of job market trends, notifying students of growing fields to help adapt skills according to their matching features. \\ 
 \hline
-\textbf{R48} & The S\&C shall allow companies to create virtual internships with tools for remote collaboration and assessments. \\ 
+\textbf{R48} & The S\&C shall allow endorsements from companies and universities, adding credibility to student profiles for specific skills. \\ 
 \hline
-\textbf{R49} & The S\&C shall allow integration with calendars (Google, Outlook) for synchronizing dates like interview or deadline dates. \\ 
+\textbf{R49} & The S\&C shall allow a real-time "Internship Analytics" page for universities, summarizing internship data like completion rates. \\ 
 \hline
-\textbf{R50} & The S\&C shall allow a "Success Stories" section, showcasing successful internships and providing testimonials for encouragement. \\ 
+\textbf{R50} & The S\&C shall allow companies a Candidate Comparison tool for side-by-side candidate evaluation. \\ 
 \hline
-\textbf{R51} & The S\&C shall allow students to view average application review times by companies via an "Application Insights" feature. \\ 
+\textbf{R51} & The S\&C shall allow real-time tracking of application statuses, showing students the progress of applications at each stage. \\ 
 \hline
-\textbf{R52} & The S\&C shall allow a "Soft Skills" assessment tool for students to understand and showcase non-technical strengths. \\ 
+\textbf{R52} & The S\&C shall allow a recommendation ranking feature to help students prioritize opportunities based on match percentage and goals. \\ 
 \hline
-\textbf{R53} & The S\&C shall allow companies to host informational webinars or Q\&A sessions for students to learn about opportunities. \\ 
+\textbf{R53} & The S\&C shall allow an internship recommendation score based on student profiles, skills. \\ 
 \hline
-\textbf{R54} & The S\&C shall allow students a bulk application feature to apply to multiple internships with personalized cover letters. \\ 
-\hline
-\textbf{R55} & The S\&C shall allow tracking of job market trends, notifying students of growing fields to help adapt skills accordingly. \\ 
-\hline
-\textbf{R56} & The S\&C shall allow endorsements from companies and universities, adding credibility to student profiles for specific skills. \\ 
-\hline
-\textbf{R57} & The S\&C shall allow integration with online course platforms for students to link certifications directly to profiles. \\ 
-\hline
-\textbf{R58} & The S\&C shall allow a real-time "Internship Analytics" page for universities, summarizing internship data like completion rates and common industries. \\ 
-\hline
-\textbf{R59} & The S\&C shall allow students access to historical salary data for internships, providing insights on expected compensation in various roles. \\ 
-\hline
-\textbf{R60} & The S\&C shall allow companies a "Candidate Comparison" tool for side-by-side candidate evaluation. \\ 
-\hline
-\textbf{R61} & The S\&C shall allow multi-factor authentication, enhancing security for users accessing sensitive data. \\ 
-\hline
-\textbf{R62} & The S\&C shall allow real-time tracking of application statuses, showing students the progress of applications at each stage. \\ 
-\hline
-\textbf{R63} & The S\&C shall allow a recommendation ranking feature to help students prioritize opportunities based on match percentage and goals. \\ 
-\hline
-\textbf{R64} & The S\&C shall allow a skill-building recommendation engine, suggesting courses, certifications, or workshops to improve qualifications. \\ 
-\hline
-\textbf{R65} & The S\&C shall allow an internship recommendation score based on student profiles, skills, and past performance. \\ 
-\hline
-\textbf{R66} & The S\&C shall allow voice-based navigation and interaction, enhancing accessibility for visually impaired users. \\ 
-\hline
-\textbf{R67} & The S\&C shall allow report generation and export for students and companies to keep track of application or posting histories offline. \\ 
-\hline
-\textbf{R68} & The S\&C shall allow companies to provide additional criteria, like language requirements, during the selection process. \\ 
-\hline
-\textbf{R69} & The S\&C shall allow students access to templates and resources for creating digital portfolios to enhance profiles. \\ 
-\hline
-\textbf{R70} & The S\&C shall allow companies access to candidate screening tools for initial skill or aptitude tests on the platform. \\ 
-\hline
-\textbf{R71} & The S\&C shall allow real-time analytics on student activity, including engagement rates and usability feedback. \\ 
-\hline
-\textbf{R72} & The S\&C shall allow a "Career Pathway" feature, showing students potential career trajectories and skills required for various internship roles. \\ 
+\textbf{R54} & The S\&C shall allow companies to provide additional criteria\\
 \hline
 \end{longtable}
 \newpage
@@ -336,28 +339,29 @@ In the following table it is shown how the different goals map on the requiremen
 \begin{equation}
 R \land D \models G
 \end{equation}
-\begin{longtable}{|p{3cm}|p{5cm}|p{5cm}|}
+\begin{longtable}{| p{0.3\textwidth} | p{0.4\textwidth} | p{0.4\textwidth} |}
 \hline
+\textbf{Goal} & \textbf{Domain Assumptions (DA)} & \textbf{Requirements (R)} \\ 
+\hline
+G1: Enable students to search for internships that match their skills and career goals. & DA1: Students need internships to gain practical experience. \newline DA3: Students have varied skills and interests. \newline DA5: Students need to provide a valid email address. \newline DA8: Both students and companies need to have a connection and a device to connect to the platform. & R1: Display a personalized dashboard with recommended internships, application statuses, and feedback. \newline R2: Allow students to create/edit profiles, upload CVs, and validate them in real-time. \newline R3: Provide a search tool with filtering options. \newline R4: Guide students through applications with a step-by-step wizard. \newline R21: Enable students to set career goals and receive tailored internship suggestions. \newline R52: Provide a recommendation ranking feature to help students prioritize opportunities. \\ \hline
 
-\textbf{G1} & R4, R21, R29, R42, R44, R71, R72 & DA1, DA3, DA5 \\ 
-\hline
-\textbf{G2} & R5, R6, R7, R20, R28, R36, R47, R43, R68 & DA2, DA4, DA5 \\ 
-\hline
-\textbf{G3} & R21, R34, R29, R72 & DA1, DA3, DA5 \\ 
-\hline
-\textbf{G4} & R31, R68, R22 & DA2, DA4, DA5 \\ 
-\hline
-\textbf{G5} & R16, R7, R42, R23, R57 & DA6, DA7 \\ 
-\hline
-\textbf{G6} & R23, R24, R33, R60, R64 & DA7, DA4 \\ 
-\hline
-\textbf{G7} & R11, R24, R32, R22, R71 & DA6, DA2, DA8 \\ 
-\hline
-\textbf{G8} & R8, R9, R10, R26, R66, R48 & DA8, DA6 \\ 
-\hline
+G2: Provide companies with tools to advertise internships and attract suitable candidates. & DA2: Companies need interns for various projects. \newline DA4: Companies have specific internship requirements. \newline DA6: Companies need to provide a valid email. \newline DA8: Both parties need connectivity to the platform. & R5: Enable companies to manage internship postings with job roles and skill requirements. \newline R6: Provide a dashboard for companies to review applications, filter profiles, and schedule interviews. \newline R14: Allow companies to specify deadlines for postings, with expired listings automatically removed. \newline R20: Give companies access to analytics for candidate engagement and application trends. \newline R28: Provide templates and guidelines to standardize internship descriptions. \newline R38: Allow companies to set visibility criteria based on grade level, skills, and field of study. \\ \hline
 
-\caption{Mapping of Goals to Requirements and Domain Assumptions}
+G3: Offer recommendation mechanisms for students to match with relevant internships. & DA3: Students have varied skills and interests. \newline DA4: Companies have specific internship requirements. & R7: Provide companies with a recommendation feed based on internship requirements. \newline R15: Improve the recommendation engine over time based on feedback from completed internships. \newline R21: Allow students to set career goals for more tailored suggestions. \newline R52: Enable students to prioritize opportunities with a ranking feature. \newline R53: Generate internship recommendation scores based on student profiles and past performance. \\ \hline
+
+G4: Offer recommendation mechanisms for companies to find potential candidates. & DA2: Companies need interns for various projects. \newline DA4: Companies have specific internship requirements. & R6: Provide companies with a dashboard to review applications and filter profiles. \newline R7: Offer companies a recommendation feed for candidates. \newline R23: Show companies "Similar Candidates" based on profiles. \newline R50: Include a "Candidate Comparison" tool for companies to evaluate applicants side-by-side. \\ \hline
+
+G5: Facilitate the selection process through an interview management system. & DA2: Companies need interns for various projects. \newline DA4: Companies have specific internship requirements. & R5: Enable companies to create and manage internship postings. \newline R6: Provide companies a dashboard to review and manage candidate applications. \newline R16: Support interview scheduling and logging, including scores and feedback. \newline R20: Include a comprehensive analytics dashboard for tracking trends. \newline R68: Allow additional selection criteria like language requirements. \\ \hline
+
+G6: Supports the candidate's evaluation. & DA4: Companies have specific internship requirements. \newline DA9: Universities are interested in monitoring internship quality. & R16: Support interview scheduling and recording outcomes. \newline R17: Enable feedback mechanisms post-internship for skills and satisfaction. \newline R50: Provide a comparison tool for side-by-side candidate evaluation. \\ \hline
+
+G7: Gather feedback from students and companies to continuously improve the matchmaking process. & DA3: Students have varied skills and interests. \newline DA4: Companies have specific internship requirements. \newline DA9: Universities are interested in monitoring internship quality. & R15: Continuously improve the recommendation engine with feedback. \newline R17: Facilitate feedback post-internship. \newline R24: Offer profile improvement suggestions, including skill recommendations. \newline R33: Send automated reminders for companies to provide feedback. \newline R44: Include a "Success Stories" section showcasing successful internships. \\ \hline
+
+G8: Enable universities to monitor internship progress and manage potential issues. & DA9: Universities are interested in monitoring internship quality. \newline DA7: Universities need to have a valid email. & R8: Allow universities to access an administrative dashboard for monitoring. \newline R9: Provide a complaint management system for universities. \newline R10: Integrate with university databases for student verification and internship progress monitoring. \newline R39: Enable universities to access analytics on engagement and completion rates. \newline R49: Show universities a real-time "Internship Analytics" page summarizing internship data. \\ \hline
 \end{longtable}
+
+
+
 \begin{itemize}
     \item \textbf{Student Profile Management}: 
         \begin{itemize}
