@@ -1,8 +1,6 @@
-\section{Specific Requirements}
+\section{External Interface Requirements}
 
-\subsection{External Interface Requirements}
-
-\subsubsection{User Interfaces}
+\subsection{User Interfaces}
 
 The system will provide a web-based user interface that caters to all user groups—students, companies, and universities. Each user group will have distinct interfaces designed to facilitate their respective roles. The interface must be intuitive, and supporting a seamless user experience across both desktop and mobile devices. \\ \\
 \vspace{5mm}
@@ -27,46 +25,47 @@ The system will provide a web-based user interface that caters to all user group
     \item \textbf{Complaint Management}: Universities will use a built-in tool to manage complaints lodged by students or companies. Administrators can log, track, and update complaint statuses through the interface, ensuring a transparent process for all parties involved.
 \end{itemize}
 
-\subsubsection{Hardware Interfaces}
+\subsection{Hardware Interfaces}
 
 The S\&C platform will be hosted on cloud infrastructure and accessible via standard web browsers. The platform will operate on servers capable of handling the load required by thousands of users, with no specific hardware requirements imposed on users other than internet-enabled devices, such as PCs, tablets, or smartphones.\\ \\
 The cloud infrastructure must support horizontal dynamic scaling to handle peak loads efficiently, ensuring the system can respond to high traffic volumes (up to 10,000 concurrent users).
 
-\subsubsection{Software Interfaces}
+\subsection{Software Interfaces}
 
 --
 
-\subsubsection{Communication Interfaces}
+\subsection{Communication Interfaces}
 
 The platform will use HTTPS for all communications to ensure secure data transmission between users and the system.\\ \\
 Email notifications will be sent using industry-standard email protocols (SMTP) with TLS encryption to ensure secure communication. \\ \\
 All this is done to ensure that users are promptly notified of important actions (e.g., internship recommendations, interview scheduling) in real-time.
 \newpage
-\subsection{Functional Requirements}
-\subsubsection{Use case diagrams}
+
+\section{Functional Requirements}
+\subsection{Use case diagrams}
 \begin{figure}[ht!]
     \centering
-    \includegraphics[scale=0.40]{Images/ImagesRASD/ScenariosStateDiagram-UseCaseDiagrams_Student.drawio.png}
+    \includegraphics[scale=0.40]{Images/ImagesRASD/ScenariosStateDiagram-UseCaseDiagrams_Student.drawio(1).png}
     \caption{Student use case diagram}
 \end{figure}
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[scale=0.40]{Images/ImagesRASD/ScenariosStateDiagram-UseCaseDiagram_Universities.drawio.png}
+    \includegraphics[scale=0.40]{Images/ImagesRASD/ScenariosStateDiagram-UseCaseDiagram_Universities.drawio(1).png}
     \caption{University use case diagram}
 
 \end{figure}
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[scale=0.40]{Images/ImagesRASD/ScenariosStateDiagram-UseCaseDiagram_Companies.drawio.png}
+    \includegraphics[scale=0.40]{Images/ImagesRASD/ScenariosStateDiagram-UseCaseDiagram_Companies.drawio(1).png}
     \caption{Company use case diagram}
 
 \end{figure}
 
 \clearpage
 
-\subsubsection{Use cases} 
+\subsection{Use cases} 
 \textbf{1) User registration use case}\\
 \begin{table}[h!]
     \centering
@@ -93,12 +92,11 @@ All this is done to ensure that users are promptly notified of important actions
     \label{tab:user_registration}
 \end{table}
 
-
 \begin{center}
-    \includegraphics[scale = 0.5]{Images/ImagesRASD/user_registration.png}
+    \includegraphics[scale = 0.8]{Images/ImagesRASD/user_registration.png}
 \end{center}
 \newpage
-\textbf{2) Student Login}\\
+\textbf{2) User Login}\\
 
 \begin{table}[h!]
     \centering
@@ -121,7 +119,7 @@ All this is done to ensure that users are promptly notified of important actions
 
 
 \begin{center}
-    \includegraphics[scale = 0.8]{Images/ImagesRASD/Student_login.png}
+    \includegraphics[scale = 1]{Images/ImagesRASD/user_login.png}
 \end{center}
 
 \newpage
@@ -185,7 +183,7 @@ All this is done to ensure that users are promptly notified of important actions
 
 
 \begin{center}
-    \includegraphics[scale = 0.8]{Images/ImagesRASD/Personal_data_and_CV_upload.png}
+    \includegraphics[scale = 0.7]{Images/ImagesRASD/Personal_data_and_CV_upload.png}
 \end{center}
 
 \newpage
@@ -221,7 +219,105 @@ All this is done to ensure that users are promptly notified of important actions
 \end{center}
 
 \newpage
-\subsubsection{Summary of the Functional Requirements}
+\textbf{6) Company to manage income applications}\\
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{lp{10cm}}
+        \textbf{Actor} & Company \\ \hline
+        \textbf{Entry conditions} & The company is on the S\&C platform, ready to manage internship applications. \\ \hline
+        \textbf{Event Flow} & 
+        1. The company requests the list of internship posts. \\
+        & 2. The platform provides the list of posted internships. \\
+        & 3. The company selects a specific internship from the list. \\
+        & 4. The platform displays the details of the selected internship. \\
+        & 5. The company requests the list of applicants for the internship. \\
+        & 6. The platform provides the list of applicants. \\
+        & 7. For each application: \\
+        & \quad a. The company requests applicant information. \\
+        & \quad b. The platform provides the applicant information. \\
+        & \quad c. The company reviews the selected application. \\
+        & \quad d. The platform displays the status result. \\
+        & \quad e. The company updates the status on the platform. \\
+        & \quad f. The platform sends the result to the student. \\
+        \hline
+        \textbf{Exit condition} & The company's review and status update for each applicant are completed, and results are sent to students. \\ \hline
+        \textbf{Exceptions} & None specified. \\
+    \end{tabular}
+    \caption{Company management of internship applications use case}
+    \label{tab:company_manage_internship_applications}
+\end{table}
+
+
+\begin{center}
+    \includegraphics[scale = 0.7]{Images/ImagesRASD/Company_to_manage_income_applications.png}
+\end{center}
+
+\newpage
+\textbf{7) Student sending answer use case}\\
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{lp{10cm}}
+        \textbf{Actor} & Student \\ \hline
+        \textbf{Entry conditions} & The student is on the platform and ready to respond to questions. \\ \hline
+        \textbf{Event Flow} & 
+        1. The student responds to each question individually. \\
+        & 2. After answering all questions, the student sends their answers to the platform. \\
+        & 3. The platform validates the submitted answers. \\
+        & 4a. If the answers are valid, the platform saves the answers and sends a confirmation to the student. \\
+        & 4b. If the answers are not valid, the platform sends an error message to the student indicating that revision is needed. \\
+        \hline
+        \textbf{Exit condition} & The student's answers are successfully validated and saved on the platform, or the student is notified to revise the answers. \\ \hline
+        \textbf{Exceptions} & 
+        4.1. Invalid answers: The student must revise and resubmit their answers until they meet the platform's requirements. \\
+    \end{tabular}
+    \caption{Student answer submission and validation use case}
+    \label{tab:student_answer_submission}
+\end{table}
+
+
+\begin{center}
+    \includegraphics[scale = 0.8]{Images/ImagesRASD/Student_sending_answers.png}
+\end{center}
+
+\newpage
+\textbf{8) Company questions reviewing}\\
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{lp{10cm}}
+        \textbf{Actor} & Company \\ \hline
+        \textbf{Entry conditions} & The company is on the platform and ready to manage internship applications. \\ \hline
+        \textbf{Event Flow} & 
+        1. The company requests the list of internship posts. \\
+        & 2. The platform provides the list of posted internships. \\
+        & 3. The company selects a specific internship from the list. \\
+        & 4. The platform displays the details of the selected internship. \\
+        & 5. The company requests the list of applicants for the internship. \\
+        & 6. The platform provides the list of applicants. \\
+        & 7. For each applicant: \\
+        & \quad a. The company requests the applicant's answers. \\
+        & \quad b. The platform provides the applicant's answers. \\
+        & \quad c. The company reviews the applicant's answers. \\
+        & \quad d. The company stores the result on the platform. \\
+        & \quad e. The platform displays the result to the company. \\
+        & \quad f. The company updates the status and notifies the applicant. \\
+        & \quad g. The platform sends the result to the student. \\
+        \hline
+        \textbf{Exit condition} & The company's review and status update for each applicant are completed, and results are sent to the students. \\ \hline
+        \textbf{Exceptions} & None specified. \\
+    \end{tabular}
+    \caption{Company management of internship applications use case}
+    \label{tab:company_manage_internship_applications}
+\end{table}
+
+\begin{center}
+    \includegraphics[scale = 0.8]{Images/ImagesRASD/Company_questions_reviewing.png}
+\end{center}
+
+\newpage
+\subsection{Summary of the Functional Requirements}
 \begin{longtable}{|p{0.1\textwidth}|p{0.9\textwidth}|}
 \hline
 \textbf{R1} & The S\&C shall allow students to view a personalized dashboard displaying recommended internships, application statuses, and feedback. \\ 
@@ -334,12 +430,12 @@ All this is done to ensure that users are promptly notified of important actions
 \hline
 \end{longtable}
 \newpage
-\subsubsection{Mapping on Goals}
+\subsection{Mapping on Goals}
 In the following table it is shown how the different goals map on the requirements and domain assumptions described in the previous chapters. Furthermore, the mapping is made in order to make this formula hold 
 \begin{equation}
 R \land D \models G
 \end{equation}
-\begin{longtable}{| p{0.3\textwidth} | p{0.4\textwidth} | p{0.4\textwidth} |}
+\begin{longtable}{| p{0.3\textwidth} | p{0.4\textwidth} | p{0.3\textwidth} |}
 \hline
 \textbf{Goal} & \textbf{Domain Assumptions (DA)} & \textbf{Requirements (R)} \\ 
 \hline
@@ -404,13 +500,13 @@ G8: Enable universities to monitor internship progress and manage potential issu
         \end{itemize}
 \end{itemize}
 
-\subsection{Performance Requirements}
+\section{Performance Requirements}
 
-\subsubsection{Number of Users}
+\subsection{Number of Users}
 The platform will be used by multiple parties, including students, companies, and universities. Based on market research, which includes a comparison with existing similar platforms such as the CareerService platform for Politecnico di Milano (Polimi) and other internship-matching services across Europe, we estimate that S\&C will attract approximately 20,000 students and 2,500 companies from various universities and industries. Additionally, around 50 universities will be actively using the platform to monitor internships. This gives us an estimated total user base of 22,550 users.\\ \\
 Considering a worst-case scenario where 40\% of the users are active simultaneously, the system must support up to 9,020 concurrent users. The platform must ensure smooth operation, even during peak usage times.
 
-\subsubsection{Data Storage}
+\subsection{Data Storage}
 The platform needs to store various types of data related to students, companies, internships, and the matchmaking process. Below are the estimated storage requirements for the first year of operation:
 
 \begin{itemize}
@@ -452,40 +548,40 @@ Summing all storage requirements for the first year:
 Thus, a storage allocation of \textbf{10 GB} will be sufficient to accommodate the platform's data storage needs for a year, including room for growth and additional data generated by the system.
 
 
-\subsubsection{Time Response}
+\subsection{Time Response}
 Although there are no strict time requirements for the S\&C platform, it is important to maintain a responsive user experience. Reasonable average response times for key interactions could be as follows:
 \begin{itemize}
     \item Basic search queries and browsing operations should ideally be processed within \textbf{2 seconds}, to ensure a smooth navigation experience.
     \item More complex operations, such as generating personalized internship recommendations, should aim to complete within \textbf{5 seconds}, balancing the computational effort required with acceptable wait times for the user.
 \end{itemize}
 
-\subsection{Design Constraints}
+\section{Design Constraints}
 
-\subsubsection{Standards Compliance}
+\subsection{Standards Compliance}
 
 The platform must adhere to EU's GDPR regulations to ensure secure data storage and transmission, particularly when handling sensitive student and company data. All data interactions must comply with GDPR provisions regarding data ownership, user consent, and the right to access and delete data.
 
 Additionally, the platform must comply with industry security standards to ensure the system is secure against potential threats.
 
-\subsubsection{Hardware Limitations}
+\subsection{Hardware Limitations}
 
 There are no specific hardware limitations imposed on end-users.
 
-\subsection{Software System Attributes}
+\section{Software System Attributes}
 
-\subsubsection{Reliability}
+\subsection{Reliability}
 The S\&C platform must be reliable to ensure continuous operation, even in the presence of faults. The system should be designed to be fault-tolerant to prevent the propagation of errors and ensure uninterrupted usability. Mechanisms such as automated failover and data redundancy should be in place to mitigate the risk of downtime due to unexpected failures.
 
-\subsubsection{Availability}
+\subsection{Availability}
 The platform must be available as much as possible, with a minimum uptime of 99.999\%. Scheduled maintenance breaks should be minimized and, when necessary, performed during low-traffic periods (e.g., nighttime) to avoid disrupting critical usage, particularly around high-demand periods such as internship application deadlines.
 
-\subsubsection{Security}
+\subsection{Security}
 Security is critical for the S\&C platform, as it handles sensitive student and company data. The system must implement strong authentication and authorization mechanisms. Authentication should ensure that users are properly identified before accessing the platform, while authorization should ensure that users can only perform actions they are permitted to.
 
-\subsubsection{Maintainability}
+\subsection{Maintainability}
 The platform should be designed with scalability and modularity in mind to facilitate the easy addition of new features or modifications with minimal effort. The use of reusable code components and modular architecture will aid in making future updates efficient. Regular maintenance operations should be scheduled during times of low user activity, such as nighttime, to minimize disruptions to users.
 
-\subsubsection{Portability}
+\subsection{Portability}
 The S\&C platform must be accessible from a wide range of web browsers, ensuring compatibility across all major platforms (e.g., Chrome, Firefox, Safari, and Edge). On the client side, the platform should support responsive design, making it accessible on both desktop and mobile devices. No specific portability requirements are imposed on the server side, provided the platform can run on common server configurations.
 
 
