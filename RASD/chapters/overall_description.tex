@@ -1,13 +1,13 @@
-\section{Overall Description}
-\subsection{Product Perspective}
-
+\section{Product Perspective}
+\subsection{Domain's class diagram (simplified)}
 \begin{figure}[!ht]
     \centering
-    \includegraphics[scale=0.47]{Images/ImagesRASD/class_diagram.png}
+    \includegraphics[scale=0.35]{Images/ImagesRASD/class_diagram.png}
     \caption{Class diagram}
 \end{figure}
 
-\subsubsection{Scenarios and state diagrams}
+\newpage
+\subsection{Scenarios and state diagrams}
 The following scenarios illustrate interactions between students, companies, and the S\&C platform.
 In order to explain the behavior of some scenarios, we decide to adopt the use of BPMN instead of UML state diagrams, because better describes the exchange of information and messages between the actors (Look for it in the references).
 
@@ -48,10 +48,10 @@ In order to explain the behavior of some scenarios, we decide to adopt the use o
 
 \newpage
 
-\subsection{Product Functions}
+\section{Product Functions}
 
 The Students\&Companies (S\&C) platform serves as an intermediary between students seeking internship opportunities and companies offering them. The primary goal of the platform is to facilitate a streamlined and efficient matchmaking process, providing both students and companies with a robust set of functionalities tailored to their unique needs. Below, the most important requirements of the system are outlined, focusing on core functions that enable users to interact, apply, and manage internships effectively.
-\subsubsection{G1: Student Registration and Profile Management}
+\subsection{G1: Student Registration and Profile Management}
 \begin{itemize}
     \item R1: Dashboard with recommended internships — The system shall provide students with a personalized dashboard displaying internships tailored to their profile, along with application statuses and feedback.
     \item R2: Profile creation and editing — Students must be able to create a profile by entering key details such as education, skills, and career interests, and be allowed to update this information to refine recommendations.
@@ -60,7 +60,7 @@ The Students\&Companies (S\&C) platform serves as an intermediary between studen
     \item R13: Detailed profile management with CV upload — The platform shall support a detailed profile structure where students can upload and manage their CV to showcase their qualifications to potential employers.
 \end{itemize}
 
-\subsubsection{G2: Company Registration and Internship Posting}
+\subsection{G2: Company Registration and Internship Posting}
 \begin{itemize}
     \item R5: Internship posting management — The system shall allow companies to create, update, and manage internship listings with details such as job title, required skills, duration, and benefits.
     \item R6: Company dashboard for reviewing applications — Companies should have a dashboard where they can view applications, assess candidate profiles, and filter applicants based on skills and qualifications.
@@ -68,7 +68,7 @@ The Students\&Companies (S\&C) platform serves as an intermediary between studen
     \item R20: Analytics dashboard for candidate engagement — Companies shall have access to analytics on candidate engagement, application trends, and posting optimization.
 \end{itemize}
 
-\subsubsection{G3: Suggest Suitable Internships to Students}
+\subsection{G3: Suggest Suitable Internships to Students}
 \begin{itemize}
     \item R7: Recommendations based on profile match — The recommendation engine should analyze student profiles and match them with internships based on skills, interests, and career goals.
     \item R15: Recommendation engine improvement — Feedback from completed internships shall be used to enhance the recommendation engine’s accuracy for future recommendations.
@@ -76,7 +76,7 @@ The Students\&Companies (S\&C) platform serves as an intermediary between studen
     \item R65: Internship recommendation scoring — The platform shall provide an internship recommendation score based on student profiles, skills, and previous matches.
 \end{itemize}
 
-\subsubsection{G4: Suggest Suitable Students to Companies}
+\subsection{G4: Suggest Suitable Students to Companies}
 \begin{itemize}
     \item R6: Company dashboard for application review and filtering — Companies shall have a dashboard for reviewing applications, filtering profiles, and managing candidate applications.
     \item R7: Recommendation feed for companies — The system shall provide companies with a list of recommended candidates whose profiles match the requirements of their internship postings.
@@ -84,19 +84,19 @@ The Students\&Companies (S\&C) platform serves as an intermediary between studen
     \item R60: Candidate Comparison tool — The platform shall allow companies to evaluate and compare candidates side-by-side for a streamlined selection process.
 \end{itemize}
 
-\subsubsection{G5: Application Management}
+\subsection{G5: Application Management}
 \begin{itemize}
     \item R8: Application submission from profile — Students should be able to apply to internships directly from their profiles by submitting their CVs and required documentation within the platform.
     \item R63: Real-time tracking of application status — The platform should provide students with real-time updates on their application status, showing stages like "received," "under review," or "interview scheduled."
 \end{itemize}
 
-\subsubsection{G6: Interview Management}
+\subsection{G6: Interview Management}
 \begin{itemize}
     \item R16: Interview scheduling and outcome logging — Companies should be able to manage interview schedules, log outcomes, and provide feedback for each candidate through the platform.
     \item R10: Student application tracking for interviews — Students should be able to track their application progress, including interview scheduling and outcomes.
 \end{itemize}
 
-\subsubsection{G7: Feedback Management}
+\subsection{G7: Feedback Management}
 \begin{itemize}
     \item R17: Post-internship feedback collection — The system shall collect structured feedback from both students and companies, focusing on skill relevance, job experience, and satisfaction.
     \item R24: Profile improvement suggestions — The platform shall provide students with feedback on improving their profiles, including skills recommended based on industry trends.
@@ -104,7 +104,7 @@ The Students\&Companies (S\&C) platform serves as an intermediary between studen
     \item R50: Success Stories section — A section for showcasing testimonials and successful internships shall be available for inspiration.
 \end{itemize}
 
-\subsubsection{G8: University Involvement in Internship Progress}
+\subsection{G8: University Involvement in Internship Progress}
 \begin{itemize}
     \item R8: University dashboard for tracking progress — Universities shall have access to a dashboard to monitor their students' internship statuses, helping support students in meeting academic and career goals.
     \item R9: Complaint management system for universities — Universities can use a complaint management system to address and resolve any reported issues between students and companies.
@@ -114,19 +114,19 @@ The Students\&Companies (S\&C) platform serves as an intermediary between studen
 
 
 
-\subsection{User Characteristics}
+\section{User Characteristics}
 
 The Students\&Companies (S\&C) platform is designed to cater to three primary types of users: students, companies, and university administrators. Each user group has unique needs and characteristics, which the platform addresses to ensure a user-friendly and effective experience. Understanding these user characteristics is essential for aligning the platform’s functionalities with user expectations and optimizing their interactions.
 
-\subsubsection{Students}
+\subsection{Students}
 Students are the primary user group for the S\&C platform. Generally, they are undergraduate or graduate students from diverse academic backgrounds, including engineering, business, arts, and sciences. Students are often in search of practical experience, skill development, and improved employability, making internships highly valuable for their career growth. \\ \\
 The platform supports students by providing access to internship opportunities that match their specific skills, academic background, and career aspirations. With a simplified application process, students can easily apply for internships and submit their CVs directly through the platform, making the process efficient and accessible. To enhance the likelihood of securing a position, students receive regular notifications about new and recommended internships aligned with their profile, ensuring they don’t miss out on opportunities. Additionally, students can track the status of their applications, allowing them to stay informed about each step of the process. To further support career development, the S\&C platform offers students guidance on improving their CVs and profiles, enhancing their chances of selection for internships.
 
-\subsubsection{Companies}
+\subsection{Companies}
 Companies on the S\&C platform range from small startups to large enterprises across various industries, each seeking talented interns who can support their teams, bring fresh perspectives, and contribute to ongoing projects. Depending on the company size, internship management may fall under HR personnel or directly with team managers. \\ \\
 For companies, the S\&C platform offers a straightforward registration process and an intuitive interface to post internships, allowing them to quickly reach a large pool of qualified students. Companies benefit from easy access to student profiles and CVs, enabling them to identify candidates with the skills and experiences that best fit their requirements. The platform also provides tools to manage applications efficiently, from the review stage through to collecting questions from the students. After internships conclude, companies can leave feedback to improve future offerings and to enhance the platform’s recommendation algorithms.
 
-\subsubsection{University Administrators}
+\subsection{University Administrators}
 University administrators, particularly those involved in career services or specific academic departments, use the platform to oversee their students’ internship experiences and ensure they align with academic requirements. This group may include career service coordinators, faculty advisors, and program managers who play an active role in supporting students during their internships.\\ \\
 For universities, the S\&C platform includes a monitoring dashboard that allows administrators to track students’ internship statuses, review both student and company feedback, and provide support when necessary. This feature is essential for maintaining an overview of students’ progress and ensuring that internships meet academic standards. Additionally, administrators can mediate any complaints or issues that arise between students and companies, facilitating resolution and safeguarding the quality of the internship experience. Access to reports and aggregated data on student internship outcomes also enables universities to assess and refine their internship programs, enhancing the overall educational value of these experiences.
 \\ \\
@@ -134,7 +134,7 @@ By tailoring specific features to address the characteristics of students, compa
 
 
 
-\subsection{Assumptions, Dependencies, and Constraints}
+\section{Assumptions, Dependencies, and Constraints}
 \begin{itemize}
     \item \textbf{Internet Availability}: The platform assumes users have access to a stable internet connection to interact with the web-based interface.
     \item \textbf{Data Privacy}: The platform must comply with GDPR regulations, ensuring that all personal data from students and companies is handled securely and transparently.
@@ -143,7 +143,7 @@ By tailoring specific features to address the characteristics of students, compa
     \item \textbf{Interoperability}: The platform must be able to integrate with university systems for student verification and internship tracking.
 \end{itemize}
 
-\subsection{Domain Assumptions}
+\section{Domain Assumptions}
 \begin{longtable}{|p{1cm}|p{4cm}|}
 \hline
 \textbf{ID} & \textbf{Assumption} \\
