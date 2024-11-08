@@ -1,171 +1,70 @@
-\section{Introduction}
+\section{Scope}
 
-Finding the right internship is a critical step for university students seeking to gain practical experience and develop skills in their chosen fields. At the same time, companies offering internships need efficient ways to attract suitable candidates who match their requirements. The "Students\&Companies" (S\&C) platform is designed to address these needs by facilitating an efficient and effective matchmaking process between students and companies. Through S\&C, students can proactively search for internship opportunities that align with their skills, experiences, and career goals, while companies can advertise their offerings and connect with suitable candidates.\\ \\
-The platform leverages various mechanisms to enhance this matching process. From simple keyword-based searching to advanced statistical analyses, S\&C aims to offer personalized recommendations, providing notifications to students about internships that meet their interests and alerting companies about potential candidates. Once a match is initiated, S\&C supports the selection process by coordinating interviews and structured assessments, ensuring that both parties have the tools needed to make informed decisions.\\ \\
-Beyond matchmaking, S\&C collects valuable data from users, offering insights into ways to improve student CVs and company project descriptions. This feedback loop helps make the platform a dynamic environment that not only connects students with internships but also offers ongoing support to students, companies, and universities in monitoring the progress and quality of internships. Additionally, S\&C offers spaces for feedback, complaint management, and communication, enabling universities to oversee internship quality and address issues when necessary.\\ \\
+The S\&C platform is a web-based solution intended to support:
+\begin{itemize}
+    \item \textbf{Students} in finding internships suited to their skills and aspirations, allowing them to submit CVs and receive tailored recommendations.
+    \item \textbf{Companies} in listing internship opportunities and identifying candidates based on skills and profiles.
+    \item \textbf{Universities} in overseeing internships, tracking progress, addressing complaints, and ensuring the quality of internships.
+\end{itemize}
+The platform enables interaction among these groups, handling tasks like matching candidates with internships, interview scheduling, feedback collection, and assessing internship effectiveness. The platform is built to scale across universities, supporting thousands of users.
 
+\section{Definitions, Acronyms, Abbreviations}
 
-\subsection{Purpose}
+\subsection{Definitions}
+\begin{itemize}
+    \item \textbf{Slug}: A human-readable and URL-friendly string (typically lowercase ASCII characters) that uniquely identifies a specific resource. It is commonly used in URLs but may also serve as an identifier for resources, like internship listings or profiles, within the S\&C platform.
+    \item \textbf{S\&C Repository Slug}: A slug in the format `<repository owner>/<repository name>` that uniquely identifies a project repository on the S\&C platform or external GitHub repositories associated with student or company projects.
+\end{itemize}
 
-The primary objective of the Students\&Companies (S\&C) platform is to create an efficient and effective environment for connecting university students seeking internships with companies offering them. The platform is designed to serve both students and companies by addressing their specific needs through targeted functionalities. \\ \\
-For students, S\&C provides the capability to proactively search for internships that match their skills, experiences, and aspirations. It allows them to explore a variety of opportunities while receiving personalized recommendations that align with their interests. The system further supports students by suggesting ways to improve their CVs to enhance their appeal to potential employers. \\ \\
-For companies, S\&C offers a simple interface for publishing internship opportunities and accessing a diverse pool of student candidates. Companies benefit from receiving recommendations about students whose qualifications match their requirements, as well as having access to management tools that facilitate interviews and selection processes. \\ \\
-The platform also incorporates mechanisms to collect and analyze feedback from students and companies, providing valuable insights that can help improve future internship placements. Universities, as another key stakeholder, can leverage the platform to monitor internship progress, address issues, and support students throughout their internship experiences. \\ \\
-Below is a table that lists all the key goals of the S\&C platform:
+\subsection{Acronyms}
+\begin{itemize}
+    \item \textbf{S\&C}: Students\&Companies platform
+    \item \textbf{API}: Application Programming Interface
+    \item \textbf{CV}: Curriculum Vitae
+    \item \textbf{GDPR}: General Data Protection Regulation
+    \item \textbf{GH}: GitHub
+    \item \textbf{SSO}: Single Sign-On
+    \item \textbf{UUID}: Universal Unique Identifier
+    \item \textbf{DB}: Database
+    \item \textbf{DBMS}: Database Management System
+    \item \textbf{RPC}: Remote Procedure Call
+    \item \textbf{REST}: Representational State Transfer
+    \item \textbf{SPA}: Single Page Application
+    \item \textbf{CDN}: Content Delivery Network
+\end{itemize}
+
+\subsection{Abbreviations}
+\begin{itemize}
+    \item \textbf{e.g.}: For example
+    \item \textbf{repo}: Repository
+    \item \textbf{ID}: Identifier
+\end{itemize}
+
+\section{Revision History}
 \begin{table}[h!]
-\renewcommand{\arraystretch}{1.8}
 \centering
-\begin{tabular}{|c|p{12cm}|}
+\begin{tabular}{|c|c|l|}
 \hline
-\textbf{ID} & \textbf{Description} \\ \hline
-G1 & Enable students to search for internships that match their skills and career goals. \\ \hline
-G2 & Provide companies with tools to advertise internships and engage suitable candidates. \\ \hline
-G3 & Offer recommendation mechanisms for students to match with relevant internships. \\ \hline
-G4 & Offer recommendation mechanisms for companies to find potential candidates.\\ \hline
-G5 &  Facilitate the selection process through an interview management system. \\ \hline
-G6 & Supports the candidate's evaluation.\\ \hline
-G7 & Gather feedback from students and companies to continuously improve the matchmaking process. \\ \hline
-G8 & Enable universities to monitor internship progress and manage potential issues. \\ \hline
+\textbf{Version} & \textbf{Date} & \textbf{Description} \\ \hline
+1.0 & January 7, 2024 & Initial release \\ \hline
 \end{tabular}
-\caption{Goals of the Students\&Companies (S\&C) Platform}
 \end{table}
 
-\subsection{Scope}
-The S\&C platform is a web-based solution that assists:
+
+\section{Reference Documents}
 \begin{itemize}
-    \item \textbf{Students} in searching for internships that align with their skills and aspirations, providing mechanisms for submitting CVs and receiving internship recommendations.
-    \item \textbf{Companies} in posting internships and finding suitable candidates based on the students’ profiles and skills.
-    \item \textbf{Universities} in overseeing the internships, monitoring progress, addressing complaints, and ensuring the quality of the internship experiences.
-\end{itemize}
-The platform supports interactions between these three user groups and handles tasks such as matching students with internships, managing interviews, providing feedback, and analyzing the success of the internships. It is expected to scale for use across multiple universities and support thousands of students and companies.
-\newpage
-
-
-\subsubsection{World phenomena}
-
-The following table lists the world phenomena relevant to the S\&C platform, describing interactions and events within the system environment, that are not directly controlled by the system.
-
-
-\begin{table}[h!]
-\renewcommand{\arraystretch}{1.5}
-\centering
-\begin{tabular}{|c|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Description} \\
-\hline
-WP1 & A company prepares the details for posting a new internship position.\\
-\hline
-WP2 & A student writes down his CV, adding his own experience and skills.\\
-\hline
-WP3 & A student wants to know if there are  internships opportunities that match his skills and interests. \\ 
-\hline
-WP4 & Companies perform internships selection process, and choose the right candidate who respect their necessities.\\
-\hline
-WP5 & A company offers additional benefits such as training, mentorship, or compensation for an internship. \\ 
-\hline
-WP6 & A student or company want to update their profile or internship listing to reflect new information. \\ 
-\hline
-WP7 & Universities handles complaints received from companies and students about internships. \\
-\hline
-WP8 & Companies want to give feedback on the student's performance during the period of the internship and at the end of it.\\
-\hline
-WP9 & Students want to give feedback on the Companies' support during their internship.\\
-\hline
-\end{tabular}
-\caption{World Phenomena of the Students\&Companies (S\&C) Platform}
-\end{table}
-
-\subsubsection{Shared Phenomena}
-
-The table below lists the shared phenomena that represent interactions and communications between users and the S\&C platform, including the controller and observer for each phenomenon.
-
-\begin{longtable}{|c|p{5cm}|c|c|}
-\hline
-\textbf{ID} & \textbf{Description} & \textbf{Observer} & \textbf{Who Controls it} \\ \hline
-SP1 & The platform performs the matchmaking between students and internships that best fit their CVs. & Student, Company & S\&C \\ \hline
-SP2 & The system notifies students when a suitable internship becomes available. & Student & S\&C \\ \hline
-SP3 & The platform allows students to upload their CVs, apply for internships, and submit their profiles. & S\&C & Student \\ \hline
-SP4 & The system receives and stores feedback from students, universities, and companies regarding internship outcomes.& Student, University, Company & S\&C \\ \hline
-SP5 & The system receives, stores, and manages complaints, enabling participants to address and resolve issues. & University, Student, Company & S\&C \\ \hline
-SP6 & A student creates an account on the S\&C platform. & S\&C & Student \\ \hline
-SP7 & A company registers on the platform to post internship listings.& S\&C & Company \\ \hline
-SP8 & A student logs into the S\&C platform to view internship opportunities. & S\&C & Student \\ \hline
-SP9 & The S\&C platform recommends internship opportunities based on a student's profile. & Student & S\&C \\ \hline
-SP10 & A student applies for an internship position through the platform. & S\&C & Student \\ \hline
-SP11 & A company reviews applications for an internship position posted on the platform. & S\&C & Company \\ \hline
-SP12 & The S\&C platform notifies students about any changes to their application status. & Student & S\&C \\ \hline
-SP13 & A student provides feedback on their internship experience. & S\&C & Student \\ \hline
-SP14 & Universities receive updates on the progress and status of internships. & University & S\&C \\ \hline
-SP15 & A company updates an existing internship position to reflect changes in requirements or benefits. & S\&C & Company \\ \hline
-SP16 & Students are notified of upcoming interview dates and times for internship applications. & Student & S\&C \\ \hline
-SP17 & A company schedules an interview with a candidate. & Student, S\&C & Company \\ \hline
-SP18 & The S\&C platform reminds students of upcoming application deadlines. & Student & S\&C \\ \hline
-SP19 & Companies provide feedback on the performance of interns. & S\&C & Company \\ \hline
-SP20 & A student requests CV enhancement suggestions through the platform. & S\&C & Student \\ \hline
-SP21 & The S\&C platform provides recommendations for companies to improve internship appeal. & Company & S\&C \\ \hline
-SP22 & Universities review internship completion reports generated by the S\&C platform. & University & S\&C \\ \hline
-SP23 & Students are alerted to new internship opportunities matching their profiles. & Student & S\&C \\ \hline
-SP24 & A student updates their profile to include new skills or experiences. & S\&C & Student \\ \hline
-SP25 & A company accesses student profiles recommended by the platform’s matching system. & S\&C & Company \\ \hline
-SP26 & The platform aggregates and analyzes internship feedback data for quality improvement. & Company & S\&C \\ \hline
-SP27 & A student views the status of all their internship applications in their profile dashboard. & S\&C & Student \\ \hline
-SP28 & The S\&C platform generates internship completion certificates for students upon request. & Student & S\&C \\ \hline
-SP29 & The S\&C platform alerts students and companies of upcoming interviews. & Company, Student & S\&C \\ \hline
-\caption{Shared Phenomena of the Students\&Companies (S\&C) Platform}
-\end{longtable}
-
-\newpage
-
-\subsection{Definitions, Acronyms, Abbreviations}
-\subsubsection{Acronyms}
-\begin{itemize}
-    \item \textbf{S\&C}: Students\&Companies platform.
-    \item \textbf{CV}: Curriculum Vitae.
-    \item \textbf{GDPR}: General Data Protection Regulation, ensuring privacy and data security for personal information.
-\end{itemize}
-\subsubsection{Definitions}
-\begin{itemize}
-    \item \textbf{Recommendation System}: A feature in the platform that suggests internships to students and candidates to companies.
-    \item \textbf{World phenomena}: Relationship between the students or universities and the companies, that happen outside the system's control.
-    \item \textbf{Shared phenomena}: Interactions between the entities that are under the system's control.
-    \begin{itemize}
-        \item \textbf{Machine Controlled}: All the phenomenons directly controlled by an automation or algorithms.  
-        \item \textbf{World Controlled}: Involved the participation of the user, i.g. to login or register an account.
-    \end{itemize}
+    \item Specification document: "Assignment RDD AY 2023-2024"
+    \item UML official specification: \url{https://www.omg.org/spec/UML/}
+    \item Requirements Analysis and Specification Document: "RASD"
 \end{itemize}
 
-\subsection{Revision History}
-    
-\begin{tabular}{|c|c|c|c|}
-    \hline
-    Version & Date & Authors & Changes \\
-    \hline
-    1.0 & October 2024 & G. Vaccarino, V. Palladino, N. Vacis & Initial release \\
-    \hline
-\end{tabular}
-
-\vspace{7mm}
-
-\textbf{Last Changes Applied:}
-
-\begin{itemize}
-        \item Initial introduction draft . 
-\end{itemize}
-
-\subsection{Reference Documents}
-\begin{itemize}
-    \item 2024-2025 Software Engineering 2 - Assignment RASD
-\end{itemize}
-
-\subsection{Document Structure}
+\section{Document Structure}
 The document is organized into the following sections:
 \begin{itemize}
-    \item \textbf{Section 1: Introduction} - Describes the overall objectives and scope of the project.
-    \item \textbf{Section 2: Overall Description} - Presents the product perspective, product functions, user characteristics, and assumptions, dependencies, and constraints.
-    \item \textbf{Section 3: Specific Requirements} - Lists the detailed functional and non-functional requirements for the S\&C platform, including external interfaces and performance specifications.
-    \item \textbf{Section 4: Formal Analysis Using Alloy} - Covers the formal analysis and validation of the system using the Alloy modeling language.
-    \item \textbf{Section 5: Effort Spent} - Provides details on the effort spent by each group member in preparing this document.
-    \item \textbf{Section 6: References} - Lists the reference documents used in preparing this RASD.
+    \item \textbf{Section 1: Introduction} - Provides an overview of the problem and the system's scope. It also includes definitions, acronyms, abbreviations, and a revision history to track document versions and modifications.
+    \item \textbf{Section 2: Architectural Design} - Describes the system architecture, starting with a high-level overview of design choices, followed by detailed component and deployment views, including server, client, and data components (DB schemas). This section also presents sequence diagrams to illustrate the system’s runtime view and includes information on component interfaces, design styles, and architectural patterns.
+    \item \textbf{Section 3: User Interface Design} - Outlines the design of the user interface, providing an overview of the platform’s visual layout and user interactions.
+    \item \textbf{Section 4: Requirements Traceability} - Maps the requirements from the RASD to corresponding design elements in this document.
+    \item \textbf{Section 5: Implementation, Integration, and Test Plan} - Details the implementation order of the system’s subcomponents, integration steps, and testing procedures to ensure system reliability.
 \end{itemize}
 
-\newpage
