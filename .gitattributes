@@ -1,0 +1,3 @@
+* text=auto
+*.ts eol=lf
+*.tsx eol=lf
