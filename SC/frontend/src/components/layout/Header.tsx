@@ -42,7 +42,7 @@ export const Header = () => {
           }}
         >
           <Typography
-            onClick = {() => navigate(AppRoutes.Home)}
+            onClick={() => navigate(AppRoutes.Home)}
             variant="body1"
             sx={{
               color: 'primary.main',
@@ -53,7 +53,7 @@ export const Header = () => {
             Offers
           </Typography>
           <Typography
-            onClick = {() => navigate(AppRoutes.Matches)}
+            onClick={() => navigate(AppRoutes.Matches)}
             variant="body1"
             sx={{
               color: 'primary.main',

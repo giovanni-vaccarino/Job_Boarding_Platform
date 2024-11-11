@@ -15,7 +15,11 @@ export const TitleHeader = (props: TitleHeaderProps) => {
         bgcolor: '#f4f5f7',
       }}
     >
-      <Typography sx = {{color: "#000000", fontSize: "1.5rem", fontWeight: "500"}}>{props.title}</Typography>
+      <Typography
+        sx={{ color: '#000000', fontSize: '1.5rem', fontWeight: '500' }}
+      >
+        {props.title}
+      </Typography>
     </Box>
   );
 };

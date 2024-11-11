@@ -14,7 +14,7 @@ export const Matches = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          mb: "1rem",
+          mb: '1rem',
         }}
       >
         <TitleHeader title={'Jobs for you'} />
@@ -24,7 +24,7 @@ export const Matches = () => {
           spacing={2}
           sx={{
             width: '100%',
-            mt: "3rem",
+            mt: '3rem',
             alignItems: 'center',
           }}
         >
