@@ -11,7 +11,7 @@ export const addParamsToPath = (
 };
 
 /**
- * Wrapper for react-router-dom's useNavigate hook that adds the current language to the path,  also add params to the path
+ * Wrapper for react-router-dom's useNavigate hook that add params to the path
  * @returns navigate function
  * @example
  * const navigate = useNavigateWrapper();
