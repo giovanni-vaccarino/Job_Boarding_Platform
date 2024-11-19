@@ -2,13 +2,13 @@
 
 public record ConnectionStrings
 {
-    public string DefaultConnection { get; set; }
-    public string DatabaseVersion { get; set; }
+    public required string DefaultConnection { get; set; }
+    public required string DatabaseVersion { get; set; }
 }
 
 public record JwtConfig
 {
-    public string Key { get; set; }
+    public required string Key { get; set; }
     public int ExpiryAccessToken { get; set; }
     public int ExpiryRefreshToken { get; set; }
 }

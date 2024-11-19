@@ -1,13 +1,12 @@
-﻿using backend.Service.Internship.GetInternshipUseCase;
-using backend.Services.Internship.UseCases.AddInternshipUseCase;
+﻿using backend.Business.Internship.GetInternshipUseCase;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.Controllers.Internship;
+namespace backend.Service.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/internship")]
 public class InternshipController : ControllerBase
 {
     private readonly ISender _mediator;

@@ -13,9 +13,10 @@ public class SecurityContext
 {
     private readonly JwtConfig _jwtConfig;
 
-    public SecurityContext(JwtConfig configuration)
+    public SecurityContext(IConfiguration configuration)
     {
-        _jwtConfig = configuration;
+        _jwtConfig = configuration.GetSection("Jwt").Get<JwtConfig>()
+                     ?? throw new InvalidOperationException("JwtConfig missing in appsettings.json");
     }
 
     public string CreateAccessToken(User user)

@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace backend.Service.Internship.GetInternshipUseCase;
+namespace backend.Business.Internship.GetInternshipUseCase;
 
 public record GetInternshipQuery(): IRequest<string>;

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace backend.Services.Internship.UseCases.AddInternshipUseCase;
+namespace backend.Business.Internship.AddInternshipUseCase;
 
 public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, int>
 {

@@ -1,7 +1,7 @@
-﻿using backend.Dtos.Auth;
+﻿using backend.Service.Contracts.Auth;
 using MediatR;
 
-namespace backend.Service.Auth.LoginUseCase;
+namespace backend.Business.Auth.LoginUseCase;
 
 public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
 {

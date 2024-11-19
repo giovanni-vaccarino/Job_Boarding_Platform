@@ -1,11 +1,7 @@
 using System.Reflection;
-using System.Text;
-using backend.Data;
+using backend.Business;
 using backend.Service;
 using backend.Shared;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +18,21 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
 // Add DbContext
-ConnectionStrings connectionString = configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
+ConnectionStrings? connectionString = configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
+if (connectionString is null || string.IsNullOrEmpty(connectionString.DefaultConnection) || string.IsNullOrEmpty(connectionString.DatabaseVersion))
+{
+    throw new InvalidOperationException("Invalid database connection configuration.");
+}
 builder.Services.AddMappers(); 
 builder.Services.AddDbContexts(connectionString); 
 
 // JWT
-builder.Services.AddAppAuthentication(configuration.GetSection("Jwt").Get<JwtConfig>());
+JwtConfig? jwtConfig = configuration.GetSection("Jwt").Get<JwtConfig>();
+if (jwtConfig is null || string.IsNullOrEmpty(jwtConfig.Key))
+{
+    throw new InvalidOperationException("Invalid JWT configuration.");
+}
+builder.Services.AddAppAuthentication(jwtConfig);
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication();

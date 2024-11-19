@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace backend.Services.Internship.UseCases.AddInternshipUseCase;
+namespace backend.Business.Internship.AddInternshipUseCase;
 
 public record AddInternshipCommand() : IRequest<int>;

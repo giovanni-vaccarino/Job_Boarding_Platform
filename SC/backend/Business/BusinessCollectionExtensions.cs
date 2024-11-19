@@ -2,7 +2,7 @@
 using backend.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Service;
+namespace backend.Business;
 
 public static class BusinessCollectionExtensions
 {
@@ -15,7 +15,6 @@ public static class BusinessCollectionExtensions
     {
         services.AddDbContext<AppDbContext>(opt =>
         {
-            // var connectionString = "server=localhost;user=root;password=1234;database=ef";
             var serverVersion = new MySqlServerVersion(new Version(connectionString.DatabaseVersion));
             opt.UseMySql(connectionString.DefaultConnection, serverVersion);
         });

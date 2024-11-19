@@ -1,7 +1,14 @@
-﻿namespace backend.Dtos.Auth;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace backend.Service.Contracts.Auth;
 
 public class TokenResponse
 {
-    public string AccessToken { get; set; }
-    public string RefreshToken { get; set; }
+    [Required]
+    [MaxLength(1024)]
+    public required string AccessToken { get; set; }
+
+    [Required]
+    [MaxLength(1024)]
+    public required string RefreshToken { get; set; }
 }

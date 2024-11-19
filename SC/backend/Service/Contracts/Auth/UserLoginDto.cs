@@ -1,7 +1,14 @@
-﻿namespace backend.Dtos.Auth;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace backend.Service.Contracts.Auth;
 
 public class UserLoginDto
 {
-    public string Username { get; set; }
-    public string Password { get; set; }
+    [Required]
+    [MaxLength(255)]
+    public required string Username { get; set; }
+
+    [Required]
+    [MaxLength(255)]
+    public required string Password { get; set; }
 }
