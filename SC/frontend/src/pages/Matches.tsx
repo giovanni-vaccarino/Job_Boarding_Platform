@@ -1,7 +1,7 @@
 ﻿import { Box, Stack } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
 import { JobListItem } from '../components/list-items/JobListItem.tsx';
-import { TitleHeader } from '../components/page-title/TitleHeader.tsx';
+import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 
 export const Matches = () => {
   return (
@@ -10,7 +10,6 @@ export const Matches = () => {
         sx={{
           width: '100%',
           display: 'flex',
-          overflow: 'hidden',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',

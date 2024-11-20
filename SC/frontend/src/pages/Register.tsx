@@ -1,5 +1,5 @@
 import { Page } from '../components/layout/Page.tsx';
-import { TitleHeader } from '../components/page-title/TitleHeader.tsx';
+import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 

@@ -11,29 +11,42 @@ export const AppRoutes = Object.freeze({
   Profile: '/profile',
   Login: '/login',
   Register: '/register',
+  Internship: '/internship/:id',
 });
 
 export const useAppRouter = () => {
-  return createBrowserRouter([
+  return createBrowserRouter(
+    [
+      {
+        path: AppRoutes.Home,
+        element: <Home />,
+      },
+      {
+        path: AppRoutes.Matches,
+        element: <Matches />,
+      },
+      {
+        path: AppRoutes.Profile,
+        element: <Profile />,
+      },
+      {
+        path: AppRoutes.Login,
+        element: <Login />,
+      },
+      {
+        path: AppRoutes.Register,
+        element: <Register />,
+      },
+    ],
     {
-      path: AppRoutes.Home,
-      element: <Home />,
-    },
-    {
-      path: AppRoutes.Matches,
-      element: <Matches />,
-    },
-    {
-      path: AppRoutes.Profile,
-      element: <Profile />,
-    },
-    {
-      path: AppRoutes.Login,
-      element: <Login />,
-    },
-    {
-      path: AppRoutes.Register,
-      element: <Register />,
-    },
-  ]);
+      future: {
+        v7_startTransition: true, // Flag not working -> had to suppress warning in main.tsx
+        v7_skipActionErrorRevalidation: true,
+        v7_partialHydration: true,
+        v7_normalizeFormMethod: true,
+        v7_fetcherPersist: true,
+        v7_relativeSplatPath: true,
+      } as never,
+    }
+  );
 };
