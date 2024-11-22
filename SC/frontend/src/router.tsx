@@ -4,10 +4,12 @@ import { Matches } from './pages/Matches.tsx';
 import { Profile } from './pages/Profile.tsx';
 import { Login } from './pages/Login.tsx';
 import { Register } from './pages/Register.tsx';
+import { JobDescription } from './pages/JobDescription.tsx';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
   Matches: '/matches',
+  JobDescription: '/jobdescription',
   Profile: '/profile',
   Login: '/login',
   Register: '/register',
@@ -24,6 +26,10 @@ export const useAppRouter = () => {
       {
         path: AppRoutes.Matches,
         element: <Matches />,
+      },
+      {
+        path: AppRoutes.JobDescription,
+        element: <JobDescription />,
       },
       {
         path: AppRoutes.Profile,
