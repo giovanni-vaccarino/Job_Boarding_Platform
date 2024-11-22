@@ -1,12 +1,11 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Box, Button, Typography } from '@mui/material';
-import { AppRoutes } from '../router.tsx';
 
-export interface JobDescriptionProps{
-  jobCategory: string,
-  jobType: string,
-  location: string,
+export interface JobDescriptionProps {
+  jobCategory: string;
+  jobType: string;
+  location: string;
   postCreated: Date;
   applicationDeadline: Date;
   jobDescription: string;
@@ -15,7 +14,6 @@ export interface JobDescriptionProps{
 
 //TODO ADD PROPS WHEN CALLING THE FUNCTION
 export const JobDescription = () => {
-
   const testProps: JobDescriptionProps = {
     jobCategory: 'Technology',
     jobType: 'Full Time',
@@ -51,8 +49,10 @@ export const JobDescription = () => {
           <strong>Job Category:</strong> {testProps.jobCategory} <br />
           <strong>Job Type:</strong> {testProps.jobType} <br />
           <strong>Location:</strong> {testProps.location} <br />
-          <strong>Post Created:</strong> {testProps.postCreated.toLocaleDateString()} <br />
-          <strong>Application Deadline:</strong> {testProps.applicationDeadline.toLocaleDateString()}
+          <strong>Post Created:</strong>{' '}
+          {testProps.postCreated.toLocaleDateString()} <br />
+          <strong>Application Deadline:</strong>{' '}
+          {testProps.applicationDeadline.toLocaleDateString()}
         </Typography>
 
         {/* Job description section */}
@@ -62,7 +62,8 @@ export const JobDescription = () => {
             mt: '1rem',
           }}
         >
-          <strong>Job description</strong><br/>
+          <strong>Job description</strong>
+          <br />
           {testProps.jobDescription}
         </Typography>
 
