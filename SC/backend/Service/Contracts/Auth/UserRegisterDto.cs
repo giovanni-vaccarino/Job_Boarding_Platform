@@ -12,6 +12,10 @@ public class UserRegisterDto
     [Required]
     [MaxLength(255)]
     public required string Password { get; set; }
+    
+    [Required]
+    [MaxLength(255)]
+    public required string ConfirmPassword { get; set; }
 
     public ProfileType ProfileType { get; set; }
 }

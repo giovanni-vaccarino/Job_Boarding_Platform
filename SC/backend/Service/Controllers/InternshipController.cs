@@ -15,8 +15,7 @@ public class InternshipController : ControllerBase
     {
         _mediator = mediator;
     }
-
-    [Authorize]
+    
     [HttpGet]
     public async Task<IActionResult> GetInternships()
     {
