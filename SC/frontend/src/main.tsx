@@ -13,7 +13,7 @@ console.warn = (...args) => {
   if (
     args[0] &&
     args[0].includes(
-      "React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7"
+      'React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7'
     )
   ) {
     return;
