@@ -16,7 +16,7 @@ export const HomePageHeader = () => {
         px: '10rem',
         paddingTop: '1rem',
         backgroundColor: '#f5f7f6',
-        minHeight: '100%',
+        height: '23rem',
       }}
     >
       <Stack
@@ -48,7 +48,7 @@ export const HomePageHeader = () => {
             maxWidth: '60%',
             marginBottom: '5%',
             color: '#555',
-            fontSize: '1 rem',
+            fontSize: '0.9rem',
           }}
         >
           Hand-picked opportunities to work from home, remotely, freelance,
@@ -98,7 +98,7 @@ export const HomePageHeader = () => {
         <img
           src={home_background}
           alt="Student with laptop"
-          style={{ width: '80%', borderRadius: '8px' }}
+          style={{ width: '60%', borderRadius: '8px' }}
         />
       </Box>
     </Box>

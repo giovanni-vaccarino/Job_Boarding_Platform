@@ -8,17 +8,17 @@ export const Home = () => {
     <Page>
       <HomePageHeader />
 
-      <Typography sx={{ fontWeight: 'bold', fontSize: '1.7rem', mt: '2rem' }}>
+      <Typography sx={{ fontWeight: 'bold', fontSize: '1.7rem', mt: '1.5rem' }}>
         All Popular Job Listed
       </Typography>
 
       <Stack
         direction="column"
-        spacing={2}
+        spacing={4}
         mt={2}
         sx={{
           width: '100%',
-          mt: '2rem',
+          mt: '1rem',
           alignItems: 'center',
           pb: '4rem',
         }}
