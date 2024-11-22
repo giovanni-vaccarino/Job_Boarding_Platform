@@ -1,4 +1,6 @@
 ﻿using backend.Business.Auth.LoginUseCase;
+using backend.Business.Auth.LogoutUseCase;
+using backend.Business.Auth.RefreshUseCase;
 using backend.Business.Auth.RegisterUseCase;
 using backend.Service.Contracts.Auth;
 using MediatR;
@@ -8,11 +10,11 @@ namespace backend.Service.Controllers;
 
 [ApiController]
 [Route("api/authentication")]
-public class AuhtenticationController : ControllerBase
+public class AuthenticationController : ControllerBase
 {
     private readonly ISender _mediator;
     
-    public AuhtenticationController(ISender mediator)
+    public AuthenticationController(ISender mediator)
     {
         _mediator = mediator;
     }
@@ -29,6 +31,38 @@ public class AuhtenticationController : ControllerBase
     public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
     {
         var response = await _mediator.Send(new LoginCommand(dto));
+
+        return Ok(response);
+    }
+    
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh([FromBody] RefreshTokenDto dto)
+    {
+        var response = await _mediator.Send(new RefreshCommand(dto));
+
+        return Ok(response);
+    }
+    
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await _mediator.Send(new LogoutCommand());
+
+        return Ok();
+    }
+    
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] RefreshTokenDto dto)
+    {
+        var response = await _mediator.Send(new RefreshCommand(dto));
+
+        return Ok(response);
+    }
+    
+    [HttpPost("send-verification-email")]
+    public async Task<IActionResult> SendVerificationEmail([FromBody] RefreshTokenDto dto)
+    {
+        var response = await _mediator.Send(new RefreshCommand(dto));
 
         return Ok(response);
     }

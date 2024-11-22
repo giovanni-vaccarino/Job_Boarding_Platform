@@ -12,11 +12,13 @@ namespace backend.Shared.Security;
 public class SecurityContext
 {
     private readonly JwtConfig _jwtConfig;
+    private readonly ILogger<SecurityContext> _logger;
 
-    public SecurityContext(IConfiguration configuration)
+    public SecurityContext(IConfiguration configuration, ILogger<SecurityContext> logger)
     {
         _jwtConfig = configuration.GetSection("Jwt").Get<JwtConfig>()
                      ?? throw new InvalidOperationException("JwtConfig missing in appsettings.json");
+        _logger = logger;
     }
 
     public string CreateAccessToken(User user)
@@ -44,14 +46,13 @@ public class SecurityContext
         };
         
         var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
-        
-        var tokenType = principal.FindFirst("token_type")?.Value;
+        var tokenType = principal.FindFirst("tokenType")?.Value;
+        _logger.LogDebug(tokenType);
         if (tokenType != expectedType.ToString())
         {
             throw new SecurityTokenException($"Token type mismatch. Expected: {expectedType}, Found: {tokenType}");
         }
-
-        // If the token is valid I return the claims
+        
         return principal;
     }
 

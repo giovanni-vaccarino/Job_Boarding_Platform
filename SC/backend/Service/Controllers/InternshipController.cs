@@ -16,7 +16,7 @@ public class InternshipController : ControllerBase
         _mediator = mediator;
     }
 
-    [AllowAnonymous]
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetInternships()
     {
