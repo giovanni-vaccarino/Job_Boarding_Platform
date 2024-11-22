@@ -2,24 +2,8 @@ import { Page } from '../components/layout/Page.tsx';
 import { HomePageHeader } from '../components/page-headers/HomePageHeader.tsx';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { JobListItem } from '../components/list-items/JobListItem.tsx';
-import { useEffect } from 'react';
-import { useService } from '../core/ioc/ioc-provider.tsx';
-import { IInternshipApi } from '../core/API/internship/IInternshipApi.ts';
-import { ServiceType } from '../core/ioc/service-type.ts';
 
 export const Home = () => {
-  const internshipApi = useService<IInternshipApi>(ServiceType.InternshipApi);
-
-  useEffect(() => {
-    const fetchJobs = async () => {
-      const res = await internshipApi.getJobs();
-
-      console.log(res);
-    };
-
-    fetchJobs();
-  }, [internshipApi]);
-
   return (
     <Page>
       <HomePageHeader />
@@ -43,15 +27,15 @@ export const Home = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: 'rgba(236, 241, 236, 1)', // Light greenish background
-              color: 'rgba(0, 0, 0, 0.6)', // Grey text
-              borderRadius: '7px', // Rounded corners
-              fontSize: '1rem', // Font size
+              backgroundColor: 'rgba(236, 241, 236, 1)',
+              color: 'rgba(0, 0, 0, 0.6)',
+              borderRadius: '7px',
+              fontSize: '1rem',
               fontWeight: 'bold',
-              padding: '0.5rem 0.8rem', // Button padding
-              minWidth: '1rem', // Minimum button size
+              padding: '0.5rem 0.8rem',
+              minWidth: '1rem',
               '&:hover': {
-                backgroundColor: 'rgba(220, 230, 220, 1)', // Slightly darker on hover
+                backgroundColor: 'rgba(220, 230, 220, 1)',
                 boxShadow: 'none',
               },
             }}
@@ -67,15 +51,15 @@ export const Home = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: 'rgba(236, 241, 236, 1)', // Light greenish background
-              color: 'rgba(0, 0, 0, 0.6)', // Grey text
-              borderRadius: '7px', // Rounded corners
-              fontSize: '1rem', // Font size
+              backgroundColor: 'rgba(236, 241, 236, 1)',
+              color: 'rgba(0, 0, 0, 0.6)',
+              borderRadius: '7px',
+              fontSize: '1rem',
               fontWeight: 'bold',
-              padding: '0.5rem 0.8rem', // Button padding
-              minWidth: '1rem', // Minimum button size
+              padding: '0.5rem 0.8rem',
+              minWidth: '1rem',
               '&:hover': {
-                backgroundColor: 'rgba(220, 230, 220, 1)', // Slightly darker on hover
+                backgroundColor: 'rgba(220, 230, 220, 1)',
                 boxShadow: 'none',
               },
             }}

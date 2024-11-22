@@ -55,7 +55,6 @@ export const HomePageHeader = () => {
           full-time, part-time, contract and internships.
         </Typography>
 
-        {/* Search Input Section */}
         <Box
           sx={{
             display: 'flex',
