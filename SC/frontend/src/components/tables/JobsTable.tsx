@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Table,
   TableBody,
@@ -11,25 +10,62 @@ import {
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-export const JobsTable = ({ data }) => {
+export interface JobsTableHeader {
+  title: string;
+  company: string;
+  state: string;
+  location: string;
+  submissionDate: string;
+}
+
+export interface JobsTableProps {
+  jobs: JobsTableHeader[];
+}
+
+export const JobsTable = (props: JobsTableProps) => {
+  const { jobs } = props;
+
   return (
     <TableContainer
       component={Paper}
-      sx={{ boxShadow: 'none', borderRadius: '8px' }}
+      sx={{
+        padding: '1rem',
+        boxShadow: 'none',
+        border: '1px solid #e0e0e0',
+        borderRadius: '8px',
+        mb: '3rem',
+      }}
     >
-      <Table sx={{ minWidth: 650 }} aria-label="customized table">
+      <Table
+        sx={{
+          minWidth: 650,
+        }}
+        aria-label="customized table"
+      >
         <TableHead>
           <TableRow>
-            <TableCell sx={{ fontWeight: 'bold' }}>Title</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>Company</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>State</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>Location</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>Submission Date</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>Action</TableCell>
+            <TableCell sx={{ fontWeight: 'bold', fontSize: '1.35rem' }}>
+              Title
+            </TableCell>
+            <TableCell sx={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
+              Company
+            </TableCell>
+            <TableCell sx={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
+              State
+            </TableCell>
+            <TableCell sx={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
+              Location
+            </TableCell>
+            <TableCell sx={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
+              Submission Date
+            </TableCell>
+            <TableCell sx={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
+              Action
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row, index) => (
+          {jobs.map((row, index) => (
             <TableRow key={index}>
               <TableCell>{row.title}</TableCell>
               <TableCell>{row.company}</TableCell>
