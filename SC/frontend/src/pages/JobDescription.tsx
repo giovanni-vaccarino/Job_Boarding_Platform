@@ -1,6 +1,8 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Box, Button, Typography } from '@mui/material';
+import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
+import { AppRoutes } from '../router.tsx';
 
 export interface JobDescriptionProps {
   jobCategory: string;
@@ -14,6 +16,8 @@ export interface JobDescriptionProps {
 
 //TODO ADD PROPS WHEN CALLING THE FUNCTION
 export const JobDescription = () => {
+  const navigate = useNavigateWrapper();
+
   const testProps: JobDescriptionProps = {
     jobCategory: 'Technology',
     jobType: 'Full Time',
@@ -92,6 +96,7 @@ export const JobDescription = () => {
           <Button
             variant="contained"
             color="primary"
+            onClick={() => navigate(AppRoutes.ConfirmPage)}
             sx={{
               textTransform: 'none',
               borderRadius: 2,

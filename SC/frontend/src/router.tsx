@@ -5,11 +5,13 @@ import { Profile } from './pages/Profile.tsx';
 import { Login } from './pages/Login.tsx';
 import { Register } from './pages/Register.tsx';
 import { JobDescription } from './pages/JobDescription.tsx';
+import { ConfirmPage } from './pages/ConfirmPage.tsx';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
   Matches: '/matches',
   JobDescription: '/jobdescription',
+  ConfirmPage: '/confirmpage',
   Profile: '/profile',
   Login: '/login',
   Register: '/register',
@@ -30,6 +32,10 @@ export const useAppRouter = () => {
       {
         path: AppRoutes.JobDescription,
         element: <JobDescription />,
+      },
+      {
+        path: AppRoutes.ConfirmPage,
+        element: <ConfirmPage />,
       },
       {
         path: AppRoutes.Profile,
