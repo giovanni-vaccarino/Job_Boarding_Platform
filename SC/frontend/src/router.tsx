@@ -11,8 +11,8 @@ import { Activity } from './pages/Activity.tsx';
 export const AppRoutes = Object.freeze({
   Home: '/',
   Matches: '/matches',
-  JobDescription: '/jobdescription',
-  ConfirmPage: '/confirmpage',
+  JobDescription: '/job-description',
+  ConfirmPage: '/confirm-page',
   Activity: '/activity',
   Profile: '/profile',
   Login: '/login',
