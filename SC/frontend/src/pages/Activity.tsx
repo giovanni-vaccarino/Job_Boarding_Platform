@@ -78,4 +78,4 @@ export const Activity = () => {
       </Box>
     </Page>
   );
-}
+};
