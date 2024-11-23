@@ -67,7 +67,10 @@ export const JobsTable = (props: JobsTableProps) => {
         <TableBody>
           {jobs.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={6} sx={{ textAlign: 'center', fontStyle: 'italic' }}>
+              <TableCell
+                colSpan={6}
+                sx={{ textAlign: 'center', fontStyle: 'italic' }}
+              >
                 NO DATA
               </TableCell>
             </TableRow>
