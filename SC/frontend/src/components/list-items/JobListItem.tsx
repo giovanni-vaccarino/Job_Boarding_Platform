@@ -1,6 +1,8 @@
 import { Box, Typography, Button } from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
 import TimelineIcon from '@mui/icons-material/Timeline';
+import { AppRoutes } from '../../router.tsx';
+import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 
 export interface JobListItemProps {
   companyName: string;
@@ -10,6 +12,8 @@ export interface JobListItemProps {
 }
 
 export const JobListItem = (props: JobListItemProps) => {
+  const navigate = useNavigateWrapper();
+
   return (
     <Box
       sx={{
@@ -46,6 +50,7 @@ export const JobListItem = (props: JobListItemProps) => {
 
       <Button
         variant="contained"
+        onClick={() => navigate(AppRoutes.JobDescription)}
         sx={{
           backgroundColor: 'primary.main',
           color: 'white',
