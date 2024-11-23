@@ -27,6 +27,8 @@ builder.Services.AddCors(options =>
 
 var configuration = builder.Configuration;
 
+builder.Services.AddHttpContextAccessor();
+
 // Add services to the container.
 builder.Services.AddControllers();
 

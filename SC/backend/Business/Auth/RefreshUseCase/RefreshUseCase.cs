@@ -37,9 +37,11 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
         var newAccessToken = _securityContext.CreateAccessToken(user);
         var newRefreshToken = _securityContext.CreateRefreshToken(user);
 
+        user.UpdatedAt = DateTime.UtcNow;
         user.RefreshToken = newRefreshToken;
-        // TODO await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
         
+        _logger.LogDebug("Successfully refreshed token for user with email {Email}", user.Email);
         
         return new TokenResponse
         {
@@ -75,19 +77,8 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
     
     private async Task<User> GetUser(int userId)
     {
-        //TODO var user =  await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
-        var tempToken =
-            _securityContext.Hash(
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidG9rZW5UeXBlIjoiUmVmcmVzaCIsIm5iZiI6MTczMjIzNTE3NSwiZXhwIjoxNzMyODM5OTc1LCJpYXQiOjE3MzIyMzUxNzV9.M0M_ofKLe1DKB3zDHyNDaEsEsZf1PBSA-GWskXR-7ZQ");
-        var user = new User
-        {
-            Id = userId,
-            Email = "ritorno@gmail.com",
-            PasswordHash = "password",
-            CreatedAt = new DateTime(),
-            UpdatedAt = new DateTime(),
-            RefreshToken = tempToken
-        };
+        var user =  await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        _logger.LogDebug(userId.ToString());
         
         if (user == null)
         {

@@ -4,6 +4,7 @@ using backend.Business.Auth.RefreshUseCase;
 using backend.Business.Auth.RegisterUseCase;
 using backend.Service.Contracts.Auth;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Service.Controllers;
@@ -43,27 +44,12 @@ public class AuthenticationController : ControllerBase
         return Ok(response);
     }
     
+    [Authorize]
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
         await _mediator.Send(new LogoutCommand());
 
         return Ok();
-    }
-    
-    [HttpPost("forgot-password")]
-    public async Task<IActionResult> ForgotPassword([FromBody] RefreshTokenDto dto)
-    {
-        var response = await _mediator.Send(new RefreshCommand(dto));
-
-        return Ok(response);
-    }
-    
-    [HttpPost("send-verification-email")]
-    public async Task<IActionResult> SendVerificationEmail([FromBody] RefreshTokenDto dto)
-    {
-        var response = await _mediator.Send(new RefreshCommand(dto));
-
-        return Ok(response);
     }
 }

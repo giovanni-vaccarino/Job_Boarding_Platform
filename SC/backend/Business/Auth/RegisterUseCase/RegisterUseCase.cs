@@ -29,15 +29,20 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
         var user = new User
         {
             Email = registerInput.Email,
-            PasswordHash = _securityContext.Hash(registerInput.Password)
+            PasswordHash = _securityContext.Hash(registerInput.Password),
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
-
-        _dbContext.Users.Add(user);
-        await _dbContext.SaveChangesAsync(cancellationToken);
         
         var accessToken = _securityContext.CreateAccessToken(user);
         var refreshToken = _securityContext.CreateRefreshToken(user);
+        
+        user.RefreshToken = _securityContext.Hash(refreshToken);
+        _dbContext.Users.Add(user);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
+        _logger.LogDebug("Successfully registered user with email {Email}", user.Email);
+        
         return new TokenResponse
         {
             AccessToken = accessToken,
@@ -58,6 +63,9 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
             throw new InvalidOperationException("User already exists.");
         }
         
-        // TODO Validate password constraints (length, special characters, etc..)
+        if (registerInput.Password.Length < 8 || !registerInput.Password.Any(char.IsDigit) || !registerInput.Password.Any(char.IsUpper))
+        {
+            throw new InvalidOperationException("Password must be at least 8 characters long, contain at least one digit and one uppercase character.");
+        }
     }
 }

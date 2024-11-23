@@ -3,6 +3,7 @@ using backend.Data.Entities;
 using backend.Service.Contracts.Auth;
 using backend.Shared.Security;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Auth.LoginUseCase;
 
@@ -23,38 +24,31 @@ public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
     {
         var loginInput = request.Dto;
         
-        // Verify user credentials
         var user = await VerifyUserCredentials(loginInput);
         
-        // Generate JWT token
         var tokenResponse = new TokenResponse
         {
             AccessToken = _securityContext.CreateAccessToken(user),
             RefreshToken = _securityContext.CreateRefreshToken(user)
         };
-        
-        user.RefreshToken = tokenResponse.RefreshToken;
-        // TODO await _dbContext.SaveChangesAsync(cancellationToken);
 
+        user.UpdatedAt = DateTime.UtcNow;
+        user.RefreshToken = _securityContext.Hash(tokenResponse.RefreshToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        _logger.LogDebug("Successfully logged in user with email {Email}", user.Email);
+        
         return tokenResponse;
     }
 
     private async Task<User> VerifyUserCredentials(UserLoginDto loginInput)
     {
-        var user = new User
-        {
-            Id = 1,
-            Email = "aaa@gmail.com",
-            PasswordHash = "password"
-        };
+        var user =  await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginInput.Username);
         
-        //TODO var user =  await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
-        
-        if (user == null || user.PasswordHash != _securityContext.Hash(loginInput.Password))
+        if (user == null || !_securityContext.ValidateHashed(loginInput.Password, user.PasswordHash))
         {
             throw new UnauthorizedAccessException("Invalid email or password.");
         }
-        
         
         return user;
     }
