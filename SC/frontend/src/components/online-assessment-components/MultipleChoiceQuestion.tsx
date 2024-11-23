@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Checkbox, FormControlLabel, Box, Typography, FormGroup } from '@mui/material';
+
+
 
 export const MultipleChoiceQuestion = () => {
   const[checked, setChecked] = useState({})
@@ -9,7 +11,7 @@ export const MultipleChoiceQuestion = () => {
       options: ["Red", "Blue", "Green", "Yellow"],
   }
 
-  const handleChange =  (event) =>
+  const handleChange =  (event: { target: { name: any; checked: any; }; }) =>
   {
     const{name, checked} = event.target;
     setChecked((prevState) => ({
@@ -17,6 +19,7 @@ export const MultipleChoiceQuestion = () => {
       [name]: checked,
     }))
   }
+
 
   return (
     <Box sx = {{

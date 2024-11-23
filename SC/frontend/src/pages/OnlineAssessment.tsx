@@ -3,6 +3,7 @@ import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { OpenQuestion } from '../components/online-assessment-components/OpenQuestion.tsx';
 import { MultipleChoiceQuestion } from '../components/online-assessment-components/MultipleChoiceQuestion.tsx';
+import { TrueFalseQuestion } from '../components/online-assessment-components/TrueFalseQuestion.tsx'
 
 export const OnlineAssessment = () => {
   return (
@@ -12,7 +13,8 @@ export const OnlineAssessment = () => {
           flexDirection : 'column',
           width: '50%'}}>
           <OpenQuestion />
-          <MultipleChoiceQuestion></MultipleChoiceQuestion>
+          <MultipleChoiceQuestion />
+          <TrueFalseQuestion/>
         </Box>
     </Page>
   );
