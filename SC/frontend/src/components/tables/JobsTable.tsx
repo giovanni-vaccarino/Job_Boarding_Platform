@@ -23,7 +23,7 @@ export interface JobsTableProps {
 }
 
 export const JobsTable = (props: JobsTableProps) => {
-  const { jobs } = props;
+  const { jobs = [] } = props;
 
   return (
     <TableContainer
@@ -65,20 +65,28 @@ export const JobsTable = (props: JobsTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {jobs.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{row.title}</TableCell>
-              <TableCell>{row.company}</TableCell>
-              <TableCell>{row.state}</TableCell>
-              <TableCell>{row.location}</TableCell>
-              <TableCell>{row.submissionDate}</TableCell>
-              <TableCell>
-                <IconButton color="primary" aria-label="view details">
-                  <VisibilityIcon />
-                </IconButton>
+          {jobs.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={6} sx={{ textAlign: 'center', fontStyle: 'italic' }}>
+                NO DATA
               </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            jobs.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>{row.title}</TableCell>
+                <TableCell>{row.company}</TableCell>
+                <TableCell>{row.state}</TableCell>
+                <TableCell>{row.location}</TableCell>
+                <TableCell>{row.submissionDate}</TableCell>
+                <TableCell>
+                  <IconButton color="primary" aria-label="view details">
+                    <VisibilityIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>

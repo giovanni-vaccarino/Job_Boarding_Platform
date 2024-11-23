@@ -74,7 +74,7 @@ export const Activity = () => {
     <Page>
       <TitleHeader title={'My Jobs List'} />
       <Box sx={{ width: '90%', margin: '0 auto', marginTop: '1rem' }}>
-        <JobsTable jobs={exampleData} />
+        <JobsTable  />
       </Box>
     </Page>
   );
