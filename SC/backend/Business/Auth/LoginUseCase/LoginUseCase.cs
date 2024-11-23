@@ -13,7 +13,7 @@ public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
     private readonly ILogger<LoginUseCase> _logger;
     private readonly AppDbContext _dbContext;
 
-    public LoginUseCase(SecurityContext securityContext, ILogger<LoginUseCase> logger, AppDbContext dbContext)
+    public LoginUseCase(SecurityContext securityContext, AppDbContext dbContext, ILogger<LoginUseCase> logger)
     {
         _securityContext = securityContext;
         _logger = logger;
@@ -43,7 +43,7 @@ public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
 
     private async Task<User> VerifyUserCredentials(UserLoginDto loginInput)
     {
-        var user =  await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginInput.Username);
+        var user =  await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginInput.Email);
         
         if (user == null || !_securityContext.ValidateHashed(loginInput.Password, user.PasswordHash))
         {

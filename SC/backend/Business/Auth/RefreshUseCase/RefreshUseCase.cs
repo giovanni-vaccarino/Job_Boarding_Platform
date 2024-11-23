@@ -38,7 +38,7 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
         var newRefreshToken = _securityContext.CreateRefreshToken(user);
 
         user.UpdatedAt = DateTime.UtcNow;
-        user.RefreshToken = newRefreshToken;
+        user.RefreshToken = _securityContext.Hash(newRefreshToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
         _logger.LogDebug("Successfully refreshed token for user with email {Email}", user.Email);
@@ -56,7 +56,7 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
         {
             return _securityContext.ValidateJwtToken(refreshToken, TokenType.Refresh);
         }
-        catch (SecurityTokenException)
+        catch (Exception)
         {
             throw new UnauthorizedAccessException("Invalid refresh token.");
         }
@@ -82,7 +82,7 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
         
         if (user == null)
         {
-            throw new UnauthorizedAccessException("Invalid refresh token or user not found.");
+            throw new UnauthorizedAccessException("User associated to refresh token not found.");
         }
 
         return user;
@@ -94,7 +94,7 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
         
         if (storedRefreshToken == null || !_securityContext.ValidateHashed(refreshToken, storedRefreshToken))
         {
-            throw new UnauthorizedAccessException("Invalid refresh token.");
+            throw new UnauthorizedAccessException("Refresh token not matching with stored refresh token.");
         }
     }
 }
