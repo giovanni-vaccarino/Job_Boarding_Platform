@@ -1,10 +1,11 @@
 ﻿import { AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
 import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
+//import { useAppSelector } from '../../core/store';
 
 export const Header = () => {
   const navigate = useNavigateWrapper();
-
+// const state = useAppSelector(state => state.auth);*/
   return (
     <AppBar
       position="static"
