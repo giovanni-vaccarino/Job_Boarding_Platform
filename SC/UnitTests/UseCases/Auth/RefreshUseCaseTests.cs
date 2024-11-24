@@ -3,8 +3,6 @@ using backend.Data;
 using backend.Data.Entities;
 using backend.Service.Contracts.Auth;
 using backend.Shared.Enums;
-using backend.Shared.Security;
-using Moq.Protected;
 
 namespace UnitTests.UseCases.Auth;
 
@@ -17,8 +15,9 @@ public class RefreshUseCaseTests
     public RefreshUseCaseTests()
     {
         _services = new IsolatedUseCaseTestServices<RefreshUseCase>("RefreshUseCaseTests");
-        _refreshUseCase = _services.UseCase;
         _dbContext = _services.DbContext;
+        _refreshUseCase = (RefreshUseCase)Activator.CreateInstance(
+            typeof(RefreshUseCase), _services.SecurityContext, _dbContext, _services.LoggerMock.Object)!;
     }
     
     [Fact(DisplayName = "Successfully refresh tokens")]

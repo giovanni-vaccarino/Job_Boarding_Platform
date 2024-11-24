@@ -6,7 +6,6 @@ using backend.Shared.Enums;
 using backend.Shared.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Business.Auth.RefreshUseCase;
 

@@ -1,5 +1,6 @@
 ﻿using backend.Data;
 using backend.Shared.Security;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -14,21 +15,13 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
         SetupMocks();
         SetupDbContext(dbName);
         SetupSecurityContext();
-
-        var instance = (TUseCase?)Activator.CreateInstance(
-            typeof(TUseCase), SecurityContext, DbContext, LoggerMock.Object);
-
-        UseCase = instance ?? throw new Exception(
-            $"Could not create instance of {typeof(TUseCase)}. Check the constructor of the target use case.");
     }
     
-    public TUseCase UseCase { get; private set; }
-
-    // Dependencies
     public AppDbContext DbContext { get; private set; }
     public SecurityContext SecurityContext { get; private set; }
     public Mock<ILogger<TUseCase>> LoggerMock { get; private set; }
     public Mock<IConfiguration> ConfigurationMock { get; private set; }
+    public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; private set; }
 
     private void SetupDbContext(string dbName)
     {
@@ -43,6 +36,7 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
     {
         ConfigurationMock = new Mock<IConfiguration>();
         LoggerMock = new Mock<ILogger<TUseCase>>();
+        HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
     }
 
     private void SetupSecurityContext()

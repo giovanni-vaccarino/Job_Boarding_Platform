@@ -15,8 +15,9 @@ public class RegisterUseCaseTests
     public RegisterUseCaseTests()
     {
         _services = new IsolatedUseCaseTestServices<RegisterUseCase>("RegisterUseCaseTests");
-        _registerUseCase = _services.UseCase;
         _dbContext = _services.DbContext;
+        _registerUseCase = (RegisterUseCase)Activator.CreateInstance(
+            typeof(RegisterUseCase), _services.SecurityContext, _dbContext, _services.LoggerMock.Object)!;
     }
 
     [Fact(DisplayName = "Successfully register a new user")]

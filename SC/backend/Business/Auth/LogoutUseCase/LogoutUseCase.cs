@@ -4,7 +4,6 @@ using backend.Shared.Enums;
 using backend.Shared.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Business.Auth.LogoutUseCase;
 
@@ -55,7 +54,7 @@ public class LogoutUseCase: IRequestHandler<LogoutCommand, Unit>
         {
             return _securityContext.ValidateJwtToken(accessToken, TokenType.Access);
         }
-        catch (SecurityTokenException)
+        catch (Exception)
         {
             throw new UnauthorizedAccessException("Invalid access token.");
         }

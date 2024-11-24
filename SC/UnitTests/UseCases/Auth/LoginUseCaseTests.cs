@@ -15,8 +15,9 @@ public class LoginUseCaseTests
     public LoginUseCaseTests()
     {
         _services = new IsolatedUseCaseTestServices<LoginUseCase>("LoginUseCaseTests");
-        _loginUseCase = _services.UseCase;
         _dbContext = _services.DbContext;
+        _loginUseCase = (LoginUseCase)Activator.CreateInstance(
+            typeof(LoginUseCase), _services.SecurityContext, _dbContext, _services.LoggerMock.Object)!;
     }
     
     [Fact(DisplayName = "Successfully login with valid credentials")]
