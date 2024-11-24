@@ -5,64 +5,77 @@ import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { RowComponent } from '../components/profileComponents/RowComponent.tsx';
 import PhotoCameraSharpIcon from '@mui/icons-material/PhotoCameraSharp';
 import HorizontalRuleSharpIcon from '@mui/icons-material/HorizontalRuleSharp';
-//import { useAppSelector } from '../../core/store';
-
 
 export const Profile = () => {
-
-
-  // const state = useAppSelector(state => state.auth);*/
   const [selectedSection, setSelectedSection] = useState<string>('profile');
 
-  const handleSectionChange = (section : string) => {
-    setSelectedSection(section)
-  }
+  const handleSectionChange = (section: string) => {
+    setSelectedSection(section);
+  };
 
   const [accountType, setAccountType] = useState<string>('company');
-  
-  const handleTypeAccount = (type : string) => {
-    setAccountType(type)
-  }
+
+  const handleTypeAccount = (type: string) => {
+    setAccountType(type);
+  };
 
   const renderContent = () => {
     if (selectedSection === 'profile') {
-      if(accountType === 'student')
+      if (accountType === 'student')
         return (
           <Box>
-            <RowComponent label="eMail" value="vittorio.palladino@mail.polimi.it" buttons={['edit']} />
-            <RowComponent label="Name" value="vittorio" buttons={['edit']}/>
+            <RowComponent
+              label="eMail"
+              value="vittorio.palladino@mail.polimi.it"
+              buttons={['edit']}
+            />
+            <RowComponent label="Name" value="vittorio" buttons={['edit']} />
           </Box>
         );
       else if (accountType === 'company')
-        return(
+        return (
           <Box>
-            <RowComponent label="eMail" value="vittorio.palladino@mail.polimi.it" buttons={['edit']} />
-            <RowComponent label="Name" value="vittorio" buttons={['edit']}/>
+            <RowComponent
+              label="eMail"
+              value="vittorio.palladino@mail.polimi.it"
+              buttons={['edit']}
+            />
+            <RowComponent label="Name" value="vittorio" buttons={['edit']} />
           </Box>
         );
     } else {
       if (selectedSection === 'info')
-        if(accountType === 'student')
-          return(
+        if (accountType === 'student')
+          return (
             <Box>
               <RowComponent label="CV" value="-" buttons={['edit', 'view']} />
-              <RowComponent label="Skills" value='-' buttons={['edit']}/>
-              <RowComponent label="Interest" value="vittorio" buttons={['edit']}/>
+              <RowComponent label="Skills" value="-" buttons={['edit']} />
+              <RowComponent
+                label="Interest"
+                value="vittorio"
+                buttons={['edit']}
+              />
             </Box>
           );
         else if (accountType === 'company')
-          return(
-            <Box  >
-              <RowComponent label="Company Name" value="Amazon" buttons={['edit']} />
-              <RowComponent label="Vat" value="-" buttons={['edit']}/>
-              <RowComponent label="Company Website" value='-' buttons={['edit']}/>
-              <RowComponent label="Linkedin" value='-' buttons={['edit']}/>
+          return (
+            <Box>
+              <RowComponent
+                label="Company Name"
+                value="Amazon"
+                buttons={['edit']}
+              />
+              <RowComponent label="Vat" value="-" buttons={['edit']} />
+              <RowComponent
+                label="Company Website"
+                value="-"
+                buttons={['edit']}
+              />
+              <RowComponent label="Linkedin" value="-" buttons={['edit']} />
             </Box>
           );
     }
   };
-
-
 
   return (
     <Page>
@@ -100,7 +113,7 @@ export const Profile = () => {
           >
             <Button
               variant="contained"
-              startIcon={<PhotoCameraSharpIcon sx={{ marginLeft: '30%'}} />}
+              startIcon={<PhotoCameraSharpIcon sx={{ marginLeft: '30%' }} />}
               sx={{
                 width: '60px', // Circular button dimensions
                 height: '60px',
@@ -118,7 +131,13 @@ export const Profile = () => {
               width: '100%',
             }}
           >
-            <HorizontalRuleSharpIcon sx={{ fontSize: '1rem', transform: 'scaleX(7)', marginBottom: '5%' }} />
+            <HorizontalRuleSharpIcon
+              sx={{
+                fontSize: '1rem',
+                transform: 'scaleX(7)',
+                marginBottom: '5%',
+              }}
+            />
             <Button
               onClick={() => handleSectionChange('profile')}
               sx={{ mb: '8px', textTransform: 'none' }} // Avoid uppercase transformation
@@ -144,10 +163,16 @@ export const Profile = () => {
                   color: 'black', // Always black
                 }}
               >
-              Info
+                Info
               </Typography>
             </Button>
-            <HorizontalRuleSharpIcon sx={{ fontSize: '1rem', transform: 'scaleX(7)', marginTop: '10%' }} />
+            <HorizontalRuleSharpIcon
+              sx={{
+                fontSize: '1rem',
+                transform: 'scaleX(7)',
+                marginTop: '10%',
+              }}
+            />
           </Box>
 
           {/* Logout */}
@@ -162,7 +187,6 @@ export const Profile = () => {
             Log Out
           </Typography>
         </Box>
-
 
         {/* Right Column */}
         <Box

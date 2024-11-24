@@ -5,7 +5,7 @@ import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 
 export const Header = () => {
   const navigate = useNavigateWrapper();
-// const state = useAppSelector(state => state.auth);*/
+  // const state = useAppSelector(state => state.auth);*/
   return (
     <AppBar
       position="static"
