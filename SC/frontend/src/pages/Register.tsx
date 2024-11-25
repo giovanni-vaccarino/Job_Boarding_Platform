@@ -19,6 +19,7 @@ export const Register = () => {
           margin: 'auto',
           padding: 3,
           mt: '3rem',
+          mb: '3rem',
           borderRadius: '8px',
           boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
           backgroundColor: '#FFFFFF',
