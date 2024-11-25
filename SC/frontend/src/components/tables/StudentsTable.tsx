@@ -46,6 +46,7 @@ export const StudentsTable = (props: StudentsTableProps) => {
           <TableRow>
             <TableCell
               sx={{
+                paddingLeft: '3%',
                 fontWeight: 'bold',
                 fontSize: '1.35rem',
                 width: '30%',
@@ -59,6 +60,7 @@ export const StudentsTable = (props: StudentsTableProps) => {
                 fontSize: '1.25rem',
                 textAlign: 'center',
                 width: '40%',
+                paddingLeft: '20%',
               }}
             >
               Suggested Job
@@ -69,6 +71,7 @@ export const StudentsTable = (props: StudentsTableProps) => {
                 fontSize: '1.25rem',
                 textAlign: 'right',
                 width: '30%',
+                paddingRight: '10%',
               }}
             >
               Action
@@ -91,6 +94,7 @@ export const StudentsTable = (props: StudentsTableProps) => {
                 <TableCell
                   sx={{
                     width: '30%',
+                    paddingLeft: '3%',
                   }}
                 >
                   {row.name}
@@ -98,7 +102,8 @@ export const StudentsTable = (props: StudentsTableProps) => {
                 <TableCell
                   sx={{
                     textAlign: 'center',
-                    width: '40%',
+                    width: '60%',
+                    paddingLeft: '20%',
                   }}
                 >
                   {row.suggestedJob}
@@ -106,7 +111,8 @@ export const StudentsTable = (props: StudentsTableProps) => {
                 <TableCell
                   sx={{
                     textAlign: 'right',
-                    width: '30%',
+                    width: '10%',
+                    paddingRight: '4.7%',
                   }}
                 >
                   <IconButton color="primary" aria-label="view details">

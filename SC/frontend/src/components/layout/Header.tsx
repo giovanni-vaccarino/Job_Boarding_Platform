@@ -64,7 +64,7 @@ export const Header = () => {
             Matches
           </Typography>
           <Typography
-            onClick={() => navigate(AppRoutes.CompanyMatches)}
+            onClick={() => navigate(AppRoutes.Activity)}
             variant="body1"
             sx={{
               color: 'primary.main',
