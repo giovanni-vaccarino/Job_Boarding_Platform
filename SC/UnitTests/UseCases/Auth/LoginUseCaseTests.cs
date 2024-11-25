@@ -6,12 +6,18 @@ using backend.Shared.Enums;
 
 namespace UnitTests.UseCases.Auth;
 
+/// <summary>
+/// Unit tests for the <see cref="LoginUseCase"/> class, validating login functionality.
+/// </summary>
 public class LoginUseCaseTests
 {
     private readonly IsolatedUseCaseTestServices<LoginUseCase> _services;
     private readonly AppDbContext _dbContext;
     private readonly LoginUseCase _loginUseCase;
 
+    /// <summary>
+    /// Initializes a new instance of the class, setting up the testing environment.
+    /// </summary>
     public LoginUseCaseTests()
     {
         _services = new IsolatedUseCaseTestServices<LoginUseCase>("LoginUseCaseTests");
@@ -20,6 +26,9 @@ public class LoginUseCaseTests
             typeof(LoginUseCase), _services.SecurityContext, _dbContext, _services.LoggerMock.Object)!;
     }
     
+    /// <summary>
+    /// Tests successful login with valid user credentials.
+    /// </summary>
     [Fact(DisplayName = "Successfully login with valid credentials")]
     public async Task Should_Login_Successfully()
     {
@@ -52,6 +61,9 @@ public class LoginUseCaseTests
         Assert.True(_services.SecurityContext.ValidateHashed(result.RefreshToken, user.RefreshToken));
     }
     
+    /// <summary>
+    /// Tests that an exception is thrown when attempting to log in with an invalid email.
+    /// </summary>
     [Fact(DisplayName = "Should throw exception when email is invalid")]
     public async Task Should_Throw_Exception_When_Email_Is_Invalid()
     {
@@ -68,6 +80,9 @@ public class LoginUseCaseTests
         Assert.Equal("Invalid email or password.", exception.Message);
     }
 
+    /// <summary>
+    /// Tests that an exception is thrown when the provided password does not match the stored hash password.
+    /// </summary>
     [Fact(DisplayName = "Should throw exception when password does not match")]
     public async Task Should_Throw_Exception_When_Password_Does_Not_Match()
     {

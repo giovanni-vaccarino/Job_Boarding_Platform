@@ -6,12 +6,18 @@ using backend.Shared.Enums;
 
 namespace UnitTests.UseCases.Auth;
 
+/// <summary>
+/// Unit tests for the <see cref="RegisterUseCase"/> class, validating user registration functionality.
+/// </summary>
 public class RegisterUseCaseTests
 {
     private readonly IsolatedUseCaseTestServices<RegisterUseCase> _services;
     private readonly AppDbContext _dbContext;
     private readonly RegisterUseCase _registerUseCase;
 
+    /// <summary>
+    /// Initializes a new instance of the class, setting up the testing environment.
+    /// </summary>
     public RegisterUseCaseTests()
     {
         _services = new IsolatedUseCaseTestServices<RegisterUseCase>("RegisterUseCaseTests");
@@ -20,6 +26,9 @@ public class RegisterUseCaseTests
             typeof(RegisterUseCase), _services.SecurityContext, _dbContext, _services.LoggerMock.Object)!;
     }
 
+    /// <summary>
+    /// Tests successful registration of a new user.
+    /// </summary>
     [Fact(DisplayName = "Successfully register a new user")]
     public async Task Should_Register_User()
     {
@@ -45,6 +54,9 @@ public class RegisterUseCaseTests
         Assert.NotNull(_services.SecurityContext.ValidateJwtToken(result.RefreshToken, TokenType.Refresh));
     }
     
+    /// <summary>
+    /// Tests that an exception is thrown when attempting to register a user with an existing email.
+    /// </summary>
     [Fact(DisplayName = "Should throw exception when user already exists")]
     public async Task Should_Throw_Exception_When_User_Already_Exists()
     {
@@ -70,6 +82,11 @@ public class RegisterUseCaseTests
         Assert.Equal("User already exists.", exception.Message);
     }
 
+    /// <summary>
+    /// Tests that an exception is thrown when the password does not meet strength requirements.
+    /// </summary>
+    /// <param name="invalidPassword">The invalid password to test.</param>
+    /// <param name="expectedErrorMessage">The expected error message for the invalid password.</param>
     [Theory(DisplayName = "Should throw exception when password does not meet strength requirements")]
     [InlineData("short", "Password must be at least 8 characters long, contain at least one digit and one uppercase character.")]
     [InlineData("lowercaseonly", "Password must be at least 8 characters long, contain at least one digit and one uppercase character.")]
@@ -90,6 +107,9 @@ public class RegisterUseCaseTests
         Assert.Equal(expectedErrorMessage, exception.Message);
     }
     
+    /// <summary>
+    /// Tests that an exception is thrown when the password and confirm password do not match.
+    /// </summary>
     [Fact(DisplayName = "Should throw exception when password and confirm password do not match")]
     public async Task Should_Throw_Exception_When_Passwords_Do_Not_Match()
     {
@@ -106,7 +126,5 @@ public class RegisterUseCaseTests
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
         Assert.Equal("Passwords do not match.", exception.Message);
     }
-
-
 }
 

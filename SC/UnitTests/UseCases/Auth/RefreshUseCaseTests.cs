@@ -6,12 +6,18 @@ using backend.Shared.Enums;
 
 namespace UnitTests.UseCases.Auth;
 
+/// <summary>
+/// Unit tests for the <see cref="RefreshUseCase"/> class, validating authentication token refresh functionality.
+/// </summary>
 public class RefreshUseCaseTests
 {
     private readonly IsolatedUseCaseTestServices<RefreshUseCase> _services;
     private readonly AppDbContext _dbContext;
     private readonly RefreshUseCase _refreshUseCase;
 
+    /// <summary>
+    /// Initializes a new instance of the class, setting up the testing environment.
+    /// </summary>
     public RefreshUseCaseTests()
     {
         _services = new IsolatedUseCaseTestServices<RefreshUseCase>("RefreshUseCaseTests");
@@ -20,6 +26,9 @@ public class RefreshUseCaseTests
             typeof(RefreshUseCase), _services.SecurityContext, _dbContext, _services.LoggerMock.Object)!;
     }
     
+    /// <summary>
+    /// Tests successful refresh when a valid refresh token is provided.
+    /// </summary>
     [Fact(DisplayName = "Successfully refresh tokens")]
     public async Task Should_Refresh_Tokens_Successfully()
     {
@@ -57,6 +66,9 @@ public class RefreshUseCaseTests
         Assert.True(_services.SecurityContext.ValidateHashed(result.RefreshToken, savedUser.RefreshToken));
     }
     
+    /// <summary>
+    /// Tests that an exception is thrown when the refresh token provided is not valid.
+    /// </summary>
     [Fact(DisplayName = "Should throw exception for invalid refresh token")]
     public async Task Should_Throw_Exception_For_Invalid_Refresh_Token()
     {
@@ -74,6 +86,9 @@ public class RefreshUseCaseTests
         Assert.Equal("Invalid refresh token.", exception.Message);
     }
     
+    /// <summary>
+    /// Tests that an exception is thrown when the user associated with that refresh token cannot be found.
+    /// </summary>
     [Fact(DisplayName = "Should throw exception when user is not found")]
     public async Task Should_Throw_Exception_When_User_Not_Found()
     {
