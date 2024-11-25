@@ -9,6 +9,8 @@ import {
   IconButton,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 export interface CompanyJobsTableHeader {
   title: string;
@@ -83,7 +85,7 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
                 fontWeight: 'bold',
                 fontSize: '1.25rem',
                 width: '16%',
-                pl: '3rem',
+                pl: '4rem',
               }}
             >
               Action
@@ -113,9 +115,15 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
                 <TableCell sx={{ textAlign: 'center', width: '16%' }}>
                   {row.location}
                 </TableCell>
-                <TableCell sx={{ textAlign: 'center', width: '16%' }}>
+                <TableCell sx={{ textAlign: 'center', width: '16%', pr: '2rem'}}>
                   <IconButton color="primary" aria-label="view details">
                     <VisibilityIcon />
+                  </IconButton>
+                  <IconButton color="primary" aria-label="edit">
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton color="error" aria-label="delete">
+                    <DeleteOutlineIcon />
                   </IconButton>
                 </TableCell>
               </TableRow>
