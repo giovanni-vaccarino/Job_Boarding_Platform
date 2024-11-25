@@ -13,8 +13,7 @@ export const JobListItem = (props: JobListItemProps) => {
   return (
     <Box
       sx={{
-        width: '73.5%',
-        height: '4.2rem',
+        width: '80%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',

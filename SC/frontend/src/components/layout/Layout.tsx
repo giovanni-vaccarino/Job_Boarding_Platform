@@ -21,16 +21,11 @@ export const Layout: FC<PropsWithChildren> = (props) => {
       <Box
         component="main"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%',
           flexGrow: 1,
           p: 0,
-          my: 0,
+          m: 0,
           bgcolor: 'background.default',
           overflowY: 'auto',
-          overflowX: 'hidden',
         }}
       >
         {props.children}

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
-import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
+import { TitleHeader } from '../components/page-title/TitleHeader.tsx';
 
 export const Profile = () => {
   return (
