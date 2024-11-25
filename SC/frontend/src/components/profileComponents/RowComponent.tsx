@@ -2,23 +2,18 @@ import { Box, Button, Typography } from '@mui/material';
 import ModeIcon from '@mui/icons-material/Mode';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
-interface RowComponentProps {
+export interface RowComponentProps {
   label: string;
   value: string;
   buttons: string[];
 }
 
-export const RowComponent: React.FC<RowComponentProps> = ({
-  label,
-  value,
-  buttons,
-}) => {
+export const RowComponent: React.FC<RowComponentProps> = (props : RowComponentProps) => {
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        marginLeft: '30%',
       }}
     >
       <Box
@@ -30,16 +25,16 @@ export const RowComponent: React.FC<RowComponentProps> = ({
         }}
       >
         <Typography sx={{ fontSize: '1.3rem', fontWeight: '500' }}>
-          {label}
+          {props.label}
         </Typography>
-        {buttons.includes('edit') && (
+        {props.buttons.includes('edit') && (
           <Button
             variant="text"
             sx={{ marginRight: '20%' }}
             startIcon={<ModeIcon />}
           ></Button>
         )}
-        {buttons.includes('view') && (
+        {props.buttons.includes('view') && (
           <Button
             variant="text"
             sx={{ marginRight: '48%' }}
@@ -55,7 +50,7 @@ export const RowComponent: React.FC<RowComponentProps> = ({
             color: 'rgba(0, 0, 0, 0.4)', // Black with 70% opacity
           }}
         >
-          {value}
+          {props.value}
         </Typography>
       </Box>
     </Box>
