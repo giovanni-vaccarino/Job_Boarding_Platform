@@ -10,6 +10,7 @@ import { Activity } from './pages/Activity.tsx';
 import { NewJob } from './pages/NewJob.tsx';
 import { CompanyMatches } from './pages/CompanyMatches.tsx';
 import { CompanyActivity } from './pages/CompanyActivity.tsx';
+import { OnlineAssessment } from './pages/OnlineAssessment.tsx';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
@@ -22,6 +23,7 @@ export const AppRoutes = Object.freeze({
   Login: '/login',
   Register: '/register',
   Internship: '/internship/:id',
+  OnlineAssessment: '/online-assessment',
   CompanyMatches: '/companymatches/:id',
   NewJob: '/newjob',
 });
@@ -60,6 +62,10 @@ export const useAppRouter = () => {
       {
         path: AppRoutes.Register,
         element: <Register />,
+      },
+      {
+        path: AppRoutes.OnlineAssessment,
+        element: <OnlineAssessment />,
       },
       {
         path: AppRoutes.CompanyMatches,

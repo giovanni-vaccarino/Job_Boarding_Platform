@@ -115,7 +115,9 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
                 <TableCell sx={{ textAlign: 'center', width: '16%' }}>
                   {row.location}
                 </TableCell>
-                <TableCell sx={{ textAlign: 'center', width: '16%', pr: '2rem'}}>
+                <TableCell
+                  sx={{ textAlign: 'center', width: '16%', pr: '2rem' }}
+                >
                   <IconButton color="primary" aria-label="view details">
                     <VisibilityIcon />
                   </IconButton>
