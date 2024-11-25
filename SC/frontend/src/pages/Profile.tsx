@@ -3,8 +3,8 @@ import { Box, Button, Typography } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { RowComponent } from '../components/profileComponents/RowComponent.tsx';
-import PhotoCameraSharpIcon from '@mui/icons-material/PhotoCameraSharp';
-import HorizontalRuleSharpIcon from '@mui/icons-material/HorizontalRuleSharp';
+//import PhotoCameraSharpIcon from '@mui/icons-material/PhotoCameraSharp';
+//import HorizontalRuleSharpIcon from '@mui/icons-material/HorizontalRuleSharp';
 
 export const Profile = () => {
   const [selectedSection, setSelectedSection] = useState<string>('profile');
@@ -113,7 +113,7 @@ export const Profile = () => {
           >
             <Button
               variant="contained"
-              startIcon={<PhotoCameraSharpIcon sx={{ marginLeft: '30%' }} />}
+              //startIcon={<PhotoCameraSharpIcon sx={{ marginLeft: '30%' }} />}
               sx={{
                 width: '60px', // Circular button dimensions
                 height: '60px',
@@ -131,13 +131,13 @@ export const Profile = () => {
               width: '100%',
             }}
           >
-            <HorizontalRuleSharpIcon
-              sx={{
-                fontSize: '1rem',
-                transform: 'scaleX(7)',
-                marginBottom: '5%',
-              }}
-            />
+            {/*<HorizontalRuleSharpIcon*/}
+            {/*  sx={{*/}
+            {/*    fontSize: '1rem',*/}
+            {/*    transform: 'scaleX(7)',*/}
+            {/*    marginBottom: '5%',*/}
+            {/*  }}*/}
+            {/*/>*/}
             <Button
               onClick={() => handleSectionChange('profile')}
               sx={{ mb: '8px', textTransform: 'none' }} // Avoid uppercase transformation
@@ -166,13 +166,13 @@ export const Profile = () => {
                 Info
               </Typography>
             </Button>
-            <HorizontalRuleSharpIcon
-              sx={{
-                fontSize: '1rem',
-                transform: 'scaleX(7)',
-                marginTop: '10%',
-              }}
-            />
+            {/*<HorizontalRuleSharpIcon*/}
+            {/*  sx={{*/}
+            {/*    fontSize: '1rem',*/}
+            {/*    transform: 'scaleX(7)',*/}
+            {/*    marginTop: '10%',*/}
+            {/*  }}*/}
+            {/*/>*/}
           </Box>
 
           {/* Logout */}
