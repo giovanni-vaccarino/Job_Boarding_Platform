@@ -3,6 +3,27 @@ import { HomePageHeader } from '../components/page-headers/HomePageHeader.tsx';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { JobListItem } from '../components/list-items/JobListItem.tsx';
 
+const jobList = [
+  {
+    companyName: 'Amazon',
+    jobTitle: 'Software Engineer',
+    location: 'Chicago',
+    datePosted: '2 weeks ago',
+  },
+  {
+    companyName: 'Amazon',
+    jobTitle: 'Software Engineer',
+    location: 'Chicago',
+    datePosted: '2 weeks ago',
+  },
+  {
+    companyName: 'Amazon',
+    jobTitle: 'Software Engineer',
+    location: 'Chicago',
+    datePosted: '2 weeks ago',
+  },
+];
+
 export const Home = () => {
   return (
     <Page>
@@ -73,26 +94,19 @@ export const Home = () => {
           </Button>
         </Box>
 
-        <JobListItem
-          companyName={'Amazon'}
-          jobTitle={'Software Engineer'}
-          location={'Chicago'}
-          datePosted={'2 weeks ago'}
-        />
-
-        <JobListItem
-          companyName={'Amazon'}
-          jobTitle={'Software Engineer'}
-          location={'Chicago'}
-          datePosted={'2 weeks ago'}
-        />
-
-        <JobListItem
-          companyName={'Amazon'}
-          jobTitle={'Software Engineer'}
-          location={'Chicago'}
-          datePosted={'2 weeks ago'}
-        />
+        {jobList.length > 0 ? (
+          jobList.map((job, index) => (
+            <JobListItem
+              key={index}
+              companyName={job.companyName}
+              jobTitle={job.jobTitle}
+              location={job.location}
+              datePosted={job.datePosted}
+            />
+          ))
+        ) : (
+          <Typography sx={{ fontStyle: 'italic' }}>NO DATA</Typography>
+        )}
       </Stack>
     </Page>
   );
