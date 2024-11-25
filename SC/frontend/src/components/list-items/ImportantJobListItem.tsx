@@ -2,14 +2,14 @@ import { Box, Typography, Button } from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
 import TimelineIcon from '@mui/icons-material/Timeline';
 
-export interface JobListItemProps {
+export interface ImportantJobListItemProps {
   companyName: string;
   jobTitle: string;
   location: string;
   datePosted: string;
 }
 
-export const JobListItem = (props: JobListItemProps) => {
+export const ImportantJobListItem = (props: ImportantJobListItemProps) => {
   return (
     <Box
       sx={{
@@ -47,7 +47,7 @@ export const JobListItem = (props: JobListItemProps) => {
       <Button
         variant="contained"
         sx={{
-          backgroundColor: 'primary.main',
+          backgroundColor: 'red',
           color: 'white',
           textTransform: 'none',
           px: '2rem',

@@ -47,7 +47,7 @@ export const Header = () => {
             sx={{
               color: 'primary.main',
               cursor: 'pointer',
-              fontSize: '1.25rem',
+              fontSize: '1rem',
             }}
           >
             Offers
@@ -58,17 +58,18 @@ export const Header = () => {
             sx={{
               color: 'primary.main',
               cursor: 'pointer',
-              fontSize: '1.25rem',
+              fontSize: '1rem',
             }}
           >
             Matches
           </Typography>
           <Typography
+            onClick={() => navigate(AppRoutes.Activity)}
             variant="body1"
             sx={{
               color: 'primary.main',
               cursor: 'pointer',
-              fontSize: '1.25rem',
+              fontSize: '1rem',
             }}
           >
             Activity
