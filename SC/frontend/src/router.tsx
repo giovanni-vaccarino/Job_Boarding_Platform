@@ -19,7 +19,7 @@ export const AppRoutes = Object.freeze({
   Login: '/login',
   Register: '/register',
   Internship: '/internship/:id',
-  NewJob: '/newjob'
+  NewJob: '/newjob',
 });
 
 export const useAppRouter = () => {
@@ -59,8 +59,8 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.NewJob,
-        element: <NewJob />
-      }
+        element: <NewJob />,
+      },
     ],
     {
       future: {

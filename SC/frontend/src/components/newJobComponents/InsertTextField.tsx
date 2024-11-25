@@ -1,35 +1,32 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { Box, TextField, Typography } from '@mui/material';
 
 export interface InsertTextFieldProps {
   titleTextField: string;
   isRequired: boolean;
-  label : string;
+  label: string;
 }
 
-export const InsertTextField = (props : InsertTextFieldProps) => {
-
-  const [textField, setTextField] = useState("")
-
-  const handleSetTextField = (event) =>
-  {
-    setTextField(event.target.value)
-  }
+export const InsertTextField = (props: InsertTextFieldProps) => {
+  const [textField, setTextField] = useState('');
 
   return (
-    <Box sx ={{
-      display : 'flex',
-      flexDirection : 'column',
-    }} >
-      <Typography>
-        {props.titleTextField}
-      </Typography>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <Typography>{props.titleTextField}</Typography>
       <TextField
-        required = {props.isRequired}
+        required={props.isRequired}
         id={props.label}
-        onChange={handleSetTextField}
-        label={props.label  }
+        onChange={(e) => {
+          setTextField(e.target.value);
+        }}
+        label={props.label}
+        value={textField}
       />
     </Box>
   );
-}
+};
