@@ -4,7 +4,8 @@ export interface RegisterResponse {
 }
 
 export interface RegisterInput {
-  username: string;
+  email: string;
   password: string;
+  confirmPassword: string;
   profile: string;
 }

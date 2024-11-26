@@ -19,14 +19,14 @@ export const AppRoutes = Object.freeze({
   JobDescription: '/job-description',
   ConfirmPage: '/confirm-page',
   Activity: '/activity',
-  CompanyActivity: '/companyactivity',
+  CompanyActivity: '/company-activity',
   Profile: '/profile',
   Login: '/login',
   Register: '/register',
   Internship: '/internship/:id',
   OnlineAssessment: '/online-assessment',
-  CompanyMatches: '/companymatches/:id',
-  NewJob: '/newjob',
+  CompanyMatches: '/company-matches/:id',
+  NewJob: '/new-job',
   ApplicantDetailPage: '/applicant-detail-page',
 });
 
