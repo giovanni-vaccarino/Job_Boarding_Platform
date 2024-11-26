@@ -19,7 +19,9 @@ export const InsertMultipleChoice = (props: InsertMultipleChoiceProps) => {
         flexDirection: 'column',
       }}
     >
-      <Typography>{props.titleMultipleChoice}</Typography>
+      <Typography sx={{ fontWeight: 'bold', mb: '0.5rem', ml: '0.5rem' }}>
+        {props.titleMultipleChoice}
+      </Typography>
       <Select
         required={props.isRequired}
         value={choice}
