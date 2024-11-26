@@ -17,7 +17,9 @@ export const InsertTextField = (props: InsertTextFieldProps) => {
         flexDirection: 'column',
       }}
     >
-      <Typography>{props.titleTextField}</Typography>
+      <Typography sx={{ fontWeight: 'bold', mb: '0.5rem', ml: '0.5rem' }}>
+        {props.titleTextField}
+      </Typography>
       <TextField
         required={props.isRequired}
         id={props.label}

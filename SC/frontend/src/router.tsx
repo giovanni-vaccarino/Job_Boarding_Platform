@@ -12,6 +12,7 @@ import { CompanyMatches } from './pages/CompanyMatches.tsx';
 import { CompanyActivity } from './pages/CompanyActivity.tsx';
 import { OnlineAssessment } from './pages/OnlineAssessment.tsx';
 import { ApplicantDetailPage } from './pages/ApplicantDetailPage.tsx';
+import { NewJobQuestion } from './pages/NewJobQuestion.tsx';
 import { CompanyJobDescription } from './pages/CompanyJobDescription.tsx';
 import { ReceivedApplication } from './pages/ReceivedApplications.tsx';
 
@@ -29,6 +30,7 @@ export const AppRoutes = Object.freeze({
   Internship: '/internship/:id',
   ReceivedApplication: '/received-application',
   OnlineAssessment: '/online-assessment',
+  NewJobQuestion: '/new-job-question',
   CompanyMatches: '/company-matches/:id',
   NewJob: '/new-job',
   ApplicantDetailPage: '/applicant-detail-page',
@@ -84,6 +86,10 @@ export const useAppRouter = () => {
       {
         path: AppRoutes.NewJob,
         element: <NewJob />,
+      },
+      {
+        path: AppRoutes.NewJobQuestion,
+        element: <NewJobQuestion />,
       },
       {
         path: AppRoutes.CompanyActivity,

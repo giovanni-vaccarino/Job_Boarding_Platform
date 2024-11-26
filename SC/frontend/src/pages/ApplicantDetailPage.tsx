@@ -8,7 +8,7 @@ export interface ApplicantDetailPageProps {
   nameApplicant: string;
 }
 
-export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
+export const ApplicantDetailPage =   (props: ApplicantDetailPageProps) => {
   const feedbackMockUp = [
     { feedbackText: 'Great attention to detail.', rating: 5 },
     { feedbackText: 'Needs improvement in communication.', rating: 3 },
@@ -64,15 +64,17 @@ export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
             </Box>
           ))}
         </Box>
-        <Box sx = {{
-          alignSelf : 'center',
-          display : 'flex',
-          flexDirection : 'row',
-          marginTop : '5%',
-          alignItems : 'center',
-          marginBottom : '5%'
-        }}>
-          <Stack spacing={2} direction="row"  >
+        <Box
+          sx={{
+            alignSelf: 'center',
+            display: 'flex',
+            flexDirection: 'row',
+            marginTop: '5%',
+            alignItems: 'center',
+            marginBottom: '5%',
+          }}
+        >
+          <Stack spacing={2} direction="row">
             <Button variant="contained">Invite</Button>
           </Stack>
         </Box>

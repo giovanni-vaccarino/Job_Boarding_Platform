@@ -2,11 +2,21 @@ import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
+import { RegisterInput, TypeProfile } from '../models/auth/register.ts';
+import { appActions, useAppDispatch } from '../core/store';
+import { AppRoutes } from '../router.tsx';
+import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
+import { useService } from '../core/ioc/ioc-provider.tsx';
+import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
+import { ServiceType } from '../core/ioc/service-type.ts';
 
 export const Register = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const navigate = useNavigateWrapper();
+  const authApi = useService<IAuthApi>(ServiceType.AuthApi);
+  const dispatch = useAppDispatch();
 
   return (
     <Page>
@@ -97,6 +107,21 @@ export const Register = () => {
             marginTop: 2,
             marginBottom: 2,
           }}
+          onClick={async () => {
+          const registrationInput: RegisterInput = {
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+            profile: TypeProfile.Student,
+          };
+          console.log(email);
+          const res = await authApi.register(registrationInput);
+
+          console.log(res);
+
+          dispatch(appActions.auth.successLogin(res));
+          navigate(AppRoutes.Profile);
+        }}
         >
           Register
         </Button>

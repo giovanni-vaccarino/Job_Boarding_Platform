@@ -7,5 +7,9 @@ export interface RegisterInput {
   email: string;
   password: string;
   confirmPassword: string;
-  profile: string;
+  profile: TypeProfile;
+}
+
+export enum TypeProfile{
+  Company, Student
 }

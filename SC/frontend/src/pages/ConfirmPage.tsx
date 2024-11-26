@@ -4,7 +4,6 @@ import { Box, Button } from '@mui/material';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../router.tsx';
 
-//TODO add confirmMessage var to make it more general
 export const ConfirmPage = () => {
   const confirmMessage: string = 'Application sent successfully';
   const navigate = useNavigateWrapper();
@@ -29,7 +28,7 @@ export const ConfirmPage = () => {
           }}
         >
           <Button
-            onClick={() => navigate(AppRoutes.Matches)}
+            onClick={() => navigate(AppRoutes.Home)}
             variant="contained"
             color="primary"
             sx={{
