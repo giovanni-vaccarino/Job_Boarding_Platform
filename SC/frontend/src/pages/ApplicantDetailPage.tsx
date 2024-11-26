@@ -1,6 +1,6 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button, Stack } from '@mui/material';
 import { RowComponent } from '../components/profileComponents/RowComponent.tsx';
 import { ViewFeedback } from '../components/applicantDetailPage/ViewFeedback.tsx';
 
@@ -21,7 +21,7 @@ export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          width: '1400px',
+          width: '90%',
           alignItems: 'flex-start',
           justifyContent: 'flex-start',
         }}
@@ -46,7 +46,7 @@ export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 6, // Added spacing between feedback items
+            gap: 6,
           }}
         >
           <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
@@ -63,6 +63,18 @@ export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
               />
             </Box>
           ))}
+        </Box>
+        <Box sx = {{
+          alignSelf : 'center',
+          display : 'flex',
+          flexDirection : 'row',
+          marginTop : '5%',
+          alignItems : 'center',
+          marginBottom : '5%'
+        }}>
+          <Stack spacing={2} direction="row"  >
+            <Button variant="contained">Invite</Button>
+          </Stack>
         </Box>
       </Box>
     </Page>
