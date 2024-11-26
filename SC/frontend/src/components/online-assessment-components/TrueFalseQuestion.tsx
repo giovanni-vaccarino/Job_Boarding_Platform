@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Select, SelectChangeEvent, Box, MenuItem } from '@mui/material/';
+import { Select, Box, MenuItem } from '@mui/material/';
 import { Typography } from '@mui/material';
 
 export const TrueFalseQuestion = () => {
@@ -9,18 +9,22 @@ export const TrueFalseQuestion = () => {
     setChecked(event.target.value);
   };
 
-  // @ts-ignore
   return (
     <Box sx={{ width: 'auto', display: 'flex', flexDirection: 'column' }}>
       <Typography sx={{ fontSize: '1.3rem', fontWeight: 'bold' }}>
         Insert your answer
       </Typography>
-      <Select id="Answer" value={checked} onChange={handleChange}>
+      <Select
+        variant="outlined"
+        id="Answer"
+        value={checked}
+        onChange={handleChange}
+      >
         <MenuItem value="" disabled>
           Select an option
         </MenuItem>
-        <MenuItem value={true}>True</MenuItem>
-        <MenuItem value={false}>False</MenuItem>
+        <MenuItem>True</MenuItem>
+        <MenuItem>False</MenuItem>
       </Select>
     </Box>
   );

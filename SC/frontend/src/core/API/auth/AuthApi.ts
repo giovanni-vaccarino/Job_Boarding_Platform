@@ -11,14 +11,14 @@ import {
 export class AuthApi extends ApiBase implements IAuthApi {
   async login(input: LoginInput): Promise<LoginResponse> {
     return await this.httpClient.post<LoginInput, LoginResponse>(
-      '/authenticate/login',
+      '/authentication/login',
       input
     );
   }
 
   async register(input: RegisterInput): Promise<RegisterResponse> {
     return await this.httpClient.post<RegisterInput, RegisterResponse>(
-      '/authenticate/register',
+      '/authentication/register',
       input
     );
   }

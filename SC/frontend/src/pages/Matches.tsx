@@ -3,6 +3,7 @@ import { Page } from '../components/layout/Page.tsx';
 import { JobListItem } from '../components/list-items/JobListItem.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { ImportantJobListItem } from '../components/list-items/ImportantJobListItem.tsx';
+import { withAuth } from '../core/hoc/withAuth.tsx';
 
 const importantJobList = [
   {
@@ -46,7 +47,7 @@ const jobList = [
   },
 ];
 
-export const Matches = () => {
+export const Matches = withAuth(() => {
   return (
     <Page>
       {Object.keys(importantJobList).length > 0 && (
@@ -122,4 +123,4 @@ export const Matches = () => {
       </Box>
     </Page>
   );
-};
+});

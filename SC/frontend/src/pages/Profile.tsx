@@ -3,8 +3,6 @@ import { Box, Button, Typography } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { RowComponent } from '../components/profileComponents/RowComponent.tsx';
-//import PhotoCameraSharpIcon from '@mui/icons-material/PhotoCameraSharp';
-//import HorizontalRuleSharpIcon from '@mui/icons-material/HorizontalRuleSharp';
 
 export const Profile = () => {
   const [selectedSection, setSelectedSection] = useState<string>('profile');

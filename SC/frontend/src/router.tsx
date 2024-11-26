@@ -13,22 +13,26 @@ import { CompanyActivity } from './pages/CompanyActivity.tsx';
 import { OnlineAssessment } from './pages/OnlineAssessment.tsx';
 import { ApplicantDetailPage } from './pages/ApplicantDetailPage.tsx';
 import { NewJobQuestion } from './pages/NewJobQuestion.tsx';
+import { CompanyJobDescription } from './pages/CompanyJobDescription.tsx';
+import { ReceivedApplication } from './pages/ReceivedApplications.tsx';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
   Matches: '/matches',
   JobDescription: '/job-description',
+  CompanyJobDescription: '/company-job-description',
   ConfirmPage: '/confirm-page',
   Activity: '/activity',
-  CompanyActivity: '/companyactivity',
+  CompanyActivity: '/company-activity',
   Profile: '/profile',
   Login: '/login',
   Register: '/register',
   Internship: '/internship/:id',
+  ReceivedApplication: '/received-application',
   OnlineAssessment: '/online-assessment',
-  CompanyMatches: '/companymatches/:id',
-  NewJob: '/newjob',
   NewJobQuestion: '/new-job-question',
+  CompanyMatches: '/company-matches/:id',
+  NewJob: '/new-job',
   ApplicantDetailPage: '/applicant-detail-page',
 });
 
@@ -50,6 +54,10 @@ export const useAppRouter = () => {
       {
         path: AppRoutes.JobDescription,
         element: <JobDescription />,
+      },
+      {
+        path: AppRoutes.CompanyJobDescription,
+        element: <CompanyJobDescription />,
       },
       {
         path: AppRoutes.ConfirmPage,
@@ -90,6 +98,10 @@ export const useAppRouter = () => {
       {
         path: AppRoutes.ApplicantDetailPage,
         element: <ApplicantDetailPage nameApplicant={'mockname'} />,
+      },
+      {
+        path: AppRoutes.ReceivedApplication,
+        element: <ReceivedApplication />,
       },
     ],
     {
