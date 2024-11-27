@@ -1,3 +1,6 @@
-﻿namespace backend.Business.Company.AddJobCompany;
+﻿using backend.Service.Contracts.Company;
+using MediatR;
 
-public record AddJobCommand();
+namespace backend.Business.Company.AddJobCompany;
+
+public record AddJobCommand(AddJobCompanyDto Dto) : IRequest<string>;

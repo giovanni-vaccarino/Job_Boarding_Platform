@@ -1,3 +1,6 @@
-﻿namespace backend.Business.Company.GetMatchesCompany;
+﻿using backend.Service.Contracts.Company;
+using MediatR;
 
-public record GetMatchesCommand();
+namespace backend.Business.Company.GetMatchesCompany;
+
+public record GetMatchesCommand(): IRequest<List<ReturnMatchDto>>;

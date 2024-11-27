@@ -1,3 +1,6 @@
-﻿namespace backend.Business.Company.GetMatchingApplicant;
+﻿using backend.Service.Contracts.Company;
+using MediatR;
 
-public record GetMatchingApplicantCommand();
+namespace backend.Business.Company.GetMatchingApplicant;
+
+public record GetMatchingApplicantCommand() : IRequest<ReturnPersonDetailsMatchingDto>;

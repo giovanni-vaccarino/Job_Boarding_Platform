@@ -21,4 +21,7 @@ public class UpdateCompanyProfileDto
     [Url]
     [MaxLength(255)]
     public required string Linkedin{get;set;}
+    
+    [Required]
+    public required int Id { get; set; }
 }
