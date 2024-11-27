@@ -3,7 +3,7 @@ import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../router.tsx';
-import { useAppSelector } from '../core/store';
+import { appActions, useAppDispatch, useAppSelector } from '../core/store';
 
 export interface JobDescriptionProps {
   jobCategory: string;
@@ -26,10 +26,10 @@ const testProps: JobDescriptionProps = {
   skillsRequired: ['Python', 'Java'],
 };
 
-//TODO ADD PROPS WHEN CALLING THE FUNCTION
 export const JobDescription = () => {
   const isLogged = useAppSelector((s) => s.auth.loggedIn);
   const navigate = useNavigateWrapper();
+  const dispatch = useAppDispatch();
 
   return (
     <Page>
@@ -99,7 +99,14 @@ export const JobDescription = () => {
             variant="contained"
             color="primary"
             disabled={!isLogged}
-            onClick={() => navigate(AppRoutes.ConfirmPage)}
+            onClick={() => {
+              dispatch(
+                appActions.global.setConfirmMessage({
+                  newMessage: 'Application Sent Successfully',
+                })
+              );
+              navigate(AppRoutes.ConfirmPage);
+            }}
             sx={{
               textTransform: 'none',
               borderRadius: 2,

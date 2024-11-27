@@ -2,12 +2,11 @@
 import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
-import { Tabs } from '../../core/store/slices/tabs.ts';
+import { Tab } from '../../core/store/slices/global.ts';
 
 export const Header = () => {
   const navigate = useNavigateWrapper();
-  const tabState = useAppSelector((state) => state.tabs);
-  const activeTab = tabState.tabHomePage;
+  const activeTab = useAppSelector((state) => state.global.tabHomePage);
   const dispatch = useAppDispatch();
 
   return (
@@ -37,7 +36,7 @@ export const Header = () => {
           sx={{ fontWeight: 'bold', color: 'primary.main', cursor: 'pointer' }}
           onClick={() => {
             navigate(AppRoutes.Home);
-            dispatch(appActions.tabs.setHomePageTab({ newTab: Tabs.Offers }));
+            dispatch(appActions.global.setHomePageTab({ newTab: Tab.Offers }));
           }}
         >
           S&C
@@ -52,14 +51,16 @@ export const Header = () => {
           <Typography
             onClick={() => {
               navigate(AppRoutes.Home);
-              dispatch(appActions.tabs.setHomePageTab({ newTab: Tabs.Offers }));
+              dispatch(
+                appActions.global.setHomePageTab({ newTab: Tab.Offers })
+              );
             }}
             variant="body1"
             sx={{
               color: 'primary.main',
               cursor: 'pointer',
               fontSize: '1rem',
-              fontWeight: activeTab === Tabs.Offers ? 'bold' : 'normal',
+              fontWeight: activeTab === Tab.Offers ? 'bold' : 'normal',
             }}
           >
             Offers
@@ -68,7 +69,7 @@ export const Header = () => {
             onClick={() => {
               navigate(AppRoutes.Matches);
               dispatch(
-                appActions.tabs.setHomePageTab({ newTab: Tabs.Matches })
+                appActions.global.setHomePageTab({ newTab: Tab.Matches })
               );
             }}
             variant="body1"
@@ -76,7 +77,7 @@ export const Header = () => {
               color: 'primary.main',
               cursor: 'pointer',
               fontSize: '1rem',
-              fontWeight: activeTab === Tabs.Matches ? 'bold' : 'normal',
+              fontWeight: activeTab === Tab.Matches ? 'bold' : 'normal',
             }}
           >
             Matches
@@ -85,7 +86,7 @@ export const Header = () => {
             onClick={() => {
               navigate(AppRoutes.Activity);
               dispatch(
-                appActions.tabs.setHomePageTab({ newTab: Tabs.Activity })
+                appActions.global.setHomePageTab({ newTab: Tab.Activity })
               );
             }}
             variant="body1"
@@ -93,7 +94,7 @@ export const Header = () => {
               color: 'primary.main',
               cursor: 'pointer',
               fontSize: '1rem',
-              fontWeight: activeTab === Tabs.Activity ? 'bold' : 'normal',
+              fontWeight: activeTab === Tab.Activity ? 'bold' : 'normal',
             }}
           >
             Activity

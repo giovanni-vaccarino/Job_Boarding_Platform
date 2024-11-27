@@ -9,6 +9,8 @@ import {
   IconButton,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
+import { AppRoutes } from '../../router.tsx';
 
 export interface StudentsTableHeader {
   name: string;
@@ -21,6 +23,7 @@ export interface StudentsTableProps {
 
 export const StudentsTable = (props: StudentsTableProps) => {
   const { students = [] } = props;
+  const navigate = useNavigateWrapper();
 
   return (
     <TableContainer
@@ -115,7 +118,13 @@ export const StudentsTable = (props: StudentsTableProps) => {
                     paddingRight: '4.7%',
                   }}
                 >
-                  <IconButton color="primary" aria-label="view details">
+                  <IconButton
+                    color="primary"
+                    aria-label="view details"
+                    onClick={() => {
+                      navigate(AppRoutes.ApplicantDetailPage);
+                    }}
+                  >
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>

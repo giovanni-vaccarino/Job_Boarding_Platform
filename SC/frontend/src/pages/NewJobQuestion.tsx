@@ -7,9 +7,11 @@ import { InsertMultipleChoiceQuestion } from '../components/newJobComponents/que
 import { InsertTrueFalseQuestion } from '../components/newJobComponents/question/InsertTrueFalseQuestion.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../router.tsx';
+import { appActions, useAppDispatch } from '../core/store';
 
 export const NewJobQuestion = () => {
   const navigate = useNavigateWrapper();
+  const dispatch = useAppDispatch();
 
   const [selectedQuestionType, setSelectedQuestionType] = useState(''); // Track selected question type
   const [questions, setQuestions] = useState<any[]>([]); // Store added questions
@@ -109,7 +111,14 @@ export const NewJobQuestion = () => {
         }}
       >
         <Button
-          onClick={() => navigate(AppRoutes.ConfirmPage)} //TODO CHANGE MORE GENERAL ConfirmPage
+          onClick={() => {
+            dispatch(
+              appActions.global.setConfirmMessage({
+                newMessage: 'New Job Created',
+              })
+            );
+            navigate(AppRoutes.ConfirmPage);
+          }}
           sx={{
             backgroundColor: 'primary.main',
             color: '#FFFFFF',

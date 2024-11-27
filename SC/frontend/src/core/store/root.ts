@@ -12,7 +12,7 @@ import {
 } from 'redux-persist';
 
 import storage from 'redux-persist/lib/storage';
-import { tabsSlice } from './slices/tabs.ts'; // defaults to localStorage for web
+import { globalSlice } from './slices/global.ts'; // defaults to localStorage for web
 
 const persistConfig = {
   key: 'root-app-store',
@@ -22,7 +22,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   [authSlice.name]: authSlice.reducer,
-  [tabsSlice.name]: tabsSlice.reducer,
+  [globalSlice.name]: globalSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -39,7 +39,7 @@ const appStore = configureStore({
 
 const appActions = {
   [authSlice.name]: authSlice.actions,
-  [tabsSlice.name]: tabsSlice.actions,
+  [globalSlice.name]: globalSlice.actions,
 };
 
 const persistor = persistStore(appStore);

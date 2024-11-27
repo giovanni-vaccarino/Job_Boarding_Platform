@@ -21,14 +21,14 @@ export const ViewFeedback = (props: RowComponentProps) => {
           marginTop: '10px',
         }}
       >
-        <Typography sx={{ fontSize: '1.3rem', fontWeight: '500' }}>
+        <Typography sx={{ fontSize: '1.2rem', fontWeight: '500' }}>
           Describe the experience with the company
         </Typography>
         <Typography sx={{ fontSize: '1rem', fontWeight: '200' }}>
           {props.feedbackText}
         </Typography>
         <Typography
-          sx={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}
+          sx={{ fontSize: '1.2rem', fontWeight: 'bold', marginTop: '20px' }}
         >
           Rate of the candidate
         </Typography>

@@ -26,7 +26,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
           flex: '1',
         }}
       >
-        <Typography sx={{ fontSize: '1.3rem', fontWeight: '500' }}>
+        <Typography sx={{ fontSize: '1.2rem', fontWeight: '500' }}>
           {props.label}
         </Typography>
         {props.buttons.includes('edit') && (
