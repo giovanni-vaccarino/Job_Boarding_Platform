@@ -108,20 +108,20 @@ export const Register = () => {
             marginBottom: 2,
           }}
           onClick={async () => {
-          const registrationInput: RegisterInput = {
-            email: email,
-            password: password,
-            confirmPassword: confirmPassword,
-            profile: TypeProfile.Student,
-          };
-          console.log(email);
-          const res = await authApi.register(registrationInput);
+            const registrationInput: RegisterInput = {
+              email: email,
+              password: password,
+              confirmPassword: confirmPassword,
+              profile: TypeProfile.Student,
+            };
+            console.log(email);
+            const res = await authApi.register(registrationInput);
 
-          console.log(res);
+            console.log(res);
 
-          dispatch(appActions.auth.successLogin(res));
-          navigate(AppRoutes.Profile);
-        }}
+            dispatch(appActions.auth.successLogin(res));
+            navigate(AppRoutes.Profile);
+          }}
         >
           Register
         </Button>
