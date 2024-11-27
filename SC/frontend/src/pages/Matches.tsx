@@ -1,126 +1,21 @@
-﻿import { Box, Stack, Typography } from '@mui/material';
-import { Page } from '../components/layout/Page.tsx';
-import { JobListItem } from '../components/list-items/JobListItem.tsx';
-import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
+import { CompanyMatches } from '../components/matches/CompanyMatches.tsx';
+import { StudentMatches } from '../components/matches/StudentMatches.tsx';
+import { useAppSelector } from '../core/store';
+import { TypeProfile } from '../models/auth/register.ts';
 import { withAuth } from '../core/hoc/withAuth.tsx';
-
-const importantJobList = [
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: '2 weeks ago',
-  },
-];
-
-const jobList = [
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: '2 weeks ago',
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: '2 weeks ago',
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: '2 weeks ago',
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: '2 weeks ago',
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: '2 weeks ago',
-  },
-];
+import { Page } from '../components/layout/Page.tsx';
 
 export const Matches = withAuth(() => {
+  const authState = useAppSelector((state) => state.auth);
+  const profileType = authState.profileType;
+
   return (
     <Page>
-      {Object.keys(importantJobList).length > 0 && (
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            mb: '3rem',
-          }}
-        >
-          <TitleHeader title={'Invites'} />
-
-          <Stack
-            direction="column"
-            spacing={2}
-            sx={{
-              width: '100%',
-              mt: '3rem',
-              alignItems: 'center',
-            }}
-          >
-            {importantJobList.map((job, index) => (
-              <JobListItem
-                key={index}
-                companyName={job.companyName}
-                jobTitle={job.jobTitle}
-                location={job.location}
-                datePosted={job.datePosted}
-                important={true}
-              />
-            ))}
-          </Stack>
-        </Box>
+      {profileType === TypeProfile.Student ? (
+        <StudentMatches />
+      ) : (
+        <CompanyMatches />
       )}
-
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          mb: '1rem',
-        }}
-      >
-        <TitleHeader title="Jobs for you" />
-
-        <Stack
-          direction="column"
-          spacing={2}
-          sx={{
-            width: '100%',
-            mt: '3rem',
-            alignItems: 'center',
-          }}
-        >
-          {jobList.length > 0 ? (
-            jobList.map((job, index) => (
-              <JobListItem
-                key={index}
-                companyName={job.companyName}
-                jobTitle={job.jobTitle}
-                location={job.location}
-                datePosted={job.datePosted}
-              />
-            ))
-          ) : (
-            <Typography sx={{ fontStyle: 'italic' }}>NO DATA</Typography>
-          )}
-        </Stack>
-      </Box>
     </Page>
   );
 });

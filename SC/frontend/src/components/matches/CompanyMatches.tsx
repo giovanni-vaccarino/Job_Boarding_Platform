@@ -1,7 +1,6 @@
-import { Page } from '../components/layout/Page.tsx';
-import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
+import { TitleHeader } from '../page-headers/TitleHeader.tsx';
 import { Box, Typography } from '@mui/material';
-import { StudentsTable } from '../components/tables/StudentsTable.tsx';
+import { StudentsTable } from '../tables/StudentsTable.tsx';
 
 const exampleData = [
   { name: 'John Doe', suggestedJob: 'Software Engineer' },
@@ -13,7 +12,7 @@ const exampleData = [
 
 export const CompanyMatches = () => {
   return (
-    <Page>
+    <>
       <TitleHeader title={'Matches'} />
       <Box sx={{ width: '90%', margin: '0 auto', marginTop: '1rem' }}>
         {exampleData.length > 0 ? (
@@ -26,6 +25,6 @@ export const CompanyMatches = () => {
           </Typography>
         )}
       </Box>
-    </Page>
+    </>
   );
 };

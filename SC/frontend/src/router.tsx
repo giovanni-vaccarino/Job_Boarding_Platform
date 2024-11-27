@@ -1,19 +1,18 @@
 ﻿import { createBrowserRouter } from 'react-router-dom';
 import { Home } from './pages/Home.tsx';
-import { Matches } from './pages/Matches.tsx';
 import { Profile } from './pages/Profile.tsx';
 import { Login } from './pages/Login.tsx';
 import { Register } from './pages/Register.tsx';
 import { JobDescription } from './pages/JobDescription.tsx';
 import { ConfirmPage } from './pages/ConfirmPage.tsx';
 import { NewJob } from './pages/NewJob.tsx';
-import { CompanyMatches } from './pages/CompanyMatches.tsx';
 import { OnlineAssessment } from './pages/OnlineAssessment.tsx';
 import { ApplicantDetailPage } from './pages/ApplicantDetailPage.tsx';
 import { NewJobQuestion } from './pages/NewJobQuestion.tsx';
 import { CompanyJobDescription } from './pages/CompanyJobDescription.tsx';
 import { ReceivedApplication } from './pages/ReceivedApplications.tsx';
 import { Activity } from './pages/Activity.tsx';
+import { Matches } from './pages/Matches.tsx';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
@@ -29,7 +28,6 @@ export const AppRoutes = Object.freeze({
   ReceivedApplication: '/received-application',
   OnlineAssessment: '/online-assessment',
   NewJobQuestion: '/new-job-question',
-  CompanyMatches: '/company-matches/:id',
   NewJob: '/new-job',
   ApplicantDetailPage: '/applicant-detail-page',
 });
@@ -76,10 +74,6 @@ export const useAppRouter = () => {
       {
         path: AppRoutes.OnlineAssessment,
         element: <OnlineAssessment />,
-      },
-      {
-        path: AppRoutes.CompanyMatches,
-        element: <CompanyMatches />,
       },
       {
         path: AppRoutes.NewJob,
