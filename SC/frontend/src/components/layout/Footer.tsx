@@ -20,7 +20,7 @@ export const Footer = () => (
         letterSpacing: '0.1em',
       }}
     >
-      SOFTWARE ENGINEERING 2 - Politecnico di Milano
+      ©2024 SC Platform. All Rights Reserved.
     </Typography>
   </Box>
 );

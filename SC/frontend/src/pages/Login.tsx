@@ -9,6 +9,7 @@ import { ServiceType } from '../core/ioc/service-type.ts';
 import { LoginInput } from '../models/auth/login.ts';
 import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
+import { TypeProfile } from '../models/auth/register.ts';
 
 export const Login = () => {
   const [email, setEmail] = useState<string>('');
@@ -86,6 +87,9 @@ export const Login = () => {
             console.log(res);
 
             dispatch(appActions.auth.successLogin(res));
+            dispatch(
+              appActions.auth.setProfileType({ type: TypeProfile.Company })
+            ); // TODO change this to the actual profile type
             navigate(AppRoutes.Profile);
           }}
           sx={{
