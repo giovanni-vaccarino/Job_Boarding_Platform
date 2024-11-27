@@ -9,13 +9,11 @@ namespace backend.Business.Company.UpdateCompanyProfile;
 
 public class UpdateCompanyProfileUseCase : IRequestHandler<UpdateProfileCommand, string>
 {
-    private readonly SecurityContext _securityContext;
     private readonly ILogger<LoginUseCase> _logger;
     private readonly AppDbContext _dbContext;
     
-    public UpdateCompanyProfileUseCase(SecurityContext securityContext, AppDbContext dbContext, ILogger<LoginUseCase> logger)
+    public UpdateCompanyProfileUseCase(AppDbContext dbContext, ILogger<LoginUseCase> logger)
     {
-        _securityContext = securityContext;
         _logger = logger;
         _dbContext = dbContext;
     }
