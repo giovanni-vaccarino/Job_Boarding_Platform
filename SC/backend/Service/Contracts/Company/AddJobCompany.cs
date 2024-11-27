@@ -22,7 +22,6 @@ public class AddJobCompany
     public required string JobDescription { get; set; }
     
     
-    //TODO : Add JobCategory and JobType to the database
     [Required]
     [MaxLength(255)]
     public JobCategory JobCategory { get; set; }
