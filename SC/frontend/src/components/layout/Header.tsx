@@ -83,7 +83,7 @@ export const Header = () => {
           </Typography>
           <Typography
             onClick={() => {
-              navigate(AppRoutes.CompanyActivity);
+              navigate(AppRoutes.Activity);
               dispatch(
                 appActions.tabs.setHomePageTab({ newTab: Tabs.Activity })
               );

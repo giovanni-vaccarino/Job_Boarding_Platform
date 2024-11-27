@@ -1,7 +1,6 @@
-import { Page } from '../components/layout/Page.tsx';
-import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
+import { TitleHeader } from '../page-headers/TitleHeader.tsx';
 import { Box, Typography } from '@mui/material';
-import { CompanyJobsTable } from '../components/tables/CompanyJobsTable.tsx';
+import { CompanyJobsTable } from '../tables/CompanyJobsTable.tsx';
 
 const exampleData = [
   {
@@ -26,7 +25,7 @@ const exampleData = [
 
 export const CompanyActivity = () => {
   return (
-    <Page>
+    <>
       <TitleHeader title={'Jobs List'} />
       <Box sx={{ display: 'flex', justifyContent: 'right', width: '80%' }}>
         <Typography
@@ -54,9 +53,11 @@ export const CompanyActivity = () => {
         {exampleData.length > 0 ? (
           <CompanyJobsTable jobs={exampleData} />
         ) : (
-          <Typography sx={{ fontStyle: 'italic' }}>NO DATA</Typography>
+          <Typography sx={{ fontStyle: 'italic' }}>
+            THERE IS NO JOB AVAILABLE
+          </Typography>
         )}
       </Box>
-    </Page>
+    </>
   );
 };
