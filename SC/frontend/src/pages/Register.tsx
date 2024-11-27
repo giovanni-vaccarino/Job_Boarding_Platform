@@ -152,11 +152,11 @@ export const Register = () => {
             console.log(email);
             const res = await authApi.register(registrationInput);
 
-            console.log(res);
+          console.log(res);
 
-            dispatch(appActions.auth.successLogin(res));
-            navigate(AppRoutes.Profile);
-          }}
+          dispatch(appActions.auth.successLogin(res));
+          navigate(AppRoutes.Profile);
+        }}
         >
           Register
         </Button>

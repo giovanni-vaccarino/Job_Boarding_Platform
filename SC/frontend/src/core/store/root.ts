@@ -11,7 +11,8 @@ import {
   REHYDRATE,
 } from 'redux-persist';
 
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import storage from 'redux-persist/lib/storage';
+import { tabsSlice } from './slices/tabs.ts'; // defaults to localStorage for web
 
 const persistConfig = {
   key: 'root-app-store',
@@ -21,6 +22,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   [authSlice.name]: authSlice.reducer,
+  [tabsSlice.name]: tabsSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -37,6 +39,7 @@ const appStore = configureStore({
 
 const appActions = {
   [authSlice.name]: authSlice.actions,
+  [tabsSlice.name]: tabsSlice.actions,
 };
 
 const persistor = persistStore(appStore);

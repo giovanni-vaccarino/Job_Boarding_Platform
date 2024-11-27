@@ -68,30 +68,6 @@ export const Home = () => {
           >
             Posted Date
           </Button>
-
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: 'rgba(236, 241, 236, 1)',
-              color: 'rgba(0, 0, 0, 0.6)',
-              borderRadius: '7px',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              padding: '0.5rem 0.8rem',
-              minWidth: '1rem',
-              '&:hover': {
-                backgroundColor: 'rgba(220, 230, 220, 1)',
-                boxShadow: 'none',
-              },
-            }}
-            endIcon={
-              <span style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: '12px' }}>
-                ▼
-              </span>
-            }
-          >
-            Location
-          </Button>
         </Box>
 
         {jobList.length > 0 ? (

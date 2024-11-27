@@ -1,11 +1,15 @@
 ﻿import { AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
 import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
-//import { useAppSelector } from '../../core/store';
+import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
+import { Tabs } from '../../core/store/slices/tabs.ts';
 
 export const Header = () => {
   const navigate = useNavigateWrapper();
-  // const state = useAppSelector(state => state.auth);*/
+  const tabState = useAppSelector((state) => state.tabs);
+  const activeTab = tabState.tabHomePage;
+  const dispatch = useAppDispatch();
+
   return (
     <AppBar
       position="static"
@@ -31,7 +35,10 @@ export const Header = () => {
         <Typography
           variant="h4"
           sx={{ fontWeight: 'bold', color: 'primary.main', cursor: 'pointer' }}
-          onClick={() => navigate(AppRoutes.Home)}
+          onClick={() => {
+            navigate(AppRoutes.Home);
+            dispatch(appActions.tabs.setHomePageTab({ newTab: Tabs.Offers }));
+          }}
         >
           S&C
         </Typography>
@@ -43,34 +50,50 @@ export const Header = () => {
           }}
         >
           <Typography
-            onClick={() => navigate(AppRoutes.Home)}
+            onClick={() => {
+              navigate(AppRoutes.Home);
+              dispatch(appActions.tabs.setHomePageTab({ newTab: Tabs.Offers }));
+            }}
             variant="body1"
             sx={{
               color: 'primary.main',
               cursor: 'pointer',
               fontSize: '1rem',
+              fontWeight: activeTab === Tabs.Offers ? 'bold' : 'normal',
             }}
           >
             Offers
           </Typography>
           <Typography
-            onClick={() => navigate(AppRoutes.Matches)}
+            onClick={() => {
+              navigate(AppRoutes.Matches);
+              dispatch(
+                appActions.tabs.setHomePageTab({ newTab: Tabs.Matches })
+              );
+            }}
             variant="body1"
             sx={{
               color: 'primary.main',
               cursor: 'pointer',
               fontSize: '1rem',
+              fontWeight: activeTab === Tabs.Matches ? 'bold' : 'normal',
             }}
           >
             Matches
           </Typography>
           <Typography
-            onClick={() => navigate(AppRoutes.CompanyActivity)}
+            onClick={() => {
+              navigate(AppRoutes.CompanyActivity);
+              dispatch(
+                appActions.tabs.setHomePageTab({ newTab: Tabs.Activity })
+              );
+            }}
             variant="body1"
             sx={{
               color: 'primary.main',
               cursor: 'pointer',
               fontSize: '1rem',
+              fontWeight: activeTab === Tabs.Activity ? 'bold' : 'normal',
             }}
           >
             Activity
