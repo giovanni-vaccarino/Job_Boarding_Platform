@@ -9,6 +9,7 @@ export interface JobListItemProps {
   jobTitle: string;
   location: string;
   datePosted: string;
+  important?: boolean;
 }
 
 export const JobListItem = (props: JobListItemProps) => {
@@ -50,10 +51,9 @@ export const JobListItem = (props: JobListItemProps) => {
 
       <Button
         variant="contained"
-        //onClick={() => navigate(AppRoutes.JobDescription)}
-        onClick={() => navigate(AppRoutes.CompanyJobDescription)}
+        onClick={() => navigate(AppRoutes.JobDescription)}
         sx={{
-          backgroundColor: 'primary.main',
+          backgroundColor: props.important ? 'red' : 'primary.main',
           color: 'white',
           textTransform: 'none',
           px: '2rem',

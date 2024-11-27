@@ -2,7 +2,6 @@
 import { Page } from '../components/layout/Page.tsx';
 import { JobListItem } from '../components/list-items/JobListItem.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { ImportantJobListItem } from '../components/list-items/ImportantJobListItem.tsx';
 import { withAuth } from '../core/hoc/withAuth.tsx';
 
 const importantJobList = [
@@ -73,12 +72,13 @@ export const Matches = withAuth(() => {
             }}
           >
             {importantJobList.map((job, index) => (
-              <ImportantJobListItem
+              <JobListItem
                 key={index}
                 companyName={job.companyName}
                 jobTitle={job.jobTitle}
                 location={job.location}
                 datePosted={job.datePosted}
+                important={true}
               />
             ))}
           </Stack>

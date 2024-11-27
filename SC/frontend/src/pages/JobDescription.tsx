@@ -3,6 +3,7 @@ import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../router.tsx';
+import { useAppSelector } from '../core/store';
 
 export interface JobDescriptionProps {
   jobCategory: string;
@@ -14,20 +15,21 @@ export interface JobDescriptionProps {
   skillsRequired: string[];
 }
 
+const testProps: JobDescriptionProps = {
+  jobCategory: 'Technology',
+  jobType: 'Full Time',
+  location: 'London',
+  postCreated: new Date('2022-08-01'),
+  applicationDeadline: new Date('2022-08-12'),
+  jobDescription: `We are searching for a software developer to build web applications for our company. In this role, you will design and create projects using Laravel framework and PHP, and assist the team in delivering high-quality web applications, services, and tools for our business.
+    To ensure success as a Laravel developer you should be adept at utilizing Laravel's GUI and be able to design a PHP application from start to finish. A top-notch Laravel developer will be able to leverage their expertise and experience of the framework to independently produce complete solutions in a short turnaround time.`,
+  skillsRequired: ['Python', 'Java'],
+};
+
 //TODO ADD PROPS WHEN CALLING THE FUNCTION
 export const JobDescription = () => {
+  const isLogged = useAppSelector((s) => s.auth.loggedIn);
   const navigate = useNavigateWrapper();
-
-  const testProps: JobDescriptionProps = {
-    jobCategory: 'Technology',
-    jobType: 'Full Time',
-    location: 'London',
-    postCreated: new Date('2022-08-01'),
-    applicationDeadline: new Date('2022-08-12'),
-    jobDescription: `We are searching for a software developer to build web applications for our company. In this role, you will design and create projects using Laravel framework and PHP, and assist the team in delivering high-quality web applications, services, and tools for our business.
-    To ensure success as a Laravel developer you should be adept at utilizing Laravel's GUI and be able to design a PHP application from start to finish. A top-notch Laravel developer will be able to leverage their expertise and experience of the framework to independently produce complete solutions in a short turnaround time.`,
-    skillsRequired: ['Python', 'Java'],
-  };
 
   return (
     <Page>
@@ -96,6 +98,7 @@ export const JobDescription = () => {
           <Button
             variant="contained"
             color="primary"
+            disabled={!isLogged}
             onClick={() => navigate(AppRoutes.ConfirmPage)}
             sx={{
               textTransform: 'none',
