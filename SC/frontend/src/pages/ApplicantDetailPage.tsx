@@ -8,7 +8,7 @@ export interface ApplicantDetailPageProps {
   nameApplicant: string;
 }
 
-export const ApplicantDetailPage =   (props: ApplicantDetailPageProps) => {
+export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
   const feedbackMockUp = [
     { feedbackText: 'Great attention to detail.', rating: 5 },
     { feedbackText: 'Needs improvement in communication.', rating: 3 },

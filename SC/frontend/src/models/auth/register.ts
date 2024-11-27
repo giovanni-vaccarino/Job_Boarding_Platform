@@ -10,6 +10,7 @@ export interface RegisterInput {
   profile: TypeProfile;
 }
 
-export enum TypeProfile{
-  Company, Student
+export enum TypeProfile {
+  Company,
+  Student,
 }
