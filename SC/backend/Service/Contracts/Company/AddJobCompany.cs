@@ -21,7 +21,6 @@ public class AddJobCompany
     [MaxLength(255)]
     public required string JobDescription { get; set; }
     
-    
     [Required]
     [MaxLength(255)]
     public JobCategory JobCategory { get; set; }
