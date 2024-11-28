@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 export const HomePageHeader = () => {
   const dispatch = useAppDispatch();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   return (
     <Box

@@ -8,7 +8,7 @@ export interface JobListItemProps {
   companyName: string;
   jobTitle: string;
   location: string;
-  datePosted: string;
+  datePosted: Date;
   important?: boolean;
 }
 
@@ -45,7 +45,9 @@ export const JobListItem = (props: JobListItemProps) => {
           <Typography variant="body2">{props.location}</Typography>
 
           <TimelineIcon fontSize="small" sx={{ ml: 2, mr: 0.5 }} />
-          <Typography variant="body2">Posted {props.datePosted}</Typography>
+          <Typography variant="body2">
+            Posted {props.datePosted.toLocaleDateString()}
+          </Typography>
         </Box>
       </Box>
 
