@@ -27,5 +27,12 @@ public class AppDbContext : DbContext
             .WithOne(c => c.User)
             .HasForeignKey<Company>(c => c.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<Company>()
+            .HasMany(c => c.Internships)
+            .WithOne(i => i.Company)
+            .HasForeignKey(c => c.CompanyId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
     }
 }

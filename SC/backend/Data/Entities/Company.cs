@@ -13,6 +13,13 @@ public class Company : EntityBase
     
     [ForeignKey("UserId")]
     public required int UserId { get; set; }
+
+    public List<Internship>? Internships { get; set; } = null!;
     
+    [MaxLength(32)]
+    public required string CompanyWebsite { get; set; }
+   
+    [MaxLength(32)]
+    public required string CompanyLinkedin { get; set; }
     public User User { get; set; } = null!;
 }

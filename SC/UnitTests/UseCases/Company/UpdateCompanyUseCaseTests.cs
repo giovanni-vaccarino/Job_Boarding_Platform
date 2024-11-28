@@ -21,11 +21,13 @@ public class UpdateCompanyUseCaseTests
     [Fact(DisplayName = "Successfully update company profile")]
     public async Task Should_Update_Successfully()
     {
-        var existingCompany = new backend.Data.Entities.Company()
+        var existingCompany = new backend.Data.Entities.Company
         {
             Name = "Test Company",
             VatNumber = "12345678910",
-            UserId = 1
+            UserId = 1,
+            CompanyWebsite = "www.testcompany.com",
+            CompanyLinkedin = "www.linkedin.com/testcompany",
         };
         _dbContext.Companies.Add(existingCompany);
         await _dbContext.SaveChangesAsync();

@@ -1,4 +1,5 @@
 ﻿using backend.Business.Company.AddJobCompany;
+using backend.Business.Company.GetCompanyDetail;
 using backend.Business.Company.GetJobsCompany;
 using backend.Business.Company.UpdateCompanyProfile;
 using backend.Service.Contracts.Company;
@@ -17,6 +18,14 @@ public class CompanyController : ControllerBase
     public CompanyController(ISender mediator)
     {
         _mediator = mediator;
+    }
+
+    [HttpGet("profile")]
+    public async Task<IActionResult> GetProfile([FromQuery] string Id)
+    {
+        var response = await _mediator.Send(new GetCompanyDetailQuery(Id));
+
+        return Ok(response);
     }
     
     [HttpPost("update-profile")]
