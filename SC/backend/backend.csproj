@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Service\Contracts\Internship\" />
     <Folder Include="Service\Middlewares\" />
     <Folder Include="Service\Profiles\" />
     <Folder Include="Shared\EmailService\" />

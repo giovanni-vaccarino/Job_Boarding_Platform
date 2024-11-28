@@ -9,4 +9,5 @@ public class ApplicantDetailsToEvaluateDto
     
     [Required]
     public List<QuestionDto> questions { get; set; }
+    
 }
