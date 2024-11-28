@@ -1,7 +1,12 @@
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import home_background from '../../assets/home_background.png';
+import { appActions, useAppDispatch } from '../../core/store';
+import { useState } from 'react';
 
 export const HomePageHeader = () => {
+  const dispatch = useAppDispatch();
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <Box
       sx={{
@@ -74,9 +79,17 @@ export const HomePageHeader = () => {
               borderRadius: '4px',
               maxWidth: '30rem',
             }}
+            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
           />
           <Button
             variant="contained"
+            onClick={() =>
+              dispatch(
+                appActions.global.setSearchMessage({
+                  newSearchMessage: searchTerm,
+                })
+              )
+            }
             sx={{
               marginLeft: '-1rem',
               backgroundColor: 'primary.main',

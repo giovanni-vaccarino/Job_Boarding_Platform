@@ -10,11 +10,13 @@ export enum Tab {
 interface GlobalState {
   tabHomePage: Tab;
   confirmMessage: string;
+  searchMessage: string;
 }
 
 const initialState: GlobalState = {
   tabHomePage: Tab.Offers,
   confirmMessage: '',
+  searchMessage: '',
 };
 
 export interface TabHomePageInput {
@@ -22,6 +24,10 @@ export interface TabHomePageInput {
 }
 export interface ConfirmMessageInput {
   newMessage: string;
+}
+
+export interface SearchMessageInput {
+  newSearchMessage: string;
 }
 
 export const globalSlice = createSlice({
@@ -33,6 +39,9 @@ export const globalSlice = createSlice({
     },
     setConfirmMessage: (state, action: PayloadAction<ConfirmMessageInput>) => {
       state.confirmMessage = action.payload.newMessage;
+    },
+    setSearchMessage: (state, action: PayloadAction<SearchMessageInput>) => {
+      state.searchMessage = action.payload.newSearchMessage;
     },
   },
 });

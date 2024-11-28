@@ -2,10 +2,11 @@ import { Page } from '../components/layout/Page.tsx';
 import { HomePageHeader } from '../components/page-headers/HomePageHeader.tsx';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { JobListItem } from '../components/list-items/JobListItem.tsx';
+import { useAppSelector } from '../core/store';
 
 const jobList = [
   {
-    companyName: 'Amazon',
+    companyName: 'Google',
     jobTitle: 'Software Engineer',
     location: 'Chicago',
     datePosted: '2 weeks ago',
@@ -25,6 +26,14 @@ const jobList = [
 ];
 
 export const Home = () => {
+  const searchMessage = useAppSelector((s) => s.global.searchMessage);
+  const filteredJobs = jobList.filter(
+    (job) =>
+      job.companyName.toLowerCase().includes(searchMessage) ||
+      job.jobTitle.toLowerCase().includes(searchMessage) ||
+      job.location.toLowerCase().includes(searchMessage)
+  );
+
   return (
     <Page>
       <HomePageHeader />
@@ -70,8 +79,8 @@ export const Home = () => {
           </Button>
         </Box>
 
-        {jobList.length > 0 ? (
-          jobList.map((job, index) => (
+        {filteredJobs.length > 0 ? (
+          filteredJobs.map((job, index) => (
             <JobListItem
               key={index}
               companyName={job.companyName}
@@ -81,7 +90,9 @@ export const Home = () => {
             />
           ))
         ) : (
-          <Typography sx={{ fontStyle: 'italic' }}>NO DATA</Typography>
+          <Typography sx={{ fontStyle: 'italic' }}>
+            No matching jobs found
+          </Typography>
         )}
       </Stack>
     </Page>
