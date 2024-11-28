@@ -13,6 +13,8 @@ import { CompanyJobDescription } from './pages/CompanyJobDescription.tsx';
 import { ReceivedApplication } from './pages/ReceivedApplications.tsx';
 import { Activity } from './pages/Activity.tsx';
 import { Matches } from './pages/Matches.tsx';
+import { ForgotPasswordSetEmail } from './pages/ForgotPasswordSetEmail.tsx';
+import { ForgotPasswordSetPassword } from './pages/ForgotPasswordSetPassword.tsx';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
@@ -23,6 +25,8 @@ export const AppRoutes = Object.freeze({
   Activity: '/activity',
   Profile: '/profile',
   Login: '/login',
+  ForgotPasswordSetPassword: '/forgot-password-set-password',
+  ForgotPasswordSetEmail: '/forgot-password-set-email',
   Register: '/register',
   Internship: '/internship/:id',
   ReceivedApplication: '/received-application',
@@ -66,6 +70,14 @@ export const useAppRouter = () => {
       {
         path: AppRoutes.Login,
         element: <Login />,
+      },
+      {
+        path: AppRoutes.ForgotPasswordSetEmail,
+        element: <ForgotPasswordSetEmail />,
+      },
+      {
+        path: AppRoutes.ForgotPasswordSetPassword,
+        element: <ForgotPasswordSetPassword />,
       },
       {
         path: AppRoutes.Register,

@@ -120,6 +120,7 @@ export const Login = () => {
           </Typography>
           <Typography
             variant="body2"
+            onClick={() => navigate(AppRoutes.ForgotPasswordSetEmail)}
             sx={{
               fontSize: '0.9rem',
               color: 'primary.main',

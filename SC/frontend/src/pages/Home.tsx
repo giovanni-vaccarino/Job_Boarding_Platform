@@ -1,12 +1,6 @@
 import { Page } from '../components/layout/Page.tsx';
 import { HomePageHeader } from '../components/page-headers/HomePageHeader.tsx';
-import {
-  Box,
-  MenuItem,
-  Select,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, MenuItem, Select, Stack, Typography } from '@mui/material';
 import { JobListItem } from '../components/list-items/JobListItem.tsx';
 import { useAppSelector } from '../core/store';
 import * as React from 'react';

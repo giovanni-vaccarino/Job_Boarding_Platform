@@ -3,11 +3,14 @@ import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Box, Button } from '@mui/material';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../router.tsx';
-import { useAppSelector } from '../core/store';
+import { appActions, useAppDispatch, useAppSelector } from '../core/store';
+import { Tab } from '../core/store/slices/global.ts';
 
 export const ConfirmPage = () => {
   const confirmMessage = useAppSelector((s) => s.global.confirmMessage);
   const navigate = useNavigateWrapper();
+  const dispatch = useAppDispatch();
+
   return (
     <Page>
       <Box
@@ -29,7 +32,12 @@ export const ConfirmPage = () => {
           }}
         >
           <Button
-            onClick={() => navigate(AppRoutes.Home)}
+            onClick={() => {
+              dispatch(
+                appActions.global.setHomePageTab({ newTab: Tab.Offers })
+              );
+              navigate(AppRoutes.Home);
+            }}
             variant="contained"
             color="primary"
             sx={{
