@@ -16,6 +16,8 @@ export const RowComponent: React.FC<RowComponentProps> = (
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        mb:'2rem',
+        width:'20rem',
       }}
     >
       <Box

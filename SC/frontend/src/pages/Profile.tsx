@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { RowComponent } from '../components/profile-components/RowComponent.tsx';
@@ -88,11 +88,13 @@ export const Profile = () => {
           padding: 3,
           mt: '3rem',
           backgroundColor: '#FFFFFF',
+          gap: '2rem',
         }}
       >
         {/* Left Column */}
         <Box
           sx={{
+            minWidth: '30%',
             marginLeft: '20%',
             display: 'flex',
             flexDirection: 'column', // Stack items vertically
