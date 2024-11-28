@@ -1,12 +1,15 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { TitleHeader } from '../page-headers/TitleHeader.tsx';
 import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
 import { AppRoutes } from '../../router.tsx';
-import {
-  JobDescriptionCore,
-  JobDescriptionProps,
-} from './JobDescriptionCore.tsx';
+import { JobDescriptionCore } from './JobDescriptionCore.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
+import {
+  ApplicationStatus,
+  JobDescriptionProps,
+} from '../../models/application/application.ts';
+import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import { CreateFeedback } from './CreateFeedback.tsx';
 
 export const StudentJobDescription = (props: JobDescriptionProps) => {
   const isLogged = useAppSelector((s) => s.auth.loggedIn);
@@ -29,6 +32,36 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
           mt: '1.5rem',
         }}
       >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            cursor: 'pointer',
+            mb: '1rem',
+          }}
+        >
+          <Typography
+            color="primary"
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '1.5rem',
+            }}
+          >
+            Status: {ApplicationStatus[props.status]}
+          </Typography>
+          {props.status === ApplicationStatus.OnlineAssessment && (
+            <ArrowCircleRightRoundedIcon
+              color="primary"
+              onClick={() => navigate(AppRoutes.OnlineAssessment)}
+              sx={{
+                fontSize: '1.5rem',
+                color: 'primary',
+              }}
+            />
+          )}
+        </Box>
+
         <JobDescriptionCore
           jobCategory={props.jobCategory}
           jobType={props.jobType}
@@ -39,35 +72,42 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
           skillsRequired={props.skillsRequired}
         />
 
-        {/* Button Section */}
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!isLogged}
-            onClick={() => {
-              dispatch(
-                appActions.global.setConfirmMessage({
-                  newMessage: 'Application Sent Successfully',
-                })
-              );
-              navigate(AppRoutes.ConfirmPage);
-            }}
+        {props.status === ApplicationStatus.NotApplied && (
+          <Box
             sx={{
-              textTransform: 'none',
-              borderRadius: 2,
-              fontSize: '1.15rem',
-              px: '1.7rem',
+              display: 'flex',
+              justifyContent: 'center',
             }}
           >
-            Apply
-          </Button>
-        </Box>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={!isLogged}
+              onClick={() => {
+                dispatch(
+                  appActions.global.setConfirmMessage({
+                    newMessage: 'Application Sent Successfully',
+                  })
+                );
+                navigate(AppRoutes.ConfirmPage);
+              }}
+              sx={{
+                textTransform: 'none',
+                borderRadius: 2,
+                fontSize: '1.15rem',
+                px: '1.7rem',
+              }}
+            >
+              Apply
+            </Button>
+          </Box>
+        )}
+
+        {props.status === ApplicationStatus.Ongoing && (
+          <>
+            <CreateFeedback selectable={true} />
+          </>
+        )}
       </Box>
     </>
   );

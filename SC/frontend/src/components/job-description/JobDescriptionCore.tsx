@@ -1,14 +1,5 @@
 import { Typography } from '@mui/material';
-
-export interface JobDescriptionProps {
-  jobCategory: string;
-  jobType: string;
-  location: string;
-  postCreated: Date;
-  applicationDeadline: Date;
-  jobDescription: string;
-  skillsRequired: string[];
-}
+import { JobDescriptionProps } from '../../models/application/application.ts';
 
 export const JobDescriptionCore = (props: JobDescriptionProps) => {
   return (

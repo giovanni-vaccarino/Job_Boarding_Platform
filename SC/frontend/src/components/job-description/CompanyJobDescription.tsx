@@ -1,12 +1,10 @@
 import { Box, Typography } from '@mui/material';
 import { TitleHeader } from '../page-headers/TitleHeader.tsx';
 import { AppRoutes } from '../../router.tsx';
-import {
-  JobDescriptionCore,
-  JobDescriptionProps,
-} from './JobDescriptionCore.tsx';
+import { JobDescriptionCore } from './JobDescriptionCore.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import { JobDescriptionProps } from '../../models/application/application.ts';
 
 export const CompanyJobDescription = (props: JobDescriptionProps) => {
   const navigate = useNavigateWrapper();
