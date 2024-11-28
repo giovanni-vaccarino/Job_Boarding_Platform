@@ -18,6 +18,7 @@ const testProps: JobDescriptionProps = {
     To ensure success as a Laravel developer you should be adept at utilizing Laravel's GUI and be able to design a PHP application from start to finish. A top-notch Laravel developer will be able to leverage their expertise and experience of the framework to independently produce complete solutions in a short turnaround time.`,
   skillsRequired: ['Python', 'Java'],
   status: ApplicationStatus.Ongoing,
+  feedbackSelectable: true,
 };
 
 export const JobDescription = (props: JobDescriptionProps) => {
@@ -37,6 +38,7 @@ export const JobDescription = (props: JobDescriptionProps) => {
           jobDescription={props.jobDescription}
           skillsRequired={props.skillsRequired}
           status={props.status}
+          feedbackSelectable={props.feedbackSelectable}
         />
       ) : (
         <StudentJobDescription
@@ -48,6 +50,7 @@ export const JobDescription = (props: JobDescriptionProps) => {
           jobDescription={props.jobDescription}
           skillsRequired={props.skillsRequired}
           status={props.status}
+          feedbackSelectable={props.feedbackSelectable}
         />
       )}
     </Page>

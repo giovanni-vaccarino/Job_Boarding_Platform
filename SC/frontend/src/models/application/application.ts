@@ -14,4 +14,5 @@ export interface JobDescriptionProps {
   jobDescription: string;
   skillsRequired: string[];
   status?: ApplicationStatus;
+  feedbackSelectable?: boolean;
 }

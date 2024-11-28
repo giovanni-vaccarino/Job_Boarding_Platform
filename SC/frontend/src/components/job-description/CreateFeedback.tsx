@@ -3,10 +3,7 @@ import { appActions, useAppDispatch } from '../../core/store';
 import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 
-export interface FeedbackOptions {
-  selectable: boolean;
-}
-export const CreateFeedback = (props: FeedbackOptions) => {
+export const CreateFeedback = () => {
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
 
@@ -48,28 +45,26 @@ export const CreateFeedback = (props: FeedbackOptions) => {
           justifyContent: 'center',
         }}
       >
-        {props.selectable && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              dispatch(
-                appActions.global.setConfirmMessage({
-                  newMessage: 'Feedback Sent Successfully',
-                })
-              );
-              navigate(AppRoutes.ConfirmPage);
-            }}
-            sx={{
-              textTransform: 'none',
-              borderRadius: 2,
-              fontSize: '1.15rem',
-              px: '1.7rem',
-            }}
-          >
-            Send Feedback
-          </Button>
-        )}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            dispatch(
+              appActions.global.setConfirmMessage({
+                newMessage: 'Feedback Sent Successfully',
+              })
+            );
+            navigate(AppRoutes.ConfirmPage);
+          }}
+          sx={{
+            textTransform: 'none',
+            borderRadius: 2,
+            fontSize: '1.15rem',
+            px: '1.7rem',
+          }}
+        >
+          Send Feedback
+        </Button>
       </Box>
     </Box>
   );

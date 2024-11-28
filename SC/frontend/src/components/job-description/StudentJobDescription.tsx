@@ -103,11 +103,12 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
           </Box>
         )}
 
-        {props.status === ApplicationStatus.Ongoing && (
-          <>
-            <CreateFeedback selectable={true} />
-          </>
-        )}
+        {props.status === ApplicationStatus.Ongoing &&
+          props.feedbackSelectable && (
+            <>
+              <CreateFeedback />
+            </>
+          )}
       </Box>
     </>
   );
