@@ -44,6 +44,9 @@ public class RefreshUseCaseTests
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
         
+        _dbContext.Companies.Add(new Company() { UserId = user.Id, Name = "", VatNumber = ""});
+        await _dbContext.SaveChangesAsync();
+        
         var refreshTokenDto = new RefreshTokenDto
         {
             RefreshToken = refreshToken

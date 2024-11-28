@@ -1,6 +1,7 @@
 ﻿using backend.Data;
 using backend.Data.Entities;
 using backend.Service.Contracts.Auth;
+using backend.Shared.Enums;
 using backend.Shared.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -56,13 +57,18 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
         user.RefreshToken = _securityContext.Hash(refreshToken);
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync(cancellationToken);
+        
+        var profileId = await CreateNewProfile(registerInput.ProfileType, user.Id, cancellationToken);
+        
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         _logger.LogDebug("Successfully registered user with email {Email}", user.Email);
         
         return new TokenResponse
         {
             AccessToken = accessToken,
-            RefreshToken = refreshToken
+            RefreshToken = refreshToken,
+            ProfileId = profileId
         };
     }
     
@@ -95,4 +101,38 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
             throw new InvalidOperationException("Password must be at least 8 characters long, contain at least one digit and one uppercase character.");
         }
     }
+    
+    /// <summary>
+    /// Creates the new profile (Student or Company).
+    /// </summary>
+    /// <param name="profileType">The profile type of the registration.</param>
+    /// <param name="userId">The user id that has to be associated to the profile.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The profile id of the created profile.</returns>
+    private async Task<int> CreateNewProfile(ProfileType profileType, int userId, CancellationToken cancellationToken)
+    {
+        if (profileType == ProfileType.Student)
+        {
+            var student = new Data.Entities.Student
+            {
+                Name = "",
+                CF = "",
+                UserId = userId
+            };
+            _dbContext.Students.Add(student);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return student.Id;
+        }
+        
+        var company = new Company
+        {
+            Name = "",
+            VatNumber = "",
+            UserId = userId
+        };
+        _dbContext.Companies.Add(company);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
+        return company.Id;
+    } 
 }

@@ -39,6 +39,9 @@ public class LoginUseCaseTests
         };
         _dbContext.Users.Add(existingUser);
         await _dbContext.SaveChangesAsync();
+        
+        _dbContext.Students.Add(new Student { UserId = existingUser.Id, Name = "", CF = ""});
+        await _dbContext.SaveChangesAsync();
 
         var loginDto = new UserLoginDto
         {
