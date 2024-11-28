@@ -3,10 +3,13 @@ import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
 import { Tab } from '../../core/store/slices/global.ts';
+import { TypeProfile } from '../../models/auth/register.ts';
 
 export const Header = () => {
   const navigate = useNavigateWrapper();
   const activeTab = useAppSelector((state) => state.global.tabHomePage);
+  const authState = useAppSelector((state) => state.auth);
+  const profileType = authState.profileType;
   const dispatch = useAppDispatch();
 
   return (
@@ -48,23 +51,25 @@ export const Header = () => {
             gap: 5,
           }}
         >
-          <Typography
-            onClick={() => {
-              navigate(AppRoutes.Home);
-              dispatch(
-                appActions.global.setHomePageTab({ newTab: Tab.Offers })
-              );
-            }}
-            variant="body1"
-            sx={{
-              color: 'primary.main',
-              cursor: 'pointer',
-              fontSize: '1rem',
-              fontWeight: activeTab === Tab.Offers ? 'bold' : 'normal',
-            }}
-          >
-            Offers
-          </Typography>
+          {profileType !== TypeProfile.Company && (
+            <Typography
+              onClick={() => {
+                navigate(AppRoutes.Home);
+                dispatch(
+                  appActions.global.setHomePageTab({ newTab: Tab.Offers })
+                );
+              }}
+              variant="body1"
+              sx={{
+                color: 'primary.main',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                fontWeight: activeTab === Tab.Offers ? 'bold' : 'normal',
+              }}
+            >
+              Offers
+            </Typography>
+          )}
           <Typography
             onClick={() => {
               navigate(AppRoutes.Matches);

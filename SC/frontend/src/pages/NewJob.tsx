@@ -1,8 +1,8 @@
 import { Box, Button } from '@mui/material';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Page } from '../components/layout/Page.tsx';
-import { InsertMultipleChoice } from '../components/newJobComponents/InsertMultipleChoice.tsx';
-import { InsertTextField } from '../components/newJobComponents/InsertTextField.tsx';
+import { InsertMultipleChoice } from '../components/new-job-components/InsertMultipleChoice.tsx';
+import { InsertTextField } from '../components/new-job-components/InsertTextField.tsx';
 import { AppRoutes } from '../router.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 
