@@ -11,10 +11,10 @@ export const Activity = withAuth(() => {
 
   return (
     <Page>
-      {profileType === TypeProfile.Student ? (
-        <StudentActivity />
-      ) : (
+      {profileType === TypeProfile.Company ? (
         <CompanyActivity />
+      ) : (
+        <StudentActivity />
       )}
     </Page>
   );

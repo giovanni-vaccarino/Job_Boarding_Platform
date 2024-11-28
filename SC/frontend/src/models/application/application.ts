@@ -1,18 +1,28 @@
 export enum ApplicationStatus {
-  NotApplied,
   OnlineAssessment,
   Ongoing,
   Ended,
 }
 
-export interface JobDescriptionProps {
+export interface JobDescriptionInterface {
   jobCategory: string;
   jobType: string;
   location: string;
   postCreated: Date;
   applicationDeadline: Date;
-  jobDescription: string;
+  jobDescriptionMessage: string;
   skillsRequired: string[];
-  status?: ApplicationStatus;
-  feedbackSelectable?: boolean;
+}
+
+export interface JobDescriptionProps {
+  jobDescription: JobDescriptionInterface;
+}
+
+export interface ApplicationInterface extends JobDescriptionInterface {
+  status: ApplicationStatus;
+  feedbackSelectable: boolean;
+}
+
+export interface ApplicationProps {
+  applicationDescription: ApplicationInterface;
 }

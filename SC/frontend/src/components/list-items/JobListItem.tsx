@@ -53,7 +53,7 @@ export const JobListItem = (props: JobListItemProps) => {
 
       <Button
         variant="contained"
-        onClick={() => navigate(AppRoutes.JobDescription)}
+        onClick={() => navigate(AppRoutes.Job)}
         sx={{
           backgroundColor: props.important ? 'red' : 'primary.main',
           color: 'white',

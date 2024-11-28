@@ -3,7 +3,7 @@ import { Home } from './pages/Home.tsx';
 import { Profile } from './pages/Profile.tsx';
 import { Login } from './pages/Login.tsx';
 import { Register } from './pages/Register.tsx';
-import { JobDescription } from './pages/JobDescription.tsx';
+import { Application } from './pages/Application.tsx';
 import { ConfirmPage } from './pages/ConfirmPage.tsx';
 import { NewJob } from './pages/NewJob.tsx';
 import { OnlineAssessment } from './pages/OnlineAssessment.tsx';
@@ -14,11 +14,13 @@ import { Activity } from './pages/Activity.tsx';
 import { Matches } from './pages/Matches.tsx';
 import { ForgotPasswordSetEmail } from './pages/ForgotPasswordSetEmail.tsx';
 import { ForgotPasswordSetPassword } from './pages/ForgotPasswordSetPassword.tsx';
+import { Job } from './pages/Job.tsx';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
   Matches: '/matches',
-  JobDescription: '/job-description',
+  Application: '/application',
+  Job: '/job',
   ConfirmPage: '/confirm-page',
   Activity: '/activity',
   Profile: '/profile',
@@ -50,8 +52,12 @@ export const useAppRouter = () => {
         element: <Activity />,
       },
       {
-        path: AppRoutes.JobDescription,
-        element: <JobDescription />,
+        path: AppRoutes.Application,
+        element: <Application />,
+      },
+      {
+        path: AppRoutes.Job,
+        element: <Job />,
       },
       {
         path: AppRoutes.ConfirmPage,

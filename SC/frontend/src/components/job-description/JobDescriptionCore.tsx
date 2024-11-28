@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import { JobDescriptionProps } from '../../models/application/application.ts';
 
 export const JobDescriptionCore = (props: JobDescriptionProps) => {
+  const jobDescription = props.jobDescription;
   return (
     <>
       <Typography
@@ -10,14 +11,13 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
           lineHeight: '1.9rem',
         }}
       >
-        <strong>Job Category:</strong> {props.jobCategory} <br />
-        <strong>Job Type:</strong> {props.jobType} <br />
-        <strong>Location:</strong> {props.location} <br />
-        <strong>
-          Post Created:
-        </strong> {props.postCreated.toLocaleDateString()} <br />
+        <strong>Job Category:</strong> {jobDescription.jobCategory} <br />
+        <strong>Job Type:</strong> {jobDescription.jobType} <br />
+        <strong>Location:</strong> {jobDescription.location} <br />
+        <strong>Post Created:</strong>{' '}
+        {jobDescription.postCreated.toLocaleDateString()} <br />
         <strong>Application Deadline:</strong>{' '}
-        {props.applicationDeadline.toLocaleDateString()}
+        {jobDescription.applicationDeadline.toLocaleDateString()}
       </Typography>
 
       {/* Job description section */}
@@ -29,7 +29,7 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
       >
         <strong>Job description</strong>
         <br />
-        {props.jobDescription}
+        {jobDescription.jobDescriptionMessage}
       </Typography>
 
       {/* Skills required section */}
@@ -41,7 +41,7 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
       >
         <strong>Skills required</strong>
         <ul>
-          {props.skillsRequired.map((skill, index) => (
+          {jobDescription.skillsRequired.map((skill, index) => (
             <li key={index}>{skill}</li>
           ))}
         </ul>

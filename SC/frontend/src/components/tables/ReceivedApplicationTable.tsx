@@ -9,6 +9,8 @@ import {
   IconButton,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
+import { AppRoutes } from '../../router.tsx';
 
 export interface ReceivedApplicationTableHeader {
   name: string;
@@ -24,6 +26,7 @@ export const ReceivedApplicationTable = (
   props: ReceivedApplicationTableProps
 ) => {
   const { applications = [] } = props;
+  const navigate = useNavigateWrapper();
 
   // Sort applications so "Ongoing" is at the top
   const sortedApplications = applications.sort((a, b) => {
@@ -105,7 +108,11 @@ export const ReceivedApplicationTable = (
                 <TableCell align="center">{row.state}</TableCell>
                 <TableCell align="center">{row.submissionDate}</TableCell>
                 <TableCell align="center">
-                  <IconButton color="primary" aria-label="view details">
+                  <IconButton
+                    color="primary"
+                    aria-label="view details"
+                    onClick={() => navigate(AppRoutes.ApplicantDetailPage)}
+                  >
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>

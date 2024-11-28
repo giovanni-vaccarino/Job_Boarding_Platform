@@ -11,6 +11,8 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
+import { AppRoutes } from '../../router.tsx';
 
 export interface CompanyJobsTableHeader {
   title: string;
@@ -25,6 +27,7 @@ export interface CompanyJobsTableProps {
 
 export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
   const { jobs = [] } = props;
+  const navigate = useNavigateWrapper();
 
   return (
     <TableContainer
@@ -118,7 +121,11 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
                 <TableCell
                   sx={{ textAlign: 'center', width: '16%', pr: '2rem' }}
                 >
-                  <IconButton color="primary" aria-label="view details">
+                  <IconButton
+                    color="primary"
+                    aria-label="view details"
+                    onClick={() => navigate(AppRoutes.Job)}
+                  >
                     <VisibilityIcon />
                   </IconButton>
                   <IconButton color="primary" aria-label="edit">

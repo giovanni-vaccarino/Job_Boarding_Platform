@@ -9,6 +9,8 @@ import {
   IconButton,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
+import { AppRoutes } from '../../router.tsx';
 
 export interface JobsTableHeader {
   title: string;
@@ -24,6 +26,7 @@ export interface JobsTableProps {
 
 export const JobsTable = (props: JobsTableProps) => {
   const { jobs = [] } = props;
+  const navigate = useNavigateWrapper();
 
   return (
     <TableContainer
@@ -83,7 +86,11 @@ export const JobsTable = (props: JobsTableProps) => {
                 <TableCell>{row.location}</TableCell>
                 <TableCell>{row.submissionDate}</TableCell>
                 <TableCell>
-                  <IconButton color="primary" aria-label="view details">
+                  <IconButton
+                    color="primary"
+                    aria-label="view details"
+                    onClick={() => navigate(AppRoutes.Application)}
+                  >
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>

@@ -1,17 +1,14 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { TitleHeader } from '../page-headers/TitleHeader.tsx';
 import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
 import { AppRoutes } from '../../router.tsx';
 import { JobDescriptionCore } from './JobDescriptionCore.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
-import {
-  ApplicationStatus,
-  JobDescriptionProps,
-} from '../../models/application/application.ts';
-import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
-import { CreateFeedback } from './CreateFeedback.tsx';
+import { JobDescriptionProps } from '../../models/application/application.ts';
 
 export const StudentJobDescription = (props: JobDescriptionProps) => {
+  const jobDescription = props.jobDescription;
+
   const isLogged = useAppSelector((s) => s.auth.loggedIn);
 
   const navigate = useNavigateWrapper();
@@ -32,83 +29,36 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
           mt: '1.5rem',
         }}
       >
+        <JobDescriptionCore jobDescription={jobDescription} />
+
         <Box
           sx={{
             display: 'flex',
-            alignItems: 'center',
-            gap: '1rem',
-            cursor: 'pointer',
-            mb: '1rem',
+            justifyContent: 'center',
           }}
         >
-          <Typography
+          <Button
+            variant="contained"
             color="primary"
+            disabled={!isLogged}
+            onClick={() => {
+              dispatch(
+                appActions.global.setConfirmMessage({
+                  newMessage: 'Application Sent Successfully',
+                })
+              );
+              navigate(AppRoutes.ConfirmPage);
+            }}
             sx={{
-              fontWeight: 'bold',
-              fontSize: '1.5rem',
+              textTransform: 'none',
+              borderRadius: 2,
+              fontSize: '1.15rem',
+              px: '1.7rem',
             }}
           >
-            Status: {ApplicationStatus[props.status]}
-          </Typography>
-          {props.status === ApplicationStatus.OnlineAssessment && (
-            <ArrowCircleRightRoundedIcon
-              color="primary"
-              onClick={() => navigate(AppRoutes.OnlineAssessment)}
-              sx={{
-                fontSize: '1.5rem',
-                color: 'primary',
-              }}
-            />
-          )}
+            Apply
+          </Button>
         </Box>
-
-        <JobDescriptionCore
-          jobCategory={props.jobCategory}
-          jobType={props.jobType}
-          location={props.location}
-          postCreated={props.postCreated}
-          applicationDeadline={props.applicationDeadline}
-          jobDescription={props.jobDescription}
-          skillsRequired={props.skillsRequired}
-        />
-
-        {props.status === ApplicationStatus.NotApplied && (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={!isLogged}
-              onClick={() => {
-                dispatch(
-                  appActions.global.setConfirmMessage({
-                    newMessage: 'Application Sent Successfully',
-                  })
-                );
-                navigate(AppRoutes.ConfirmPage);
-              }}
-              sx={{
-                textTransform: 'none',
-                borderRadius: 2,
-                fontSize: '1.15rem',
-                px: '1.7rem',
-              }}
-            >
-              Apply
-            </Button>
-          </Box>
-        )}
-
-        {props.status === ApplicationStatus.Ongoing &&
-          props.feedbackSelectable && (
-            <>
-              <CreateFeedback />
-            </>
-          )}
       </Box>
     </>
   );

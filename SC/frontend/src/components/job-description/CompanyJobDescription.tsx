@@ -8,6 +8,7 @@ import { JobDescriptionProps } from '../../models/application/application.ts';
 
 export const CompanyJobDescription = (props: JobDescriptionProps) => {
   const navigate = useNavigateWrapper();
+  const jobDescription = props.jobDescription;
 
   return (
     <>
@@ -52,15 +53,7 @@ export const CompanyJobDescription = (props: JobDescriptionProps) => {
           />
         </Box>
 
-        <JobDescriptionCore
-          jobCategory={props.jobCategory}
-          jobType={props.jobType}
-          location={props.location}
-          postCreated={props.postCreated}
-          applicationDeadline={props.applicationDeadline}
-          jobDescription={props.jobDescription}
-          skillsRequired={props.skillsRequired}
-        />
+        <JobDescriptionCore jobDescription={jobDescription} />
       </Box>
     </>
   );
