@@ -1,4 +1,6 @@
-﻿using backend.Data;
+﻿using AutoMapper;
+using backend.Data;
+using backend.Service.Profiles;
 using backend.Shared.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,7 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
     public Mock<ILogger<TUseCase>> LoggerMock { get; private set; }
     public Mock<IConfiguration> ConfigurationMock { get; private set; }
     public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; private set; }
+    public IMapper Mapper { get; private set; }
 
     private void SetupDbContext(string dbName)
     {
@@ -37,6 +40,13 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
         ConfigurationMock = new Mock<IConfiguration>();
         LoggerMock = new Mock<ILogger<TUseCase>>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<StudentMappingProfile>();
+            // Add any other profiles you might need here
+        });
+
+        Mapper = config.CreateMapper();
     }
 
     private void SetupSecurityContext()

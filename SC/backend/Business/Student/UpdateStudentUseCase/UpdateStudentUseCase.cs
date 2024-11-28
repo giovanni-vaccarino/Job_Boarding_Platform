@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Student.UpdateStudentUseCase;
 
+/// <summary>
+/// Handles the update operation for a student.
+/// </summary>
 public class UpdateStudentUseCase : IRequestHandler<UpdateStudentCommand, StudentDto>
 {
     private readonly ILogger<UpdateStudentUseCase> _logger;
@@ -25,14 +28,25 @@ public class UpdateStudentUseCase : IRequestHandler<UpdateStudentCommand, Studen
         _dbContext = dbContext;
     }
     
+    /// <summary>
+    /// Handles the command to update a student entity in the database.
+    /// This method retrieves the student by ID, updates its properties, 
+    /// and saves the changes to the database.
+    /// </summary>
+    /// <param name="request">The command containing the updated student details.</param>
+    /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+    /// <returns>The updated student as a <see cref="StudentDto"/>.</returns>
+    /// <exception cref="KeyNotFoundException">Thrown if the student with the specified ID does not exist.</exception>
     public async Task<StudentDto> Handle(UpdateStudentCommand request, CancellationToken cancellationToken)
     {
         var studentDto = request.Dto;
         
-        var student = await GetUser(studentDto.Id);
+        var student = await GetStudent(studentDto.Id);
         
         student.Name = studentDto.Name;
         student.CF = studentDto.Cf;
+        
+        // TODO Add the skills and interests properties once they are added to the Student entity as json
         // student.Skills = studentDto.Skills;
         // student.Interests = studentDto.Interests;
 
@@ -50,10 +64,9 @@ public class UpdateStudentUseCase : IRequestHandler<UpdateStudentCommand, Studen
     /// <param name="studentId">The user ID to look up.</param>
     /// <returns>The <see cref="Student"/> object associated with the student ID.</returns>
     /// <exception cref="KeyNotFoundException">Thrown if the student cannot be found.</exception>
-    private async Task<backend.Data.Entities.Student> GetUser(int studentId)
+    private async Task<backend.Data.Entities.Student> GetStudent(int studentId)
     {
         var student =  await _dbContext.Students
-            .AsNoTracking()
             .FirstOrDefaultAsync(s => s.Id == studentId);
         
         if (student == null)
