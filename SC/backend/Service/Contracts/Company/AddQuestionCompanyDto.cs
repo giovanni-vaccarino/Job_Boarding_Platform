@@ -16,4 +16,5 @@ public class AddQuestionCompanyDto
     [Required]
     [MaxLength(255)]
     public required List<string> Answer { get; set; }
+    
 }

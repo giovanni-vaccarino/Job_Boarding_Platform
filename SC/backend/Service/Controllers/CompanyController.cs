@@ -1,4 +1,7 @@
-﻿using backend.Business.Company.GetJobsCompany;
+﻿using backend.Business.Company.AddJobCompany;
+using backend.Business.Company.GetJobsCompany;
+using backend.Business.Company.UpdateCompanyProfile;
+using backend.Service.Contracts.Company;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +19,28 @@ public class CompanyController : ControllerBase
         _mediator = mediator;
     }
     
+    [HttpPost("update-profile")]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateCompanyProfileDto dto)
+    {
+        var response = await _mediator.Send(new UpdateCompanyProfileCommand(dto));
+
+        return Ok(response);
+    }
+
     [HttpGet("jobs")]
     public async Task<IActionResult> GetJobs([FromQuery] string Id)
     {
         
         //TODO: its possible to define a dto also for the parameter of the query
         var response = await _mediator.Send(new GetJobsCompanyQuery(Id));
+
+        return Ok(response);
+    }
+    
+    [HttpPost("add-job")]
+    public async Task<IActionResult> AddJob([FromBody] AddJobCompanyDto dto)
+    {
+        var response = await _mediator.Send(new AddJobCommand(dto));
 
         return Ok(response);
     }

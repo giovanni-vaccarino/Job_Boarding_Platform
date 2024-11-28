@@ -7,18 +7,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Company.UpdateCompanyProfile;
 
-public class UpdateCompanyProfileUseCase : IRequestHandler<UpdateProfileCommand, string>
+public class UpdateCompanyProfileUseCase : IRequestHandler<UpdateCompanyProfileCommand, string>
 {
-    private readonly ILogger<LoginUseCase> _logger;
+    private readonly ILogger<UpdateCompanyProfileUseCase> _logger;
     private readonly AppDbContext _dbContext;
     
-    public UpdateCompanyProfileUseCase(AppDbContext dbContext, ILogger<LoginUseCase> logger)
+    public UpdateCompanyProfileUseCase(AppDbContext dbContext, ILogger<UpdateCompanyProfileUseCase> logger)
     {
         _logger = logger;
         _dbContext = dbContext;
     }
     
-    public async Task<string> Handle(UpdateProfileCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(UpdateCompanyProfileCommand request, CancellationToken cancellationToken)
     {
         var updateInput = request.Dto;
 

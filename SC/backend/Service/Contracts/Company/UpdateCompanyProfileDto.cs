@@ -9,9 +9,10 @@ public class UpdateCompanyProfileDto
     public required string CompanyName { get; set; }
 
     [Required]
-    [MaxLength(9)]
+    [MaxLength(11)]
+    [MinLength(11)]
     public required string VAT { get; set; }
-    
+    /*
     [Required]
     [Url]
     [MaxLength(255)]
@@ -21,7 +22,7 @@ public class UpdateCompanyProfileDto
     [Url]
     [MaxLength(255)]
     public required string Linkedin{get;set;}
-    
+    */
     [Required]
     public required int Id { get; set; }
 }

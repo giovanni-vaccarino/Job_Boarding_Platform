@@ -3,7 +3,7 @@ using backend.Shared.Enums;
 
 namespace backend.Service.Contracts.Company;
 
-public class ReturnJobDto
+public class CompanyJobsDto
 {
     [Required]
     [MaxLength(255)]

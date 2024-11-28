@@ -3,4 +3,4 @@ using MediatR;
 
 namespace backend.Business.Company.GetJobsCompany;
 
-public record GetJobsCompanyQuery(string Id) : IRequest<List<ReturnJobDto>>;
+public record GetJobsCompanyQuery(string Id) : IRequest<CompanyJobsDto>;
