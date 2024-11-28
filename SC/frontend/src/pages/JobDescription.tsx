@@ -1,19 +1,9 @@
 import { Page } from '../components/layout/Page.tsx';
-import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Button, Typography } from '@mui/material';
-import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
-import { AppRoutes } from '../router.tsx';
-import { appActions, useAppDispatch, useAppSelector } from '../core/store';
-
-export interface JobDescriptionProps {
-  jobCategory: string;
-  jobType: string;
-  location: string;
-  postCreated: Date;
-  applicationDeadline: Date;
-  jobDescription: string;
-  skillsRequired: string[];
-}
+import { useAppSelector } from '../core/store';
+import { JobDescriptionProps } from '../components/job-description/JobDescriptionCore.tsx';
+import { TypeProfile } from '../models/auth/register.ts';
+import { StudentJobDescription } from '../components/job-description/StudentJobDescription.tsx';
+import { CompanyJobDescription } from '../components/job-description/CompanyJobDescription.tsx';
 
 const testProps: JobDescriptionProps = {
   jobCategory: 'Technology',
@@ -26,98 +16,34 @@ const testProps: JobDescriptionProps = {
   skillsRequired: ['Python', 'Java'],
 };
 
-export const JobDescription = () => {
-  const isLogged = useAppSelector((s) => s.auth.loggedIn);
-  const navigate = useNavigateWrapper();
-  const dispatch = useAppDispatch();
+export const JobDescription = (props: JobDescriptionProps) => {
+  const authState = useAppSelector((state) => state.auth);
+  const profileType = authState.profileType;
+  props = testProps;
 
   return (
     <Page>
-      <TitleHeader title={'Software Engineering, intern - Amazon'} />
-
-      <Box
-        sx={{
-          width: '60%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'left',
-          alignItems: 'left',
-          mb: '1rem',
-          mt: '1.5rem',
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: '1rem',
-            lineHeight: '1.9rem',
-          }}
-        >
-          <strong>Job Category:</strong> {testProps.jobCategory} <br />
-          <strong>Job Type:</strong> {testProps.jobType} <br />
-          <strong>Location:</strong> {testProps.location} <br />
-          <strong>Post Created:</strong>{' '}
-          {testProps.postCreated.toLocaleDateString()} <br />
-          <strong>Application Deadline:</strong>{' '}
-          {testProps.applicationDeadline.toLocaleDateString()}
-        </Typography>
-
-        {/* Job description section */}
-        <Typography
-          sx={{
-            fontSize: '1rem',
-            mt: '1rem',
-          }}
-        >
-          <strong>Job description</strong>
-          <br />
-          {testProps.jobDescription}
-        </Typography>
-
-        {/* Skills required section */}
-        <Typography
-          sx={{
-            fontSize: '1rem',
-            mt: '1rem',
-          }}
-        >
-          <strong>Skills required</strong>
-          <ul>
-            {testProps.skillsRequired.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
-        </Typography>
-
-        {/* Button Section */}
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!isLogged}
-            onClick={() => {
-              dispatch(
-                appActions.global.setConfirmMessage({
-                  newMessage: 'Application Sent Successfully',
-                })
-              );
-              navigate(AppRoutes.ConfirmPage);
-            }}
-            sx={{
-              textTransform: 'none',
-              borderRadius: 2,
-              fontSize: '1.15rem',
-              px: '1.7rem',
-            }}
-          >
-            Apply
-          </Button>
-        </Box>
-      </Box>
+      {profileType === TypeProfile.Company ? (
+        <CompanyJobDescription
+          jobCategory={props.jobCategory}
+          jobType={props.jobType}
+          location={props.location}
+          postCreated={props.postCreated}
+          applicationDeadline={props.applicationDeadline}
+          jobDescription={props.jobDescription}
+          skillsRequired={props.skillsRequired}
+        />
+      ) : (
+        <StudentJobDescription
+          jobCategory={props.jobCategory}
+          jobType={props.jobType}
+          location={props.location}
+          postCreated={props.postCreated}
+          applicationDeadline={props.applicationDeadline}
+          jobDescription={props.jobDescription}
+          skillsRequired={props.skillsRequired}
+        />
+      )}
     </Page>
   );
 };

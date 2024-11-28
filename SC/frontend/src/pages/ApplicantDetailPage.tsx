@@ -1,8 +1,8 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Typography, Button, Stack } from '@mui/material';
-import { RowComponent } from '../components/profileComponents/RowComponent.tsx';
-import { ViewFeedback } from '../components/applicantDetailPage/ViewFeedback.tsx';
+import { Box, Button, Stack, Typography } from '@mui/material';
+import { RowComponent } from '../components/profile-components/RowComponent.tsx';
+import { ViewFeedback } from '../components/applicant-detail-page/ViewFeedback.tsx';
 import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
