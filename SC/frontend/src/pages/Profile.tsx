@@ -94,8 +94,9 @@ export const Profile = () => {
         {/* Left Column */}
         <Box
           sx={{
+            position: 'fixed',
             minWidth: '30%',
-            marginLeft: '20%',
+            marginLeft: '0%',
             display: 'flex',
             flexDirection: 'column', // Stack items vertically
             justifyContent: 'center', // Center items vertically
@@ -121,6 +122,8 @@ export const Profile = () => {
               }}
             ></Button>
           </Box>
+
+          <Box sx={{ borderTop: '2px solid gray', width: '20%', mb: '1rem' }} />
 
           {/* Profile Information */}
           <Box
@@ -175,6 +178,8 @@ export const Profile = () => {
             {/*/>*/}
           </Box>
 
+          <Box sx={{ borderTop: '2px solid gray', width: '20%', mt: '1rem' }} />
+
           {/* Logout */}
           <Typography
             sx={{
@@ -193,7 +198,7 @@ export const Profile = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            marginRight: '40%', // Space between columns
+            marginLeft: '40%', // Space between columns
             maxWidth: '100%', // Ensure columns don't exceed 50% width
             marginTop: '5%',
             justifyContent: 'space-between', // Distribute space evenly
