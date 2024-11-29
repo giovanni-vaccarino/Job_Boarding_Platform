@@ -7,16 +7,16 @@ public class CompanyJobsDto
 {
     [Required]
     [MaxLength(255)]
-    public string title { get; set; }
+    public string? Title { get; set; }
     
     [Required]
-    [Range(0, int.MaxValue, ErrorMessage = "ApplicationRecevied must be greater or equal than 0")]
-    public int applicationReceived { get; set; }
+    [Range(0, int.MaxValue, ErrorMessage = "ApplicationReceived must be greater or equal than 0")]
+    public int ApplicationReceived { get; set; }
     
     [Required]
-    public JobType jobType { get; set; }
+    public JobType? JobType { get; set; }
     
     [Required]
     [MaxLength(255)]
-    public string location { get; set; }
+    public string? Location { get; set; }
 }

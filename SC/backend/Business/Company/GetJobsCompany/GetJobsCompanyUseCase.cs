@@ -1,20 +1,37 @@
 ﻿using backend.Data;
+using backend.Service.Contracts.Company;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Company.GetJobsCompany;
 using AutoMapper;
 
-public class GetActivityUseCase
+public class GetJobsCompanyUseCase
 {
+    private readonly ILogger<GetJobsCompanyUseCase> _logger;
     private readonly AppDbContext _dbContext;
-    private readonly ILogger _logger;
-    private readonly IMapper _mapper;
     
-    public GetActivityUseCase(AppDbContext dbContext, ILogger logger, IMapper mapper)
+    public GetJobsCompanyUseCase(AppDbContext dbContext, ILogger<GetJobsCompanyUseCase> logger)
     {
-        _dbContext = dbContext;
         _logger = logger;
-        _mapper = mapper;
+        _dbContext = dbContext;
     }
     
-    
+    public async Task<List<CompanyJobsDto>> Handle(GetJobsCompanyQuery request, CancellationToken cancellationToken)
+    {
+        var companyId = request.Id;
+        
+        var jobs = await _dbContext.Internships
+            .Where(j => j.CompanyId == companyId)
+            .ToListAsync(cancellationToken);
+        
+        var jobDtos = jobs.Select(j => new CompanyJobsDto
+        {
+            Title = j.Title,
+            ApplicationReceived = j.NumberOfApplicants,
+            JobType = j.JobType,
+            Location = j.Location
+        }).ToList();
+        
+        return jobDtos;
+    }
 }

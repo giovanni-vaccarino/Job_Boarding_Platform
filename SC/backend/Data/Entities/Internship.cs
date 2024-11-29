@@ -7,7 +7,7 @@ namespace backend.Data.Entities;
 public class Internship : EntityBase
 {
    [MaxLength(255)]
-   public string Title { get; set; }
+   public string? Title { get; set; }
    
    [MaxLength(255)]
    [Range (1, int.MaxValue, ErrorMessage = "The value needs to be greater than 0")]
@@ -27,7 +27,11 @@ public class Internship : EntityBase
    
    public required DateOnly EndDate { get; set; }
    
-   public required User User { get; set; }
+   [Range(0, int.MaxValue, ErrorMessage = "The value needs to be greater than 0")]
+   public required int NumberOfApplicants { get; set; }
+   
+   [MaxLength(255)]
+   public required string Location { get; set; }
    
    [ForeignKey("CompanyId")]
    public required int CompanyId { get; set; }

@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Student> Students { get; set; } = null!;
     public DbSet<Company> Companies { get; set; } = null!;
+    public DbSet<Internship> Internships { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

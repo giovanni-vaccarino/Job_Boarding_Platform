@@ -37,11 +37,11 @@ public class CompanyController : ControllerBase
     }
 
     [HttpGet("jobs")]
-    public async Task<IActionResult> GetJobs([FromQuery] string Id)
+    public async Task<IActionResult> GetJobs([FromQuery] int id)
     {
         
         //TODO: its possible to define a dto also for the parameter of the query
-        var response = await _mediator.Send(new GetJobsCompanyQuery(Id));
+        var response = await _mediator.Send(new GetJobsCompanyQuery(id));
 
         return Ok(response);
     }
