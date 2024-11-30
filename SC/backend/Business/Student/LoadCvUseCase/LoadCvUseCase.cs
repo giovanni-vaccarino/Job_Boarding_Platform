@@ -63,7 +63,7 @@ public class LoadCvUseCase : IRequestHandler<LoadCvCommand, string>
     /// <param name="studentId">The ID of the student.</param>
     /// <param name="originalFileName">The original file name of the CV.</param>
     /// <returns>A unique key for storing the CV in the S3 bucket.</returns>
-    private static string GetUniqueFileKey(string studentId, string originalFileName)
+    public static string GetUniqueFileKey(string studentId, string originalFileName)
     {
         var fileExtension = Path.GetExtension(originalFileName);
         var uniqueName = $"students/{studentId}/cv{fileExtension}";

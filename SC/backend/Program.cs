@@ -4,6 +4,7 @@ using backend.Business.Auth.LoginUseCase;
 using backend.Service;
 using backend.Service.Contracts.Auth;
 using backend.Service.Middlewares;
+using backend.Service.Middlewares.Policies.StudentOrCompany;
 using backend.Shared;
 using backend.Shared.Security;
 using backend.Shared.StorageService;
@@ -63,6 +64,7 @@ if (jwtConfig is null || string.IsNullOrEmpty(jwtConfig.Key))
 builder.Services.AddAppAuthentication(jwtConfig);
 builder.Services.AddScoped<IAuthorizationHandler, StudentAccessHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, CompanyAccessHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, StudentOrCompanyAccessHandler>();
 
 var app = builder.Build();
 // Enable CORS middleware

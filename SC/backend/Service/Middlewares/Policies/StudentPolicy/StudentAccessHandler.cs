@@ -3,7 +3,7 @@ using System.Security.Claims;
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Service.Middlewares;
+namespace backend.Service.Middlewares.Policies.StudentPolicy;
 
 /// <summary>
 /// Handles authorization for endpoints that require access to specific students.

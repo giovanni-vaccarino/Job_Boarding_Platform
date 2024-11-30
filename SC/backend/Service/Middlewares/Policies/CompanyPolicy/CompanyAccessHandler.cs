@@ -3,7 +3,7 @@ using backend.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Service.Middlewares;
+namespace backend.Service.Middlewares.Policies.CompanyPolicy;
 
 /// <summary>
 /// Handles authorization for endpoints that require access to specific companies.

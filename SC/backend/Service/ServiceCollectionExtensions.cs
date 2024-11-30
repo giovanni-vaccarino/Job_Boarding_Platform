@@ -1,5 +1,7 @@
 ﻿using System.Text;
-using backend.Service.Middlewares;
+using backend.Service.Middlewares.Policies.CompanyPolicy;
+using backend.Service.Middlewares.Policies.StudentOrCompany;
+using backend.Service.Middlewares.Policies.StudentPolicy;
 using backend.Shared;
 using backend.Shared.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -34,6 +36,8 @@ public static class ServiceCollectionExtensions
                 policy.Requirements.Add(new StudentAccessRequirement()));
             options.AddPolicy("CompanyAccessPolicy", policy =>
                 policy.Requirements.Add(new CompanyAccessRequirement()));
+            options.AddPolicy("StudentOrCompanyAccessPolicy", policy =>
+                policy.Requirements.Add(new StudentOrCompanyAccessRequirement()));
         });
 
         services.AddScoped<SecurityContext>();
