@@ -16,7 +16,7 @@ public class Internship : EntityBase
    //Attributes of the class
    
    [MaxLength(255)]
-   public string? Title { get; set; }
+   public string? Name { get; set; }
    
    [MaxLength(255)]
    [Range (1, int.MaxValue, ErrorMessage = "The value needs to be greater than 0")]

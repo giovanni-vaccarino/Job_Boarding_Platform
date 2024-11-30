@@ -17,12 +17,12 @@ public class JobDetailsDto
     
     [Required]
     [MaxLength(255)]
-    public string location { get; set; }
+    public string? Location { get; set; }
     
     [Required]
     [MaxLength(1000)]
-    public string Description { get; set; }
+    public string? Description { get; set; }
     
     [Required]
-    public List<string> skills { get; set; }
+    public List<string>? SkillsRequired { get; set; }
 }

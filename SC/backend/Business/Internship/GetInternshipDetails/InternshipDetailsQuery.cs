@@ -3,4 +3,4 @@ using MediatR;
 
 namespace backend.Business.Internship.GetInternshipDetails;
 
-public record InternshipDetailsCommand(int Id): IRequest<JobDetailsDto>;
+public record InternshipDetailsQuery(int Id): IRequest<JobDetailsDto>;

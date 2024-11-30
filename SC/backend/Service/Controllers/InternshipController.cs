@@ -29,7 +29,7 @@ public class InternshipController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetInternshipDetails(int id)
     {
-        var internship = await _mediator.Send(new InternshipDetailsCommand(id));
+        var internship = await _mediator.Send(new InternshipDetailsQuery(id));
         
         return Ok(internship);
     }
