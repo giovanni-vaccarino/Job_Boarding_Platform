@@ -1,14 +1,11 @@
 using System.Reflection;
 using backend.Business;
-using backend.Business.Auth.LoginUseCase;
 using backend.Service;
-using backend.Service.Contracts.Auth;
-using backend.Service.Middlewares;
+using backend.Service.Middlewares.Policies.CompanyPolicy;
 using backend.Service.Middlewares.Policies.StudentOrCompany;
+using backend.Service.Middlewares.Policies.StudentPolicy;
 using backend.Shared;
-using backend.Shared.Security;
 using backend.Shared.StorageService;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
