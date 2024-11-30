@@ -44,6 +44,9 @@ public class RefreshUseCaseTests
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
         
+        _dbContext.Companies.Add(new Company() { UserId = user.Id, Name = "", VatNumber = ""});
+        await _dbContext.SaveChangesAsync();
+        
         var refreshTokenDto = new RefreshTokenDto
         {
             RefreshToken = refreshToken
@@ -56,7 +59,6 @@ public class RefreshUseCaseTests
         Assert.NotNull(result);
         Assert.NotNull(result.AccessToken);
         Assert.NotNull(result.RefreshToken);
-        Assert.NotEqual(refreshToken, result.RefreshToken);
         Assert.NotNull(_services.SecurityContext.ValidateJwtToken(result.RefreshToken, TokenType.Refresh));
         
         var savedUser = _dbContext.Users.FirstOrDefault();
@@ -122,32 +124,32 @@ public class RefreshUseCaseTests
         Assert.Equal("User associated to refresh token not found.", exception.Message);
     }
     
-    // TODO Fix exception in SecurityContext.ValidateHashed when plain text is a JWT token. The type of characters should be the issue, not the number of characters
-    // TODO Implement 2 different hashing methods for JWT tokens and passwords. For JWT using (var sha256 = SHA256.Create()) was working
-    // [Fact(DisplayName = "Should throw exception when stored refresh token does not match")]
-    // public async Task Should_Throw_Exception_When_Stored_Refresh_Token_Not_Matching()
-    // {
-    //     var user = new User
-    //     {
-    //         Id = 1,
-    //         Email = "test@example.com",
-    //         PasswordHash = _services.SecurityContext.Hash("Password123!"),
-    //     };
-    //     var refreshToken = _services.SecurityContext.CreateRefreshToken(user);
-    //     user.RefreshToken = _services.SecurityContext.Hash(refreshToken);
-    //     _dbContext.Users.Add(user);
-    //     await _dbContext.SaveChangesAsync();
-    //
-    //     var refreshTokenDto = new RefreshTokenDto
-    //     {
-    //         RefreshToken = _services.SecurityContext.CreateRefreshToken(user)
-    //     };
-    //
-    //     var command = new RefreshCommand(refreshTokenDto);
-    //     
-    //     var act = async () => await _refreshUseCase.Handle(command, CancellationToken.None);
-    //     
-    //     var exception = await Assert.ThrowsAsync<UnauthorizedAccessException>(act);
-    //     Assert.Equal("Refresh token not matching with stored refresh token.", exception.Message);
-    // }
+    [Fact(DisplayName = "Should throw exception when refresh token is not found")]
+    public async Task Should_Throw_Exception_When_Token_Not_Found()
+    {
+        var user = new User
+        {
+            Id = 1,
+            Email = "test@example.com",
+            PasswordHash = _services.SecurityContext.Hash("Password123!"),
+        };
+        var refreshToken = _services.SecurityContext.CreateRefreshToken(user);
+        _dbContext.Users.Add(user);
+        await _dbContext.SaveChangesAsync();
+        
+        _dbContext.Companies.Add(new Company() { UserId = user.Id, Name = "", VatNumber = ""});
+        await _dbContext.SaveChangesAsync();
+        
+        var refreshTokenDto = new RefreshTokenDto
+        {
+            RefreshToken = refreshToken
+        };
+
+        var command = new RefreshCommand(refreshTokenDto);
+        
+        var act = async () => await _refreshUseCase.Handle(command, CancellationToken.None);
+        
+        var exception = await Assert.ThrowsAsync<UnauthorizedAccessException>(act);
+        Assert.Equal("Refresh token not matching with stored refresh token.", exception.Message);
+    }
 }

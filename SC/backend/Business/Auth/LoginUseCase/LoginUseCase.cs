@@ -34,7 +34,7 @@ public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
     /// </summary>
     /// <param name="request">The login command containing user credentials.</param>
     /// <param name="cancellationToken">The cancellation token for the operation.</param>
-    /// <returns>The generated TokenResponse containing access and refresh tokens.</returns>
+    /// <returns>The generated TokenResponse containing access and refresh tokens and the profile id</returns>
     /// <exception cref="UnauthorizedAccessException">Thrown if the user credentials are invalid.</exception>
     public async Task<TokenResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
@@ -42,10 +42,13 @@ public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
         
         var user = await VerifyUserCredentials(loginInput);
         
+        var profileId = user.Student?.Id ?? user.Company?.Id ?? throw new Exception("User profile not found.");
+        
         var tokenResponse = new TokenResponse
         {
             AccessToken = _securityContext.CreateAccessToken(user),
-            RefreshToken = _securityContext.CreateRefreshToken(user)
+            RefreshToken = _securityContext.CreateRefreshToken(user),
+            ProfileId = profileId
         };
 
         user.UpdatedAt = DateTime.UtcNow;
@@ -65,7 +68,10 @@ public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
     /// <exception cref="UnauthorizedAccessException">Thrown if the user credentials are invalid.</exception>
     private async Task<User> VerifyUserCredentials(UserLoginDto loginInput)
     {
-        var user =  await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginInput.Email);
+        var user =  await _dbContext.Users
+            .Include(u => u.Student)
+            .Include(u => u.Company)
+            .FirstOrDefaultAsync(u => u.Email == loginInput.Email);
         
         if (user == null || !_securityContext.ValidateHashed(loginInput.Password, user.PasswordHash))
         {

@@ -1,5 +1,8 @@
-﻿using backend.Data;
+﻿using AutoMapper;
+using backend.Data;
+using backend.Service.Profiles;
 using backend.Shared.Security;
+using backend.Shared.StorageService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +25,10 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
     public Mock<ILogger<TUseCase>> LoggerMock { get; private set; }
     public Mock<IConfiguration> ConfigurationMock { get; private set; }
     public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; private set; }
+    public IMapper Mapper { get; private set; }
+    
+    public Mock<IS3Manager> S3ManagerMock { get; private set; }
+
 
     private void SetupDbContext(string dbName)
     {
@@ -37,6 +44,17 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
         ConfigurationMock = new Mock<IConfiguration>();
         LoggerMock = new Mock<ILogger<TUseCase>>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
+        S3ManagerMock = new Mock<IS3Manager>();
+        S3ManagerMock
+            .Setup(s3 => s3.UploadFileAsync(It.IsAny<Stream>(), It.IsAny<string>()))
+            .Returns(Task.CompletedTask);
+
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<StudentMappingProfile>();
+        });
+
+        Mapper = config.CreateMapper();
     }
 
     private void SetupSecurityContext()

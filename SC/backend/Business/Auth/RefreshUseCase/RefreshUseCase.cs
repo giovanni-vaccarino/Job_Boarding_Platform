@@ -60,10 +60,13 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
         
         _logger.LogDebug("Successfully refreshed token for user with email {Email}", user.Email);
         
+        var profileId = user.Student?.Id ?? user.Company?.Id ?? throw new Exception("User profile not found.");
+        
         return new TokenResponse
         {
             AccessToken = newAccessToken,
-            RefreshToken = newRefreshToken
+            RefreshToken = newRefreshToken,
+            ProfileId = profileId
         };
     }
     

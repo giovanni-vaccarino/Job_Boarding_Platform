@@ -27,22 +27,24 @@ public class RegisterUseCaseTests
     }
 
     /// <summary>
-    /// Tests successful registration of a new user.
+    /// Tests successful registration of a new student.
     /// </summary>
     [Fact(DisplayName = "Successfully register a new user")]
-    public async Task Should_Register_User()
+    public async Task Should_Register_Student()
     {
         var userDto = new UserRegisterDto
         {
             Email = "test@example.com",
             Password = "Password123!",
-            ConfirmPassword = "Password123!"
+            ConfirmPassword = "Password123!",
+            ProfileType = ProfileType.Student
         };
         var command = new RegisterCommand(userDto);
         
         var result = await _registerUseCase.Handle(command, CancellationToken.None);
         
         var savedUser = _dbContext.Users.FirstOrDefault();
+        var savedStudent = _dbContext.Students.FirstOrDefault();
         
         Assert.NotNull(savedUser);
         Assert.Equal(userDto.Email, savedUser.Email);
@@ -52,6 +54,40 @@ public class RegisterUseCaseTests
         Assert.NotNull(result.RefreshToken);
         Assert.NotNull(_services.SecurityContext.ValidateJwtToken(result.AccessToken, TokenType.Access));
         Assert.NotNull(_services.SecurityContext.ValidateJwtToken(result.RefreshToken, TokenType.Refresh));
+        Assert.NotNull(savedStudent);
+        Assert.Equal(result.ProfileId, savedStudent.Id);
+    }
+    
+    /// <summary>
+    /// Tests successful registration of a new company.
+    /// </summary>
+    [Fact(DisplayName = "Successfully register a new user")]
+    public async Task Should_Register_Company()
+    {
+        var userDto = new UserRegisterDto
+        {
+            Email = "test@example.com",
+            Password = "Password123!",
+            ConfirmPassword = "Password123!",
+            ProfileType = ProfileType.Company
+        };
+        var command = new RegisterCommand(userDto);
+        
+        var result = await _registerUseCase.Handle(command, CancellationToken.None);
+        
+        var savedUser = _dbContext.Users.FirstOrDefault();
+        var savedCompany = _dbContext.Companies.FirstOrDefault();
+        
+        Assert.NotNull(savedUser);
+        Assert.Equal(userDto.Email, savedUser.Email);
+        Assert.True(_services.SecurityContext.ValidateHashed(userDto.Password, savedUser.PasswordHash));
+        Assert.NotNull(result);
+        Assert.NotNull(result.AccessToken);
+        Assert.NotNull(result.RefreshToken);
+        Assert.NotNull(_services.SecurityContext.ValidateJwtToken(result.AccessToken, TokenType.Access));
+        Assert.NotNull(_services.SecurityContext.ValidateJwtToken(result.RefreshToken, TokenType.Refresh));
+        Assert.NotNull(savedCompany);
+        Assert.Equal(result.ProfileId, savedCompany.Id);
     }
     
     /// <summary>
