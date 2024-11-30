@@ -1,6 +1,7 @@
 ﻿using backend.Data;
 using backend.Shared.StorageService;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Student.LoadCvUseCase;
 
@@ -18,15 +19,24 @@ public class LoadCvUseCase : IRequestHandler<LoadCvCommand, string>
     public async Task<string> Handle(LoadCvCommand request, CancellationToken cancellationToken)
     {
         var input = request.Dto;
+        var studentId = request.StudentId.ToString();
+        var student = await _dbContext.Students.FirstOrDefaultAsync(s => s.Id == request.StudentId, cancellationToken) ?? 
+                      throw new InvalidOperationException("Student not found");
+        
         if (input.File.Length == 0)
             throw new ArgumentException("Invalid file");
 
-        var keyName = GetUniqueFileKey(input.StudentId, input.File.FileName);
+        var keyName = GetUniqueFileKey(studentId, input.File.FileName);
 
         using (var fileStream = input.File.OpenReadStream())
         {
             await _s3Manager.UploadFileAsync(fileStream, keyName);
         }
+
+        student.CvPath = keyName;
+        _dbContext.Students.Update(student);
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return keyName;
     }

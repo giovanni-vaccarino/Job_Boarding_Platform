@@ -38,25 +38,11 @@ public class StudentController : ControllerBase
     }
     
     [Authorize(Policy = "StudentAccessPolicy")]
-    [HttpPost]
-    public async Task<IActionResult> LoadCvStudent([FromBody] UploadCvFileDto dto)
+    [HttpPost("cv/{id}")]
+    public async Task<IActionResult> LoadCvStudent([FromForm] UploadCvFileDto dto, int id)
     {
-        var res = await _mediator.Send(new LoadCvCommand(dto));
+        var res = await _mediator.Send(new LoadCvCommand(dto, id));
 
         return Ok(res);
-    }
-    
-    [Authorize(Policy = "StudentAccessPolicy")]
-    [HttpGet("prova/{id}")]
-    public async Task<IActionResult> Test()
-    {
-        return Ok();
-    }
-    
-    [Authorize(Policy = "CompanyAccessPolicy")]
-    [HttpGet("prova-company/{id}")]
-    public async Task<IActionResult> TestCompany()
-    {
-        return Ok();
     }
 }

@@ -3,4 +3,4 @@ using MediatR;
 
 namespace backend.Business.Student.LoadCvUseCase;
 
-public record LoadCvCommand(UploadCvFileDto Dto) : IRequest<string>;
+public record LoadCvCommand(UploadCvFileDto Dto, int StudentId) : IRequest<string>;
