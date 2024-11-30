@@ -32,4 +32,5 @@ public class InternshipController : ControllerBase
         
         return Ok(internship);
     }
+    
 }
