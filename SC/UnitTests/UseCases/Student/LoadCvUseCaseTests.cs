@@ -37,7 +37,7 @@ public class LoadCvUseCaseTests
         fileMock.Setup(f => f.FileName).Returns("cv.pdf");
         fileMock.Setup(f => f.OpenReadStream()).Returns(new MemoryStream());
 
-        var command = new LoadCvCommand( new UploadCvFileDto{File = fileMock.Object}, existingStudent.Id);
+        var command = new LoadCvCommand( new LoadCvFileDto{File = fileMock.Object}, existingStudent.Id);
         
         _services.S3ManagerMock
             .Setup(s3 => s3.UploadFileAsync(It.IsAny<Stream>(), It.IsAny<string>()))
@@ -73,7 +73,7 @@ public class LoadCvUseCaseTests
         fileMock.Setup(f => f.Length).Returns(0);
         fileMock.Setup(f => f.FileName).Returns("cv.pdf");
 
-        var command = new LoadCvCommand(new UploadCvFileDto { File = fileMock.Object }, existingStudent.Id);
+        var command = new LoadCvCommand(new LoadCvFileDto { File = fileMock.Object }, existingStudent.Id);
 
         await Assert.ThrowsAsync<ArgumentException>(() => _loadCvUseCase.Handle(command, CancellationToken.None));
 

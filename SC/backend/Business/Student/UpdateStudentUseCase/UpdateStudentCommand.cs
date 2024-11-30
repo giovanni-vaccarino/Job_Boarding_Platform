@@ -3,4 +3,4 @@ using MediatR;
 
 namespace backend.Business.Student.UpdateStudentUseCase;
 
-public record UpdateStudentCommand(StudentDto Dto): IRequest<StudentDto>;
+public record UpdateStudentCommand(int StudentId, UpdateStudentDto Dto): IRequest<StudentDto>;

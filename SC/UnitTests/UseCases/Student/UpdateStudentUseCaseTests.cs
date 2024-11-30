@@ -37,6 +37,8 @@ public class UpdateStudentUseCaseTests
     {
         var updatedName = "Updated Name";
         var updatedCf = "AAABBB00H00A000A";
+        var updatedSkills = new List<string>(["Skill 1", "Skill 2"]);
+        var updatedInterests = new List<string>(["Interest 1", "Interest 2"]);
         
         var existingUser = new User
         {
@@ -56,20 +58,23 @@ public class UpdateStudentUseCaseTests
         _dbContext.Students.Add(existingStudent);
         await _dbContext.SaveChangesAsync();
 
-        var studentDto = new StudentDto
+        var updateStudentDto = new UpdateStudentDto
         {
-            Id = existingStudent.Id,
             Name = updatedName,
-            Cf = updatedCf
+            Cf = updatedCf,
+            Skills = updatedSkills,
+            Interests = updatedInterests
         };
 
-        var command = new UpdateStudentCommand(studentDto);
+        var command = new UpdateStudentCommand(existingStudent.Id, updateStudentDto);
         
         var result = await _updateStudentUseCase.Handle(command, CancellationToken.None);
         
         Assert.NotNull(result);
         Assert.Equal(updatedName, result.Name);
         Assert.Equal(updatedCf, result.Cf);
+        Assert.Equal(updatedSkills, result.Skills);
+        Assert.Equal(updatedInterests, result.Interests);
     }
     
     /// <summary>
@@ -84,14 +89,13 @@ public class UpdateStudentUseCaseTests
         var updatedName = "Updated Name";
         var updatedCf = "AAABBB00H00A000A";
 
-        var studentDto = new StudentDto
+        var updateStudentDto = new UpdateStudentDto
         {
-            Id = nonExistentStudentId,
             Name = updatedName,
             Cf = updatedCf
         };
 
-        var command = new UpdateStudentCommand(studentDto);
+        var command = new UpdateStudentCommand(nonExistentStudentId, updateStudentDto);
         
         await Assert.ThrowsAsync<KeyNotFoundException>(() =>
             _updateStudentUseCase.Handle(command, CancellationToken.None));

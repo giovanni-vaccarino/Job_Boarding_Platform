@@ -39,16 +39,14 @@ public class UpdateStudentUseCase : IRequestHandler<UpdateStudentCommand, Studen
     /// <exception cref="KeyNotFoundException">Thrown if the student with the specified ID does not exist.</exception>
     public async Task<StudentDto> Handle(UpdateStudentCommand request, CancellationToken cancellationToken)
     {
-        var studentDto = request.Dto;
+        var updateStudentDto = request.Dto;
         
-        var student = await GetStudent(studentDto.Id);
+        var student = await GetStudent(request.StudentId);
         
-        student.Name = studentDto.Name;
-        student.CF = studentDto.Cf;
-        
-        // TODO Add the skills and interests properties once they are added to the Student entity as json
-        // student.Skills = studentDto.Skills;
-        // student.Interests = studentDto.Interests;
+        student.Name = updateStudentDto.Name;
+        student.CF = updateStudentDto.Cf;
+        student.Skills = updateStudentDto.Skills;
+        student.Interests = updateStudentDto.Interests;
 
         _dbContext.Students.Update(student);
         await _dbContext.SaveChangesAsync(cancellationToken);

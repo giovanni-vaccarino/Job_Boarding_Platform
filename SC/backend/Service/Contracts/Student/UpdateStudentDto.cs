@@ -2,18 +2,13 @@
 
 namespace backend.Service.Contracts.Student;
 
-public class StudentDto
+public class UpdateStudentDto
 {
-    public int Id { get; set; }
-    
     [MaxLength(255)]
     public string Name { get; set; }
     
     [MaxLength(255)]
     public string Cf { get; set; }
-    
-    [MaxLength(255)]
-    public string CvPath { get; set; }
     
     public List<string> Skills { get; set; } = new List<string>();
     

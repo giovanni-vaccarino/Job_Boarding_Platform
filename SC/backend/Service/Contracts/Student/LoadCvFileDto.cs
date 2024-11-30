@@ -1,6 +1,6 @@
 ﻿namespace backend.Service.Contracts.Student;
 
-public class UploadCvFileDto
+public class LoadCvFileDto
 {
     public required IFormFile File { get; set; }
 }
