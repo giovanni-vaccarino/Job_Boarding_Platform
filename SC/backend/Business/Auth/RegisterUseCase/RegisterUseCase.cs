@@ -117,7 +117,9 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
             {
                 Name = "",
                 CF = "",
-                UserId = userId
+                UserId = userId,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
             _dbContext.Students.Add(student);
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -128,7 +130,9 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
         {
             Name = "",
             VatNumber = "",
-            UserId = userId
+            UserId = userId,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
         _dbContext.Companies.Add(company);
         await _dbContext.SaveChangesAsync(cancellationToken);

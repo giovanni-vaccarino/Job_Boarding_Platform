@@ -50,6 +50,7 @@ public class LoadCvUseCase : IRequestHandler<LoadCvCommand, string>
         }
 
         student.CvPath = keyName;
+        student.UpdatedAt = DateTime.UtcNow;
         _dbContext.Students.Update(student);
 
         await _dbContext.SaveChangesAsync(cancellationToken);

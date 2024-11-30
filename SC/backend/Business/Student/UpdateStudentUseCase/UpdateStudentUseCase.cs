@@ -47,6 +47,7 @@ public class UpdateStudentUseCase : IRequestHandler<UpdateStudentCommand, Studen
         student.CF = updateStudentDto.Cf;
         student.Skills = updateStudentDto.Skills;
         student.Interests = updateStudentDto.Interests;
+        student.UpdatedAt = DateTime.UtcNow;
 
         _dbContext.Students.Update(student);
         await _dbContext.SaveChangesAsync(cancellationToken);
