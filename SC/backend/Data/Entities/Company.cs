@@ -16,10 +16,8 @@ public class Company : EntityBase
 
     public List<Internship>? Internships { get; set; } = null!;
     
-    [MaxLength(32)]
-    public required string CompanyWebsite { get; set; }
-   
-    [MaxLength(32)]
-    public required string CompanyLinkedin { get; set; }
+    [MaxLength(64)]
+    public required string Website { get; set; }
+    
     public User User { get; set; } = null!;
 }

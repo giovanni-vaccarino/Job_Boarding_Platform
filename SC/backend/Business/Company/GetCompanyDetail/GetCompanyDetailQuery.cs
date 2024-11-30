@@ -4,4 +4,4 @@ using MediatR;
 namespace backend.Business.Company.GetCompanyDetail;
 
 
-public record GetCompanyDetailQuery(string Id) : IRequest<UpdateCompanyProfileDto>;
+public record GetCompanyDetailQuery(int Id) : IRequest<CompanyDto>;

@@ -6,23 +6,16 @@ public class UpdateCompanyProfileDto
 {
     [Required]
     [MaxLength(255)]
-    public required string CompanyName { get; set; }
+    public required string Name { get; set; }
 
     [Required]
     [MaxLength(11)]
     [MinLength(11)]
-    public required string VAT { get; set; }
+    public required string Vat { get; set; }
     /*
     [Required]
     [Url]
     [MaxLength(255)]
     public required string Website { get; set; }
-    
-    [Required]
-    [Url]
-    [MaxLength(255)]
-    public required string Linkedin{get;set;}
     */
-    [Required]
-    public required int Id { get; set; }
 }

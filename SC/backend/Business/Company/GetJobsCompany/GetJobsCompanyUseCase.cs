@@ -3,7 +3,6 @@ using backend.Service.Contracts.Company;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Company.GetJobsCompany;
-using AutoMapper;
 
 public class GetJobsCompanyUseCase
 {
@@ -23,15 +22,15 @@ public class GetJobsCompanyUseCase
         var jobs = await _dbContext.Internships
             .Where(j => j.CompanyId == companyId)
             .ToListAsync(cancellationToken);
+        // TODO
+        // var jobDtos = jobs.Select(j => new CompanyJobsDto
+        // {
+        //     Title = j.Title,
+        //     ApplicationReceived = j.NumberOfApplicants,
+        //     JobType = j.JobType,
+        //     Location = j.Location
+        // }).ToList();
         
-        var jobDtos = jobs.Select(j => new CompanyJobsDto
-        {
-            Title = j.Title,
-            ApplicationReceived = j.NumberOfApplicants,
-            JobType = j.JobType,
-            Location = j.Location
-        }).ToList();
-        
-        return jobDtos;
+        return new List<CompanyJobsDto>();
     }
 }

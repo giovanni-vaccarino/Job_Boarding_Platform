@@ -1,46 +1,40 @@
-﻿using backend.Business.Auth.LoginUseCase;
+﻿using AutoMapper;
 using backend.Data;
-using backend.Service.Contracts.Auth;
-using backend.Shared.Security;
+using backend.Service.Contracts.Company;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Company.UpdateCompanyProfile;
 
-public class UpdateCompanyProfileUseCase : IRequestHandler<UpdateCompanyProfileCommand, string>
+public class UpdateCompanyProfileUseCase : IRequestHandler<UpdateCompanyProfileCommand, CompanyDto>
 {
     private readonly ILogger<UpdateCompanyProfileUseCase> _logger;
     private readonly AppDbContext _dbContext;
+    private readonly IMapper _mapper;
     
-    public UpdateCompanyProfileUseCase(AppDbContext dbContext, ILogger<UpdateCompanyProfileUseCase> logger)
+    public UpdateCompanyProfileUseCase(AppDbContext dbContext, ILogger<UpdateCompanyProfileUseCase> logger, IMapper mapper)
     {
         _logger = logger;
         _dbContext = dbContext;
+        _mapper = mapper;
     }
     
-    public async Task<string> Handle(UpdateCompanyProfileCommand request, CancellationToken cancellationToken)
+    public async Task<CompanyDto> Handle(UpdateCompanyProfileCommand request, CancellationToken cancellationToken)
     {
-        var updateInput = request.Dto;
+        var updateCompanyDto = request.Dto;
 
-        // Retrieve the existing company record
-        var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == updateInput.Id, cancellationToken);
-     
-        if (company == null)
-        {
-            throw new KeyNotFoundException("Company not found.");
-        }
+        var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken) 
+                      ?? throw new KeyNotFoundException("Company not found.");
 
-        // Update the company properties with the values from the Dto
-        company.Name = updateInput.CompanyName;
-        company.VatNumber = updateInput.VAT;
-        //TODO add website and linkedin to the company entity
+        company.Name = updateCompanyDto.Name;
+        company.VatNumber = updateCompanyDto.Vat;
         company.UpdatedAt = DateTime.UtcNow;
+        //TODO add website to the company entity
 
-        // Save the changes to the database
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Company profile updated successfully for CompanyId {CompanyId}", updateInput.Id);
+        _logger.LogInformation("Company profile updated successfully for CompanyId {CompanyId}", request.Id);
 
-        return "Company profile updated successfully.";
+        return _mapper.Map<Data.Entities.Company, CompanyDto>(company);
     }
 }

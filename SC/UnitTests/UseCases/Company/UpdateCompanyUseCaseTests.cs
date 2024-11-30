@@ -15,7 +15,7 @@ public class UpdateCompanyUseCaseTests
         _services = new IsolatedUseCaseTestServices<UpdateCompanyProfileUseCase>("UpdateCompanyProfileUseCaseTests");
         _dbContext = _services.DbContext;
         _updateCompanyUseCase = (UpdateCompanyProfileUseCase)Activator.CreateInstance(
-            typeof(UpdateCompanyProfileUseCase), _dbContext, _services.LoggerMock.Object)!;
+            typeof(UpdateCompanyProfileUseCase), _dbContext, _services.LoggerMock.Object, _services.Mapper)!;
     }
     
     [Fact(DisplayName = "Successfully update company profile")]
@@ -26,36 +26,39 @@ public class UpdateCompanyUseCaseTests
             Name = "Test Company",
             VatNumber = "12345678910",
             UserId = 1,
-            CompanyWebsite = "www.testcompany.com",
-            CompanyLinkedin = "www.linkedin.com/testcompany",
+            Website = "www.testcompany.com",
         };
         _dbContext.Companies.Add(existingCompany);
         await _dbContext.SaveChangesAsync();
+        
+        var updatedName = "Updated Company";
+        var updatedVat = "12345678910";
 
         var updateDto = new UpdateCompanyProfileDto()
         {
-            CompanyName = "Updated Company",
-            VAT = "12345678910", 
-            Id = 1
+            Name = updatedName,
+            Vat = updatedVat,
         };
-        var command = new UpdateCompanyProfileCommand(updateDto);
+        var command = new UpdateCompanyProfileCommand(existingCompany.Id, updateDto);
         
         var result = await _updateCompanyUseCase.Handle(command, CancellationToken.None);
         
         Assert.NotNull(result);
-        Assert.Equal("Company profile updated successfully.", result);
+        Assert.Equal(updatedName, result.Name);
+        Assert.Equal(updatedVat, result.VatNumber);
     }
     
-    [Fact(DisplayName = "Successfully update company profile")]
+    [Fact(DisplayName = "Successfully Throw An Exception If Company Not Found")]
     public async Task Should_Throw_If_Company_Not_Found()
     {
         var updateDto = new UpdateCompanyProfileDto()
         {
-            CompanyName = "Updated Company",
-            VAT = "12345678910", 
-            Id = 1
+            Name = "Updated Company",
+            Vat = "12345678910", 
         };
-        var command = new UpdateCompanyProfileCommand(updateDto);
+        
+        var nonExistingCompanyId = 1;
+        var command = new UpdateCompanyProfileCommand(nonExistingCompanyId, updateDto);
         
         await Assert.ThrowsAsync<KeyNotFoundException>(() => _updateCompanyUseCase.Handle(command, CancellationToken.None));
     }

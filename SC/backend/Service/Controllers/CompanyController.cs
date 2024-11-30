@@ -4,7 +4,7 @@ using backend.Business.Company.GetJobsCompany;
 using backend.Business.Company.UpdateCompanyProfile;
 using backend.Service.Contracts.Company;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Service.Controllers;
@@ -20,18 +20,20 @@ public class CompanyController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("profile")]
-    public async Task<IActionResult> GetProfile([FromQuery] string Id)
+    [Authorize]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProfile([FromRoute] int id)
     {
-        var response = await _mediator.Send(new GetCompanyDetailQuery(Id));
+        var response = await _mediator.Send(new GetCompanyDetailQuery(id));
 
         return Ok(response);
     }
     
-    [HttpPost("update-profile")]
-    public async Task<IActionResult> UpdateProfile([FromBody] UpdateCompanyProfileDto dto)
+    [Authorize]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProfile([FromRoute] int id, [FromBody] UpdateCompanyProfileDto dto)
     {
-        var response = await _mediator.Send(new UpdateCompanyProfileCommand(dto));
+        var response = await _mediator.Send(new UpdateCompanyProfileCommand(id, dto));
 
         return Ok(response);
     }
@@ -39,7 +41,6 @@ public class CompanyController : ControllerBase
     [HttpGet("jobs")]
     public async Task<IActionResult> GetJobs([FromQuery] int id)
     {
-        
         //TODO: its possible to define a dto also for the parameter of the query
         var response = await _mediator.Send(new GetJobsCompanyQuery(id));
 

@@ -4,4 +4,4 @@ using MediatR;
 
 namespace backend.Business.Company.UpdateCompanyProfile;
 
-public record UpdateCompanyProfileCommand(UpdateCompanyProfileDto Dto) : IRequest<string>;
+public record UpdateCompanyProfileCommand(int Id, UpdateCompanyProfileDto Dto) : IRequest<CompanyDto>;
