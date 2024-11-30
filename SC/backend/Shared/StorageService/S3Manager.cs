@@ -6,7 +6,7 @@ using Amazon.S3.Transfer;
 namespace backend.Shared.StorageService;
 
 
-public class S3Manager
+public class S3Manager : IS3Manager
 {
     private readonly string _bucketName;
     private readonly AmazonS3Client _s3Client;
@@ -98,7 +98,7 @@ public class S3Manager
                 MaxKeys = 1 
             };
 
-            var response = await _s3Client.ListObjectsV2Async(request);
+            await _s3Client.ListObjectsV2Async(request);
 
             Console.WriteLine("S3 connection successful.");
             return true;

@@ -52,7 +52,7 @@ builder.Services.AddMappers();
 builder.Services.AddDbContexts(connectionString); 
 
 // S3
-builder.Services.AddSingleton<S3Manager>();
+builder.Services.AddSingleton<IS3Manager, S3Manager>();
 
 // JWT
 JwtConfig? jwtConfig = configuration.GetSection("Jwt").Get<JwtConfig>();
