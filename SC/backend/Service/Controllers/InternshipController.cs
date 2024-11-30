@@ -1,4 +1,5 @@
-﻿using backend.Business.Internship.GetInternshipDetails;
+﻿using backend.Business.Internship.GetAllApplicants;
+using backend.Business.Internship.GetInternshipDetails;
 using backend.Business.Internship.GetInternshipUseCase;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,7 @@ public class InternshipController : ControllerBase
         _mediator = mediator;
     }
     
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<IActionResult> GetInternships()
     {
         var internships = await _mediator.Send(new GetInternshipQuery());
@@ -31,6 +32,14 @@ public class InternshipController : ControllerBase
         var internship = await _mediator.Send(new InternshipDetailsCommand(id));
         
         return Ok(internship);
+    }
+    
+    [HttpGet("all-applicants{id}")]
+    public async Task<IActionResult> GetAllApplicants([FromQuery] int id)
+    {
+        var applicants = await _mediator.Send(new QueryAllApplicantsJob(id));
+        
+        return Ok(applicants);
     }
     
 }
