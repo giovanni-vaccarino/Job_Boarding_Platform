@@ -13,6 +13,8 @@ public class AppDbContext : DbContext
     public DbSet<Company> Companies { get; set; } = null!;
     public DbSet<Internship> Internships { get; set; } = null!;
     
+    public DbSet<Application> Applications { get; set; } = null!;
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -33,6 +35,12 @@ public class AppDbContext : DbContext
             .HasMany(c => c.Internships)
             .WithOne(i => i.Company)
             .HasForeignKey(c => c.CompanyId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<Application>()
+            .HasOne(a => a.Student)
+            .WithMany(u => u.Applications)
+            .HasForeignKey(a => a.StudentId)
             .OnDelete(DeleteBehavior.Cascade);
         
     }

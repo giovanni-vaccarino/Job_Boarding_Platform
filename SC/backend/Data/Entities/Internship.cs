@@ -1,11 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using backend.Shared.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Data.Entities;
 
 public class Internship : EntityBase
 {
+   [ForeignKey("CompanyId")]
+   public required int CompanyId { get; set; }
+   public required Company Company { get; set; }
+   
+   public List<Application>? Applications { get; set; }
+   
+   //Attributes of the class
+   
    [MaxLength(255)]
    public string? Title { get; set; }
    
@@ -33,7 +42,5 @@ public class Internship : EntityBase
    [MaxLength(255)]
    public required string Location { get; set; }
    
-   [ForeignKey("CompanyId")]
-   public required int CompanyId { get; set; }
-   public required Company Company { get; set; }
+
 }

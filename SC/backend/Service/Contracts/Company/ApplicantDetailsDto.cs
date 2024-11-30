@@ -7,15 +7,15 @@ public class ApplicantDetailsDto
 {
     [Required]
     [MaxLength(255)]
-    public string CvPath { get; set; }
+    public string? CvPath { get; set; }
     
     [Required]
     [MaxLength(255)]
-    public List<string> skills { get; set; }
+    public List<string>? Skills { get; set; }
     
     [Required]
-    public DataType submissionDate { get; set; }
+    public DataType? SubmissionDate { get; set; }
     
     [Required]
-    public ApplicationStatus applicationStatus { get; set; }
+    public ApplicationStatus? ApplicationStatus { get; set; }
 }

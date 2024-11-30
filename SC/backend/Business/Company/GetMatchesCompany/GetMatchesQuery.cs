@@ -3,4 +3,4 @@ using MediatR;
 
 namespace backend.Business.Company.GetMatchesCompany;
 
-public record GetMatchesCommand():
+public record GetMatchesQuery(int Id): IRequest<List<SingleMatchesDetails>>;

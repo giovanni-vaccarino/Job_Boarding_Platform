@@ -6,6 +6,15 @@ namespace backend.Data.Entities;
 
 public class Student : EntityBase
 {
+    [ForeignKey("UserId")]
+    public required int UserId { get; set; }
+    
+    public User User { get; set; } = null!;
+    
+    public List<Application>? Applications { get; set; }
+    
+    //Attributes of the class
+    
     [MaxLength(255)]
     public required string Name { get; set; }
     
@@ -18,12 +27,8 @@ public class Student : EntityBase
     [MaxLength(128)]
     public string? ProfileImagePath { get; set; }
     
-    public List<string>? Skills { get; set; } = new List<string>();
-    
-    public List<string>? Interests { get; set; } = new List<string>();
-    
-    [ForeignKey("UserId")]
-    public required int UserId { get; set; }
-    
-    public User User { get; set; } = null!;
+    public List<string>? Skills { get; set; }
+
+    public List<string>? Interests { get; set; }
+
 }

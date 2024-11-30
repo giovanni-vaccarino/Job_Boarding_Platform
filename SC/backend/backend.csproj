@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="Service\Middlewares\" />
-    <Folder Include="Service\Profiles\" />
     <Folder Include="Shared\EmailService\" />
   </ItemGroup>
 

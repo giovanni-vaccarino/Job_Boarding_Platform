@@ -3,4 +3,4 @@ using MediatR;
 
 namespace backend.Business.Internship.GetAllApplicants;
 
-public record QueryAllApplicantsJob(int id) : IRequest<List<SingleApplicantToInternshipDto>>;
+public record QueryAllApplicantsJob(int Id) : IRequest<List<SingleApplicantToInternshipDto>>;
