@@ -1,12 +1,9 @@
-﻿using System.Reflection;
-using System.Text;
-using backend.Data;
+﻿using System.Text;
+using backend.Service.Middlewares;
 using backend.Shared;
 using backend.Shared.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 
 namespace backend.Service;
 
@@ -30,6 +27,14 @@ public static class ServiceCollectionExtensions
                     ClockSkew = TimeSpan.Zero
                 };
             });
+        
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("StudentAccessPolicy", policy =>
+                policy.Requirements.Add(new StudentAccessRequirement()));
+            options.AddPolicy("CompanyAccessPolicy", policy =>
+                policy.Requirements.Add(new CompanyAccessRequirement()));
+        });
 
         services.AddScoped<SecurityContext>();
     }

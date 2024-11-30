@@ -1,4 +1,5 @@
 ﻿using backend.Business.Student.GetStudentUseCase;
+using backend.Business.Student.LoadCvUseCase;
 using backend.Business.Student.UpdateStudentUseCase;
 using backend.Service.Contracts.Student;
 using MediatR;
@@ -34,5 +35,28 @@ public class StudentController : ControllerBase
         var res = await _mediator.Send(new UpdateStudentCommand(student));
 
         return Ok(res);
+    }
+    
+    [Authorize(Policy = "StudentAccessPolicy")]
+    [HttpPost]
+    public async Task<IActionResult> LoadCvStudent([FromBody] UploadCvFileDto dto)
+    {
+        var res = await _mediator.Send(new LoadCvCommand(dto));
+
+        return Ok(res);
+    }
+    
+    [Authorize(Policy = "StudentAccessPolicy")]
+    [HttpGet("prova/{id}")]
+    public async Task<IActionResult> Test()
+    {
+        return Ok();
+    }
+    
+    [Authorize(Policy = "CompanyAccessPolicy")]
+    [HttpGet("prova-company/{id}")]
+    public async Task<IActionResult> TestCompany()
+    {
+        return Ok();
     }
 }

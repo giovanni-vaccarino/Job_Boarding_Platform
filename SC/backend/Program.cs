@@ -3,9 +3,12 @@ using backend.Business;
 using backend.Business.Auth.LoginUseCase;
 using backend.Service;
 using backend.Service.Contracts.Auth;
+using backend.Service.Middlewares;
 using backend.Shared;
 using backend.Shared.Security;
+using backend.Shared.StorageService;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +51,9 @@ if (connectionString is null || string.IsNullOrEmpty(connectionString.DefaultCon
 builder.Services.AddMappers(); 
 builder.Services.AddDbContexts(connectionString); 
 
+// S3
+builder.Services.AddSingleton<S3Manager>();
+
 // JWT
 JwtConfig? jwtConfig = configuration.GetSection("Jwt").Get<JwtConfig>();
 if (jwtConfig is null || string.IsNullOrEmpty(jwtConfig.Key))
@@ -55,6 +61,8 @@ if (jwtConfig is null || string.IsNullOrEmpty(jwtConfig.Key))
     throw new InvalidOperationException("Invalid JWT configuration.");
 }
 builder.Services.AddAppAuthentication(jwtConfig);
+builder.Services.AddScoped<IAuthorizationHandler, StudentAccessHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, CompanyAccessHandler>();
 
 var app = builder.Build();
 // Enable CORS middleware

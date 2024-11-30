@@ -41,7 +41,7 @@ public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
         var loginInput = request.Dto;
         
         var user = await VerifyUserCredentials(loginInput);
-
+        
         var profileId = user.Student?.Id ?? user.Company?.Id ?? throw new Exception("User profile not found.");
         
         var tokenResponse = new TokenResponse
@@ -68,7 +68,10 @@ public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
     /// <exception cref="UnauthorizedAccessException">Thrown if the user credentials are invalid.</exception>
     private async Task<User> VerifyUserCredentials(UserLoginDto loginInput)
     {
-        var user =  await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginInput.Email);
+        var user =  await _dbContext.Users
+            .Include(u => u.Student)
+            .Include(u => u.Company)
+            .FirstOrDefaultAsync(u => u.Email == loginInput.Email);
         
         if (user == null || !_securityContext.ValidateHashed(loginInput.Password, user.PasswordHash))
         {

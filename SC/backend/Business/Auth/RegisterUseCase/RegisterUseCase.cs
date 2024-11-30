@@ -51,13 +51,13 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
             UpdatedAt = DateTime.UtcNow
         };
         
-        var accessToken = _securityContext.CreateAccessToken(user);
         var refreshToken = _securityContext.CreateRefreshToken(user);
-        
         user.RefreshToken = _securityContext.Hash(refreshToken);
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
+        var accessToken = _securityContext.CreateAccessToken(user);
+
         var profileId = await CreateNewProfile(registerInput.ProfileType, user.Id, cancellationToken);
         
         await _dbContext.SaveChangesAsync(cancellationToken);
