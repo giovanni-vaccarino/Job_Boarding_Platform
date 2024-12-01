@@ -3,12 +3,19 @@ using backend.Data;
 
 namespace UnitTests.UseCases.Company;
 
+/// <summary>
+/// Unit tests for the <see cref="GetCompanyDetailUseCase"/>.
+/// </summary>
 public class GetCompanyDetailUseCaseTests
 {
     private readonly IsolatedUseCaseTestServices<GetCompanyDetailUseCase> _services;
     private readonly AppDbContext _dbContext;
     private readonly GetCompanyDetailUseCase _getCompanyDetailUseCase;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GetCompanyDetailUseCaseTests"/> class.
+    /// Sets up the isolated services, database context, and use case instance for testing.
+    /// </summary>
     public GetCompanyDetailUseCaseTests()
     {
         _services = new IsolatedUseCaseTestServices<GetCompanyDetailUseCase>("UpdateCompanyProfileUseCaseTests");
@@ -17,6 +24,10 @@ public class GetCompanyDetailUseCaseTests
             typeof(GetCompanyDetailUseCase), _dbContext, _services.Mapper)!;
     }
     
+    /// <summary>
+    /// Tests that the <see cref="GetCompanyDetailUseCase"/> successfully retrieves company details 
+    /// when a valid company ID is provided.
+    /// </summary>
     [Fact(DisplayName = "Successfully update company profile")]
     public async Task Should_Get_Company_Details_Successfully()
     {
@@ -39,6 +50,10 @@ public class GetCompanyDetailUseCaseTests
         Assert.Equal(existingCompany.VatNumber, result.VatNumber);
     }
     
+    /// <summary>
+    /// Tests that the <see cref="GetCompanyDetailUseCase"/> throws a <see cref="KeyNotFoundException"/>
+    /// when the company with the specified ID does not exist.
+    /// </summary>
     [Fact(DisplayName = "Successfully Throw An Exception If Company Not Found")]
     public async Task Should_Throw_If_Company_Not_Found()
     {
