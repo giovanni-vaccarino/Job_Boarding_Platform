@@ -1,7 +1,7 @@
 ﻿using backend.Business.Company.AddJobCompany;
-using backend.Business.Company.GetCompanyDetail;
+using backend.Business.Company.GetCompanyDetailUseCase;
 using backend.Business.Company.GetJobsCompany;
-using backend.Business.Company.UpdateCompanyProfile;
+using backend.Business.Company.UpdateCompanyProfileUseCase;
 using backend.Service.Contracts.Company;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

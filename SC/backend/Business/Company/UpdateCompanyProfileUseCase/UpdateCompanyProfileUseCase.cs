@@ -4,7 +4,7 @@ using backend.Service.Contracts.Company;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Business.Company.UpdateCompanyProfile;
+namespace backend.Business.Company.UpdateCompanyProfileUseCase;
 
 public class UpdateCompanyProfileUseCase : IRequestHandler<UpdateCompanyProfileCommand, CompanyDto>
 {

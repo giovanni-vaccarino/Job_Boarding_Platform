@@ -4,7 +4,7 @@ using backend.Service.Contracts.Company;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Business.Company.GetCompanyDetail;
+namespace backend.Business.Company.GetCompanyDetailUseCase;
 
 public class GetCompanyDetailUseCase : IRequestHandler<GetCompanyDetailQuery, CompanyDto>
 {
