@@ -1,4 +1,4 @@
-﻿using backend.Business.Company.UpdateCompanyProfile;
+﻿using backend.Business.Company.UpdateCompanyProfileUseCase;
 using backend.Data;
 using backend.Service.Contracts.Company;
 
