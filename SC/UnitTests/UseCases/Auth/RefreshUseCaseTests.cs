@@ -44,7 +44,7 @@ public class RefreshUseCaseTests
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
         
-        _dbContext.Companies.Add(new Company() { UserId = user.Id, Name = "", VatNumber = ""});
+        _dbContext.Companies.Add(new backend.Data.Entities.Company() { UserId = user.Id, Name = "", VatNumber = "", Website = ""});
         await _dbContext.SaveChangesAsync();
         
         var refreshTokenDto = new RefreshTokenDto
@@ -137,7 +137,7 @@ public class RefreshUseCaseTests
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
         
-        _dbContext.Companies.Add(new Company() { UserId = user.Id, Name = "", VatNumber = ""});
+        _dbContext.Companies.Add(new backend.Data.Entities.Company() { UserId = user.Id, Name = "", VatNumber = "", Website = ""});
         await _dbContext.SaveChangesAsync();
         
         var refreshTokenDto = new RefreshTokenDto

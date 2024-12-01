@@ -27,7 +27,7 @@ public class LoadCvUseCaseTests
         {
             UserId = 1,
             Name = "Test Student",
-            CF = "AAABBB00H00A000A"
+            Cf = "AAABBB00H00A000A"
         };
         _dbContext.Students.Add(existingStudent);
         await _dbContext.SaveChangesAsync();
@@ -64,7 +64,7 @@ public class LoadCvUseCaseTests
         {
             UserId = 1,
             Name = "Test Student",
-            CF = "AAABBB00H00A000A"
+            Cf = "AAABBB00H00A000A"
         };
         _dbContext.Students.Add(existingStudent);
         await _dbContext.SaveChangesAsync();

@@ -51,7 +51,7 @@ public class UpdateStudentUseCaseTests
         var existingStudent = new backend.Data.Entities.Student
         {
             Name = "Old Name",
-            CF = "Old CF",
+            Cf = "Old CF",
             UserId = existingUser.Id,
         };
         

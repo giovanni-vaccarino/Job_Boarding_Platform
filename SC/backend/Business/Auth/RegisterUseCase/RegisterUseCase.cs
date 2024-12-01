@@ -116,7 +116,7 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
             var student = new Data.Entities.Student
             {
                 Name = "",
-                CF = "",
+                Cf = "",
                 UserId = userId,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
@@ -126,10 +126,11 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
             return student.Id;
         }
         
-        var company = new Company
+        var company = new Data.Entities.Company
         {
             Name = "",
             VatNumber = "",
+            Website = "",
             UserId = userId,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow

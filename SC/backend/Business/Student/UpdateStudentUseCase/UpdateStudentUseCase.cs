@@ -44,7 +44,7 @@ public class UpdateStudentUseCase : IRequestHandler<UpdateStudentCommand, Studen
         var student = await GetStudent(request.StudentId);
         
         student.Name = updateStudentDto.Name;
-        student.CF = updateStudentDto.Cf;
+        student.Cf = updateStudentDto.Cf;
         student.Skills = updateStudentDto.Skills;
         student.Interests = updateStudentDto.Interests;
         student.UpdatedAt = DateTime.UtcNow;

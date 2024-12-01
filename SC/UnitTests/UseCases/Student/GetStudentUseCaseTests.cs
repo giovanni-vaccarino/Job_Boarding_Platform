@@ -41,7 +41,7 @@ public class GetStudentUseCaseTests
         var existingStudent = new backend.Data.Entities.Student
         {
             Name = "Existing Student",
-            CF = "AAABBB00H00A000A",
+            Cf = "AAABBB00H00A000A",
             UserId = existingUser.Id,
         };
         _dbContext.Students.Add(existingStudent);
@@ -54,7 +54,7 @@ public class GetStudentUseCaseTests
         Assert.NotNull(result);
         Assert.Equal(existingStudent.Id, result.Id);
         Assert.Equal(existingStudent.Name, result.Name);
-        Assert.Equal(existingStudent.CF, result.Cf);
+        Assert.Equal(existingStudent.Cf, result.Cf);
     }
     
     /// <summary>
