@@ -17,13 +17,15 @@ public class Student : EntityBase
     
     [MaxLength(128)]
     public string? ProfileImagePath { get; set; }
-    
+
     public List<string>? Skills { get; set; } = new List<string>();
-    
+
     public List<string>? Interests { get; set; } = new List<string>();
     
     [ForeignKey("UserId")]
     public required int UserId { get; set; }
     
     public User User { get; set; } = null!;
+    
+    public List<Application>? Applications { get; set; }
 }

@@ -11,6 +11,9 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Student> Students { get; set; } = null!;
     public DbSet<Company> Companies { get; set; } = null!;
+    public DbSet<Internship> Internships { get; set; } = null!;
+    
+    public DbSet<Application> Applications { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,5 +30,18 @@ public class AppDbContext : DbContext
             .WithOne(c => c.User)
             .HasForeignKey<Company>(c => c.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<Company>()
+            .HasMany(c => c.Internships)
+            .WithOne(i => i.Company)
+            .HasForeignKey(c => c.CompanyId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<Application>()
+            .HasOne(a => a.Student)
+            .WithMany(u => u.Applications)
+            .HasForeignKey(a => a.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
     }
 }

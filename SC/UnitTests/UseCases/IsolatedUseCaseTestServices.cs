@@ -52,6 +52,7 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
         var config = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<StudentMappingProfile>();
+            cfg.AddProfile<CompanyMappingProfile>();
         });
 
         Mapper = config.CreateMapper();
