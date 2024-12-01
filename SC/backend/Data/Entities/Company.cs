@@ -11,13 +11,13 @@ public class Company : EntityBase
     [MaxLength(16)]
     public required string VatNumber { get; set; }
     
-    [ForeignKey("UserId")]
-    public required int UserId { get; set; }
-
-    public List<Internship>? Internships { get; set; } = null!;
-    
-    [MaxLength(64)]
+    [MaxLength(128)]
     public required string Website { get; set; }
     
+    [ForeignKey("UserId")]
+    public required int UserId { get; set; }
+    
     public User User { get; set; } = null!;
+
+    public List<Internship>? Internships { get; set; } = null!;
 }
