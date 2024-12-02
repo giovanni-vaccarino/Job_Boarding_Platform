@@ -6,16 +6,15 @@ namespace backend.Service.Contracts.Company;
 public class QuestionDto
 {
     [Required]
+    public required int Id { get; set; }
+    
     [MaxLength(255)]
-    public string questionName { get; set; }
+    [Required]
+    public required string Title { get; set; }
     
     [Required]
-    [MaxLength(255)]
-    public List<string> questionAnswer { get; set; }
+    public required QuestionType QuestionType { get; set; }
     
     [Required]
-    public QuestionType questionType { get; set; }
-    
-    [Required]
-    public List<string> questionOptions { get; set; }
+    public required List<string> Options { get; set; }
 }

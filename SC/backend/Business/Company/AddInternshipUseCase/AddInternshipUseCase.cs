@@ -12,7 +12,7 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
     private readonly IMapper _mapper;
     private readonly ILogger<AddInternshipUseCase> _logger;
 
-    public AddInternshipUseCase(AppDbContext dbContext, IMediator mediator, IMapper mapper, ILogger<AddInternshipUseCase> logger)
+    public AddInternshipUseCase(AppDbContext dbContext, IMapper mapper, ILogger<AddInternshipUseCase> logger)
     {
         _dbContext = dbContext;
         _mapper = mapper;

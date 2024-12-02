@@ -1,6 +1,8 @@
 ﻿using backend.Business.Company.AddInternshipUseCase;
+using backend.Business.Company.AddQuestionUseCase;
 using backend.Business.Company.GetCompanyDetailUseCase;
 using backend.Business.Company.GetInternshipsUseCase;
+using backend.Business.Company.GetQuestionsUseCase;
 using backend.Business.Company.UpdateCompanyProfileUseCase;
 using backend.Service.Contracts.Company;
 using MediatR;
@@ -66,17 +68,19 @@ public class CompanyController : ControllerBase
     
     [Authorize("CompanyAccessPolicy")]
     [HttpGet("{id}/questions")]
-    public async Task<IActionResult> GetQuestions([FromRoute] int id, [FromQuery] int? questionId)
+    public async Task<IActionResult> GetQuestions([FromRoute] int id)
     {
+        var response = await _mediator.Send(new GetQuestionsQuery(id));
         
-        return Ok();
+        return Ok(response);
     }
     
     [Authorize("CompanyAccessPolicy")]
     [HttpPost("{id}/questions")]
-    public async Task<IActionResult> AddQuestion([FromRoute] int id, [FromBody] string dto)
+    public async Task<IActionResult> AddQuestion([FromRoute] int id, [FromBody] AddQuestionDto dto)
     {
+        var response = await _mediator.Send(new AddQuestionCommand(id, dto));
         
-        return Ok();
+        return Ok(response);
     }
 }
