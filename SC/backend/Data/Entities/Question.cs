@@ -19,5 +19,5 @@ public class Question : EntityBase
     public required int CompanyId { get; set; }
     public Company Company { get; set; } = null!;
     
-    public List<JobQuestion> JobQuestions { get; set; } = new List<JobQuestion>();
+    public List<InternshipQuestion> InternshipQuestions { get; set; } = new List<InternshipQuestion>();
 }

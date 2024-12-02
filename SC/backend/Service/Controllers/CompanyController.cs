@@ -20,7 +20,7 @@ public class CompanyController : ControllerBase
         _mediator = mediator;
     }
 
-    [Authorize]
+    [Authorize("CompanyAccessPolicy")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProfile([FromRoute] int id)
     {
@@ -29,7 +29,7 @@ public class CompanyController : ControllerBase
         return Ok(response);
     }
     
-    [Authorize]
+    [Authorize("CompanyAccessPolicy")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProfile([FromRoute] int id, [FromBody] UpdateCompanyProfileDto dto)
     {

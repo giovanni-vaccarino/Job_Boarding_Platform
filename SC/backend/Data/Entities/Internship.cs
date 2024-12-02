@@ -5,7 +5,7 @@ using backend.Shared.Enums;
 namespace backend.Data.Entities;
 
 
-public class Job : EntityBase
+public class Internship : EntityBase
 {
    [MaxLength(255)]
    [Required]
@@ -38,5 +38,5 @@ public class Job : EntityBase
 
    public List<Application> Applications { get; set; } = new List<Application>();
    
-   public List<JobQuestion> JobQuestions { get; set; } = new List<JobQuestion>(); 
+   public List<InternshipQuestion> InternshipQuestions { get; set; } = new List<InternshipQuestion>(); 
 }

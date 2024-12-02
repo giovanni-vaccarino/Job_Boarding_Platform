@@ -12,8 +12,8 @@ public class Application : EntityBase
     
     public Student Student { get; set; } = null!;
     
-    [ForeignKey("JobId")]
-    public required int JobId { get; set; }
+    [ForeignKey("InternshipId")]
+    public required int InternshipId { get; set; }
     
-    public Job Job { get; set; } = null!;
+    public Internship Internship { get; set; } = null!;
 }

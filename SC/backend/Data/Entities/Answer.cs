@@ -10,7 +10,7 @@ public class Answer : EntityBase
     public required int ApplicationId { get; set; }
     public Application Application { get; set; } = null!;
 
-    [ForeignKey("JobQuestionId")]
-    public required int JobQuestionId { get; set; }
-    public JobQuestion JobQuestion { get; set; } = null!;
+    [ForeignKey("InternshipQuestionId")]
+    public required int InternshipQuestionId { get; set; }
+    public InternshipQuestion InternshipQuestion { get; set; } = null!;
 }

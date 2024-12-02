@@ -2,11 +2,11 @@
 
 namespace backend.Data.Entities;
 
-public class JobQuestion : EntityBase
+public class InternshipQuestion : EntityBase
 {
-    [ForeignKey("JobId")]
-    public required int JobId { get; set; }
-    public Job Job { get; set; } = null!;
+    [ForeignKey("InternshipId")]
+    public required int InternshipId { get; set; }
+    public Internship Internship { get; set; } = null!;
 
     [ForeignKey("QuestionId")]
     public required int QuestionId { get; set; }

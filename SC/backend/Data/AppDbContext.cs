@@ -13,10 +13,10 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Student> Students { get; set; } = null!;
     public DbSet<Company> Companies { get; set; } = null!;
-    public DbSet<Job> Jobs { get; set; } = null!;
+    public DbSet<Internship> Internships { get; set; } = null!;
     public DbSet<Application> Applications { get; set; } = null!;
     public DbSet<Question> Questions { get; set; } = null!;
-    public DbSet<JobQuestion> JobQuestions { get; set; } = null!;
+    public DbSet<InternshipQuestion> InternshipQuestions { get; set; } = null!;
     public DbSet<Answer> Answers { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ public class AppDbContext : DbContext
 
     // Company ↔ Jobs 
     modelBuilder.Entity<Company>()
-        .HasMany(c => c.Jobs)
+        .HasMany(c => c.Internships)
         .WithOne(j => j.Company)
         .HasForeignKey(j => j.CompanyId)
         .OnDelete(DeleteBehavior.Cascade);
@@ -57,15 +57,15 @@ public class AppDbContext : DbContext
         .OnDelete(DeleteBehavior.Cascade);
 
     // Job ↔ JobQuestions 
-    modelBuilder.Entity<Job>()
-        .HasMany(j => j.JobQuestions)
-        .WithOne(jq => jq.Job)
-        .HasForeignKey(jq => jq.JobId)
+    modelBuilder.Entity<Internship>()
+        .HasMany(j => j.InternshipQuestions)
+        .WithOne(jq => jq.Internship)
+        .HasForeignKey(jq => jq.InternshipId)
         .OnDelete(DeleteBehavior.Cascade);
 
     // Question ↔ JobQuestions 
     modelBuilder.Entity<Question>()
-        .HasMany(q => q.JobQuestions)
+        .HasMany(q => q.InternshipQuestions)
         .WithOne(jq => jq.Question)
         .HasForeignKey(jq => jq.QuestionId)
         .OnDelete(DeleteBehavior.Cascade);
@@ -79,17 +79,17 @@ public class AppDbContext : DbContext
 
     // Application ↔ Job 
     modelBuilder.Entity<Application>()
-        .HasOne(a => a.Job)
+        .HasOne(a => a.Internship)
         .WithMany(j => j.Applications)
-        .HasForeignKey(a => a.JobId)
+        .HasForeignKey(a => a.InternshipId)
         .OnDelete(DeleteBehavior.Cascade);
 
     modelBuilder.Entity<Application>()
-        .HasIndex(a => new { a.StudentId, a.JobId })
+        .HasIndex(a => new { a.StudentId, a.InternshipId })
         .IsUnique();
 
-    modelBuilder.Entity<JobQuestion>()
-        .HasIndex(jq => new { jq.JobId, jq.QuestionId })
+    modelBuilder.Entity<InternshipQuestion>()
+        .HasIndex(jq => new { JobId = jq.InternshipId, jq.QuestionId })
         .IsUnique();
 
     modelBuilder.Entity<Student>(entity =>
@@ -107,7 +107,7 @@ public class AppDbContext : DbContext
             ).Metadata.SetValueComparer(listValueComparer);
     });
 
-    modelBuilder.Entity<Job>(entity =>
+    modelBuilder.Entity<Internship>(entity =>
     {
         entity.Property(j => j.Requirements)
             .HasConversion(

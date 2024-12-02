@@ -19,7 +19,7 @@ public class Company : EntityBase
     
     public User User { get; set; } = null!;
 
-    public List<Job> Jobs { get; set; } = new List<Job>();
+    public List<Internship> Internships { get; set; } = new List<Internship>();
     
     public List<Question> Questions { get; set; } = new List<Question>(); 
 }
