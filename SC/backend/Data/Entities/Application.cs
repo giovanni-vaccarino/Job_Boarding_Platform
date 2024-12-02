@@ -5,22 +5,15 @@ namespace backend.Data.Entities;
 
 public class Application : EntityBase
 {
-    [ForeignKey("StudnetId")]
+    public required ApplicationStatus ApplicationStatus { get; set; }
+    
+    [ForeignKey("StudentId")]
     public required int StudentId { get; set; }
     
     public Student Student { get; set; } = null!;
     
-    [ForeignKey("InternshipId")]
-    public required int InternshipId { get; set; }
+    [ForeignKey("JobId")]
+    public required int JobId { get; set; }
     
-    public Internship Internship { get; set; } = null!;
-    
-    //Attributes of the class
-    
-    public required DateTime SubmissionDate { get; set; }
-    
-    public ApplicationStatus ApplicationStatus { get; set; }
-    
-    public DateTime LastStatusUpdate { get; set; }
-    
+    public Job Job { get; set; } = null!;
 }

@@ -6,18 +6,20 @@ namespace backend.Data.Entities;
 public class Company : EntityBase
 {
     [MaxLength(255)]
-    public required string Name { get; set; }
+    public string? Name { get; set; }
     
     [MaxLength(16)]
-    public required string VatNumber { get; set; }
+    public string? VatNumber { get; set; }
     
     [MaxLength(128)]
-    public required string Website { get; set; }
+    public string? Website { get; set; }
     
     [ForeignKey("UserId")]
     public required int UserId { get; set; }
     
     public User User { get; set; } = null!;
 
-    public List<Internship>? Internships { get; set; } = null!;
+    public List<Job> Jobs { get; set; } = new List<Job>();
+    
+    public List<Question> Questions { get; set; } = new List<Question>(); 
 }

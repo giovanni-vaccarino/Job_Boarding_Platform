@@ -20,7 +20,7 @@ public class QueryInternshipDetails
     
     public async Task<JobDetailsDto> GetInternshipDetails(int id, CancellationToken cancellationToken)
     {
-        var internship = await _dbContext.Internships
+        var internship = await _dbContext.Jobs
             .Where(c => c.Id == id)
             .FirstOrDefaultAsync(cancellationToken);
 

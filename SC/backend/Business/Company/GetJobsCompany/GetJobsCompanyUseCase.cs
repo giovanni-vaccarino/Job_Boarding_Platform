@@ -19,7 +19,7 @@ public class GetJobsCompanyUseCase
     {
         var companyId = request.Id;
         
-        var jobs = await _dbContext.Internships
+        var jobs = await _dbContext.Jobs
             .Where(j => j.CompanyId == companyId)
             .ToListAsync(cancellationToken);
         // TODO

@@ -25,7 +25,7 @@ public class AllApplicantsJobUseCase
         var internshipId = request.Id;
 
         var applications = await _dbContext.Applications
-            .Where(a => a.InternshipId == internshipId) // Fixed the filter to use InternshipId
+            .Where(a => a.JobId == internshipId) // Fixed the filter to use InternshipId
             .Include(a => a.Student) // Include the Student entity for mapping the name
             .ToListAsync(cancellationToken);
         
