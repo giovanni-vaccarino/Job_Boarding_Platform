@@ -1,26 +1,25 @@
 ﻿using AutoMapper;
 using backend.Data.Entities;
 using backend.Service.Contracts.Company;
+using backend.Service.Contracts.Internship;
 using backend.Shared;
 
 namespace backend.Service.Profiles;
 
 public class InternshipMappingProfile : Profile
 {
-    // public InternshipMappingProfile()
-    // {
-    //     CreateMap<Application, ApplicantDetailsDto>()
-    //         .ForMember(dest => dest.CvPath, opt => opt.MapFrom(src => src.Student.CvPath))
-    //         .ForMember(dest => dest.Skills, opt => opt.MapFrom(src => src.Student.Skills))
-    //         .ForMember(dest => dest.SubmissionDate, opt => opt.MapFrom(src => src.SubmissionDate))
-    //         .ForMember(dest => dest.ApplicationStatus, opt => opt.MapFrom(src => src.ApplicationStatus));
-    //     
-    //     CreateMap<Job, JobDetailsDto>()
-    //         .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-    //         .ForMember(dest => dest.JobCategory, opt => opt.MapFrom(src => src.JobCategory))
-    //         .ForMember(dest => dest.JobType, opt => opt.MapFrom(src => src.JobType))
-    //         .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
-    //         .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-    //         .ForMember(dest => dest.SkillsRequired, opt => opt.MapFrom(src => src.Requirements));
-    // }
+    public InternshipMappingProfile()
+    {
+        CreateMap<Internship, InternshipDto>()
+            .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => src.CreatedAt));
+        
+        CreateMap<AddJobDetailsDto, Internship>()
+            .ForMember(dest => dest.Requirements, opt => opt.MapFrom(src => src.Requirements))
+            .ForMember(dest => dest.CompanyId, opt => opt.Ignore())
+            .ForMember(dest => dest.Company, opt => opt.Ignore())
+            .ForMember(dest => dest.Applications, opt => opt.Ignore())
+            .ForMember(dest => dest.InternshipQuestions, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
+    }
 }

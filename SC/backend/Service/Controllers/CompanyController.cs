@@ -1,6 +1,6 @@
-﻿using backend.Business.Company.AddJobCompany;
+﻿using backend.Business.Company.AddInternshipUseCase;
 using backend.Business.Company.GetCompanyDetailUseCase;
-using backend.Business.Company.GetJobsCompany;
+using backend.Business.Company.GetInternshipsUseCase;
 using backend.Business.Company.UpdateCompanyProfileUseCase;
 using backend.Service.Contracts.Company;
 using MediatR;
@@ -38,20 +38,45 @@ public class CompanyController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("jobs")]
-    public async Task<IActionResult> GetJobs([FromQuery] int id)
+    [Authorize("CompanyAccessPolicy")]
+    [HttpGet("{id}/internships")]
+    public async Task<IActionResult> GetInternships([FromRoute] int id, [FromQuery] int? internshipId)
     {
-        //TODO: its possible to define a dto also for the parameter of the query
-        var response = await _mediator.Send(new GetJobsCompanyQuery(id));
+        var response = await _mediator.Send(new GetInternshipsQuery(id, internshipId));
 
         return Ok(response);
     }
     
-    [HttpPost("add-job")]
-    public async Task<IActionResult> AddJob([FromBody] AddJobCompanyDto dto)
+    [Authorize("CompanyAccessPolicy")]
+    [HttpPost("{id}/internships")]
+    public async Task<IActionResult> AddInternship([FromRoute] int id,[FromBody] AddInternshipDto dto)
     {
-        var response = await _mediator.Send(new AddJobCommand(dto));
+        var response = await _mediator.Send(new AddInternshipCommand(id, dto));
 
         return Ok(response);
+    }
+    
+    [Authorize("CompanyAccessPolicy")]
+    [HttpPut("{id}/internships/{internshipId}")]
+    public async Task<IActionResult> UpdateInternship([FromRoute] int id, [FromRoute] int internshipId, [FromBody] AddInternshipDto dto)
+    {
+        
+        return Ok();
+    }
+    
+    [Authorize("CompanyAccessPolicy")]
+    [HttpGet("{id}/questions")]
+    public async Task<IActionResult> GetQuestions([FromRoute] int id, [FromQuery] int? questionId)
+    {
+        
+        return Ok();
+    }
+    
+    [Authorize("CompanyAccessPolicy")]
+    [HttpPost("{id}/questions")]
+    public async Task<IActionResult> AddQuestion([FromRoute] int id, [FromBody] string dto)
+    {
+        
+        return Ok();
     }
 }
