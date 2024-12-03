@@ -1,24 +1,27 @@
-﻿using backend.Data;
-using backend.Shared.StorageService;
+﻿using AutoMapper;
+using backend.Data;
+using backend.Service.Contracts.Internship;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Internship.GetInternshipUseCase;
 
-public class GetInternshipUseCase: IRequestHandler<GetInternshipQuery, string>
+public class GetInternshipUseCase: IRequestHandler<GetInternshipQuery, List<InternshipDto>>
 {
     private readonly AppDbContext _dbContext;
-    private readonly IS3Manager _s3Manager;
+    private readonly IMapper _mapper;
 
-    public GetInternshipUseCase(AppDbContext dbContext, IS3Manager s3Manager)
+    public GetInternshipUseCase(AppDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
-        _s3Manager = s3Manager;
+        _mapper = mapper;
     }
     
-    public async Task<string> Handle(GetInternshipQuery request, CancellationToken cancellationToken)
+    public async Task<List<InternshipDto>> Handle(GetInternshipQuery request, CancellationToken cancellationToken)
     { 
-        var res = await _s3Manager.TestConnectionAsync();
-        
-        return "Nice";
+        var internships = await _dbContext.Internships
+            .ToListAsync(cancellationToken);
+
+        return _mapper.Map<List<InternshipDto>>(internships);
     }
 }

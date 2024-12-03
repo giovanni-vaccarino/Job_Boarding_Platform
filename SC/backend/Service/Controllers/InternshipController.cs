@@ -1,5 +1,6 @@
-﻿using backend.Business.Internship.GetAllApplicants;
-using backend.Business.Internship.GetInternshipDetails;
+﻿using backend.Business.Internship.ApplyToInternshipUseCase;
+using backend.Business.Internship.GetAllApplicants;
+using backend.Business.Internship.GetInternshipDetailsUseCase;
 using backend.Business.Internship.GetInternshipUseCase;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,28 +19,27 @@ public class InternshipController : ControllerBase
         _mediator = mediator;
     }
     
-    [HttpGet("all")]
+    [HttpGet]
     public async Task<IActionResult> GetInternships()
     {
-        var internships = await _mediator.Send(new GetInternshipQuery());
+        var response = await _mediator.Send(new GetInternshipQuery());
         
-        return Ok(internships);
+        return Ok(response);
     }
     
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetInternshipDetails(int id)
+    public async Task<IActionResult> GetInternshipDetails([FromRoute] int id)
     {
-        var internship = await _mediator.Send(new InternshipDetailsQuery(id));
+        var response = await _mediator.Send(new GetInternshipDetailsQuery(id));
         
-        return Ok(internship);
+        return Ok(response);
     }
     
-    [HttpGet("all-applicants{id}")]
-    public async Task<IActionResult> GetAllApplicants([FromQuery] int id)
+    [HttpPost("apply-internship/{id}/{internshipId}")]
+    public async Task<IActionResult> ApplyToInternship([FromRoute] int id, [FromRoute] int internshipId)
     {
-        var applicants = await _mediator.Send(new QueryAllApplicantsJob(id));
+        var response = await _mediator.Send(new ApplyToInternshipCommand(id, internshipId));
         
-        return Ok(applicants);
+        return Ok(response);
     }
-    
 }

@@ -1,4 +1,5 @@
-﻿using backend.Business.Student.GetStudentUseCase;
+﻿using backend.Business.Student.GetApplicationsUseCase;
+using backend.Business.Student.GetStudentUseCase;
 using backend.Business.Student.LoadCvUseCase;
 using backend.Business.Student.UpdateStudentUseCase;
 using backend.Service.Contracts.Student;
@@ -44,5 +45,14 @@ public class StudentController : ControllerBase
         var res = await _mediator.Send(new LoadCvCommand(dto, id));
 
         return Ok(res);
+    }
+    
+    [Authorize(Policy = "StudentAccessPolicy")]
+    [HttpGet("{id}/applications")]
+    public async Task<IActionResult> GetApplications(int id)
+    {
+        var response = await _mediator.Send(new GetApplicationsQuery(id));
+        
+        return Ok(response);
     }
 }

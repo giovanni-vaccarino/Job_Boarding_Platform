@@ -4,6 +4,7 @@ using backend.Business.Company.GetCompanyDetailUseCase;
 using backend.Business.Company.GetInternshipsUseCase;
 using backend.Business.Company.GetQuestionsUseCase;
 using backend.Business.Company.UpdateCompanyProfileUseCase;
+using backend.Business.Company.UpdateInternshipUseCase;
 using backend.Service.Contracts.Company;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -60,10 +61,11 @@ public class CompanyController : ControllerBase
     
     [Authorize("CompanyAccessPolicy")]
     [HttpPut("{id}/internships/{internshipId}")]
-    public async Task<IActionResult> UpdateInternship([FromRoute] int id, [FromRoute] int internshipId, [FromBody] AddInternshipDto dto)
+    public async Task<IActionResult> UpdateInternship([FromRoute] int id, [FromRoute] int internshipId, [FromBody] UpdateInternshipDto dto)
     {
+        var response = await _mediator.Send(new UpdateInternshipCommand(id, internshipId, dto));
         
-        return Ok();
+        return Ok(response);
     }
     
     [Authorize("CompanyAccessPolicy")]
