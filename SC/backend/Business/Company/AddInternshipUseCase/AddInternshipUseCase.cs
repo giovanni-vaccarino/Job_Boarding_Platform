@@ -6,12 +6,21 @@ using MediatR;
 
 namespace backend.Business.Company.AddInternshipUseCase;
 
+/// <summary>
+/// Handles the addition of an internship for a company.
+/// </summary>
 public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, InternshipDto>
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
     private readonly ILogger<AddInternshipUseCase> _logger;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AddInternshipUseCase"/> class.
+    /// </summary>
+    /// <param name="dbContext">The application database context.</param>
+    /// <param name="mapper">The AutoMapper instance for object mapping.</param>
+    /// <param name="logger">The logger instance for logging operations.</param>
     public AddInternshipUseCase(AppDbContext dbContext, IMapper mapper, ILogger<AddInternshipUseCase> logger)
     {
         _dbContext = dbContext;
@@ -19,6 +28,13 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
         _logger = logger;
     }
     
+    /// <summary>
+    /// Handles the command to add an internship for a company.
+    /// </summary>
+    /// <param name="request">The command containing the internship details and associated data.</param>
+    /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+    /// <returns>An <see cref="InternshipDto"/> object containing the details of the added internship.</returns>
+    /// <exception cref="Exception">Thrown if the operation encounters issues while persisting data.</exception>
     public async Task<InternshipDto> Handle(AddInternshipCommand request, CancellationToken cancellationToken)
     {
         var companyId = request.Id;

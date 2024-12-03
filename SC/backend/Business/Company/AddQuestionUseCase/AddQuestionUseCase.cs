@@ -8,12 +8,21 @@ using MediatR;
 
 namespace backend.Business.Company.AddQuestionUseCase;
 
+/// <summary>
+/// Handles the addition of a question for a company.
+/// </summary>
 public class AddQuestionUseCase : IRequestHandler<AddQuestionCommand, QuestionDto>
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
     private readonly ILogger<AddQuestionUseCase> _logger;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AddQuestionUseCase"/> class.
+    /// </summary>
+    /// <param name="dbContext">The application database context.</param>
+    /// <param name="mapper">The AutoMapper instance for object mapping.</param>
+    /// <param name="logger">The logger instance for logging operations.</param>
     public AddQuestionUseCase(AppDbContext dbContext, IMapper mapper, ILogger<AddQuestionUseCase> logger)
     {
         _dbContext = dbContext;
@@ -21,6 +30,13 @@ public class AddQuestionUseCase : IRequestHandler<AddQuestionCommand, QuestionDt
         _logger = logger;
     }
 
+    /// <summary>
+    /// Handles the command to add a question for a company.
+    /// </summary>
+    /// <param name="request">The command containing the question details and associated data.</param>
+    /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+    /// <returns>A <see cref="QuestionDto"/> object containing the details of the added question.</returns>
+    /// <exception cref="HttpRequestException">Thrown if the question validation fails.</exception>
     public async Task<QuestionDto> Handle(AddQuestionCommand request, CancellationToken cancellationToken)
     {
         var companyId = request.Id;

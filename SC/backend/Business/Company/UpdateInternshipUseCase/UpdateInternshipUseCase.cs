@@ -6,17 +6,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Company.UpdateInternshipUseCase;
 
+/// <summary>
+/// Handles the update of an existing internship for a company.
+/// </summary>
 public class UpdateInternshipUseCase : IRequestHandler<UpdateInternshipCommand, InternshipDto>
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UpdateInternshipUseCase"/> class.
+    /// </summary>
+    /// <param name="dbContext">The application database context.</param>
+    /// <param name="mapper">The AutoMapper instance for object mapping.</param>
     public UpdateInternshipUseCase(AppDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
     }
     
+    /// <summary>
+    /// Handles the command to update an internship associated with a specific company.
+    /// </summary>
+    /// <param name="request">The command containing the company ID, internship ID, and updated internship details.</param>
+    /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+    /// <returns>An <see cref="InternshipDto"/> object containing the updated details of the internship.</returns>
+    /// <exception cref="KeyNotFoundException">Thrown if the internship with the specified ID does not exist for the given company.</exception>
     public async Task<InternshipDto> Handle(UpdateInternshipCommand request, CancellationToken cancellationToken)
     {
         var companyId = request.Id;

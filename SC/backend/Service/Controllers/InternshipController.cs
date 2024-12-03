@@ -1,9 +1,7 @@
 ﻿using backend.Business.Internship.ApplyToInternshipUseCase;
-using backend.Business.Internship.GetAllApplicants;
 using backend.Business.Internship.GetInternshipDetailsUseCase;
 using backend.Business.Internship.GetInternshipUseCase;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Service.Controllers;

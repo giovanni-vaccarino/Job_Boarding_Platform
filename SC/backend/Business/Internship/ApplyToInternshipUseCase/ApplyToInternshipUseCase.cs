@@ -8,17 +8,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Internship.ApplyToInternshipUseCase;
 
+/// <summary>
+/// Handles the process of applying to an internship.
+/// </summary>
 public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand, ApplicationDto>
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ApplyToInternshipUseCase"/> class.
+    /// </summary>
+    /// <param name="dbContext">The application database context.</param>
+    /// <param name="mapper">The AutoMapper instance for object mapping.</param>
     public ApplyToInternshipUseCase(AppDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
     }
     
+    /// <summary>
+    /// Handles the command to apply a student to an internship.
+    /// </summary>
+    /// <param name="request">The command containing the student ID and internship ID.</param>
+    /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+    /// <returns>An <see cref="ApplicationDto"/> object containing the details of the submitted application.</returns>
+    /// <exception cref="KeyNotFoundException">Thrown if the student or internship is not found.</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the application deadline has passed or the student has already applied.</exception>
     public async Task<ApplicationDto> Handle(ApplyToInternshipCommand request, CancellationToken cancellationToken)
     {
         var studentId = request.StudentId;
@@ -41,6 +57,15 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
         return _mapper.Map<ApplicationDto>(application);;
     }
 
+    /// <summary>
+    /// Validates the application details to ensure the student and internship exist,
+    /// the application deadline has not passed, and the student has not already applied.
+    /// </summary>
+    /// <param name="studentId">The ID of the student applying.</param>
+    /// <param name="internshipId">The ID of the internship to apply for.</param>
+    /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+    /// <exception cref="KeyNotFoundException">Thrown if the student or internship is not found.</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the application deadline has passed or the student has already applied.</exception>
     private async Task ValidateApplication(int studentId, int internshipId, CancellationToken cancellationToken)
     {
         var student = await _dbContext.Students.FirstOrDefaultAsync(s => s.Id == studentId, cancellationToken);
