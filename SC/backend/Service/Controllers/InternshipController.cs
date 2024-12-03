@@ -2,6 +2,7 @@
 using backend.Business.Internship.GetInternshipDetailsUseCase;
 using backend.Business.Internship.GetInternshipUseCase;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Service.Controllers;
@@ -33,6 +34,7 @@ public class InternshipController : ControllerBase
         return Ok(response);
     }
     
+    [Authorize(Policy = "StudentAccessPolicy")]
     [HttpPost("apply-internship/{id}/{internshipId}")]
     public async Task<IActionResult> ApplyToInternship([FromRoute] int id, [FromRoute] int internshipId)
     {

@@ -54,24 +54,35 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
         await _dbContext.Applications.AddAsync(application, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
-        return _mapper.Map<ApplicationDto>(application);;
+        return _mapper.Map<ApplicationDto>(application);
     }
-
+    
     /// <summary>
     /// Validates the application details to ensure the student and internship exist,
-    /// the application deadline has not passed, and the student has not already applied.
+    /// the application deadline has not passed, the student has not already applied,
+    /// and the student's profile is complete (name, CF, and CV are required).
     /// </summary>
     /// <param name="studentId">The ID of the student applying.</param>
     /// <param name="internshipId">The ID of the internship to apply for.</param>
     /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
-    /// <exception cref="KeyNotFoundException">Thrown if the student or internship is not found.</exception>
-    /// <exception cref="InvalidOperationException">Thrown if the application deadline has passed or the student has already applied.</exception>
+    /// <exception cref="KeyNotFoundException">
+    /// Thrown if the student or internship is not found.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if the application deadline has passed, the student has already applied, 
+    /// or the student's profile is incomplete (missing name, CF, or CV).
+    /// </exception>
     private async Task ValidateApplication(int studentId, int internshipId, CancellationToken cancellationToken)
     {
         var student = await _dbContext.Students.FirstOrDefaultAsync(s => s.Id == studentId, cancellationToken);
         if (student == null)
         {
             throw new KeyNotFoundException($"Student with ID {studentId} not found.");
+        }
+        
+        if (string.IsNullOrWhiteSpace(student.Name) || string.IsNullOrWhiteSpace(student.Cf) || string.IsNullOrWhiteSpace(student.CvPath))
+        {
+            throw new InvalidOperationException("The student must have a name, a valid CF, and an uploaded CV to apply for an internship.");
         }
 
         var internship = await _dbContext.Internships.FirstOrDefaultAsync(i => i.Id == internshipId, cancellationToken);
