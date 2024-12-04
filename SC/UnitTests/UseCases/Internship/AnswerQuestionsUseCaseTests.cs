@@ -263,4 +263,244 @@ public class AnswerQuestionsUseCaseTests
 
         Assert.Equal("Question with ID 5 is not part of the internship.", exception.Message);
     }
+    
+    /// <summary>
+    /// Tests that an exception is thrown for open questions when no answer is provided.
+    /// </summary>
+    [Fact(DisplayName = "Throw exception when no answer provided for open question")]
+    public async Task Should_Throw_Exception_When_No_Answer_Provided_For_Open_Question()
+    {
+        var company = new backend.Data.Entities.Company
+        {
+            Name = "Test Company",
+            VatNumber = "123456789",
+            UserId = 1,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        _dbContext.Companies.Add(company);
+        _dbContext.SaveChanges();
+
+        var internship = new backend.Data.Entities.Internship
+        {
+            Title = "Software Developer Intern",
+            Company = company,
+            CompanyId = company.Id,
+            Description = "Develop software solutions.",
+            ApplicationDeadline = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
+            Location = "Remote",
+            Duration = DurationType.ThreeToSixMonths
+        };
+
+        var question = new Question
+        {
+            Title = "What is your favorite programming language?",
+            Type = QuestionType.OpenQuestion,
+            CompanyId = company.Id
+        };
+
+        _dbContext.Internships.Add(internship);
+        _dbContext.Questions.Add(question);
+        await _dbContext.SaveChangesAsync();
+
+        var internshipQuestion = new InternshipQuestion
+        {
+            InternshipId = internship.Id,
+            QuestionId = question.Id,
+            Internship = internship,
+            Question = question
+        };
+
+        var application = new Application
+        {
+            InternshipId = internship.Id,
+            ApplicationStatus = ApplicationStatus.InProgress,
+            StudentId = 1,
+            Internship = internship
+        };
+
+        _dbContext.InternshipQuestions.Add(internshipQuestion);
+        _dbContext.Applications.Add(application);
+        await _dbContext.SaveChangesAsync();
+
+        var command = new AnswerQuestionsCommand(application.Id,
+            new AnswerQuestionsDto
+            {
+                Questions = new List<SingleAnswerQuestion>
+                {
+                    new SingleAnswerQuestion
+                    {
+                        QuestionId = question.Id,
+                        Answer = new List<string>()
+                    }
+                }
+            });
+
+        var exception = await Assert.ThrowsAsync<ArgumentException>(() =>
+            _answerQuestionsUseCase.Handle(command, CancellationToken.None));
+
+        Assert.Equal("Open questions must have exactly one answer.", exception.Message);
+    }
+    
+    /// <summary>
+    /// Tests that an exception is thrown for multiple-choice questions when no valid index is provided.
+    /// </summary>
+    [Fact(DisplayName = "Throw exception when no valid index for multiple-choice question")]
+    public async Task Should_Throw_Exception_When_No_Valid_Index_For_Multiple_Choice_Question()
+    {
+        var company = new backend.Data.Entities.Company
+        {
+            Name = "Test Company",
+            VatNumber = "123456789",
+            UserId = 1,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        _dbContext.Companies.Add(company);
+        _dbContext.SaveChanges();
+
+        var internship = new backend.Data.Entities.Internship
+        {
+            Title = "Software Developer Intern",
+            Company = company,
+            CompanyId = company.Id,
+            Description = "Develop software solutions.",
+            ApplicationDeadline = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
+            Location = "Remote",
+            Duration = DurationType.ThreeToSixMonths
+        };
+
+        var question = new Question
+        {
+            Title = "Select all applicable programming languages.",
+            Type = QuestionType.MultipleChoice,
+            CompanyId = company.Id
+        };
+
+        _dbContext.Internships.Add(internship);
+        _dbContext.Questions.Add(question);
+        await _dbContext.SaveChangesAsync();
+
+        var internshipQuestion = new InternshipQuestion
+        {
+            InternshipId = internship.Id,
+            QuestionId = question.Id,
+            Internship = internship,
+            Question = question
+        };
+
+        var application = new Application
+        {
+            InternshipId = internship.Id,
+            ApplicationStatus = ApplicationStatus.InProgress,
+            StudentId = 1,
+            Internship = internship
+        };
+
+        _dbContext.InternshipQuestions.Add(internshipQuestion);
+        _dbContext.Applications.Add(application);
+        await _dbContext.SaveChangesAsync();
+
+        var command = new AnswerQuestionsCommand(application.Id,
+            new AnswerQuestionsDto
+            {
+                Questions = new List<SingleAnswerQuestion>
+                {
+                    new SingleAnswerQuestion
+                    {
+                        QuestionId = question.Id,
+                        Answer = new List<string> { "Invalid" }
+                    }
+                }
+            });
+
+        var exception = await Assert.ThrowsAsync<ArgumentException>(() =>
+            _answerQuestionsUseCase.Handle(command, CancellationToken.None));
+
+        Assert.Equal("Multiple-choice questions must have one or more valid answer indices.", exception.Message);
+    }
+    
+    /// <summary>
+    /// Tests that an exception is thrown for true/false questions with invalid answer.
+    /// </summary>
+    [Fact(DisplayName = "Throw exception for invalid answer for true/false question")]
+    public async Task Should_Throw_Exception_For_Invalid_Answer_For_TrueOrFalse_Question()
+    {
+        var company = new backend.Data.Entities.Company
+        {
+            Name = "Test Company",
+            VatNumber = "123456789",
+            UserId = 1,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        _dbContext.Companies.Add(company);
+        _dbContext.SaveChanges();
+
+        var internship = new backend.Data.Entities.Internship
+        {
+            Title = "Software Developer Intern",
+            Company = company,
+            CompanyId = company.Id,
+            Description = "Develop software solutions.",
+            ApplicationDeadline = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
+            Location = "Remote",
+            Duration = DurationType.ThreeToSixMonths
+        };
+
+        var question = new Question
+        {
+            Title = "Is C# your favorite language?",
+            Type = QuestionType.TrueOrFalse,
+            CompanyId = company.Id
+        };
+
+        _dbContext.Internships.Add(internship);
+        _dbContext.Questions.Add(question);
+        await _dbContext.SaveChangesAsync();
+
+        var internshipQuestion = new InternshipQuestion
+        {
+            InternshipId = internship.Id,
+            QuestionId = question.Id,
+            Internship = internship,
+            Question = question
+        };
+
+        var application = new Application
+        {
+            InternshipId = internship.Id,
+            ApplicationStatus = ApplicationStatus.InProgress,
+            StudentId = 1,
+            Internship = internship
+        };
+
+        _dbContext.InternshipQuestions.Add(internshipQuestion);
+        _dbContext.Applications.Add(application);
+        await _dbContext.SaveChangesAsync();
+
+        var command = new AnswerQuestionsCommand(application.Id,
+            new AnswerQuestionsDto
+            {
+                Questions = new List<SingleAnswerQuestion>
+                {
+                    new SingleAnswerQuestion
+                    {
+                        QuestionId = question.Id,
+                        Answer = new List<string> { "Not sure" }
+                    }
+                }
+            });
+
+        var exception = await Assert.ThrowsAsync<ArgumentException>(() =>
+            _answerQuestionsUseCase.Handle(command, CancellationToken.None));
+
+        Assert.Equal("The answer to a true or false question must be either 'true' or 'false'.", exception.Message);
+    }
+    
+    
+
 }

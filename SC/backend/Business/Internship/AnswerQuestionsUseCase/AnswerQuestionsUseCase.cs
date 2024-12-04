@@ -90,8 +90,6 @@ public class AnswerQuestionsUseCase : IRequestHandler<AnswerQuestionsCommand, Ap
             case QuestionType.TrueOrFalse:
                 ValidateTrueOrFalseQuestion(answers);
                 break;
-            default:
-                throw new ArgumentException($"Unknown question type for question ID {question.Id}.");
         }
     }
     
