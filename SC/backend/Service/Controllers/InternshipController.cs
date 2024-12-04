@@ -35,8 +35,8 @@ public class InternshipController : ControllerBase
     }
     
     [Authorize(Policy = "StudentAccessPolicy")]
-    [HttpPost("apply-internship/{id}/{internshipId}")]
-    public async Task<IActionResult> ApplyToInternship([FromRoute] int id, [FromRoute] int internshipId)
+    [HttpPost("apply-internship/{id}")]
+    public async Task<IActionResult> ApplyToInternship([FromRoute] int id, [FromQuery] int internshipId)
     {
         var response = await _mediator.Send(new ApplyToInternshipCommand(id, internshipId));
         

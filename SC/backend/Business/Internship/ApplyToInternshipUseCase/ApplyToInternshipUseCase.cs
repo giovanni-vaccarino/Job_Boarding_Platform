@@ -33,7 +33,7 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
     /// <param name="request">The command containing the student ID and internship ID.</param>
     /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
     /// <returns>An <see cref="ApplicationDto"/> object containing the details of the submitted application.</returns>
-    /// <exception cref="KeyNotFoundException">Thrown if the student or internship is not found.</exception>
+    /// <exception cref="KeyNotFoundException">Thrown if the internship is not found.</exception>
     /// <exception cref="InvalidOperationException">Thrown if the application deadline has passed or the student has already applied.</exception>
     public async Task<ApplicationDto> Handle(ApplyToInternshipCommand request, CancellationToken cancellationToken)
     {
@@ -66,7 +66,7 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
     /// <param name="internshipId">The ID of the internship to apply for.</param>
     /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
     /// <exception cref="KeyNotFoundException">
-    /// Thrown if the student or internship is not found.
+    /// Thrown if the internship is not found.
     /// </exception>
     /// <exception cref="InvalidOperationException">
     /// Thrown if the application deadline has passed, the student has already applied, 
@@ -74,11 +74,7 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
     /// </exception>
     private async Task ValidateApplication(int studentId, int internshipId, CancellationToken cancellationToken)
     {
-        var student = await _dbContext.Students.FirstOrDefaultAsync(s => s.Id == studentId, cancellationToken);
-        if (student == null)
-        {
-            throw new KeyNotFoundException($"Student with ID {studentId} not found.");
-        }
+        var student = await _dbContext.Students.FirstOrDefaultAsync(s => s.Id == studentId, cancellationToken) ?? throw new KeyNotFoundException($"Student with ID {studentId} not found.");
         
         if (string.IsNullOrWhiteSpace(student.Name) || string.IsNullOrWhiteSpace(student.Cf) || string.IsNullOrWhiteSpace(student.CvPath))
         {
