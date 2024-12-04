@@ -1,6 +1,8 @@
 ﻿using backend.Business.Internship.ApplyToInternshipUseCase;
 using backend.Business.Internship.GetInternshipDetailsUseCase;
 using backend.Business.Internship.GetInternshipUseCase;
+using backend.Business.Internship.UpdateStatusApplicationUseCase;
+using backend.Service.Contracts.Internship;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +41,30 @@ public class InternshipController : ControllerBase
     public async Task<IActionResult> ApplyToInternship([FromRoute] int id, [FromQuery] int internshipId)
     {
         var response = await _mediator.Send(new ApplyToInternshipCommand(id, internshipId));
+        
+        return Ok(response);
+    }
+    
+    [HttpGet("{internshipId}/applications")]
+    public async Task<IActionResult> GetInternshipApplicants([FromRoute] int internshipId)
+    {
+        var response = await _mediator.Send(new GetInternshipDetailsQuery(internshipId));
+        
+        return Ok(response);
+    }
+    
+    [HttpPatch("applications/{applicationId}")]
+    public async Task<IActionResult> UpdateStatusApplication([FromRoute] int applicationId, [FromBody] UpdateStatusApplicationDto dto)
+    {
+        var response = await _mediator.Send(new UpdateStatusApplicationCommand(applicationId, dto));
+        
+        return Ok(response);
+    }
+    
+    [HttpPost("applications/{applicationId}")]
+    public async Task<IActionResult> AnswerApplicationQuestions([FromRoute] int applicationId, [FromBody] UpdateStatusApplicationDto dto)
+    {
+        var response = await _mediator.Send(new UpdateStatusApplicationCommand(applicationId, dto));
         
         return Ok(response);
     }
