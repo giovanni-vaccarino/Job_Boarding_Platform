@@ -19,6 +19,8 @@ public class AppDbContext : DbContext
     public DbSet<InternshipQuestion> InternshipQuestions { get; set; } = null!;
     public DbSet<Answer> Answers { get; set; } = null!;
     
+    public DbSet<Match> Matches { get; set; } = null!;
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
     base.OnModelCreating(modelBuilder);
@@ -77,10 +79,24 @@ public class AppDbContext : DbContext
         .HasForeignKey(a => a.StudentId)
         .OnDelete(DeleteBehavior.Cascade);
 
-    // Application ↔ Job 
+    // Application ↔ Internship 
     modelBuilder.Entity<Application>()
         .HasOne(a => a.Internship)
         .WithMany(j => j.Applications)
+        .HasForeignKey(a => a.InternshipId)
+        .OnDelete(DeleteBehavior.Cascade);
+    
+    // Match ↔ Student
+    modelBuilder.Entity<Match>()
+        .HasOne(a => a.Student)
+        .WithMany(s => s.Matches)
+        .HasForeignKey(a => a.StudentId)
+        .OnDelete(DeleteBehavior.Cascade);
+    
+    // Match ↔ Internship
+    modelBuilder.Entity<Match>()
+        .HasOne(a => a.Internship)
+        .WithMany(s => s.Matches)
         .HasForeignKey(a => a.InternshipId)
         .OnDelete(DeleteBehavior.Cascade);
 
