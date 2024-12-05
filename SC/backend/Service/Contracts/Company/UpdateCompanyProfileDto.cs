@@ -12,10 +12,8 @@ public class UpdateCompanyProfileDto
     [MaxLength(11)]
     [MinLength(11)]
     public required string Vat { get; set; }
-    /*
-    [Required]
+    
     [Url]
     [MaxLength(255)]
-    public required string Website { get; set; }
-    */
+    public string? Website { get; set; }
 }

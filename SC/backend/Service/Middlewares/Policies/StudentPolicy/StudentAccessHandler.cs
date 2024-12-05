@@ -47,7 +47,11 @@ public class StudentAccessHandler : AuthorizationHandler<StudentAccessRequiremen
 
         if (context.Resource is HttpContext httpContext)
         {
-            var studentId = httpContext.Request.RouteValues["id"]?.ToString();
+            var studentId = httpContext.Request.RouteValues["studentId"]?.ToString();
+            if (string.IsNullOrEmpty(studentId))
+            {
+                studentId = httpContext.Request.Query["studentId"].FirstOrDefault();
+            }
             _logger.LogCritical(userId);
             _logger.LogCritical(studentId);
             if (!string.IsNullOrEmpty(studentId) &&

@@ -24,64 +24,64 @@ public class CompanyController : ControllerBase
     }
 
     [Authorize("CompanyAccessPolicy")]
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetProfile([FromRoute] int id)
+    [HttpGet("{companyId}")]
+    public async Task<IActionResult> GetProfile([FromRoute] int companyId)
     {
-        var response = await _mediator.Send(new GetCompanyDetailQuery(id));
+        var response = await _mediator.Send(new GetCompanyDetailQuery(companyId));
 
         return Ok(response);
     }
     
     [Authorize("CompanyAccessPolicy")]
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProfile([FromRoute] int id, [FromBody] UpdateCompanyProfileDto dto)
+    [HttpPut("{companyId}")]
+    public async Task<IActionResult> UpdateProfile([FromRoute] int companyId, [FromBody] UpdateCompanyProfileDto dto)
     {
-        var response = await _mediator.Send(new UpdateCompanyProfileCommand(id, dto));
+        var response = await _mediator.Send(new UpdateCompanyProfileCommand(companyId, dto));
 
         return Ok(response);
     }
 
     [Authorize("CompanyAccessPolicy")]
-    [HttpGet("{id}/internships")]
-    public async Task<IActionResult> GetInternships([FromRoute] int id, [FromQuery] int? internshipId)
+    [HttpGet("{companyId}/internships")]
+    public async Task<IActionResult> GetInternships([FromRoute] int companyId, [FromQuery] int? internshipId)
     {
-        var response = await _mediator.Send(new GetInternshipsQuery(id, internshipId));
-
-        return Ok(response);
-    }
-    
-    [Authorize("CompanyAccessPolicy")]
-    [HttpPost("{id}/internships")]
-    public async Task<IActionResult> AddInternship([FromRoute] int id,[FromBody] AddInternshipDto dto)
-    {
-        var response = await _mediator.Send(new AddInternshipCommand(id, dto));
+        var response = await _mediator.Send(new GetInternshipsQuery(companyId, internshipId));
 
         return Ok(response);
     }
     
     [Authorize("CompanyAccessPolicy")]
-    [HttpPut("{id}/internships/{internshipId}")]
-    public async Task<IActionResult> UpdateInternship([FromRoute] int id, [FromRoute] int internshipId, [FromBody] UpdateInternshipDto dto)
+    [HttpPost("{companyId}/internships")]
+    public async Task<IActionResult> AddInternship([FromRoute] int companyId,[FromBody] AddInternshipDto dto)
     {
-        var response = await _mediator.Send(new UpdateInternshipCommand(id, internshipId, dto));
+        var response = await _mediator.Send(new AddInternshipCommand(companyId, dto));
+
+        return Ok(response);
+    }
+    
+    [Authorize("CompanyAccessPolicy")]
+    [HttpPut("{companyId}/internships/{internshipId}")]
+    public async Task<IActionResult> UpdateInternship([FromRoute] int companyId, [FromRoute] int internshipId, [FromBody] UpdateInternshipDto dto)
+    {
+        var response = await _mediator.Send(new UpdateInternshipCommand(companyId, internshipId, dto));
         
         return Ok(response);
     }
     
     [Authorize("CompanyAccessPolicy")]
-    [HttpGet("{id}/questions")]
-    public async Task<IActionResult> GetQuestions([FromRoute] int id)
+    [HttpGet("{companyId}/questions")]
+    public async Task<IActionResult> GetQuestions([FromRoute] int companyId)
     {
-        var response = await _mediator.Send(new GetQuestionsQuery(id));
+        var response = await _mediator.Send(new GetQuestionsQuery(companyId));
         
         return Ok(response);
     }
     
     [Authorize("CompanyAccessPolicy")]
-    [HttpPost("{id}/questions")]
-    public async Task<IActionResult> AddQuestion([FromRoute] int id, [FromBody] AddQuestionDto dto)
+    [HttpPost("{companyId}/questions")]
+    public async Task<IActionResult> AddQuestion([FromRoute] int companyId, [FromBody] AddQuestionDto dto)
     {
-        var response = await _mediator.Send(new AddQuestionCommand(id, dto));
+        var response = await _mediator.Send(new AddQuestionCommand(companyId, dto));
         
         return Ok(response);
     }

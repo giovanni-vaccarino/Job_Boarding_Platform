@@ -89,12 +89,12 @@ public class StudentOrCompanyAccessHandler : AuthorizationHandler<StudentOrCompa
                     return;
                 }
                 _logger.LogCritical($"Company ID: {companyIdInt}.");
-                // var isAuthorizedCompany = await _dbContext.Applications
-                //     .Include(a => a.Job)
-                //     .AnyAsync(a => a.StudentId == studentGuid && a.Job.CompanyId == companyGuid);
-                
-                var isAuthorizedCompany = true; // Temporary solution, until the database is set up for applications
-                
+                var isAuthorizedCompany = await _dbContext.Applications
+                    .Include(a => a.Internship)
+                    .Where(a => a.StudentId == studentIdInt && a.Internship.CompanyId == companyIdInt)
+                    .AnyAsync();
+
+                //TODO Once I add the match table, I will need to check also for that case of permission
                 if (isAuthorizedCompany)
                 {
                     context.Succeed(requirement);

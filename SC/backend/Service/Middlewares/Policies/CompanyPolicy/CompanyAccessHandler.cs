@@ -47,7 +47,11 @@ public class CompanyAccessHandler : AuthorizationHandler<CompanyAccessRequiremen
 
         if (context.Resource is HttpContext httpContext)
         {
-            var companyId = httpContext.Request.RouteValues["id"]?.ToString();
+            var companyId = httpContext.Request.RouteValues["companyId"]?.ToString();
+            if (string.IsNullOrEmpty(companyId))
+            {
+                companyId = httpContext.Request.Query["companyId"].FirstOrDefault();
+            }
             _logger.LogCritical($"UserId: {userId}");
             _logger.LogCritical($"CompanyId: {companyId}");
 
