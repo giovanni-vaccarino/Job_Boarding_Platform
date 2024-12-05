@@ -44,7 +44,7 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
 
         var application = new Application
         {
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.Screening,
             StudentId = studentId,
             InternshipId = internshipId,
             CreatedAt = DateTime.UtcNow,

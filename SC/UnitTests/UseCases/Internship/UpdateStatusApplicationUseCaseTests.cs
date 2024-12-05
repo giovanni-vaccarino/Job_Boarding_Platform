@@ -65,7 +65,68 @@ public class UpdateStatusApplicationUseCaseTests
 
         var application = new Application
         {
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.Screening,
+            StudentId = 1,
+            Internship = internship,
+            InternshipId = internship.Id,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        _dbContext.Applications.Add(application);
+        await _dbContext.SaveChangesAsync();
+
+        var command = new UpdateStatusApplicationCommand(application.Id, 
+            new UpdateStatusApplicationDto{ Status = ApplicationStatus.OnlineAssessment });
+        
+        var result = await _updateStatusApplicationUseCase.Handle(command, CancellationToken.None);
+
+        Assert.NotNull(result);
+        Assert.Equal(ApplicationStatus.OnlineAssessment, result.ApplicationStatus);
+
+        var updatedApplication = await _dbContext.Applications.FirstOrDefaultAsync(app => app.Id == application.Id);
+        Assert.NotNull(updatedApplication);
+        Assert.Equal(ApplicationStatus.OnlineAssessment, updatedApplication.ApplicationStatus);
+    }
+    
+    /// <summary>
+    /// Tests that a KeyNotFoundException is thrown when the application is not found.
+    /// </summary>
+    [Fact(DisplayName = "Throw exception when application status is not compatible for updates")]
+    public async Task Should_Throw_Exception_When_Status_Not_Compatible()
+    {
+        var company = new backend.Data.Entities.Company
+        {
+            Name = "Test Company",
+            VatNumber = "123456789",
+            UserId = 1,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        _dbContext.Companies.Add(company);
+        await _dbContext.SaveChangesAsync();
+        
+        var internship = new backend.Data.Entities.Internship
+        {
+            Title = "Software Developer Intern",
+            Company = company,
+            CompanyId = company.Id,
+            Description = "Develop software solutions.",
+            ApplicationDeadline = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
+            Location = "Remote",
+            Duration = DurationType.ThreeToSixMonths,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        
+        _dbContext.Internships.Add(internship);
+        await _dbContext.SaveChangesAsync();
+
+        // For example let's assume the student hasn't provided the online assessment answers yet
+        var application = new Application
+        {
+            ApplicationStatus = ApplicationStatus.OnlineAssessment,
             StudentId = 1,
             Internship = internship,
             InternshipId = internship.Id,
@@ -79,14 +140,10 @@ public class UpdateStatusApplicationUseCaseTests
         var command = new UpdateStatusApplicationCommand(application.Id, 
             new UpdateStatusApplicationDto{ Status = ApplicationStatus.Accepted });
         
-        var result = await _updateStatusApplicationUseCase.Handle(command, CancellationToken.None);
+        var result = async () => await _updateStatusApplicationUseCase.Handle(command, CancellationToken.None);
 
-        Assert.NotNull(result);
-        Assert.Equal(ApplicationStatus.Accepted, result.ApplicationStatus);
-
-        var updatedApplication = await _dbContext.Applications.FirstOrDefaultAsync(app => app.Id == application.Id);
-        Assert.NotNull(updatedApplication);
-        Assert.Equal(ApplicationStatus.Accepted, updatedApplication.ApplicationStatus);
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(result);
+        Assert.Equal("The application status is not valid for updating.", exception.Message);
     }
 
     /// <summary>

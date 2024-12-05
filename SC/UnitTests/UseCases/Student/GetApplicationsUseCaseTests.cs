@@ -73,7 +73,7 @@ public class GetApplicationsUseCaseTests
 
         var application = new Application
         {
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.Screening,
             StudentId = student.Id,
             InternshipId = internship.Id,
             CreatedAt = DateTime.UtcNow,

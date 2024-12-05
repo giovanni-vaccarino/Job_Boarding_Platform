@@ -62,7 +62,7 @@ public class GetApplicationsUseCaseTests
 
         var application1 = new Application
         {
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.Screening,
             StudentId = 1,
             InternshipId = internship.Id,
             CreatedAt = DateTime.UtcNow,
@@ -71,7 +71,7 @@ public class GetApplicationsUseCaseTests
 
         var application2 = new Application
         {
-            ApplicationStatus = ApplicationStatus.Accepted,
+            ApplicationStatus = ApplicationStatus.Screening,
             StudentId = 2,
             InternshipId = internship.Id,
             CreatedAt = DateTime.UtcNow,
@@ -87,8 +87,8 @@ public class GetApplicationsUseCaseTests
 
         Assert.NotNull(result);
         Assert.Equal(2, result.Count);
-        Assert.Contains(result, app => app.ApplicationStatus == ApplicationStatus.InProgress);
-        Assert.Contains(result, app => app.ApplicationStatus == ApplicationStatus.Accepted);
+        Assert.Contains(result, app => app.ApplicationStatus == ApplicationStatus.Screening);
+        Assert.Contains(result, app => app.ApplicationStatus == ApplicationStatus.Screening);
     }
 
     /// <summary>

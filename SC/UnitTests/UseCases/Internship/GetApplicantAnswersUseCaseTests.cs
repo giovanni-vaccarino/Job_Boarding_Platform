@@ -81,7 +81,7 @@ public class GetApplicantAnswersUseCaseTests
         var application = new Application
         {
             InternshipId = internship.Id,
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.LastEvaluation,
             StudentId = 1,
             Internship = internship,
             CreatedAt = DateTime.UtcNow,
@@ -152,7 +152,7 @@ public class GetApplicantAnswersUseCaseTests
         var application = new Application
         {
             InternshipId = internship.Id,
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.OnlineAssessment,
             StudentId = 1,
             Internship = internship,
             CreatedAt = DateTime.UtcNow,

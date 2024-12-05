@@ -82,7 +82,7 @@ public class AnswerQuestionsUseCaseTests
         var application = new Application
         {
             InternshipId = internship.Id,
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.OnlineAssessment,
             StudentId = 1,
             Internship = internship,
             CreatedAt = DateTime.UtcNow,
@@ -110,6 +110,7 @@ public class AnswerQuestionsUseCaseTests
 
         Assert.NotNull(result);
         Assert.Equal(application.Id, result.Id);
+        Assert.Equal(ApplicationStatus.LastEvaluation, application.ApplicationStatus);
     }
 
     /// <summary>
@@ -163,7 +164,7 @@ public class AnswerQuestionsUseCaseTests
         var application = new Application
         {
             InternshipId = internship.Id,
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.OnlineAssessment,
             StudentId = 1,
             Internship = internship
         };
@@ -236,7 +237,7 @@ public class AnswerQuestionsUseCaseTests
         var application = new Application
         {
             InternshipId = internship.Id,
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.OnlineAssessment,
             StudentId = 1,
             Internship = internship
         };
@@ -315,7 +316,7 @@ public class AnswerQuestionsUseCaseTests
         var application = new Application
         {
             InternshipId = internship.Id,
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.OnlineAssessment,
             StudentId = 1,
             Internship = internship
         };
@@ -394,7 +395,7 @@ public class AnswerQuestionsUseCaseTests
         var application = new Application
         {
             InternshipId = internship.Id,
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.OnlineAssessment,
             StudentId = 1,
             Internship = internship
         };
@@ -473,7 +474,7 @@ public class AnswerQuestionsUseCaseTests
         var application = new Application
         {
             InternshipId = internship.Id,
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.OnlineAssessment,
             StudentId = 1,
             Internship = internship
         };
@@ -501,6 +502,82 @@ public class AnswerQuestionsUseCaseTests
         Assert.Equal("The answer to a true or false question must be either 'true' or 'false'.", exception.Message);
     }
     
-    
+    /// <summary>
+    /// Tests that an exception is thrown if the application status is not compatible with the following action.
+    /// </summary>
+    [Fact(DisplayName = "Throw exception for invalid state of the application")]
+    public async Task Should_Throw_Exception_For_Invalid_Application_Status()
+    {
+        var company = new backend.Data.Entities.Company
+        {
+            Name = "Test Company",
+            VatNumber = "123456789",
+            UserId = 1,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
 
+        _dbContext.Companies.Add(company);
+        _dbContext.SaveChanges();
+
+        var internship = new backend.Data.Entities.Internship
+        {
+            Title = "Software Developer Intern",
+            Company = company,
+            CompanyId = company.Id,
+            Description = "Develop software solutions.",
+            ApplicationDeadline = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
+            Location = "Remote",
+            Duration = DurationType.ThreeToSixMonths
+        };
+
+        var question = new Question
+        {
+            Title = "Is C# your favorite language?",
+            Type = QuestionType.TrueOrFalse,
+            CompanyId = company.Id
+        };
+
+        _dbContext.Internships.Add(internship);
+        _dbContext.Questions.Add(question);
+        await _dbContext.SaveChangesAsync();
+
+        var internshipQuestion = new InternshipQuestion
+        {
+            InternshipId = internship.Id,
+            QuestionId = question.Id,
+            Internship = internship,
+            Question = question
+        };
+
+        var application = new Application
+        {
+            InternshipId = internship.Id,
+            ApplicationStatus = ApplicationStatus.Screening,
+            StudentId = 1,
+            Internship = internship
+        };
+
+        _dbContext.InternshipQuestions.Add(internshipQuestion);
+        _dbContext.Applications.Add(application);
+        await _dbContext.SaveChangesAsync();
+
+        var command = new AnswerQuestionsCommand(application.Id,
+            new AnswerQuestionsDto
+            {
+                Questions = new List<SingleAnswerQuestion>
+                {
+                    new SingleAnswerQuestion
+                    {
+                        QuestionId = question.Id,
+                        Answer = new List<string> { "Not sure" }
+                    }
+                }
+            });
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            _answerQuestionsUseCase.Handle(command, CancellationToken.None));
+
+        Assert.Equal("The application status is not valid for answering assessment questions.", exception.Message);
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.Data;
 using backend.Service.Contracts.Internship;
+using backend.Shared.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,13 +27,17 @@ public class UpdateStatusApplicationUseCase : IRequestHandler<UpdateStatusApplic
             .Include(app => app.Internship)
             .FirstOrDefaultAsync(app => app.Id == applicationId, cancellationToken)
              ?? throw new KeyNotFoundException($"Application with ID {applicationId} not found.");
+
+        if (application.ApplicationStatus != ApplicationStatus.Screening
+            && application.ApplicationStatus != ApplicationStatus.LastEvaluation)
+        {
+            throw new InvalidOperationException("The application status is not valid for updating.");
+        }
         
         application.ApplicationStatus = updateStatusDto.Status;
 
         await _dbContext.SaveChangesAsync(cancellationToken);
-
-        var applicationDto = _mapper.Map<ApplicationDto>(application);
-
-        return applicationDto;
+        
+        return _mapper.Map<ApplicationDto>(application);
     }
 }

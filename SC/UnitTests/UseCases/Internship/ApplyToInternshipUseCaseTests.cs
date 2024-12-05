@@ -76,7 +76,7 @@ public class ApplyToInternshipUseCaseTests
 
         Assert.NotNull(result);
         Assert.Equal(student.Id, result.Id);
-        Assert.Equal(ApplicationStatus.InProgress, result.ApplicationStatus);
+        Assert.Equal(ApplicationStatus.Screening, result.ApplicationStatus);
         Assert.Equal(internship.Title, result.Internship.Title);
     }
     
@@ -216,7 +216,7 @@ public class ApplyToInternshipUseCaseTests
 
         var application = new Application
         {
-            ApplicationStatus = ApplicationStatus.InProgress,
+            ApplicationStatus = ApplicationStatus.Screening,
             StudentId = student.Id,
             InternshipId = internship.Id
         };

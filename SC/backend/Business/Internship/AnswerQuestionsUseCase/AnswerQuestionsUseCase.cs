@@ -30,6 +30,11 @@ public class AnswerQuestionsUseCase : IRequestHandler<AnswerQuestionsCommand, Ap
                 .ThenInclude(iq => iq.Question)
                 .FirstOrDefaultAsync(app => app.Id == applicationId, cancellationToken)
                     ?? throw new KeyNotFoundException($"Application with ID {applicationId} not found.");
+        
+        if (application.ApplicationStatus != ApplicationStatus.OnlineAssessment)
+        {
+            throw new InvalidOperationException("The application status is not valid for answering assessment questions.");
+        }
 
         var internshipQuestions = application.Internship.InternshipQuestions;
 
@@ -64,6 +69,7 @@ public class AnswerQuestionsUseCase : IRequestHandler<AnswerQuestionsCommand, Ap
             _dbContext.Answers.Add(answerEntity);
         }
         
+        application.ApplicationStatus = ApplicationStatus.LastEvaluation;
         await _dbContext.SaveChangesAsync(cancellationToken);
         
         return _mapper.Map<ApplicationDto>(application);
