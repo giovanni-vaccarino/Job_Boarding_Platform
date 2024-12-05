@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using backend.Data;
+using backend.Data.Entities;
 using backend.Service.Profiles;
 using backend.Shared.Security;
 using backend.Shared.StorageService;
@@ -53,6 +54,9 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
         {
             cfg.AddProfile<StudentMappingProfile>();
             cfg.AddProfile<CompanyMappingProfile>();
+            cfg.AddProfile<InternshipMappingProfile>();
+            cfg.AddProfile<QuestionMappingProfile>();
+            cfg.AddProfile<ApplicationMappingProfile>();
         });
 
         Mapper = config.CreateMapper();

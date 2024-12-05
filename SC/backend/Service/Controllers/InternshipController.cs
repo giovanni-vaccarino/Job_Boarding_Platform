@@ -1,6 +1,9 @@
-﻿using backend.Business.Internship.GetAllApplicants;
-using backend.Business.Internship.GetInternshipDetails;
+﻿using backend.Business.Internship.AnswerQuestionsUseCase;
+using backend.Business.Internship.ApplyToInternshipUseCase;
+using backend.Business.Internship.GetInternshipDetailsUseCase;
 using backend.Business.Internship.GetInternshipUseCase;
+using backend.Business.Internship.UpdateStatusApplicationUseCase;
+using backend.Service.Contracts.Internship;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,28 +21,57 @@ public class InternshipController : ControllerBase
         _mediator = mediator;
     }
     
-    [HttpGet("all")]
+    [HttpGet]
     public async Task<IActionResult> GetInternships()
     {
-        var internships = await _mediator.Send(new GetInternshipQuery());
+        var response = await _mediator.Send(new GetInternshipQuery());
         
-        return Ok(internships);
+        return Ok(response);
     }
     
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetInternshipDetails(int id)
+    public async Task<IActionResult> GetInternshipDetails([FromRoute] int id)
     {
-        var internship = await _mediator.Send(new InternshipDetailsQuery(id));
+        var response = await _mediator.Send(new GetInternshipDetailsQuery(id));
         
-        return Ok(internship);
+        return Ok(response);
     }
     
-    [HttpGet("all-applicants{id}")]
-    public async Task<IActionResult> GetAllApplicants([FromQuery] int id)
+    [Authorize(Policy = "StudentAccessPolicy")]
+    [HttpPost("apply-internship/{studentId}")]
+    public async Task<IActionResult> ApplyToInternship([FromRoute] int studentId, [FromQuery] int internshipId)
     {
-        var applicants = await _mediator.Send(new QueryAllApplicantsJob(id));
+        var response = await _mediator.Send(new ApplyToInternshipCommand(studentId, internshipId));
         
-        return Ok(applicants);
+        return Ok(response);
     }
     
+    [Authorize(Policy = "CompanyAccessPolicy")]
+    [HttpGet("{internshipId}/applications")]
+    public async Task<IActionResult> GetInternshipApplicants([FromRoute] int internshipId, [FromQuery] int companyId)
+    {
+        var response = await _mediator.Send(new GetInternshipDetailsQuery(internshipId));
+        
+        return Ok(response);
+    }
+    
+    [Authorize(Policy = "CompanyAccessPolicy")]
+    [HttpPatch("applications/{applicationId}")]
+    public async Task<IActionResult> UpdateStatusApplication([FromRoute] int applicationId, 
+        [FromBody] UpdateStatusApplicationDto dto, [FromQuery] int companyId)
+    {
+        var response = await _mediator.Send(new UpdateStatusApplicationCommand(applicationId, dto));
+        
+        return Ok(response);
+    }
+    
+    [Authorize(Policy = "StudentAccessPolicy")]
+    [HttpPost("applications/{applicationId}")]
+    public async Task<IActionResult> AnswerApplicationQuestions([FromRoute] int applicationId, 
+        [FromBody] AnswerQuestionsDto dto, [FromQuery] int studentId)
+    {
+        var response = await _mediator.Send(new AnswerQuestionsCommand(applicationId, dto));
+        
+        return Ok(response);
+    }
 }

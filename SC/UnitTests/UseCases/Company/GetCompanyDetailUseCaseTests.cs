@@ -18,7 +18,7 @@ public class GetCompanyDetailUseCaseTests
     /// </summary>
     public GetCompanyDetailUseCaseTests()
     {
-        _services = new IsolatedUseCaseTestServices<GetCompanyDetailUseCase>("UpdateCompanyProfileUseCaseTests");
+        _services = new IsolatedUseCaseTestServices<GetCompanyDetailUseCase>("GetCompanyDetailUseCaseTests");
         _dbContext = _services.DbContext;
         _getCompanyDetailUseCase = (GetCompanyDetailUseCase)Activator.CreateInstance(
             typeof(GetCompanyDetailUseCase), _dbContext, _services.Mapper)!;

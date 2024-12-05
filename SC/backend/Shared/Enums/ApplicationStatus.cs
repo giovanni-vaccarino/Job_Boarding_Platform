@@ -4,5 +4,7 @@ public enum ApplicationStatus
 {
     Accepted,
     Rejected,
-    InProgress,
+    Screening,
+    OnlineAssessment,
+    LastEvaluation,
 }

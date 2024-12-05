@@ -46,8 +46,8 @@ public class UpdateCompanyProfileUseCase : IRequestHandler<UpdateCompanyProfileC
 
         company.Name = updateCompanyDto.Name;
         company.VatNumber = updateCompanyDto.Vat;
+        company.Website = updateCompanyDto.Website;
         company.UpdatedAt = DateTime.UtcNow;
-        //TODO add website to the company entity
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

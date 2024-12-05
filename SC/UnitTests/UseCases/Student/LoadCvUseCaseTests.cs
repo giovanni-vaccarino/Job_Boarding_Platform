@@ -6,12 +6,19 @@ using Moq;
 
 namespace UnitTests.UseCases.Student;
 
+/// <summary>
+/// Unit tests for the <see cref="LoadCvUseCase"/>.
+/// </summary>
 public class LoadCvUseCaseTests
 {
     private readonly IsolatedUseCaseTestServices<LoadCvUseCase> _services;
     private readonly AppDbContext _dbContext;
     private readonly LoadCvUseCase _loadCvUseCase;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LoadCvUseCaseTests"/> class.
+    /// Sets up the isolated services, database context, and use case instance for testing.
+    /// </summary>
     public LoadCvUseCaseTests()
     {
         _services = new IsolatedUseCaseTestServices<LoadCvUseCase>("LoadCvUseCaseTests");
@@ -20,7 +27,10 @@ public class LoadCvUseCaseTests
         _loadCvUseCase = new LoadCvUseCase(_dbContext, _services.S3ManagerMock.Object);
     }
 
-    [Fact]
+    /// <summary>
+    /// Tests that the CV file is successfully uploaded when the provided file is valid.
+    /// </summary>
+    [Fact(DisplayName = "Upload file successfully when file is valid")]
     public async Task Handle_ShouldUploadFile_WhenFileIsValid()
     {
         var existingStudent = new backend.Data.Entities.Student
@@ -57,7 +67,10 @@ public class LoadCvUseCaseTests
         );
     }
     
-    [Fact]
+    /// <summary>
+    /// Tests that an <see cref="ArgumentException"/> is thrown when the provided file is empty.
+    /// </summary>
+    [Fact(DisplayName = "Throw exception when file is empty")]
     public async Task Handle_ShouldThrowArgumentException_WhenFileIsEmpty()
     {
         var existingStudent = new backend.Data.Entities.Student

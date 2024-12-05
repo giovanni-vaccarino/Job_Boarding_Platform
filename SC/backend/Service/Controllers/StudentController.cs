@@ -1,4 +1,5 @@
-﻿using backend.Business.Student.GetStudentUseCase;
+﻿using backend.Business.Student.GetApplicationsUseCase;
+using backend.Business.Student.GetStudentUseCase;
 using backend.Business.Student.LoadCvUseCase;
 using backend.Business.Student.UpdateStudentUseCase;
 using backend.Service.Contracts.Student;
@@ -20,29 +21,38 @@ public class StudentController : ControllerBase
     }
 
     [Authorize(Policy = "StudentAccessPolicy")]
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    [HttpGet("{studentId}")]
+    public async Task<IActionResult> Get(int studentId)
     {
-        var res = await _mediator.Send(new GetStudentQuery(Id: id));
+        var res = await _mediator.Send(new GetStudentQuery(Id: studentId));
         
         return Ok(res);
     }
 
     [Authorize(Policy = "StudentAccessPolicy")]
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateStudent([FromRoute] int id, [FromBody] UpdateStudentDto updateStudentDto)
+    [HttpPut("{studentId}")]
+    public async Task<IActionResult> UpdateStudent([FromRoute] int studentId, [FromBody] UpdateStudentDto updateStudentDto)
     {
-        var res = await _mediator.Send(new UpdateStudentCommand(id, updateStudentDto));
+        var res = await _mediator.Send(new UpdateStudentCommand(studentId, updateStudentDto));
 
         return Ok(res);
     }
     
     [Authorize(Policy = "StudentAccessPolicy")]
-    [HttpPost("cv/{id}")]
-    public async Task<IActionResult> LoadCvStudent([FromForm] LoadCvFileDto dto, int id)
+    [HttpPost("cv/{studentId}")]
+    public async Task<IActionResult> LoadCvStudent([FromForm] LoadCvFileDto dto, int studentId)
     {
-        var res = await _mediator.Send(new LoadCvCommand(dto, id));
+        var res = await _mediator.Send(new LoadCvCommand(dto, studentId));
 
         return Ok(res);
+    }
+    
+    [Authorize(Policy = "StudentAccessPolicy")]
+    [HttpGet("{studentId}/applications")]
+    public async Task<IActionResult> GetApplications(int studentId)
+    {
+        var response = await _mediator.Send(new GetApplicationsQuery(studentId));
+        
+        return Ok(response);
     }
 }

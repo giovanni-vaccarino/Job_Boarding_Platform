@@ -1,5 +1,6 @@
-﻿using MediatR;
+﻿using backend.Service.Contracts.Internship;
+using MediatR;
 
 namespace backend.Business.Internship.GetInternshipUseCase;
 
-public record GetInternshipQuery(): IRequest<string>;
+public record GetInternshipQuery(): IRequest<List<InternshipDto>>;
