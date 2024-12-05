@@ -7,6 +7,8 @@ import { ConfigServiceBuilder } from '../config/builder/ConfigServiceBuilder.ts'
 import { EnvConfigProvider } from '../config/env-provider/EnvConfigProvider.ts';
 import { IConfigService } from '../config/service/IConfigService.ts';
 import { IConfigServiceBuilder } from '../config/builder/IConfigServiceBuilder.ts';
+import { IInternshipApi } from '../API/internship/IInternshipApi.ts';
+import { InternshipApi } from '../API/internship/InternshipApi.ts';
 
 const container: Container = new Container();
 
@@ -24,5 +26,10 @@ container
   .inSingletonScope();
 
 container.bind<IAuthApi>(ServiceType.AuthApi).to(AuthApi).inSingletonScope();
+
+container
+  .bind<IInternshipApi>(ServiceType.InternshipApi)
+  .to(InternshipApi)
+  .inSingletonScope();
 
 export { container };

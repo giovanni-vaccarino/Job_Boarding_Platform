@@ -1,19 +1,25 @@
 import { Box, Typography, Button } from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
 import TimelineIcon from '@mui/icons-material/Timeline';
+import { AppRoutes } from '../../router.tsx';
+import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 
 export interface JobListItemProps {
   companyName: string;
   jobTitle: string;
   location: string;
-  datePosted: string;
+  datePosted: Date;
+  important?: boolean;
 }
 
 export const JobListItem = (props: JobListItemProps) => {
+  const navigate = useNavigateWrapper();
+
   return (
     <Box
       sx={{
-        width: '80%',
+        width: '73.5%',
+        height: '4.2rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -39,14 +45,17 @@ export const JobListItem = (props: JobListItemProps) => {
           <Typography variant="body2">{props.location}</Typography>
 
           <TimelineIcon fontSize="small" sx={{ ml: 2, mr: 0.5 }} />
-          <Typography variant="body2">Posted {props.datePosted}</Typography>
+          <Typography variant="body2">
+            Posted {props.datePosted.toLocaleDateString()}
+          </Typography>
         </Box>
       </Box>
 
       <Button
         variant="contained"
+        onClick={() => navigate(AppRoutes.Job)}
         sx={{
-          backgroundColor: 'primary.main',
+          backgroundColor: props.important ? 'red' : 'primary.main',
           color: 'white',
           textTransform: 'none',
           px: '2rem',

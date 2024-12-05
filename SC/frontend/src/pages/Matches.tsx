@@ -1,69 +1,21 @@
-﻿import { Box, Stack } from '@mui/material';
+import { CompanyMatches } from '../components/matches/CompanyMatches.tsx';
+import { StudentMatches } from '../components/matches/StudentMatches.tsx';
+import { useAppSelector } from '../core/store';
+import { TypeProfile } from '../models/auth/register.ts';
+import { withAuth } from '../core/hoc/withAuth.tsx';
 import { Page } from '../components/layout/Page.tsx';
-import { JobListItem } from '../components/list-items/JobListItem.tsx';
-import { TitleHeader } from '../components/page-title/TitleHeader.tsx';
 
-export const Matches = () => {
+export const Matches = withAuth(() => {
+  const authState = useAppSelector((state) => state.auth);
+  const profileType = authState.profileType;
+
   return (
     <Page>
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          overflow: 'hidden',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          mb: '1rem',
-        }}
-      >
-        <TitleHeader title={'Jobs for you'} />
-
-        <Stack
-          direction="column"
-          spacing={2}
-          sx={{
-            width: '100%',
-            mt: '3rem',
-            alignItems: 'center',
-          }}
-        >
-          <JobListItem
-            companyName={'Amazon'}
-            jobTitle={'Software Engineer'}
-            location={'Chicago'}
-            datePosted={'2 weeks ago'}
-          />
-
-          <JobListItem
-            companyName={'Amazon'}
-            jobTitle={'Software Engineer'}
-            location={'Chicago'}
-            datePosted={'2 weeks ago'}
-          />
-
-          <JobListItem
-            companyName={'Amazon'}
-            jobTitle={'Software Engineer'}
-            location={'Chicago'}
-            datePosted={'2 weeks ago'}
-          />
-
-          <JobListItem
-            companyName={'Amazon'}
-            jobTitle={'Software Engineer'}
-            location={'Chicago'}
-            datePosted={'2 weeks ago'}
-          />
-
-          <JobListItem
-            companyName={'Amazon'}
-            jobTitle={'Software Engineer'}
-            location={'Chicago'}
-            datePosted={'2 weeks ago'}
-          />
-        </Stack>
-      </Box>
+      {profileType === TypeProfile.Company ? (
+        <CompanyMatches />
+      ) : (
+        <StudentMatches />
+      )}
     </Page>
   );
-};
+});

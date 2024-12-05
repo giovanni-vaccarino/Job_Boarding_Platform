@@ -1,9 +1,16 @@
 ﻿import { AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
 import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
+import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
+import { Tab } from '../../core/store/slices/global.ts';
+import { TypeProfile } from '../../models/auth/register.ts';
 
 export const Header = () => {
   const navigate = useNavigateWrapper();
+  const activeTab = useAppSelector((state) => state.global.tabHomePage);
+  const authState = useAppSelector((state) => state.auth);
+  const profileType = authState.profileType;
+  const dispatch = useAppDispatch();
 
   return (
     <AppBar
@@ -30,7 +37,10 @@ export const Header = () => {
         <Typography
           variant="h4"
           sx={{ fontWeight: 'bold', color: 'primary.main', cursor: 'pointer' }}
-          onClick={() => navigate(AppRoutes.Home)}
+          onClick={() => {
+            navigate(AppRoutes.Home);
+            dispatch(appActions.global.setHomePageTab({ newTab: Tab.Offers }));
+          }}
         >
           S&C
         </Typography>
@@ -41,34 +51,55 @@ export const Header = () => {
             gap: 5,
           }}
         >
+          {profileType !== TypeProfile.Company && (
+            <Typography
+              onClick={() => {
+                navigate(AppRoutes.Home);
+                dispatch(
+                  appActions.global.setHomePageTab({ newTab: Tab.Offers })
+                );
+              }}
+              variant="body1"
+              sx={{
+                color: 'primary.main',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                fontWeight: activeTab === Tab.Offers ? 'bold' : 'normal',
+              }}
+            >
+              Offers
+            </Typography>
+          )}
           <Typography
-            onClick={() => navigate(AppRoutes.Home)}
-            variant="body1"
-            sx={{
-              color: 'primary.main',
-              cursor: 'pointer',
-              fontSize: '1.25rem',
+            onClick={() => {
+              navigate(AppRoutes.Matches);
+              dispatch(
+                appActions.global.setHomePageTab({ newTab: Tab.Matches })
+              );
             }}
-          >
-            Offers
-          </Typography>
-          <Typography
-            onClick={() => navigate(AppRoutes.Matches)}
             variant="body1"
             sx={{
               color: 'primary.main',
               cursor: 'pointer',
-              fontSize: '1.25rem',
+              fontSize: '1rem',
+              fontWeight: activeTab === Tab.Matches ? 'bold' : 'normal',
             }}
           >
             Matches
           </Typography>
           <Typography
+            onClick={() => {
+              navigate(AppRoutes.Activity);
+              dispatch(
+                appActions.global.setHomePageTab({ newTab: Tab.Activity })
+              );
+            }}
             variant="body1"
             sx={{
               color: 'primary.main',
               cursor: 'pointer',
-              fontSize: '1.25rem',
+              fontSize: '1rem',
+              fontWeight: activeTab === Tab.Activity ? 'bold' : 'normal',
             }}
           >
             Activity

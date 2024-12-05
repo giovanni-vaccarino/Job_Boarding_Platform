@@ -1,18 +1,25 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { LoginResponse } from '../../../models/auth/login';
+import { TypeProfile } from '../../../models/auth/register.ts';
 
 interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   loggedIn: boolean;
+  profileType: TypeProfile | null;
 }
 
 const initialState: AuthState = {
   accessToken: null,
   refreshToken: null,
   loggedIn: false,
+  profileType: null,
 };
+
+export interface SetProfileType {
+  type: TypeProfile;
+}
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -32,6 +39,9 @@ export const authSlice = createSlice({
       state.refreshToken = null;
       state.accessToken = null;
       state.loggedIn = false;
+    },
+    setProfileType: (state, action: PayloadAction<SetProfileType>) => {
+      state.profileType = action.payload.type;
     },
   },
 });

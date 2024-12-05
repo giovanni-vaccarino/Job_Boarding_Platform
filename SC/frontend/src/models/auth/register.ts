@@ -4,7 +4,13 @@ export interface RegisterResponse {
 }
 
 export interface RegisterInput {
-  username: string;
+  email: string;
   password: string;
-  profile: string;
+  confirmPassword: string;
+  profile: TypeProfile;
+}
+
+export enum TypeProfile {
+  Company,
+  Student,
 }
