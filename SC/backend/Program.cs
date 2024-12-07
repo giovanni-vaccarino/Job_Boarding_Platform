@@ -5,6 +5,7 @@ using backend.Service.Middlewares.Policies.CompanyPolicy;
 using backend.Service.Middlewares.Policies.StudentOrCompany;
 using backend.Service.Middlewares.Policies.StudentPolicy;
 using backend.Shared;
+using backend.Shared.MatchingBackgroundService;
 using backend.Shared.StorageService;
 using Microsoft.AspNetCore.Authorization;
 
@@ -42,6 +43,13 @@ builder.Services.AddControllers()
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Background matching service
+builder.Services.AddSingleton<MatchingBackgroundService>();
+builder.Services.AddSingleton<IJobQueue>(provider => 
+    provider.GetRequiredService<MatchingBackgroundService>());
+builder.Services.AddHostedService(provider => 
+    provider.GetRequiredService<MatchingBackgroundService>());
 
 // Mediator
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));

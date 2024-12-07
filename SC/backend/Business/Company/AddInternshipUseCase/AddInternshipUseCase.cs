@@ -2,6 +2,7 @@
 using backend.Data;
 using backend.Data.Entities;
 using backend.Service.Contracts.Internship;
+using backend.Shared.MatchingBackgroundService;
 using MediatR;
 
 namespace backend.Business.Company.AddInternshipUseCase;
@@ -14,6 +15,7 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
     private readonly ILogger<AddInternshipUseCase> _logger;
+    private readonly IJobQueue _jobQueue;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AddInternshipUseCase"/> class.
@@ -21,11 +23,17 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
     /// <param name="dbContext">The application database context.</param>
     /// <param name="mapper">The AutoMapper instance for object mapping.</param>
     /// <param name="logger">The logger instance for logging operations.</param>
-    public AddInternshipUseCase(AppDbContext dbContext, IMapper mapper, ILogger<AddInternshipUseCase> logger)
+    /// <param name="backgroundService">The background service for task execution.</param>
+    public AddInternshipUseCase(
+        AppDbContext dbContext,
+        IMapper mapper,
+        ILogger<AddInternshipUseCase> logger,
+        IJobQueue jobQueue)
     {
         _dbContext = dbContext;
         _mapper = mapper;
         _logger = logger;
+        _jobQueue = jobQueue;
     }
     
     /// <summary>
@@ -82,6 +90,9 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         var internshipDto = _mapper.Map<InternshipDto>(internship);
+        
+        var job = new InternshipMatchingTask(internship.Id);
+        _jobQueue.EnqueueJob(job);
 
         return internshipDto;
     }
