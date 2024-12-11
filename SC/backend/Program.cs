@@ -45,6 +45,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Background matching service
+builder.Services.AddSingleton<IInternshipMatchingTaskFactory, InternshipMatchingTaskFactory>();
 builder.Services.AddSingleton<MatchingBackgroundService>();
 builder.Services.AddSingleton<IJobQueue>(provider => 
     provider.GetRequiredService<MatchingBackgroundService>());

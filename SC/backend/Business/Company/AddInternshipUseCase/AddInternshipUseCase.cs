@@ -90,9 +90,6 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         var internshipDto = _mapper.Map<InternshipDto>(internship);
-        
-        var job = new InternshipMatchingTask(internship.Id);
-        _jobQueue.EnqueueJob(job);
 
         return internshipDto;
     }
