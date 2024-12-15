@@ -3,6 +3,7 @@ using backend.Business.Auth.LogoutUseCase;
 using backend.Business.Auth.RefreshUseCase;
 using backend.Business.Auth.RegisterUseCase;
 using backend.Service.Contracts.Auth;
+using backend.Shared.EmailService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,12 @@ namespace backend.Service.Controllers;
 public class AuthenticationController : ControllerBase
 {
     private readonly ISender _mediator;
+    private readonly EmailService _emailService;
     
-    public AuthenticationController(ISender mediator)
+    public AuthenticationController(ISender mediator, EmailService emailService)
     {
         _mediator = mediator;
+        _emailService = emailService;
     }
 
     [HttpPost("register")]
