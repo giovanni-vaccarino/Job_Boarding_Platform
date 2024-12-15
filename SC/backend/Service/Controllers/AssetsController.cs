@@ -34,6 +34,7 @@ public class AssetsController : ControllerBase
     [HttpGet("test")]
     public async Task<IActionResult> Test()
     {
+        //TODO endpoint just for matching testing reasons. Remove once matching is implemented
         var task = _taskFactory.Create(4);
         _jobQueue.EnqueueJob(task);
 

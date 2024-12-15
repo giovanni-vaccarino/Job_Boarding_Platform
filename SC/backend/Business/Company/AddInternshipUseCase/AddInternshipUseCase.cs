@@ -15,7 +15,6 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
     private readonly ILogger<AddInternshipUseCase> _logger;
-    private readonly IJobQueue _jobQueue;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AddInternshipUseCase"/> class.
@@ -23,17 +22,15 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
     /// <param name="dbContext">The application database context.</param>
     /// <param name="mapper">The AutoMapper instance for object mapping.</param>
     /// <param name="logger">The logger instance for logging operations.</param>
-    /// <param name="backgroundService">The background service for task execution.</param>
     public AddInternshipUseCase(
         AppDbContext dbContext,
         IMapper mapper,
-        ILogger<AddInternshipUseCase> logger,
-        IJobQueue jobQueue)
+        ILogger<AddInternshipUseCase> logger
+        )
     {
         _dbContext = dbContext;
         _mapper = mapper;
         _logger = logger;
-        _jobQueue = jobQueue;
     }
     
     /// <summary>
