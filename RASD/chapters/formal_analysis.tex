@@ -1,8 +1,13 @@
-\section{Formal Analysis Using Alloy}
-This section provides the description of the S\&C software trough the model analysis language alloy:
-\todo{revise the graph and put a screenshot of it}
 \begin{lstlisting}
+//ENUMERATIONS +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+enum ApplicationStatus { LastEvaluation, Rejected, Screening, OnlineAssessment, Accepted }
+enum QuestionType { MultipleChoice, OpenQuestion, TrueOrFalse }
+enum InternshipDuration { TwoToThreeMonths, ThreeToSixMonths, SixToTwelveMonths, MoreThanOneYear }
+enum AnswerStatus {Completed, Uncompleted}
+
 //SIGNATURE +++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 abstract sig User{
     email: disj one Email,
@@ -10,8 +15,9 @@ abstract sig User{
 }
 
 sig Student extends User{
-	appliedTo: disj some Internship,
-	student_info: disj one StudentInfo,
+	cv: disj one CV,
+	appliedTo: Internship,
+	skills: some Skills,
 	feedback_of_internship: Internship -> some Feedback,
 	feedback_of_platform: Feedback,
 	enrolled: one University
@@ -29,17 +35,19 @@ sig Company extends User {
 	feedback_of_platform: Feedback
 }
 
-sig StudentInfo{
-    skills: some Skills,
-    cv: disj one CV
-}
-
-
 sig Internship{
 	suitable_skills: set Skills,
 	feedback_internship: disj set Feedback,
 	questions: set Internship_Question,
-	status: one Status_Application
+	applications: disj set Student -> Application
+}
+
+sig Application{
+	title: String,
+	description: String,
+	status: ApplicationStatus,
+	forInternship: one Internship,
+	answers: set Answer
 }
 
 sig Internship_Question{
@@ -52,16 +60,10 @@ sig Match{
 
 sig Skills{}
 
-abstract sig Status_Application {}
-
-sig Processed_Application extends Status_Application {}
-sig Passed_Screening extends Status_Application {}
-sig Rejected_Application extends Status_Application {}
-sig Accepted_Application extends Status_Application {}
-
 
 sig Question {
-	answer: disj one Answer	
+	answer: disj one Answer,
+	type: QuestionType
 }{this in Internship_Question.has_questions}
 
 sig Answer {
@@ -74,9 +76,7 @@ sig Email {}
 sig Password {}
 
 sig CV {
-	email: disj one Email,
-	skills: some Skills
-}{this in StudentInfo.cv}
+}{this in Student.cv}
 
 
 enum Bool {True, False}
@@ -84,37 +84,31 @@ enum Bool {True, False}
 //FACT
 //++++++++++++++++++++++++++++++++++++++++++//
 
-
-//Email of the student must be the same of the one inserted in the CV
-fact SameEmailAsCV{
-	all s: Student| one c: CV |
-		c = s.student_info.cv and s.email = c.email
+fact ApplicationMustHaveStatus{
+	all a: Application |
+		one a.status
 }
+
 
 //Match between student and internship needs to have the same preferences
 fact SameMatchSamePreferences{
 	all m: Match | all s: Student | all i: Internship |
-		s->i in m.match iff #(s.student_info.skills & i.suitable_skills) != 0
+		s->i in m.match iff #(s.skills & i.suitable_skills) != 0
 }
 
-
-//The set of feedback of an internship needs to be the students' and company's ones
-fact SameMatchSamePreferences{
-	all m: Match | all s: Student | all i: Internship |
-		s->i in m.match iff #(s.student_info.skills & i.suitable_skills) != 0
-}
 
 
 //Intersection between match and application must be empty
 fact MatchAndApplicationDisjoint {
-    all s: Student, i: Internship |
-        (s -> i in Match.match) implies not (i in s.appliedTo)
+    all s: Student, i: Internship|
+        (s -> i in Match.match) implies not (i in (s.appliedTo))
 }
 
 
 //A student cannot apply to the same application more than one time
 fact MaximumOneApplicationPerIntership{
-	all s : Student | no i : Internship | i in s.appliedTo and #(i & s.appliedTo) > 1
+	all s : Student
+| no i : Internship | i in (s.appliedTo) and #(i & (s.appliedTo)) > 1
 }
 
 
@@ -125,29 +119,28 @@ fact InternshipQuestionsSubset {
 
 //In order to have an Accepted_Application all answer must be completed
 fact AllAnswersMustBeCompletedForAcceptedApplication {
-	all i: Internship| all q: Question |
-	i.status in Accepted_Application implies q in i.questions.has_questions and q.answer.completed in True
+	all i: Internship| all q: Question| all s: Student |
+	s.((i.applications).status) in Accepted implies q in i.questions.has_questions and q.answer.completed in True
 }
 
 //The answer are available only in an Accepted_Application status
 fact AnswersOnlyInAcceptedApplication {
-    all i: Internship | 
-        some i.questions.has_questions implies i.status in Accepted_Application
+    all i: Internship, s: Student | 
+        some i.questions.has_questions implies s.((i.applications).status) in Accepted
 }
-
 
 
 //Application has feedback only if its status is either Accepted_Application or Rejected_Application
 fact FeedbackOnlyForAcceptedOrRejectedApplication {
     all s: Student | all i: Internship |
-        some i.(s.feedback_of_internship) implies i.status in Accepted_Application or i.status in Rejected_Application
+        some i.(s.feedback_of_internship) implies s.((i.applications).status) in Accepted or s.((i.applications).status) in Rejected
 }
 
 
 //Cannot add feedback to application which are not Accepted_Application
 fact NoFeedbackForNonAcceptedApplication {
-    all i: Internship |
-        some i.feedback_internship implies i.status in Accepted_Application
+    all i: Internship, s: Student |
+        some i.feedback_internship implies (s.(i.applications).status) in Accepted
 }
 
 //PREDICATES
@@ -156,26 +149,19 @@ fact NoFeedbackForNonAcceptedApplication {
 //User add a CV
 pred StudentAddCV[s: Student, cv_new: CV]
 {
-	s.student_info.cv = s.student_info.cv + cv_new
+	s.cv = s.cv + cv_new
 } 
 
 //User remove a CV
 pred StudentRemoveCV[s: Student, cv_to_remove: CV]
 {
-	s.student_info.cv = s.student_info.cv - cv_to_remove
-}
-
-//User updates his CV informations (email and skills)
-pred NewCVInformation[s: Student,  cv_new_email: Email, skills_new: Skills]
-{
-    	s.student_info.cv.email = cv_new_email
-	s.student_info.cv.skills = s.student_info.cv.skills + skills_new
+	s.cv = s.cv - cv_to_remove
 }
 
 //New Match has been found between a student and internship and added
 pred AddNewMatch(s: Student, i: Internship, m: Match) {
     s -> i in m.match
-    and s.student_info.skills & i.suitable_skills != none
+    and s.skills & i.suitable_skills != none
 }
 
 //New feedback for an internship has been added by a student
@@ -208,13 +194,13 @@ fact UniversityTracksInternships {
 
 assert FeedbackConsistency {
     all i: Internship | all s: Student |  all u: University |
-    (i in s.appliedTo and #(i.(s.feedback_of_internship)) != 0) implies 
+    (i in (s.appliedTo) and #(i.(s.feedback_of_internship)) != 0) implies 
      i.(u.tracked_feedback) = i.(s.feedback_of_internship) and i in s.(u.tracked_internship)
 }
 
 assert ValidMatch {
     all m: Match | all s: Student | all i: Internship |
-    s -> i in m.match implies s.student_info.skills & i.suitable_skills != none
+    s -> i in m.match implies s.skills & i.suitable_skills != none
 }
 
 
@@ -222,10 +208,9 @@ pred simpleWorld{
 	#Student = 1
 	#University = 1
 	#Company = 1
-	#Internship = 1
+	#Internship = 2
 	#Internship_Question = 1
 	#Question = 1
-	#StudentInfo = 1
 	#Skills = 1
 }
 
@@ -234,8 +219,6 @@ pred simpleWorld{
 run StudentAddCV for 4
 
 run StudentRemoveCV for 4
-
-run NewCVInformation for 4
 
 run AddNewMatch for 4
 
@@ -249,13 +232,14 @@ check ValidMatch
 
 run simpleWorld for 5
 
+
 \end{lstlisting}
 
 
 
 \begin{figure}
     \centering
-    \includegraphics[angle=270, width=0.65\linewidth]{images/AlloySimpleWorld.png}
+    \includegraphics[angle=270, width=0.65\linewidth]{Images/ImagesRASD/AlloySimpleWorld.png}
     \caption{Simple world description in Alloy}
     \label{fig:simple-world}
 \end{figure}
