@@ -3,8 +3,9 @@ import { HomePageHeader } from '../components/page-headers/HomePageHeader.tsx';
 import { Box, MenuItem, Select, Stack, Typography } from '@mui/material';
 import { JobListItem } from '../components/list-items/JobListItem.tsx';
 import { useAppSelector } from '../core/store';
-import * as React from 'react';
 import { useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
+import { Internship } from '../models/internship/internship.ts';
 
 const jobList = [
   {
@@ -45,22 +46,23 @@ export const Home = () => {
   startOfWeek.setDate(today.getDate() - today.getDay());
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const filteredJobs = jobList.filter((job) => {
+  const internship = useLoaderData() as Internship[];
+
+  const filteredJobs = internship.filter((job) => {
     // Filter by search message
     const matchesSearch =
-      job.companyName.toLowerCase().includes(searchMessage.toLowerCase()) ||
-      job.jobTitle.toLowerCase().includes(searchMessage.toLowerCase()) ||
+      job.title.toLowerCase().includes(searchMessage.toLowerCase()) ||
+      job.title.toLowerCase().includes(searchMessage.toLowerCase()) ||
       job.location.toLowerCase().includes(searchMessage.toLowerCase());
 
-    // Filter by postedDate
     const matchesDate =
       postedDate === PostedDate.Everytime ||
       (postedDate === PostedDate.Today &&
-        job.datePosted.toDateString() === today.toDateString()) ||
+        job.dataCreated.toDateString() === today.toDateString()) ||
       (postedDate === PostedDate.CurrentWeek &&
-        job.datePosted >= startOfWeek) ||
+        job.dataCreated >= startOfWeek) ||
       (postedDate === PostedDate.CurrentMonth &&
-        job.datePosted >= startOfMonth);
+        job.dataCreated >= startOfMonth);
 
     return matchesSearch && matchesDate;
   });
@@ -126,10 +128,10 @@ export const Home = () => {
           filteredJobs.map((job, index) => (
             <JobListItem
               key={index}
-              companyName={job.companyName}
-              jobTitle={job.jobTitle}
+              companyName={job.title}
+              jobTitle={job.title}
               location={job.location}
-              datePosted={job.datePosted}
+              datePosted={new Date('2024-11-01')}
             />
           ))
         ) : (

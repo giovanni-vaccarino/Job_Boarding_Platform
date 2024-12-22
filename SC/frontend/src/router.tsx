@@ -15,6 +15,11 @@ import { Matches } from './pages/Matches.tsx';
 import { ForgotPasswordSetEmail } from './pages/ForgotPasswordSetEmail.tsx';
 import { ForgotPasswordSetPassword } from './pages/ForgotPasswordSetPassword.tsx';
 import { Job } from './pages/Job.tsx';
+import { InternshipLoader } from './core/API/loader/InternshipLoader.ts';
+import { InternshipDetailsLoader } from './core/API/loader/InternshipDetailsLoader.ts';
+import { useService } from './core/ioc/ioc-provider.tsx';
+import { ServiceType } from './core/ioc/service-type.ts';
+import { IInternshipApi } from './core/API/internship/IInternshipApi.ts';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
@@ -37,10 +42,12 @@ export const AppRoutes = Object.freeze({
 });
 
 export const useAppRouter = () => {
+  const internshipApi = useService<IInternshipApi>(ServiceType.InternshipApi);
   return createBrowserRouter(
     [
       {
         path: AppRoutes.Home,
+        loader: () => InternshipLoader(internshipApi),
         element: <Home />,
       },
       {
@@ -57,6 +64,8 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.Job,
+        loader: ({ params }) =>
+          InternshipDetailsLoader(internshipApi, params.id || ''),
         element: <Job />,
       },
       {
