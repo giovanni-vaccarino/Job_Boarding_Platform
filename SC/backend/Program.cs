@@ -46,7 +46,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Mail service
-builder.Services.AddSingleton<IEmailService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 
 // Background matching service
 builder.Services.AddSingleton<IInternshipMatchingTaskFactory, InternshipMatchingTaskFactory>();
