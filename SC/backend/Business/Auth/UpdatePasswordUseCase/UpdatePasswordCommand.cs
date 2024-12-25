@@ -1,3 +1,5 @@
-﻿namespace backend.Business.Auth.UpdatePasswordUseCase;
+﻿using MediatR;
 
-public record UpdatePasswordCommand();
+namespace backend.Business.Auth.UpdatePasswordUseCase;
+
+public record UpdatePasswordCommand(string Token, string Password) : IRequest<Unit>;

@@ -1,3 +1,5 @@
-﻿namespace backend.Business.Auth.SendForgotPasswordUseCase;
+﻿using MediatR;
 
-public record SendForgotPasswordCommand();
+namespace backend.Business.Auth.SendForgotPasswordUseCase;
+
+public record SendForgotPasswordCommand(string Email) : IRequest<Unit>;
