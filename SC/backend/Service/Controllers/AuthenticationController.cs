@@ -66,7 +66,6 @@ public class AuthenticationController : ControllerBase
         return Ok();
     }
     
-    [Authorize]
     [HttpPost("verify-email")]
     public async Task<IActionResult> VerifyMail(VerifyMailDto dto)
     {
@@ -75,7 +74,6 @@ public class AuthenticationController : ControllerBase
         return Ok();
     }
     
-    [Authorize]
     [HttpPost("send-reset-password")]
     public async Task<IActionResult> SendResetPassword(SendVerificationMailDto dto)
     {
@@ -84,7 +82,6 @@ public class AuthenticationController : ControllerBase
         return Ok();
     }
     
-    [Authorize]
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword(UpdatePasswordDto dto)
     {
