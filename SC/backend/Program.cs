@@ -5,6 +5,7 @@ using backend.Service.Middlewares.Policies.CompanyPolicy;
 using backend.Service.Middlewares.Policies.StudentOrCompany;
 using backend.Service.Middlewares.Policies.StudentPolicy;
 using backend.Shared;
+using backend.Shared.EmailService;
 using backend.Shared.MatchingBackgroundService;
 using backend.Shared.StorageService;
 using Microsoft.AspNetCore.Authorization;
@@ -43,6 +44,9 @@ builder.Services.AddControllers()
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Mail service
+builder.Services.AddSingleton<IEmailService, EmailService>();
 
 // Background matching service
 builder.Services.AddSingleton<IInternshipMatchingTaskFactory, InternshipMatchingTaskFactory>();
