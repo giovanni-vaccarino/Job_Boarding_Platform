@@ -13,6 +13,8 @@ public class User: EntityBase
     [MaxLength(255)]
     public string? RefreshToken { get; set; }
     
+    public required bool Verified { get; set; }
+    
     public Student? Student { get; set; } 
     
     public Company? Company { get; set; }

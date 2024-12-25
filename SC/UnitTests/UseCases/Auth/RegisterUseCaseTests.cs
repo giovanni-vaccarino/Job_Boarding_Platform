@@ -99,7 +99,8 @@ public class RegisterUseCaseTests
         var existingUser = new User
         {
             Email = "test@example.com",
-            PasswordHash = _services.SecurityContext.Hash("ExistingPassword123!")
+            PasswordHash = _services.SecurityContext.Hash("ExistingPassword123!"),
+            Verified = false
         };
         _dbContext.Users.Add(existingUser);
         await _dbContext.SaveChangesAsync();

@@ -1,3 +1,5 @@
-﻿namespace backend.Business.Auth.SendVerificationMailUseCase;
+﻿using MediatR;
 
-public record SendVerificationMailCommand();
+namespace backend.Business.Auth.SendVerificationMailUseCase;
+
+public record SendVerificationMailCommand(string Email) : IRequest<Unit>;

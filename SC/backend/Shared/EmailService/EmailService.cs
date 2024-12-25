@@ -4,7 +4,7 @@ using Amazon.SimpleEmail.Model;
 
 namespace backend.Shared.EmailService;
 
-public class EmailService
+public class EmailService : IEmailService
 {
     private readonly IConfiguration _configuration;
     private readonly IAmazonSimpleEmailService _sesClient;

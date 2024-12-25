@@ -48,7 +48,8 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
             Email = registerInput.Email,
             PasswordHash = _securityContext.Hash(registerInput.Password),
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            UpdatedAt = DateTime.UtcNow,
+            Verified = false
         };
         
         var refreshToken = _securityContext.CreateRefreshToken(user);

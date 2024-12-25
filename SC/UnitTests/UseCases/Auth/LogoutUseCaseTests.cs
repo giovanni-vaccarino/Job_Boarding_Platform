@@ -36,6 +36,7 @@ public class LogoutUseCaseTests
             Id = 1,
             Email = "test@example.com",
             PasswordHash = _services.SecurityContext.Hash("Password123!"),
+            Verified = false
         };
         var refreshToken = _services.SecurityContext.CreateRefreshToken(user);
         user.RefreshToken = _services.SecurityContext.Hash(refreshToken);
@@ -67,6 +68,7 @@ public class LogoutUseCaseTests
             Id = 1,
             Email = "test@example.com",
             PasswordHash = _services.SecurityContext.Hash("Password123!"),
+            Verified = false
         };
         var accessToken = _services.SecurityContext.CreateAccessToken(user);
 

@@ -2,4 +2,4 @@
 
 namespace backend.Business.Auth.VerifyMailUseCase;
 
-public record VerifyMailCommand() : IRequest<Unit>;
+public record VerifyMailCommand(string VerificationToken) : IRequest<Unit>;

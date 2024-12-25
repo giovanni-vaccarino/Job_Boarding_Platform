@@ -2,8 +2,9 @@
 using backend.Business.Auth.LogoutUseCase;
 using backend.Business.Auth.RefreshUseCase;
 using backend.Business.Auth.RegisterUseCase;
+using backend.Business.Auth.SendVerificationMailUseCase;
+using backend.Business.Auth.VerifyMailUseCase;
 using backend.Service.Contracts.Auth;
-using backend.Shared.EmailService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,10 @@ namespace backend.Service.Controllers;
 public class AuthenticationController : ControllerBase
 {
     private readonly ISender _mediator;
-    private readonly EmailService _emailService;
     
-    public AuthenticationController(ISender mediator, EmailService emailService)
+    public AuthenticationController(ISender mediator)
     {
         _mediator = mediator;
-        _emailService = emailService;
     }
 
     [HttpPost("register")]
@@ -52,6 +51,24 @@ public class AuthenticationController : ControllerBase
     public async Task<IActionResult> Logout()
     {
         await _mediator.Send(new LogoutCommand());
+
+        return Ok();
+    }
+    
+    [Authorize]
+    [HttpPost("send-verification-email")]
+    public async Task<IActionResult> SendVerificationMail(SendVerificationMailDto dto)
+    {
+        await _mediator.Send(new SendVerificationMailCommand(dto.Email));
+
+        return Ok();
+    }
+    
+    [Authorize]
+    [HttpPost("verify-email")]
+    public async Task<IActionResult> VerifyMail(VerifyMailDto dto)
+    {
+        await _mediator.Send(new VerifyMailCommand(dto.VerificationToken));
 
         return Ok();
     }
