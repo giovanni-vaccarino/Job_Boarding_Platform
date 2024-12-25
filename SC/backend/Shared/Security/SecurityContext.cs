@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using backend.Data.Entities;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
 using backend.Shared.Enums;
 
 namespace backend.Shared.Security;
@@ -100,8 +99,8 @@ public class SecurityContext
         {
             Subject = new ClaimsIdentity(new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userId),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("userId", userId),
+                new Claim("jti", Guid.NewGuid().ToString()),
                 new Claim("purpose", "email-verification")
             }),
             Expires = DateTime.UtcNow.AddHours(24),

@@ -2,7 +2,8 @@
 using backend.Shared.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.JsonWebTokens;
+using System.IdentityModel.Tokens.Jwt;
+
 
 namespace backend.Business.Auth.VerifyMailUseCase;
 
@@ -24,7 +25,12 @@ public class VerifyMailUseCase : IRequestHandler<VerifyMailCommand, Unit>
         var verificationToken = request.VerificationToken;
         
         var principal = _securityContext.ValidateVerificationToken(verificationToken);
-        var userId = principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+        foreach (var claim in principal.Claims)
+        {
+            _logger.LogInformation("Claim Type: {Type}, Value: {Value}", claim.Type, claim.Value);
+        }
+
+        var userId = principal.FindFirst("userId")?.Value;
 
         if (string.IsNullOrEmpty(userId))
         {

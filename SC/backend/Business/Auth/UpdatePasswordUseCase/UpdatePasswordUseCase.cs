@@ -22,7 +22,7 @@ public class UpdatePasswordUseCase : IRequestHandler<UpdatePasswordCommand, Unit
     public async Task<Unit> Handle(UpdatePasswordCommand request, CancellationToken cancellationToken)
     {
         var principal = _securityContext.ValidateVerificationToken(request.Token);
-        var userId = principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+        var userId = principal.FindFirst("userId")?.Value;
 
         if (string.IsNullOrEmpty(userId))
         {
