@@ -1,3 +1,6 @@
+import { Match } from '../../../models/match/match.ts';
+
 export interface IMatchApi {
-    getMatch : () => Promise<string>
+  getMatchesStudent: (studentId: string) => Promise<Match[]>;
+  getMatchesCompany: (companyId: string) => Promise<Match[]>;
 }

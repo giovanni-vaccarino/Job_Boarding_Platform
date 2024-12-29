@@ -4,9 +4,8 @@ import { useAppSelector } from '../core/store';
 import { TypeProfile } from '../models/auth/register.ts';
 import { withAuth } from '../core/hoc/withAuth.tsx';
 import { Page } from '../components/layout/Page.tsx';
-import {useLoaderData} from "react-router-dom";
-import {Internship} from "../models/internship/internship.ts";
-import {Match} from "../models/match/match.ts";
+import { useLoaderData } from 'react-router-dom';
+import { Match } from '../models/match/match.ts';
 
 export const Matches = withAuth(() => {
   const authState = useAppSelector((state) => state.auth);
@@ -17,9 +16,9 @@ export const Matches = withAuth(() => {
   return (
     <Page>
       {profileType === TypeProfile.Company ? (
-        <CompanyMatches matches={matches}/>
+        <CompanyMatches matches={matches} />
       ) : (
-        <StudentMatches/>
+        <StudentMatches />
       )}
     </Page>
   );
