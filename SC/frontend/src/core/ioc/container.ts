@@ -9,6 +9,10 @@ import { IConfigService } from '../config/service/IConfigService.ts';
 import { IConfigServiceBuilder } from '../config/builder/IConfigServiceBuilder.ts';
 import { IInternshipApi } from '../API/internship/IInternshipApi.ts';
 import { InternshipApi } from '../API/internship/InternshipApi.ts';
+import { StudentApi } from '../API/student/StudentApi.ts';
+import { IStudentApi } from '../API/student/IStudentApi.ts';
+import { ICompanyApi } from '../API/company/ICompanyApi.ts';
+import { CompanyApi } from '../API/company/CompanyApi.ts';
 
 const container: Container = new Container();
 
@@ -30,6 +34,16 @@ container.bind<IAuthApi>(ServiceType.AuthApi).to(AuthApi).inSingletonScope();
 container
   .bind<IInternshipApi>(ServiceType.InternshipApi)
   .to(InternshipApi)
+  .inSingletonScope();
+
+container
+  .bind<IStudentApi>(ServiceType.StudentApi)
+  .to(StudentApi)
+  .inSingletonScope();
+
+container
+  .bind<ICompanyApi>(ServiceType.CompanyApi)
+  .to(CompanyApi)
   .inSingletonScope();
 
 export { container };

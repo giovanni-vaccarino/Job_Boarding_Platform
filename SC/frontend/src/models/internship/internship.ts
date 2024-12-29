@@ -9,6 +9,7 @@ export interface Internship {
   jobCategory: JobCategory;
   jobType: JobType;
   requirements: string[];
+  numApplications: number;
 }
 
 export enum JobCategory {

@@ -1,3 +1,5 @@
+import { Internship } from '../internship/internship.ts';
+
 export enum ApplicationStatus {
   OnlineAssessment,
   Ongoing,
@@ -25,4 +27,12 @@ export interface ApplicationInterface extends JobDescriptionInterface {
 
 export interface ApplicationProps {
   applicationDescription: ApplicationInterface;
+}
+
+//TODO to adapt this interface to the above one
+export interface Application {
+  id: number;
+  submissionDate: Date;
+  applicationStatus: ApplicationStatus;
+  internship: Internship;
 }

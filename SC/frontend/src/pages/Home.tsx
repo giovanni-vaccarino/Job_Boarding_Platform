@@ -5,26 +5,26 @@ import { JobListItem } from '../components/list-items/JobListItem.tsx';
 import { useAppSelector } from '../core/store';
 import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { Internship } from '../models/internship/internship.ts';
+import {Internship} from "../models/internship/internship.ts";
 
 const jobList = [
   {
     companyName: 'Google',
-    jobTitle: 'Software Engineer',
+    title: 'Software Engineer',
     location: 'Chicago',
-    datePosted: new Date('2024-11-01'),
+    dataCreated: new Date('2024-11-01'),
   },
   {
     companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
+    title: 'Software Engineer',
     location: 'Chicago',
-    datePosted: new Date('2024-10-20'),
+    dateCreated: new Date('2024-10-20'),
   },
   {
     companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
+    title: 'Software Engineer',
     location: 'Chicago',
-    datePosted: new Date('2024-10-15'),
+    dataCreated: new Date('2024-10-15'),
   },
 ];
 
@@ -46,9 +46,9 @@ export const Home = () => {
   startOfWeek.setDate(today.getDate() - today.getDay());
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const internship = useLoaderData() as Internship[];
+  //const internship = useLoaderData() as Internship[];
 
-  const filteredJobs = internship.filter((job) => {
+  const filteredJobs = jobList.filter((job) => {
     // Filter by search message
     const matchesSearch =
       job.title.toLowerCase().includes(searchMessage.toLowerCase()) ||

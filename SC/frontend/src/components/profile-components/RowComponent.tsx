@@ -5,8 +5,10 @@ import { useState } from 'react';
 
 export interface RowComponentProps {
   label: string;
-  value: string;
+  value: string | string[]; // Accept string or array of strings
   buttons: string[];
+  fieldKey: string;
+  onFieldChange: (fieldKey: string, value: string | string[]) => void;
 }
 
 export const RowComponent: React.FC<RowComponentProps> = (
@@ -14,6 +16,32 @@ export const RowComponent: React.FC<RowComponentProps> = (
 ) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedValue, setEditedValue] = useState(props.value);
+
+  const handleSave = () => {
+    setIsEditing(false);
+    props.onFieldChange(props.fieldKey, editedValue);
+  };
+
+  const handleChange = (index: number, value: string) => {
+    if (Array.isArray(editedValue)) {
+      const updatedValues = [...editedValue];
+      updatedValues[index] = value;
+      setEditedValue(updatedValues);
+    }
+  };
+
+  const addNewItem = () => {
+    if (Array.isArray(editedValue)) {
+      setEditedValue([...editedValue, '']);
+    }
+  };
+
+  const removeItem = (index: number) => {
+    if (Array.isArray(editedValue)) {
+      const updatedValues = editedValue.filter((_, i) => i !== index);
+      setEditedValue(updatedValues);
+    }
+  };
 
   return (
     <Box
@@ -40,7 +68,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
             variant="text"
             sx={{ marginRight: '20%' }}
             startIcon={<ModeIcon />}
-            onClick={() => setIsEditing(true)}
+            onClick={() => setIsEditing(!isEditing)}
           ></Button>
         )}
         {props.buttons.includes('view') && (
@@ -54,11 +82,48 @@ export const RowComponent: React.FC<RowComponentProps> = (
       <Box sx={{ marginTop: '1%' }}>
         {isEditing ? (
           <>
-            <TextField
-              value={editedValue}
-              onChange={(e) => setEditedValue(e.target.value)}
-              fullWidth
-            />
+            {Array.isArray(editedValue) ? (
+              <>
+                {editedValue.map((item, index) => (
+                  <Box
+                    key={index}
+                    sx={{ display: 'flex', alignItems: 'center', mb: '0.5rem' }}
+                  >
+                    <TextField
+                      value={item}
+                      onChange={(e) => handleChange(index, e.target.value)}
+                      fullWidth
+                      sx={{ marginRight: '0.5rem' }}
+                    />
+                    <Button
+                      color="error"
+                      onClick={() => removeItem(index)}
+                      sx={{ minWidth: '40px' }}
+                    >
+                      X
+                    </Button>
+                  </Box>
+                ))}
+                <Button
+                  sx={{
+                    textTransform: 'none',
+                    borderRadius: 2,
+                    fontSize: '1rem',
+                    px: '1rem',
+                    mt: '0.5rem',
+                  }}
+                  onClick={addNewItem}
+                >
+                  Add Item
+                </Button>
+              </>
+            ) : (
+              <TextField
+                value={editedValue as string}
+                onChange={(e) => setEditedValue(e.target.value)}
+                fullWidth
+              />
+            )}
             <Button
               color="white"
               sx={{
@@ -70,23 +135,36 @@ export const RowComponent: React.FC<RowComponentProps> = (
                 mt: '1rem',
               }}
               onClick={() => {
-                setIsEditing(false);
-                // Update the actual value here if needed
+                handleSave();
               }}
             >
               Confirm change
             </Button>
           </>
         ) : (
-          <Typography
-            sx={{
-              fontSize: '1.25rem',
-              fontWeight: '500',
-              color: 'rgba(0, 0, 0, 0.4)',
-            }}
-          >
-            {editedValue}
-          </Typography>
+          <>
+            {Array.isArray(editedValue) ? (
+              <Typography
+                sx={{
+                  fontSize: '1.25rem',
+                  fontWeight: '500',
+                  color: 'rgba(0, 0, 0, 0.4)',
+                }}
+              >
+                {editedValue.join(', ')}
+              </Typography>
+            ) : (
+              <Typography
+                sx={{
+                  fontSize: '1.25rem',
+                  fontWeight: '500',
+                  color: 'rgba(0, 0, 0, 0.4)',
+                }}
+              >
+                {editedValue}
+              </Typography>
+            )}
+          </>
         )}
       </Box>
     </Box>

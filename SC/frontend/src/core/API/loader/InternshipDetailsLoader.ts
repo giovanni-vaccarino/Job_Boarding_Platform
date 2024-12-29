@@ -3,10 +3,10 @@ import { Internship } from '../../../models/internship/internship.ts';
 
 export const InternshipDetailsLoader = async (
   api: IInternshipApi,
-  id: string
+  idInternship: string
 ): Promise<Internship> => {
   try {
-    const internship = await api.getInternshipDetails(id);
+    const internship = await api.getInternshipDetails(idInternship);
     console.log(internship);
     return internship;
   } catch (error) {

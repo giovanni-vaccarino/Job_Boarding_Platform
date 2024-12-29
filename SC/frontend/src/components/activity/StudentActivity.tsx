@@ -1,6 +1,19 @@
 import { TitleHeader } from '../page-headers/TitleHeader.tsx';
-import { JobsTable } from '../tables/JobsTable.tsx';
+import { JobsTable, JobsTableHeader } from '../tables/JobsTable.tsx';
 import { Box, Typography } from '@mui/material';
+import { Application } from '../../models/application/application.ts';
+
+const mapApplicationToJobsTableHeader = (
+  application: Application
+): JobsTableHeader => {
+  return {
+    title: application.internship.title,
+    company: 'Name_Company',
+    state: application.applicationStatus.toString(),
+    location: application.internship.location,
+    submissionDate: application.submissionDate.toDateString(),
+  };
+};
 
 const exampleData = [
   {
@@ -26,7 +39,11 @@ const exampleData = [
   },
 ];
 
-export const StudentActivity = () => {
+export interface StudentActivityProps {
+  applications: Application[];
+}
+
+export const StudentActivity = (props: StudentActivityProps) => {
   return (
     <>
       <TitleHeader title={'My Jobs List'} />
@@ -40,8 +57,10 @@ export const StudentActivity = () => {
           marginTop: '1rem',
         }}
       >
-        {exampleData.length > 0 ? (
-          <JobsTable jobs={exampleData} />
+        {props.applications.length > 0 ? (
+          <JobsTable
+            jobs={props.applications.map(mapApplicationToJobsTableHeader)}
+          />
         ) : (
           <Typography sx={{ fontStyle: 'italic' }}>
             THERE IS NO JOB AVAILABLE

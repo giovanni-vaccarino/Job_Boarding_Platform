@@ -4,4 +4,6 @@ export enum ServiceType {
   HttpClientFactory = 'HttpClientFactory',
   AuthApi = 'AuthApi',
   InternshipApi = 'InternshipApi',
+  StudentApi = 'StudentApi',
+  CompanyApi = 'CompanyApi',
 }

@@ -37,17 +37,28 @@ public class GetInternshipsUseCase : IRequestHandler<GetInternshipsQuery, List<I
         var companyId = request.Id;
         var internshipId = request.InternshipId;
         
-        var query = _dbContext.Internships.AsQueryable();
-        
-        query = query.Where(i => i.CompanyId == companyId);
+        var query = _dbContext.Internships.AsQueryable()
+            .Where(i => i.CompanyId == companyId)
+            .Select(i => new 
+            {
+                Internship = i,
+                NumberOfApplications = _dbContext.Applications.Count(a => a.InternshipId == i.Id)
+            });
 
         if (internshipId.HasValue)
         {
-            query = query.Where(i => i.Id == internshipId);
+            query = query.Where(i => i.Internship.Id == internshipId);
         }
+        
+        var internshipsData = await query.ToListAsync(cancellationToken);
 
-        var internships = await query.ToListAsync(cancellationToken);
+        var internships = internshipsData.Select(data => 
+        {
+            var internshipDto = _mapper.Map<InternshipDto>(data.Internship);
+            internshipDto.NumberOfApplications = data.NumberOfApplications;
+            return internshipDto;
+        }).ToList();
 
-        return _mapper.Map<List<InternshipDto>>(internships);
+        return internships;
     }
 }

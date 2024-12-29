@@ -20,6 +20,14 @@ import { InternshipDetailsLoader } from './core/API/loader/InternshipDetailsLoad
 import { useService } from './core/ioc/ioc-provider.tsx';
 import { ServiceType } from './core/ioc/service-type.ts';
 import { IInternshipApi } from './core/API/internship/IInternshipApi.ts';
+import { IStudentApi } from './core/API/student/IStudentApi.ts';
+import { ApplicationLoader } from './core/API/loader/ApplicationLoader.ts';
+import { useAppSelector } from './core/store';
+import { TypeProfile } from './models/auth/register.ts';
+import { InternshipCompanyLoader } from './core/API/loader/InternshipCompanyLoader.ts';
+import { StudentLoader } from './core/API/loader/StudentLoader.ts';
+import { CompanyLoader } from './core/API/loader/CompanyLoader.ts';
+import { ICompanyApi } from './core/API/company/ICompanyApi.ts';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
@@ -43,29 +51,37 @@ export const AppRoutes = Object.freeze({
 
 export const useAppRouter = () => {
   const internshipApi = useService<IInternshipApi>(ServiceType.InternshipApi);
+  const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
+  const companyApi = useService<ICompanyApi>(ServiceType.CompanyApi);
+  const authState = useAppSelector((state) => state.auth);
+  const profileType = authState.profileType;
+
   return createBrowserRouter(
     [
       {
         path: AppRoutes.Home,
-        loader: () => InternshipLoader(internshipApi),
+        //loader: () => InternshipLoader(internshipApi),
         element: <Home />,
       },
       {
         path: AppRoutes.Matches,
+        //loader: ({ params }) => MatchLoader(studentApi, params.id || ''),
         element: <Matches />,
       },
       {
+        //Note: in the activity page the users see the applications, while the companies see their internships
         path: AppRoutes.Activity,
+        //loader: ({ params }) => profileType === TypeProfile.Student ? ApplicationLoader(studentApi, params.id || '') : InternshipCompanyLoader(internshipApi, params.id || ''),
         element: <Activity />,
       },
+
       {
         path: AppRoutes.Application,
         element: <Application />,
       },
       {
         path: AppRoutes.Job,
-        loader: ({ params }) =>
-          InternshipDetailsLoader(internshipApi, params.id || ''),
+        //loader: ({ params }) => InternshipDetailsLoader(internshipApi, params.id || ''),
         element: <Job />,
       },
       {
@@ -74,6 +90,7 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.Profile,
+        //loader: ({ params }) =>profileType === TypeProfile.Company? StudentLoader(studentApi, params.id || ''): CompanyLoader(companyApi, params.id || ''),
         element: <Profile />,
       },
       {
