@@ -36,6 +36,7 @@ public class GetInternshipUseCase: IRequestHandler<GetInternshipQuery, List<Inte
         var internships = await _dbContext.Internships
             .ToListAsync(cancellationToken);
 
+        Console.WriteLine(internships);
         return _mapper.Map<List<InternshipDto>>(internships);
     }
 }

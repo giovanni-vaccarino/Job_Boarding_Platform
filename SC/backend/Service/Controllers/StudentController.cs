@@ -47,7 +47,7 @@ public class StudentController : ControllerBase
         return Ok(res);
     }
     
-    [Authorize(Policy = "StudentAccessPolicy")]
+    //[Authorize(Policy = "StudentAccessPolicy")]
     [HttpGet("{studentId}/applications")]
     public async Task<IActionResult> GetApplications(int studentId)
     {

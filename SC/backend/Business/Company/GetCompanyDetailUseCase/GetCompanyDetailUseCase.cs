@@ -35,7 +35,16 @@ public class GetCompanyDetailUseCase : IRequestHandler<GetCompanyDetailQuery, Co
     public async Task<CompanyDto> Handle(GetCompanyDetailQuery request, CancellationToken cancellationToken)
     {
         var company = await _dbContext.Companies
-            .Where(c => c.Id == request.Id)
+                          .AsNoTracking()
+                          .Where(c => c.Id == request.Id)
+                          .Select(c => new
+                          {
+                              Company = c,
+                              Email = _dbContext.Users
+                                  .Where(u => u.Id == c.Id)
+                                  .Select(u => u.Email)
+                                  .FirstOrDefault()
+                          })
             .FirstOrDefaultAsync(cancellationToken)
             ?? throw new KeyNotFoundException("Company not found.");
         

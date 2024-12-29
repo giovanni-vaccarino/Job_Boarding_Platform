@@ -6,6 +6,6 @@ import {
 
 export interface IAuthApi {
   login: (input: LoginInput) => Promise<LoginResponse>;
-
+  logout: () => Promise<null>;
   register: (input: RegisterInput) => Promise<RegisterResponse>;
 }
