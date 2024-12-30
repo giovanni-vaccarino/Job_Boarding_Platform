@@ -7,6 +7,45 @@ import { Page } from '../components/layout/Page.tsx';
 import { useLoaderData } from 'react-router-dom';
 import { Match } from '../models/match/match.ts';
 
+//the test list contained also the intership invitation from other company
+const testList = [
+  {
+    companyName: 'Amazon',
+    jobTitle: 'Software Engineer',
+    location: 'Chicago',
+    datePosted: new Date('2024-11-14'),
+    hadInvite: true,
+  },
+  {
+    companyName: 'Amazon',
+    jobTitle: 'Software Engineer',
+    location: 'Chicago',
+    datePosted: new Date('2024-11-13'),
+    hadInvite: true,
+  },
+  {
+    companyName: 'Amazon',
+    jobTitle: 'Software Engineer',
+    location: 'Chicago',
+    datePosted: new Date('2024-11-12'),
+    hadInvite: true,
+  },
+  {
+    companyName: 'Amazon',
+    jobTitle: 'Software Engineer',
+    location: 'Chicago',
+    datePosted: new Date('2024-11-11'),
+    hadInvite: false,
+  },
+  {
+    companyName: 'Amazon',
+    jobTitle: 'Software Engineer',
+    location: 'Chicago',
+    datePosted: new Date('2024-11-10'),
+    hadInvite: false,
+  },
+];
+
 export const Matches = withAuth(() => {
   const authState = useAppSelector((state) => state.auth);
   const profileType = authState.profileType;
@@ -15,7 +54,7 @@ export const Matches = withAuth(() => {
 
   return (
     <Page>
-      {profileType === TypeProfile.Company ? (
+      {profileType === TypeProfile.Student ? (
         <CompanyMatches matches={matches} />
       ) : (
         <StudentMatches matches={matches} />

@@ -2,49 +2,6 @@
 import { JobListItem } from '../list-items/JobListItem.tsx';
 import { TitleHeader } from '../page-headers/TitleHeader.tsx';
 import { Match } from '../../models/match/match.ts';
-import { StudentsTableHeader } from '../tables/StudentsTable.tsx';
-
-const importantJobList = [
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-15'),
-  },
-];
-
-const jobList = [
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-14'),
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-13'),
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-12'),
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-11'),
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-10'),
-  },
-];
 
 export interface jobListItem {
   companyName: string;
