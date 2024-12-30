@@ -18,7 +18,7 @@ export const Matches = withAuth(() => {
       {profileType === TypeProfile.Company ? (
         <CompanyMatches matches={matches} />
       ) : (
-        <StudentMatches />
+        <StudentMatches matches={matches} />
       )}
     </Page>
   );
