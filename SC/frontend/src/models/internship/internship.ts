@@ -29,3 +29,8 @@ export enum JobType {
   FullTime,
   PartTime,
 }
+
+export interface ApplyToInternshipInput {
+  studentId: string;
+  internshipId?: string;
+}

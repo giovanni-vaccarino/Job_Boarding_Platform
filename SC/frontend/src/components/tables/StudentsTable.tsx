@@ -11,8 +11,10 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../../router.tsx';
-
-
+import { useService } from '../../core/ioc/ioc-provider.tsx';
+import { IInternshipApi } from '../../core/API/internship/IInternshipApi.ts';
+import { ServiceType } from '../../core/ioc/service-type.ts';
+import { ApplyToInternshipInput } from '../../models/internship/internship.ts';
 
 export interface StudentsTableHeader {
   name: string;
@@ -26,6 +28,7 @@ export interface StudentsTableProps {
 export const StudentsTable = (props: StudentsTableProps) => {
   const { students = [] } = props;
   const navigate = useNavigateWrapper();
+  const apiInternship = useService<IInternshipApi>(ServiceType.InternshipApi);
 
   return (
     <TableContainer
@@ -125,6 +128,7 @@ export const StudentsTable = (props: StudentsTableProps) => {
                     aria-label="view details"
                     onClick={() => {
                       navigate(AppRoutes.ApplicantDetailPage);
+                      //navigate(AppRoutes.ApplicantDetailPage);
                     }}
                   >
                     <VisibilityIcon />

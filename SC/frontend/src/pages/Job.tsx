@@ -4,8 +4,8 @@ import { TypeProfile } from '../models/auth/register.ts';
 import { StudentJobDescription } from '../components/job-description/StudentJobDescription.tsx';
 import { CompanyJobDescription } from '../components/job-description/CompanyJobDescription.tsx';
 import { JobDescriptionInterface } from '../models/application/application.ts';
-import {useLoaderData} from "react-router-dom";
-import {Internship} from "../models/internship/internship.ts";
+import { useLoaderData } from 'react-router-dom';
+import { Internship } from '../models/internship/internship.ts';
 
 const testProps: JobDescriptionInterface = {
   jobCategory: 'Technology',
@@ -19,7 +19,9 @@ const testProps: JobDescriptionInterface = {
   jobId: 1,
 };
 
-const mapInternshipDetailToJobDescription = (internship: Internship): JobDescriptionInterface => {
+const mapInternshipDetailToJobDescription = (
+  internship: Internship
+): JobDescriptionInterface => {
   return {
     jobCategory: internship.jobCategory.toString(),
     jobType: internship.jobType.toString(),
@@ -38,7 +40,6 @@ export const Job = () => {
   const props = testProps;
 
   //const internship = useLoaderData() as Internship;
-
 
   //TODO the two are the same despite the apply button
   return (
