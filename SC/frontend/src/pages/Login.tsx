@@ -88,7 +88,7 @@ export const Login = () => {
 
             dispatch(appActions.auth.successLogin(res));
             dispatch(
-              appActions.auth.setProfileType({ type: TypeProfile.Company })
+              appActions.auth.setProfileType({ type: TypeProfile.Student })
             ); // TODO change this to the actual profile type
             navigate(AppRoutes.Profile);
           }}

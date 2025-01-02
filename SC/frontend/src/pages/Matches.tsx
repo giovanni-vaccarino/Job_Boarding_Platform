@@ -7,6 +7,10 @@ import { Page } from '../components/layout/Page.tsx';
 import { useLoaderData } from 'react-router-dom';
 import { Match } from '../models/match/match.ts';
 
+//test list for the company containing the students matching with
+const testListCompany = [
+
+]
 //the test list contained also the intership invitation from other company
 const testList = [
   {

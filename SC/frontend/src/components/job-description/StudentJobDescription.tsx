@@ -5,6 +5,9 @@ import { AppRoutes } from '../../router.tsx';
 import { JobDescriptionCore } from './JobDescriptionCore.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { JobDescriptionProps } from '../../models/application/application.ts';
+import { useLoaderData } from 'react-router-dom';
+import { Match } from '../../models/match/match.ts';
+import { Internship } from '../../models/internship/internship.ts';
 
 export const StudentJobDescription = (props: JobDescriptionProps) => {
   const jobDescription = props.jobDescription;

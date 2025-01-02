@@ -14,6 +14,7 @@ export interface JobDescriptionInterface {
   applicationDeadline: Date;
   jobDescriptionMessage: string;
   skillsRequired: string[];
+  jobId: number;
 }
 
 export interface JobDescriptionProps {
