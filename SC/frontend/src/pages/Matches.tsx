@@ -15,6 +15,7 @@ const testList = [
     location: 'Chicago',
     datePosted: new Date('2024-11-14'),
     hadInvite: true,
+    jobId: '1',
   },
   {
     companyName: 'Amazon',
@@ -22,6 +23,7 @@ const testList = [
     location: 'Chicago',
     datePosted: new Date('2024-11-13'),
     hadInvite: true,
+    jobId: '2',
   },
   {
     companyName: 'Amazon',
@@ -29,6 +31,7 @@ const testList = [
     location: 'Chicago',
     datePosted: new Date('2024-11-12'),
     hadInvite: true,
+    jobId: '3',
   },
   {
     companyName: 'Amazon',
@@ -36,6 +39,7 @@ const testList = [
     location: 'Chicago',
     datePosted: new Date('2024-11-11'),
     hadInvite: false,
+    jobId: '4',
   },
   {
     companyName: 'Amazon',
@@ -43,6 +47,7 @@ const testList = [
     location: 'Chicago',
     datePosted: new Date('2024-11-10'),
     hadInvite: false,
+    jobId: '5',
   },
 ];
 
@@ -57,7 +62,7 @@ export const Matches = withAuth(() => {
       {profileType === TypeProfile.Student ? (
         <CompanyMatches matches={matches} />
       ) : (
-        <StudentMatches matches={matches} />
+        <StudentMatches matches={testList} />
       )}
     </Page>
   );
