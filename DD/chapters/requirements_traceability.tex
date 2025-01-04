@@ -1,44 +1,38 @@
-\todo{add Answer controller         }
 \begin{longtable}{|p{3cm}|p{5cm}|p{4cm}|}
 \hline
 \textbf{Requirements} & \textbf{Description} & \textbf{Components} \\
 \hline
-R1, R36 & Display a personalized dashboard for students to view internship recommendations and trends. & Student Controller \\
+
+R9, R10 & Allow students to view internship recommendations and trends. & Student Controller \\
 \hline
-R2, R13 & Allow students to create/edit profiles, upload CVs, and receive validation. & Student Controller \\
+R5, R6 & Allow students to create/edit profiles, upload CVs, and receive validation. & Student Controller \\
 \hline
-R3, R34 & Provide a search tool with filtering options for internships and the ability to mark favorites. & Student Controller, Internship Controller \\
+R8, R19 & Provide a search tool with filtering options for internships. & Student Controller, Internship Controller \\
 \hline
-R4, R51 & Guide students through the application process and track application statuses. & Student Controller, Internship Controller \\
+R12, R18 & Guide students through the application process and track application statuses. & Student Controller, Internship Controller \\
 \hline
-R5, R14, R28, R35, R38 & Companies can create, edit, and manage internship postings with deadlines, templates, and visibility criteria. & Company Controller, Internship Controller \\
+R15, R16, R28, R29 & Companies can create, edit, and manage internship postings with deadlines, and various criteria. & Company Controller, Internship Controller \\
 \hline
-R6, R20, R50 & Enable companies to access dashboards for reviewing applications, comparing candidates, and analyzing engagement. & Company Controller \\
+R17, R20 & Enable companies to access ad hoc pages for reviewing applications and analyzing applicants. & Company Controller \\
 \hline
-R7, R23 & Provide a recommendation feed for companies to find candidates and view similar profiles. & Company Controller, Internship Controller \\
+R19, R9 & Provide a recommendation feed for companies to find candidates and view suitable profiles. & Company Controller, Internship Controller, Match Controller \\
 \hline
-R8, R9, R18, R39 & Universities can monitor internship progress, manage complaints, and track student engagement. & Internship Controller, Feedback Controller \\
+R24, R25 & Universities can monitor internship progress, manage complaints, and track student engagement. & Internship Controller, Feedback Controller \\
 \hline
-R10, R11 & Integrate securely with university databases and external platforms for data verification and feedback collection. & Internship Controller, Feedback Controller \\
+R26, R27 & Integrate securely with university databases and external platforms for data verification and feedback collection. & Internship Controller, Feedback Controller \\
 \hline
-R15, R47 & Improve recommendation engine and notify students of job market trends. & Internship Controller, Student Controller \\
+R10, R9 & Improve recommendation engine and notify students of suitable internship. & Internship Controller, Student Controller \\
 \hline
-R16, R6 & Allow companies to manage interview schedules and outcomes, including feedback. & Company Controller, Feedback Controller \\
+R16, R21 & Allow companies to manage interview schedules and outcomes, including feedback to the platform. & Company Controller, Feedback Controller \\
 \hline
-R17, R25, R48 & Collect and display post-internship feedback and endorsements. & Feedback Controller \\
+R22, R23 & Collect and display post-internship feedback and endorsements. & Feedback Controller \\
 \hline
-R24 & Provide profile improvement suggestions based on industry trends. & Student Controller \\
+R1, R2, R3 & Implement security measures to the login and registration of the account. & Authentication Controller \\
 \hline
-R30, R31 & Implement security measures including two-factor authentication and data encryption. & Authentication Controller \\
+R22 & Display top-rated internships based on feedback. & Feedback Controller, Internship Controller \\
 \hline
-R37 & Document management tool for internship-related documents. & Student Controller, Internship Controller \\
+R7 & Assessment tool for answering the application answers. & Student Controller \\
 \hline
-R43 & Integrate with calendars for scheduling interviews and important dates. & Internship Controller \\
-\hline
-R44 & Display top-rated internships based on feedback. & Feedback Controller, Internship Controller \\
-\hline
-R46 & Assessment tool for showcasing non-technical strengths. & Student Controller \\
-\hline
-R52, R53 & Rank and score internship recommendations for students. & Internship Controller \\
+R10, R19 & Rank and score internship recommendations for students. & Internship Controller, Match Controller \\
 \hline
 \end{longtable}
