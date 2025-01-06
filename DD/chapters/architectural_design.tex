@@ -1,20 +1,18 @@
 \section{Overview}
 
-The Students\&Companies (S\&C) platform is designed as a client-server application, where the term \textit{client} refers to the users of the system: students, companies, and universities. We have chosen a \textit{fat client} approach to provide a highly interactive, app-like experience, enabling responsive and rich functionality directly in the browser. This approach also reduces server load by offloading some processing to the client side, enhancing scalability.
-
-Users interact with the system through a Single Page Application (SPA), a desktop web application that serves as the primary user interface for accessing platform features. The SPA allows for seamless navigation and interaction, providing a user experience similar to that of a native application. By managing application state on the client side, the SPA minimizes page reloads, enhancing usability and responsiveness.
-
-On the backend, we have followed a \textit{monolithic server} approach. This choice simplifies the overall system architecture by consolidating functionality into a single codebase, which can facilitate easier development, deployment, and maintenance. Although monolithic, the server is structured into multiple controllers and services, each responsible for specific areas, such as authentication, internship management, profile handling, and recommendations. This modular organization within the monolith ensures that each component is cohesive and manageable while maintaining performance and consistency.
-
-To facilitate the communication between the client and the server, we are also including the usage of a web server. This web server would act as an intermediary, handling client requests and routing them to the backend. Including a web server supports secure connections, and serve for load balancing and scalability enhancements.
-
-To support database, storage, and email services, we are using a cloud provider infrastructure. Specifically, we utilize Amazon Web Services (AWS) with Amazon RDS for the database, Amazon S3 for file storage, and Amazon SES for email notifications.
-
 \begin{figure}[!ht]
     \centering
-    \includegraphics[scale=0.33]{Images/ImagesDD/class_diagram.png}
-    \caption{Class diagram}
+    \includegraphics[scale=0.30]{Images/ImagesDD/overview.png}
+    \caption{Overview diagram}
 \end{figure}
+
+The Students\&Companies (S\&C) platform is designed as a client-server application, where the term \textit{client} refers to the users of the system: students, companies, and universities. We have chosen a \textit{fat client} approach to provide a highly interactive, app-like experience, enabling responsive and rich functionality directly in the browser. This approach also reduces server load by offloading some processing to the client side, enhancing scalability.
+
+Users interact with the system through a Single Page Application (SPA), a desktop web application that serves as the primary user interface for accessing platform features. The SPA allows for seamless navigation and interaction. By managing application state on the client side, the SPA minimizes page reloads, enhancing usability and responsiveness.
+
+On the backend, we have followed a \textit{monolithic server} approach. This choice simplifies the overall system architecture by consolidating functionality into a single codebase, which can facilitate easier development, deployment, and maintenance. Although monolithic, the server is structured into multiple controllers and several business logic parts, each responsible for specific areas, such as authentication, internship management, profile handling, and recommendations. This modular organization within the monolith ensures that each component is cohesive and manageable while maintaining performance and consistency.
+
+To support database, storage, and email services, we are using a cloud provider infrastructure. Specifically, we utilize Amazon Web Services (AWS) with Amazon RDS for the database, Amazon S3 for file storage, and Amazon SES for email notifications.
 
 
 \newpage
@@ -33,18 +31,31 @@ In the server side, resides the principal components such as the controller used
 
 \item \textbf{Student}: Manages all student-related data, including profile creation, academic details, and progress tracking. It allows students to update their profiles and view their application history, while administrators can monitor student progress and make updates as needed.
 
+\item \textbf{Match}: Manages all the matches between the students and the companies' internship, finding matching between the suitable skills. Allows sending invitation to the student, and accepting those ones.
+
 \item \textbf{Feedback}: Implements the system for collecting and managing feedback from students, companies, and administrators. This component allows participants to submit feedback on internship experiences, and administrators can review and analyze this feedback to improve the program.
 
 \item \textbf{Company}: Responsible for managing company accounts and profiles, as well as facilitating company interactions with students and internships. It allows companies to create profiles, post internship opportunities, and review student applications, making the hiring and feedback process streamlined and accessible.
 
+\item \textbf{University}: Responsible for managing university interaction with the platform. Such as tracking students' internship, reading their feedback and leaving a feedback about the platform.
 
-\item \textbf{Authentication Controller}:
-The Authentication Controller handles all processes related to user authentication, such as logging in, logging out, session validation, and password management.
+
+\item \textbf{Authentication}:
+The Authentication handles all processes related to user authentication, such as logging in, logging out, session validation, and password management.
 \end{itemize}
 
 \subsection{Data Component}
 
 We use a relational database hosted on AWS to securely manage and organize structured data for the application. AWS’s managed RDS service offers high availability, automated backups, and scalability, ensuring reliable data storage and quick access for all server components. This setup allows us to maintain relational integrity, enforce data consistency, and easily scale as our data requirements grow.
+
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale=0.30]{Images/ImagesDD/class_diagram.png}
+    \caption{Class diagram referring to the data components}
+\end{figure}
+
+
 \section{Deployment view}
 
 The frontend is a SPA implemented with the React framework. The website can be visited from any modern web browser, such as Google Chrome, Mozilla Firefox or Microsoft Edge. \\ \\
@@ -55,25 +66,51 @@ The backend of the platform is powered by an ASP.NET Core server, deployed withi
 The ASP.NET Core application communicates with AWS services like RDS for database and S3 for storage. Continuous integration and deployment pipelines facilitate automated updates, pushing new Docker images to the cluster and enabling rolling updates with minimal downtime.\\ \\
 This integration of Kubernetes and NGINX ensures that the backend infrastructure is robust and adaptable, capable of handling large volumes of requests while providing efficient load distribution and reliability.
 
-\todo{add diagram}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale=0.30]{Images/ImagesDD/deployment.png}
+    \caption{Deployment diagram}
+\end{figure}
+
 \newpage
 
 
 \section{Runtime view}
+The following sequence diagrams illustrate the interactions between system components.
+
+Each diagram corresponds to and represents the implementation of its respective use case, as described in the RASD document, in the same order.
+
+In each sequence diagram it is omitted the part specified in the diagram 0.1, that illustrates the case of unauthorized access and the tentative to gain a new valid authentication token.
+
 The following function (2.2) for simplicity is represented in another diagram, but it is meant to be intended as an action that happens before all the other diagrams.
 \vspace{5mm}
 
 \begin{figure}[ht!]
-    \centering
-    \includegraphics[scale=0.80]{Images/ImagesSequenceDiagram/LoginAuthentication.png}
-    \caption{User (Student, Company or University) Authentication process}
+    \includegraphics[scale=0.29]{Images/ImagesSequenceDiagram/RegisterAuthentication.png}
+    \caption{User (Student, Company or University) Registration}
 \end{figure}
 
 \newpage
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[scale=0.3]{Images/ImagesSequenceDiagram/StudentUploadCV.png}
+    \includegraphics[scale=0.27]{Images/ImagesSequenceDiagram/LoginAuthentication.png}
+    \caption{User (Student, Company or University) Login}
+\end{figure}
+
+\newpage
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.3]{Images/ImagesSequenceDiagram/InternshipCreation.png}
+    \caption{Internship post creation}
+\end{figure}
+
+\newpage
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.28]{Images/ImagesSequenceDiagram/StudentUploadCV.png}
     \caption{Student inserts CV and data}
 \end{figure}
 
@@ -81,63 +118,106 @@ The following function (2.2) for simplicity is represented in another diagram, b
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[scale=0.25]{Images/ImagesSequenceDiagram/CompanyReviewApplication.png}
-    \caption{Company reviews application}
+    \includegraphics[scale=0.28]{Images/ImagesSequenceDiagram/StudentSubmitApplication.png}
+    \caption{Student submit an application to an internship}
 \end{figure}
 
 \newpage
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[scale=0.4]{Images/ImagesSequenceDiagram/StudentsQuestions.png}
+    \includegraphics[scale=0.15]{Images/ImagesSequenceDiagram/CompanyManagesIncomeApplications.png}
+    \caption{Company management of internship applications}
+\end{figure}
+
+\newpage
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.28]{Images/ImagesSequenceDiagram/StudentAnswereQuestions.png}
     \caption{Student answers questions}
 \end{figure}
 
 \newpage
 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.19]{Images/ImagesSequenceDiagram/CompanyReviewsQuestions.png}
+    \caption{Company reviews online assessment questions}
+\end{figure}
+
+\newpage
+\todo{ADD 9 / 10 FEEDBACK USE CASE}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.4]{Images/ImagesSequenceDiagram/SendFeebackSD.png}
+    \caption{Student(Company) sends feedback to the platform.}
+\end{figure}
 
 
+\newpage
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[scale=0.21]{Images/ImagesSequenceDiagram/UniversityMonitorsInternship.png}
+    \caption{University monitors the progress of internships}
+\end{figure}
+
+\newpage
 
 \section{Component interfaces}
 
 \begin{itemize}
-\item \textbf{Authentication Controller}
-The Authentication Controller handles all processes related to user authentication, such as logging in, logging out, session validation, and password management.
+\item \textbf{Authentication}
+Handles all processes related to user authentication, such as logging in, logging out, token refreshment, and password management.
 
 \begin{itemize}
-    \item \textbf{login(username: String, password: String): String?} – Authenticates a user (student or company) by validating credentials. If successful, returns an \textit{authToken}.
-    \item \textbf{logout(authToken: String): void} – Logs out the user associated with the provided \textit{authToken}, ending their session.
-    \item \textbf{validateToken(authToken: String): Bool} – Checks if the provided \textit{authToken} is valid and active, returning \textit{true} if valid and \textit{false} otherwise.
-    \item \textbf{refreshToken(authToken: String): String?} – Extends the session duration by generating a new \textit{authToken} if the current one is valid, returning the new token.
+    \item \textbf{register(dto: RegisterDto): TokenResponse} – Registers a new user (student, company or university) by saving the provided data and returns a \textit{TokenResponseDto}.
+    \item \textbf{login(email: string, password: string): TokenResponseDto} – Authenticates a user (student or company) by validating credentials. If successful, returns a \textit{TokenResponseDto}.
+    \item \textbf{logout(): void} – Logs out the user, ending their session.
+    \item \textbf{refreshToken(refreshToken: String): TokenResponse} – Extends the session duration by generating a new \textit{authToken} if the refresh token is valid.
     \item \textbf{resetPasswordRequest(email: String): void} – Sends a password reset link to the provided email, allowing users to initiate the password reset process.
     \item \textbf{resetPassword(token: String, newPassword: String): Bool} – Validates the reset token sent to the user's email and updates the password if the token is valid. Returns \textit{true} upon success.
-    \item \textbf{registerUser(userData: User): ID} – Registers a new user (student or company) by saving the provided user data and returns the unique \textit{userId}.
+    \item \textbf{verifyEmail(verifyEmail: VerifyEmailDto): VerifyResponse} - verify the email validity.
+    \item \textbf{sendVerificationEmail(sendVerify: SendVerificationDto): void} - end the verification email after the registration.
 \end{itemize}
 
 \item \textbf{Internship}
 
 \begin{itemize}
+\item \textbf{getInternship() : List<InternshipDto> } - Allows platform to retrieve all the internship to fill the homepage.
     \item \textbf{createInternship(companyId: ID, internshipData: Internship): ID} – Allows a company to create a new internship posting, returning the ID of the new internship.
-    \item \textbf{updateInternship(internshipId: ID, updatedData: Internship): void} – Updates an existing internship posting with new information provided by the company.
-    \item \textbf{deleteInternship(internshipId: ID): void} – Deletes an internship listing, making it inactive or removing it from the view.
-    \item \textbf{getInternshipDetails(internshipId: ID): Internship} – Retrieves detailed information about a specific internship by its ID.
-    \item \textbf{listAllInternships(filters: InternshipFilters): List<Internship>} – Returns a list of internships based on filters (e.g., location, industry, duration).
-    \item \textbf{applyToInternship(studentId: ID, internshipId: ID, applicationData: Application): ID} – Allows a student to apply to an internship and returns an application ID.
-    \item \textbf{getApplications(internshipId: ID): List<Application>} – Retrieves all applications for a specific internship, visible to the company that posted it.
-    \item \textbf{getApplicationStatus(applicationId: ID): ApplicationStatus} – Returns the current status of a specific application for tracking purposes.
+    \item \textbf{applyToInternship(studentId: int, internshiptId: int): ApplicationDto} - Send the student application to a specific internship.
+    \iterm \textbf{getInternshipApplicants(internshipId: int, companyId: int): List<StudentDto>} - Retrieves the student that had applied for an internship of a company.
+    \item \textbf{updateStatusApplication(applicationId: int, updatedStatus:updatedStatusApplicationDto, companyId: int  ): ApplicationDto} – Updates an existing application changing its status.
+    \item \textbf{answerApplicationQuestions(applicationId: int, answer: AnswerQuestionsDto, studentId: int} - Add the student's answers to the application.
+    \item \textbf{deleteInternship(internshipId: int): void} – Deletes an internship listing, making it inactive or removing it from the view.
 \end{itemize}
-\todo{Add answer controller for a specific internship}
+
+
+
 \item \textbf{Student Controller}
 The Student Controller manages requests related to student profiles, such as updates and viewing application history.
 
 \begin{itemize}
-    \item \textbf{createStudentProfile(studentData: Student): ID} – Creates a new student profile and returns the unique student ID.
-    \item \textbf{updateStudentProfile(studentId: ID, updatedData: Student): void} – Allows a student to update their profile with new information, such as contact details or academic information.
-    \item \textbf{getStudentProfile(studentId: ID): Student} – Retrieves the profile details for a specific student.
-    \item \textbf{listStudentApplications(studentId: ID): List<Application>} – Returns the history of internship applications made by the student.
-    \item \textbf{viewSavedInternships(studentId: ID): List<Internship>} – Lists all internships that the student has saved for future consideration.
-    \item \textbf{saveInternship(studentId: ID, internshipId: ID): void} – Allows a student to save an internship to their saved list.
+    \item \textbf{getStudent(studentId: int): void} – Get the student profile.
+    \item \textbf{updateStudentProfile(studentId: ID, updatedData: UpdateStudentDto): void} – Allows a student to update their profile with new information, such as contact details or academic information.
+    \item \textbf{loadCvStudent(dto: LoadCvDto, studentId: int): CvDto}
+    \item \textbf{listStudentApplications(studentId: int): List<Application>} – Returns the history of internship applications made by the student.
 \end{itemize}
+
+\item \textbf{Match Controller}
+The match controller manages finding and retrieving the matches between the company's internship suitable skills and the students' one.
+\begin{itemize}
+
+    \item \textbf{GetStudentMatches(studentId: int): List<MatchDto>} - Retrieve the student matches with the intenship of various companies.
+    \item \textbf{GetCompanyMathes(companyId: int): List<MatchDto} - Retrieve the company matches between the suitable skills of the students and of their internships.
+    \item \textbf{inviteStudent(matchId: int, companyId: int): void} - Company invite a student who is matching with one of its internship.
+    \item \textbf{acceptMatch(matchId: int, studentId: int): void} - Student accept one of the invite sent by the company.
+
+\end{itemize}
+
 
 \item \textbf{Feedback Controller}
 The Feedback Controller manages operations for collecting and handling feedback within the system.
@@ -146,35 +226,44 @@ The Feedback Controller manages operations for collecting and handling feedback 
     \item \textbf{submitFeedback(userId: ID, internshipId: ID, feedbackData: Feedback): void} – Allows a user (student or company) to submit feedback on an internship or application experience.
     \item \textbf{getFeedbackForInternship(internshipId: ID): List<Feedback>} – Retrieves all feedback associated with a specific internship, useful for administrators to monitor feedback trends.
     \item \textbf{getFeedbackForStudent(studentId: ID): List<Feedback>} – Retrieves feedback given to or by a student, allowing administrators to track individual experiences.
-    \item \textbf{analyzeFeedbackForReport(reportCriteria: FeedbackCriteria): FeedbackReport} – Generates a report based on specified feedback criteria, enabling analysis of trends and areas for improvement.
 \end{itemize}
 
 \item \textbf{Company Controller}
 The Company Controller is responsible for managing company accounts and interaction with internship postings and applications.
 
 \begin{itemize}
-    \item \textbf{createCompanyProfile(companyData: Company): ID} – Creates a new company profile and returns the company ID.
-    \item \textbf{updateCompanyProfile(companyId: ID, updatedData: Company): void} – Allows a company to update its profile information, such as contact details or industry.
-    \item \textbf{getCompanyProfile(companyId: ID): Company} – Retrieves profile information for a specific company.
-    \item \textbf{listCompanyInternships(companyId: ID): List<Internship>} – Lists all internships posted by the company.
-    \item \textbf{reviewApplications(companyId: ID, internshipId: ID): List<Application>} – Retrieves a list of applications for a specific internship posted by the company.
-    \item \textbf{acceptApplication(companyId: ID, applicationId: ID): void} – Allows a company to accept a student application for an internship.
-    \item \textbf{rejectApplication(companyId: ID, applicationId: ID): void} – Allows a company to reject a student application for an internship.
+    \item \textbf{getProfile(comapanyId: int): CompanyDto} – Creates a new company profile and returns the company ID.
+    \item \textbf{updateCompanyProfile(companyId: int, updatedData: CompanyDto): void} – Allows a company to update its profile information, such as contact details or industry.
+    \item \textbf{getInternships(companyId: int): List<Internship>} – Lists all internships posted by the company.
+    \item \textbf{addInternship(companyId: int, updateData: InternshipDto): void} - Add an internship.
+    \item \textbf{updateInternship(companyId: int, internshipId: int, updateData: InternshipUpdateDto): void} - Update a current internship of a company.
+    \item \textbf{getQuestions(companyId: int)} - Get the questions created by the companies.
+    \item \textbf{addQuestion(companyId: int, updateQuestion: UpdateQuestionDto} - Add a new question.
+    \item \textbf{acceptApplication(companyId: int, applicationId: int): void} – Allows a company to accept a student application for an internship.
+    \item \textbf{rejectApplication(companyId: int, applicationId: int): void} – Allows a company to reject a student application for an internship.
 \end{itemize}
+
+\item \textbf{University Controller}
+The university controller is used to manage the university's interactions with students' internships and feedback.
+\begin{itemize}
+    \item \textbf{getStudentInternshipRecords(studentId: ID): List<Internship>} – Retrieves a list of internships a student has participated in, including completed and current ones.
+    \item \textbf{collectFeedback(studentId: ID, internshipId: ID): Feedback} – Collects feedback from students regarding their internship experience for quality assurance and improvement.
+    \item \textbf{assignInternshipAdvisor(studentId: ID, advisorId: ID): void} – Assigns an academic advisor to a student's internship to provide guidance and support.
+    \item \textbf{listAllFeedback(internshipId: ID): List<Feedback>} – Returns all feedback related to a specific internship to assess overall satisfaction and outcomes.
+    \item \textbf{getInternshipApprovalStatus(studentId: ID, internshipId: ID): ApprovalStatus} – Retrieves the current approval status for a student's internship application.
+    \item \textbf{updateStudentFeedback(studentId: ID, feedbackId: ID, updatedFeedback: Feedback): void} – Updates feedback provided by a student if changes are needed.
+\end{itemize}
+
+
+
 \newpage
 
 \end{itemize}
 
 
 \section{Selected architectural styles and patterns}
-\textbf{Monolithic server:} 
+\textbf{Monolithic server:}
 We chose a monolithic approach for its simplicity, faster development, and easier management. It minimizes the complexities of inter-service communication and ensures consistent control, which is ideal for smaller teams or projects with limited resources. This approach also offers better performance and simpler security management, making it a practical choice for our project’s scope
-
-\textbf{Dependency Injection:}
-In both the frontend and especially the backend, we have adhered to the dependency injection pattern. This approach promotes decoupling by allowing components to depend on abstractions rather than concrete implementations, making the codebase more modular and easier to maintain. It enhances testability by enabling the injection of mock dependencies for unit testing, ensuring that components can be tested in isolation. By following this pattern, we achieve greater flexibility, as changes to implementations can be made with minimal impact on the dependent code, facilitating future enhancements and scalability.
-
-\textbf{Modular Controller-Service:}
-We have adopted a modular approach that can be described as a Controller-Service pattern. This design emphasizes separation of concerns by having controllers handle HTTP requests and delegate business logic to dedicated service classes. Services encapsulate the core business logic, making the application easier to test, maintain, and extend. This approach decouples the logic from controllers, promoting cleaner code and improved testability. The use of a service layer helps achieve better modularity, as different parts of the application can be updated or scaled independently without tightly coupling business logic and presentation logic.
 
 \textbf{Fat client:}
 Fat clients allow offering a wide variety of functionalities independent from the central server, as well as to move part of the business logic off of the server and into the clients. The main advantages it offers are greater decoupling of frontend and backend as well as a better interactive experience, especially in conditions where the client is on an unstable network. Additionally, with the adoption of a single-page applications, there are many cross-platform frameworks which allow to reuse code partially or entirely on multiple platforms. The single-page web application can also be served by a dedicated static web server, as all its interactivity is implemented client-side, further reducing the burden on the server by delegating its serving to a CDN, which is highly optimized for
