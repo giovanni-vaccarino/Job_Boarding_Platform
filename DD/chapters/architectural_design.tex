@@ -76,11 +76,11 @@ This integration of Kubernetes and NGINX ensures that the backend infrastructure
 
 
 \section{Runtime view}
-The following sequence diagrams illustrate the interactions between system components.
+The following sequence diagrams illustrate the interactions between system components. 
 
 Each diagram corresponds to and represents the implementation of its respective use case, as described in the RASD document, in the same order.
 
-In each sequence diagram it is omitted the part specified in the diagram 0.1, that illustrates the case of unauthorized access and the tentative to gain a new valid authentication token.
+In each sequence diagram it is omitted the part specified in the diagram 0.1, that illustrates the case of unauthorized access and the tentative to gain a new valid authentication token. 
 
 The following function (2.2) for simplicity is represented in another diagram, but it is meant to be intended as an action that happens before all the other diagrams.
 \vspace{5mm}
@@ -147,7 +147,6 @@ The following function (2.2) for simplicity is represented in another diagram, b
 \end{figure}
 
 \newpage
-\todo{ADD 9 / 10 FEEDBACK USE CASE}
 
 \begin{figure}[ht!]
     \centering
@@ -167,6 +166,8 @@ The following function (2.2) for simplicity is represented in another diagram, b
 \newpage
 
 \section{Component interfaces}
+
+In this section we use the word \textbf{"Dto"} referring to a datatype defined in the backend containing all the required attribute. The input taken from the frontend or the output coming from the backend are mapped into a dto to double check the correctness of the values.
 
 \begin{itemize}
 \item \textbf{Authentication}
@@ -197,7 +198,7 @@ Handles all processes related to user authentication, such as logging in, loggin
 
 
 
-\item \textbf{Student Controller}
+\item \textbf{Student}
 The Student Controller manages requests related to student profiles, such as updates and viewing application history.
 
 \begin{itemize}
@@ -207,7 +208,7 @@ The Student Controller manages requests related to student profiles, such as upd
     \item \textbf{listStudentApplications(studentId: int): List<Application>} – Returns the history of internship applications made by the student.
 \end{itemize}
 
-\item \textbf{Match Controller}
+\item \textbf{Match}
 The match controller manages finding and retrieving the matches between the company's internship suitable skills and the students' one.
 \begin{itemize}
 
@@ -219,7 +220,7 @@ The match controller manages finding and retrieving the matches between the comp
 \end{itemize}
 
 
-\item \textbf{Feedback Controller}
+\item \textbf{Feedback}
 The Feedback Controller manages operations for collecting and handling feedback within the system.
 
 \begin{itemize}
@@ -228,7 +229,7 @@ The Feedback Controller manages operations for collecting and handling feedback 
     \item \textbf{getFeedbackForStudent(studentId: ID): List<Feedback>} – Retrieves feedback given to or by a student, allowing administrators to track individual experiences.
 \end{itemize}
 
-\item \textbf{Company Controller}
+\item \textbf{Company}
 The Company Controller is responsible for managing company accounts and interaction with internship postings and applications.
 
 \begin{itemize}
@@ -243,7 +244,7 @@ The Company Controller is responsible for managing company accounts and interact
     \item \textbf{rejectApplication(companyId: int, applicationId: int): void} – Allows a company to reject a student application for an internship.
 \end{itemize}
 
-\item \textbf{University Controller}
+\item \textbf{University}
 The university controller is used to manage the university's interactions with students' internships and feedback.
 \begin{itemize}
     \item \textbf{getStudentInternshipRecords(studentId: ID): List<Internship>} – Retrieves a list of internships a student has participated in, including completed and current ones.
@@ -262,7 +263,7 @@ The university controller is used to manage the university's interactions with s
 
 
 \section{Selected architectural styles and patterns}
-\textbf{Monolithic server:}
+\textbf{Monolithic server:} 
 We chose a monolithic approach for its simplicity, faster development, and easier management. It minimizes the complexities of inter-service communication and ensures consistent control, which is ideal for smaller teams or projects with limited resources. This approach also offers better performance and simpler security management, making it a practical choice for our project’s scope
 
 \textbf{Fat client:}
