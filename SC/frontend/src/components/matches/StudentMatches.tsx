@@ -25,14 +25,13 @@ const mapMatchToStudentsMatches = (match: Match): jobListItem => {
   };
 };
 
-
 export interface StudentMatchesProps {
-  matches: jobListItem[];
+  matches: Match[];
 }
 
 export const StudentMatches = (props: StudentMatchesProps) => {
-  const internshipStudent = props.matches.map(mapMatchToStudentsMatches);
-  //const internshipStudent = props.matches.map(mapMatchToStudentsMatches);
+  const matchesArray = Array.isArray(props.matches) ? props.matches : [];
+  const internshipStudent = matchesArray.map(mapMatchToStudentsMatches);
 
   return (
     <>

@@ -9,7 +9,7 @@ import { Match } from '../models/match/match.ts';
 
 //test list for the company containing the students matching with
 
-//the test list contained also the intership invitation from other company
+//the test list contained also the interships invitation from other company
 const testList = [
   {
     companyName: 'Amazon',
