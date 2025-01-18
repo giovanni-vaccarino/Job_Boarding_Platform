@@ -62,7 +62,7 @@ export const Matches = withAuth(() => {
   return (
     <Page>
       {profileType === TypeProfile.Student ? (
-        <StudentMatches matches={testList} />
+        <StudentMatches matches={matches} />
       ) : (
         <CompanyMatches matches={matches} />
       )}

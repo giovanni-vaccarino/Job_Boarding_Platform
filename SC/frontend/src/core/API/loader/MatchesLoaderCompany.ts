@@ -1,7 +1,7 @@
 import { Match } from '../../../models/match/match.ts';
 import { IMatchApi } from '../match/IMatchApi.ts';
 
-export const MatchesLoaderStudent = async (
+export const MatchesLoaderCompany = async (
   api: IMatchApi,
   studentId: string
 ): Promise<Match[]> => {

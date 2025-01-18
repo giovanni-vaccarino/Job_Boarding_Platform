@@ -13,7 +13,7 @@ export interface jobListItem {
 }
 
 //TODO inserted in internship company name
-/*
+
 const mapMatchToStudentsMatches = (match: Match): jobListItem => {
   return {
     companyName: match.internship.title,
@@ -21,18 +21,18 @@ const mapMatchToStudentsMatches = (match: Match): jobListItem => {
     location: match.internship.location,
     datePosted: match.internship.dataCreated,
     hadInvite: match.hadInvite,
-    jobId: match.internship.id,
+    jobId: match.internship.id.toString(),
   };
 };
-*/
+
 
 export interface StudentMatchesProps {
   matches: jobListItem[];
 }
 
 export const StudentMatches = (props: StudentMatchesProps) => {
+  const internshipStudent = props.matches.map(mapMatchToStudentsMatches);
   //const internshipStudent = props.matches.map(mapMatchToStudentsMatches);
-  const internshipStudent = props.matches;
 
   return (
     <>

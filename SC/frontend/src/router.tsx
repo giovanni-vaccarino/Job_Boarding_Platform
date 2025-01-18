@@ -28,10 +28,13 @@ import { InternshipCompanyLoader } from './core/API/loader/InternshipCompanyLoad
 import { StudentLoader } from './core/API/loader/StudentLoader.ts';
 import { CompanyLoader } from './core/API/loader/CompanyLoader.ts';
 import { ICompanyApi } from './core/API/company/ICompanyApi.ts';
+import { MatchesLoaderStudent } from './core/API/loader/MatchesLoaderStudents.ts';
+import { MatchesLoaderCompany } from './core/API/loader/MatchesLoaderCompany.ts';
+import { IMatchApi } from './core/API/match/IMatchApi.ts';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
-  Matches: '/matches',
+  Matches: '/matches/:id',
   Application: '/application',
   Job: '/job',
   ConfirmPage: '/confirm-page',
@@ -55,6 +58,7 @@ export const useAppRouter = () => {
   const companyApi = useService<ICompanyApi>(ServiceType.CompanyApi);
   const authState = useAppSelector((state) => state.auth);
   const profileType = authState.profileType;
+  const matchApi = useService<IMatchApi>(ServiceType.MatchApi);
 
   return createBrowserRouter(
     [
@@ -65,7 +69,10 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.Matches,
-        //loader: ({ params }) => MatchLoader(studentApi, params.id || ''),
+        loader: ({ params }) =>
+          profileType === TypeProfile.Student
+            ? MatchesLoaderStudent(matchApi, params.id || '')
+            : MatchesLoaderCompany(matchApi, params.id || ''),
         element: <Matches />,
       },
       {

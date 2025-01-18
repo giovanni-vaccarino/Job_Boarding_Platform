@@ -13,6 +13,8 @@ import { StudentApi } from '../API/student/StudentApi.ts';
 import { IStudentApi } from '../API/student/IStudentApi.ts';
 import { ICompanyApi } from '../API/company/ICompanyApi.ts';
 import { CompanyApi } from '../API/company/CompanyApi.ts';
+import { IMatchApi } from '../API/match/IMatchApi.ts';
+import { MatchApi } from '../API/match/MatchApi.ts';
 
 const container: Container = new Container();
 
@@ -45,5 +47,7 @@ container
   .bind<ICompanyApi>(ServiceType.CompanyApi)
   .to(CompanyApi)
   .inSingletonScope();
+
+container.bind<IMatchApi>(ServiceType.MatchApi).to(MatchApi).inSingletonScope();
 
 export { container };
