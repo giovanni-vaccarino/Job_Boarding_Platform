@@ -8,6 +8,7 @@ import { Match } from '../../../models/match/match.ts';
 @injectable()
 export class StudentApi extends ApiBase implements IStudentApi {
   async getStudentInfo(studentId: string): Promise<Student> {
+    console.log(studentId);
     return await this.httpClient.get(`student/${studentId}`, {});
   }
   async getApplications(studentId: string): Promise<Application[]> {
@@ -17,7 +18,7 @@ export class StudentApi extends ApiBase implements IStudentApi {
     return await this.httpClient.get(`student/${studentId}`);
   }
   async updateStudentInfo(studentId: string, input: Student): Promise<string> {
-    return await this.httpClient.post<Student, string>(
+    return await this.httpClient.put<Student, string>(
       `student/${studentId}`,
       input
     );

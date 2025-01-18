@@ -8,6 +8,7 @@ interface AuthState {
   refreshToken: string | null;
   loggedIn: boolean;
   profileType: TypeProfile | null;
+  profileId: string | null;
 }
 
 const initialState: AuthState = {
@@ -15,10 +16,15 @@ const initialState: AuthState = {
   refreshToken: null,
   loggedIn: false,
   profileType: null,
+  profileId: null,
 };
 
 export interface SetProfileType {
   type: TypeProfile;
+}
+
+export interface SetProfileId {
+  id: string;
 }
 
 export const authSlice = createSlice({
@@ -29,6 +35,7 @@ export const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.loggedIn = true;
+      state.profileId = action.payload.profileId.toString();
     },
     failLogin: (state) => {
       state.refreshToken = null;
@@ -42,6 +49,9 @@ export const authSlice = createSlice({
     },
     setProfileType: (state, action: PayloadAction<SetProfileType>) => {
       state.profileType = action.payload.type;
+    },
+    setProfileId: (state, action: PayloadAction<SetProfileId>) => {
+      state.profileId = action.payload.id;
     },
   },
 });

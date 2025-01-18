@@ -156,7 +156,9 @@ export const Register = () => {
 
             dispatch(appActions.auth.successLogin(res));
             dispatch(appActions.auth.setProfileType({ type: profile }));
-            navigate(AppRoutes.Profile);
+            navigate(AppRoutes.Profile, {
+              id: res.profileId,
+            });
           }}
         >
           Register

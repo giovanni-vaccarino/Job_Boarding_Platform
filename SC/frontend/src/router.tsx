@@ -35,8 +35,8 @@ export const AppRoutes = Object.freeze({
   Application: '/application',
   Job: '/job',
   ConfirmPage: '/confirm-page',
-  Activity: '/activity',
-  Profile: '/profile',
+  Activity: '/activity/:id',
+  Profile: `/profile/:id`,
   Login: '/login',
   ForgotPasswordSetPassword: '/forgot-password-set-password',
   ForgotPasswordSetEmail: '/forgot-password-set-email',
@@ -71,7 +71,10 @@ export const useAppRouter = () => {
       {
         //Note: in the activity page the users see the applications, while the companies see their internships
         path: AppRoutes.Activity,
-        //loader: ({ params }) => profileType === TypeProfile.Student ? ApplicationLoader(studentApi, params.id || '') : InternshipCompanyLoader(internshipApi, params.id || ''),
+        loader: ({ params }) =>
+          profileType === TypeProfile.Student
+            ? ApplicationLoader(studentApi, params.id || '')
+            : InternshipCompanyLoader(internshipApi, params.id || ''),
         element: <Activity />,
       },
 
@@ -90,7 +93,10 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.Profile,
-        //loader: ({ params }) =>profileType === TypeProfile.Company? StudentLoader(studentApi, params.id || ''): CompanyLoader(companyApi, params.id || ''),
+        loader: ({ params }) =>
+          profileType === TypeProfile.Student
+            ? StudentLoader(studentApi, params.id || '')
+            : CompanyLoader(companyApi, params.id || ''),
         element: <Profile />,
       },
       {

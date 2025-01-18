@@ -12,6 +12,8 @@ export const Header = () => {
   const profileType = authState.profileType;
   const dispatch = useAppDispatch();
 
+  console.log(authState.profileId)
+
   return (
     <AppBar
       position="static"
@@ -89,7 +91,9 @@ export const Header = () => {
           </Typography>
           <Typography
             onClick={() => {
-              navigate(AppRoutes.Activity);
+              navigate(AppRoutes.Activity, {
+                id: authState.profileId,
+              });
               dispatch(
                 appActions.global.setHomePageTab({ newTab: Tab.Activity })
               );

@@ -14,6 +14,7 @@ export interface RowComponentProps {
 export const RowComponent: React.FC<RowComponentProps> = (
   props: RowComponentProps
 ) => {
+  console.log(props);
   const [isEditing, setIsEditing] = useState(false);
   const [editedValue, setEditedValue] = useState(props.value);
 

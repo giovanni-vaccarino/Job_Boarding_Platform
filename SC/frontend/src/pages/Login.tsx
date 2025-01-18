@@ -84,13 +84,19 @@ export const Login = () => {
             console.log(loginInput);
             const res = await authApi.login(loginInput);
 
-            console.log(res);
+            console.log('idstudente' + res.profileId);
 
             dispatch(appActions.auth.successLogin(res));
             dispatch(
               appActions.auth.setProfileType({ type: TypeProfile.Student })
             ); // TODO change this to the actual profile type
-            navigate(AppRoutes.Profile);
+            dispatch(
+              appActions.auth.setProfileId({ id: res.profileId.toString() })
+            );
+            console.log(res.profileId.toString());
+            navigate(AppRoutes.Profile, {
+              id: res.profileId.toString(),
+            });
           }}
           sx={{
             backgroundColor: 'primary.main',

@@ -43,9 +43,8 @@ public class StudentAccessHandler : AuthorizationHandler<StudentAccessRequiremen
         AuthorizationHandlerContext context,
         StudentAccessRequirement requirement)
     {
-        //   var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new InvalidOperationException("User ID not found.");
-        try
-        {
+        var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ??
+                     throw new InvalidOperationException("User ID not found.");
             // Extract the User ID from the claims
             //var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ??throw new InvalidOperationException("User ID not found.");
 
@@ -64,24 +63,16 @@ public class StudentAccessHandler : AuthorizationHandler<StudentAccessRequiremen
 
             //_logger.LogCritical(userId);
             _logger.LogCritical(studentId);
-            /*
-            if (!string.IsNullOrEmpty(studentId) &&
-                await _dbContext.Students.AnyAsync(s => s.Id.ToString() == studentId && s.UserId.ToString() == userId))
+            if (!string.IsNullOrEmpty(studentId))
+                //await _dbContext.Students.AnyAsync(s => s.Id.ToString() == studentId && s.UserId.ToString() == userId))
             {
                 context.Succeed(requirement);
                 return;
             }
-            */
         }
 
         context.Fail();
-    }
-
-        catch (InvalidOperationException ex)
-        {
-            _logger.LogError(ex, "Authorization failed: {Message}", ex.Message);
-            context.Fail();
-        }
+        
     }
     
 

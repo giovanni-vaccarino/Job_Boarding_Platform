@@ -1,6 +1,7 @@
 export interface RegisterResponse {
   accessToken: string;
   refreshToken: string;
+  profileId: number;
 }
 
 export interface RegisterInput {

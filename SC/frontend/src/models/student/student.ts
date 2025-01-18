@@ -1,9 +1,9 @@
 export interface Student {
-  id: number;
-  email: string;
-  name: string;
   cf: string;
   cvPath: string;
-  skills: string[];
+  email: string;
+  id: string;
   interests: string[];
+  name: string;
+  skills: string[];
 }

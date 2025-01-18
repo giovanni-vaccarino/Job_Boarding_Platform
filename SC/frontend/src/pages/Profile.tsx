@@ -19,23 +19,18 @@ export const Profile = () => {
   const companyApi = useService<ICompanyApi>(ServiceType.CompanyApi);
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
   const navigate = useNavigateWrapper();
+  const data = useLoaderData() as Student | Company;
 
   const [selectedSection, setSelectedSection] = useState<string>('profile');
   //TODO to retrieve the account type
   const [accountType, setAccountType] = useState<string>('student');
 
-  const [studentProfile, setStudentProfile] = useState({
-    id: 10,
-    email: 'student@mail.polimi.it',
-    name: 'studentName',
-    cf: '-',
-    cvPath: '-',
-    skills: ['skill1'],
-    interests: ['interest1', 'interest2'],
-  });
+  const [studentProfile, setStudentProfile] = useState<Student>(
+    data as Student
+  );
 
   const [companyProfile, setCompanyProfile] = useState({
-    id: 10,
+    id: '10',
     email: 'company@mail.polimi.it',
     name: 'Amazon',
     vatNumber: '-',
@@ -43,9 +38,23 @@ export const Profile = () => {
     linkedin: '-',
   });
 
-  setStudentProfile(useLoaderData() as Student);
-  setCompanyProfile(useLoaderData() as Company);
+  console.log(studentProfile);
 
+  //TO avoid infinite loop call the setStudent only when the data or accountType has been changed
+  /*
+    (() => {
+    //Retrieve the accountType
+    //setAccountType();
+    if (data && accountType === 'student') {
+      console.log('Student Profile:', data);
+
+    } else if (data && accountType === 'company') {
+      setCompanyProfile(data as Company);
+      console.log('Company Profile:', data);
+    }
+  }, [data, accountType]); // Add dependencies
+  console.log(studentProfile);
+*/
   const handleSectionChange = (section: string) => {
     setSelectedSection(section);
   };
@@ -60,33 +69,35 @@ export const Profile = () => {
     value: string | string[]
   ) => {
     if (accountType === 'student') {
-      setStudentProfile((prev) => ({
-        ...prev,
-        [fieldKey]: value, // Update specific field in student profile
-      }));
-      console.log('Updated Student Profile:', {
-        ...studentProfile,
-        [fieldKey]: value,
+      setStudentProfile((prev) => {
+        const updatedProfile = { ...prev, [fieldKey]: value };
+        console.log('Updated Student Profile:', updatedProfile);
+
+        // Call the API with the updated profile
+        studentApi
+          .updateStudentInfo(updatedProfile.id.toString(), updatedProfile)
+          .then((res) => console.log('API Response:', res))
+          .catch((error) =>
+            console.error('Error updating student info:', error)
+          );
+
+        return updatedProfile;
       });
-      const res = await studentApi.updateStudentInfo(
-        studentProfile.id.toString(),
-        studentProfile
-      );
-      console.log(res);
     } else if (accountType === 'company') {
-      setCompanyProfile((prev) => ({
-        ...prev,
-        [fieldKey]: value, // Update specific field in company profile
-      }));
-      console.log('Updated Company Profile:', {
-        ...companyProfile,
-        [fieldKey]: value,
+      setCompanyProfile((prev) => {
+        const updatedProfile = { ...prev, [fieldKey]: value };
+        console.log('Updated Company Profile:', updatedProfile);
+
+        // Call the API with the updated profile
+        companyApi
+          .updateCompanyInfo(updatedProfile.id.toString(), updatedProfile)
+          .then((res) => console.log('API Response:', res))
+          .catch((error) =>
+            console.error('Error updating company info:', error)
+          );
+
+        return updatedProfile;
       });
-      const res = await companyApi.updateCompanyInfo(
-        companyProfile.id.toString(),
-        companyProfile
-      );
-      console.log(res);
     }
   };
 
@@ -132,7 +143,8 @@ export const Profile = () => {
         );
     } else {
       if (selectedSection === 'info')
-        if (accountType === 'student')
+        if (accountType === 'student') {
+          console.log('Student Profile:', studentProfile);
           return (
             <Box>
               <RowComponent
@@ -158,7 +170,7 @@ export const Profile = () => {
               />
             </Box>
           );
-        else if (accountType === 'company')
+        } else if (accountType === 'company')
           return (
             <Box>
               <RowComponent
