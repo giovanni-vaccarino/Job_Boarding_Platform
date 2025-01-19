@@ -5,15 +5,32 @@ using MediatR;
 
 namespace backend.Business.Feedback.AddInternshipFeedbackUseCase;
 
+/// <summary>
+/// Use case for adding internship feedback.
+/// </summary>
 public class AddInternshipFeedbackUseCase : IRequestHandler<AddInternshipFeedbackCommand, Unit>
 {
    private readonly AppDbContext _dbContext;
    
+   
+   /// <summary>
+   /// Initializes a new instance of the <see cref="AddInternshipFeedbackUseCase"/> class.
+   /// </summary>
+   /// <param name="dbContext">The application database context.</param>
    public AddInternshipFeedbackUseCase(AppDbContext dbContext)
    {
        _dbContext = dbContext;
    }
 
+   /// <summary>
+   /// Handles the command to add feedback for an internship application.
+   /// </summary>
+   /// <param name="request">The feedback command containing the feedback details.</param>
+   /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+   /// <returns>A unit task representing the completion of the command.</returns>
+   /// <exception cref="InvalidOperationException">
+   /// Thrown if the application is not found or if the actor is not involved in the application.
+   /// </exception>
    public async Task<Unit> Handle(AddInternshipFeedbackCommand request, CancellationToken cancellationToken)
    {
        var dto = request.Dto;

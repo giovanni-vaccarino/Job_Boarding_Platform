@@ -6,17 +6,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Feedback.AddPlatformFeedbackUseCase;
 
+/// <summary>
+/// Use case for adding platform feedback.
+/// </summary>
 public class AddPlatformFeedbackUseCase : IRequestHandler<AddPlatformFeedbackCommand, Unit>
 {
     private readonly AppDbContext _dbContext;
     private readonly ILogger<AddPlatformFeedbackUseCase> _logger;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AddPlatformFeedbackUseCase"/> class.
+    /// </summary>
+    /// <param name="dbContext">The application database context.</param>
+    /// <param name="logger">The logger instance.</param>
     public AddPlatformFeedbackUseCase(AppDbContext dbContext, ILogger<AddPlatformFeedbackUseCase> logger)
     {
         _dbContext = dbContext;
         _logger = logger;
     }
     
+    /// <summary>
+    /// Handles the command to add platform feedback.
+    /// </summary>
+    /// <param name="request">The feedback command containing the feedback details.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A unit task representing the completion of the command.</returns>
     public async Task<Unit> Handle(AddPlatformFeedbackCommand request, CancellationToken cancellationToken)
     {
         var profileId = request.Dto.ProfileId;
