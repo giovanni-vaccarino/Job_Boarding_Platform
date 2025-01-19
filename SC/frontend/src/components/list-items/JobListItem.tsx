@@ -3,7 +3,6 @@ import PlaceIcon from '@mui/icons-material/Place';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
-import { ApplyToInternshipInput } from '../../models/internship/internship.ts';
 import { useService } from '../../core/ioc/ioc-provider.tsx';
 import { IInternshipApi } from '../../core/API/internship/IInternshipApi.ts';
 import { ServiceType } from '../../core/ioc/service-type.ts';
@@ -60,18 +59,10 @@ export const JobListItem = (props: JobListItemProps) => {
       <Button
         variant="contained"
         onClick={async () => {
-          const applyToInternshipInput: ApplyToInternshipInput = {
-            internshipId: props.id,
-            studentId: '1',
-          };
-
-          const res = await apiInternship.postApplyToInternship(
-            applyToInternshipInput
-          );
+          const res = await apiInternship.getInternshipDetails(props.id);
           console.log(res);
           navigate(AppRoutes.Job, { id: props.id ?? '' });
         }}
-        //onClick={() => navigate(AppRoutes.Job)}
         sx={{
           backgroundColor: props.important ? 'red' : 'primary.main',
           color: 'white',

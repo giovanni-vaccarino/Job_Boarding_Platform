@@ -7,9 +7,11 @@ import { Page } from '../components/layout/Page.tsx';
 import { useLoaderData } from 'react-router-dom';
 import { Match } from '../models/match/match.ts';
 
+/*
 //test list for the company containing the students matching with
 
 //the test list contained also the interships invitation from other company
+
 const testList = [
   {
     companyName: 'Amazon',
@@ -52,6 +54,8 @@ const testList = [
     jobId: '5',
   },
 ];
+
+*/
 
 export const Matches = withAuth(() => {
   const authState = useAppSelector((state) => state.auth);

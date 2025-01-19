@@ -44,7 +44,7 @@ export const Job = () => {
   //TODO the two are the same despite the apply button
   return (
     <Page>
-      {profileType === TypeProfile.Student ? (
+      {profileType === TypeProfile.Company ? (
         <CompanyJobDescription jobDescription={props} />
       ) : (
         <StudentJobDescription jobDescription={props} />
