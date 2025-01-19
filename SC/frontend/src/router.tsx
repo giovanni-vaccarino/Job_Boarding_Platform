@@ -31,6 +31,7 @@ import { MatchesLoaderStudent } from './core/API/loader/MatchesLoaderStudents.ts
 import { MatchesLoaderCompany } from './core/API/loader/MatchesLoaderCompany.ts';
 import { IMatchApi } from './core/API/match/IMatchApi.ts';
 import { ApplicantDetailsLoader } from './core/API/loader/ApplicantDetailsLoader.ts';
+import { InternshipLoader } from './core/API/loader/InternshipLoader.ts';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
@@ -64,7 +65,7 @@ export const useAppRouter = () => {
     [
       {
         path: AppRoutes.Home,
-        //loader: () => InternshipLoader(internshipApi),
+        loader: () => InternshipLoader(internshipApi),
         element: <Home />,
       },
       {
