@@ -31,6 +31,6 @@ export enum JobType {
 }
 
 export interface ApplyToInternshipInput {
-  studentId: string;
+  studentId?: string;
   internshipId?: string;
 }

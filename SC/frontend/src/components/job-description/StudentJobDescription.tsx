@@ -5,9 +5,10 @@ import { AppRoutes } from '../../router.tsx';
 import { JobDescriptionCore } from './JobDescriptionCore.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { JobDescriptionProps } from '../../models/application/application.ts';
-import { useLoaderData } from 'react-router-dom';
-import { Match } from '../../models/match/match.ts';
-import { Internship } from '../../models/internship/internship.ts';
+import { useService } from '../../core/ioc/ioc-provider.tsx';
+import { IInternshipApi } from '../../core/API/internship/IInternshipApi.ts';
+import { ServiceType } from '../../core/ioc/service-type.ts';
+import { ApplyToInternshipInput } from '../../models/internship/internship.ts';
 
 export const StudentJobDescription = (props: JobDescriptionProps) => {
   const jobDescription = props.jobDescription;
@@ -16,6 +17,11 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
 
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
+
+  const internshipApi = useService<IInternshipApi>(ServiceType.InternshipApi);
+
+  const authState = useAppSelector((state) => state.auth);
+  const studentId = authState.profileId;
 
   return (
     <>
@@ -44,7 +50,15 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
             variant="contained"
             color="primary"
             disabled={!isLogged}
-            onClick={() => {
+            onClick={async () => {
+              const inputPostApplyToInternship: ApplyToInternshipInput = {
+                studentId: studentId?.toString(),
+                internshipId: props.jobDescription.jobId.toString(),
+              };
+              const res = await internshipApi.postApplyToInternship(
+                inputPostApplyToInternship
+              );
+              console.log(res);
               dispatch(
                 appActions.global.setConfirmMessage({
                   newMessage: 'Application Sent Successfully',

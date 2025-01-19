@@ -15,7 +15,7 @@ export class InternshipApi extends ApiBase implements IInternshipApi {
   async getInternshipCompany(companyId: string): Promise<Internship[]> {
     return await this.httpClient.get(`/company/${companyId}/internships`);
   }
-  async getInternshipDetails(id: string): Promise<Internship> {
+  async getInternshipDetails(id?: string): Promise<Internship> {
     return await this.httpClient.get(`/internship/${id}`, {});
   }
   async postApplyToInternship(
