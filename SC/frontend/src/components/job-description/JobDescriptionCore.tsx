@@ -15,9 +15,9 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
         <strong>Job Type:</strong> {jobDescription.jobType} <br />
         <strong>Location:</strong> {jobDescription.location} <br />
         <strong>Post Created:</strong>{' '}
-        {jobDescription.postCreated.toLocaleDateString()} <br />
+        {jobDescription.postCreated.toString()} <br />
         <strong>Application Deadline:</strong>{' '}
-        {jobDescription.applicationDeadline.toLocaleDateString()}
+        {jobDescription.applicationDeadline.toString()}
       </Typography>
 
       {/* Job description section */}

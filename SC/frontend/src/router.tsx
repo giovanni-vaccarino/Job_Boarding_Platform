@@ -37,7 +37,7 @@ export const AppRoutes = Object.freeze({
   Home: '/',
   Matches: '/matches/:id',
   Application: '/application',
-  Job: '/job',
+  Job: '/job/:id',
   ConfirmPage: '/confirm-page',
   Activity: '/activity/:id',
   Profile: `/profile/:id`,

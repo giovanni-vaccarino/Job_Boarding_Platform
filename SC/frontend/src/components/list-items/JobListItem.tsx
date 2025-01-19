@@ -20,6 +20,7 @@ export const JobListItem = (props: JobListItemProps) => {
   const navigate = useNavigateWrapper();
   const apiInternship = useService<IInternshipApi>(ServiceType.InternshipApi);
 
+  console.log(props.id);
   return (
     <Box
       sx={{
@@ -58,9 +59,7 @@ export const JobListItem = (props: JobListItemProps) => {
 
       <Button
         variant="contained"
-        onClick={async () => {
-          const res = await apiInternship.getInternshipDetails(props.id);
-          console.log(res);
+        onClick={() => {
           navigate(AppRoutes.Job, { id: props.id ?? '' });
         }}
         sx={{

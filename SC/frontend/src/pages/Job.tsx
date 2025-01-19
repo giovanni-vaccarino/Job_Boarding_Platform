@@ -26,8 +26,8 @@ const mapInternshipDetailToJobDescription = (
     jobCategory: internship.jobCategory.toString(),
     jobType: internship.jobType.toString(),
     location: internship.location,
-    postCreated: internship.dataCreated,
-    applicationDeadline: internship.applicationDeadline,
+    postCreated: internship.applicationDeadline.toString(),
+    applicationDeadline: internship.applicationDeadline.toString(),
     jobDescriptionMessage: internship.description,
     skillsRequired: internship.requirements,
     jobId: internship.id,
@@ -37,17 +37,20 @@ const mapInternshipDetailToJobDescription = (
 export const Job = () => {
   const authState = useAppSelector((state) => state.auth);
   const profileType = authState.profileType;
-  const props = testProps;
 
-  //const internship = useLoaderData() as Internship;
-
+  const internship = useLoaderData() as Internship;
+  
   //TODO the two are the same despite the apply button
   return (
     <Page>
       {profileType === TypeProfile.Company ? (
-        <CompanyJobDescription jobDescription={props} />
+        <CompanyJobDescription
+          jobDescription={mapInternshipDetailToJobDescription(internship)}
+        />
       ) : (
-        <StudentJobDescription jobDescription={props} />
+        <StudentJobDescription
+          jobDescription={mapInternshipDetailToJobDescription(internship)}
+        />
       )}
     </Page>
   );

@@ -9,6 +9,8 @@ import { useService } from '../../core/ioc/ioc-provider.tsx';
 import { IInternshipApi } from '../../core/API/internship/IInternshipApi.ts';
 import { ServiceType } from '../../core/ioc/service-type.ts';
 import { ApplyToInternshipInput } from '../../models/internship/internship.ts';
+import { Snackbar } from '@mui/material';
+import { useState } from 'react';
 
 export const StudentJobDescription = (props: JobDescriptionProps) => {
   const jobDescription = props.jobDescription;
@@ -22,6 +24,13 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
 
   const authState = useAppSelector((state) => state.auth);
   const studentId = authState.profileId;
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <>
@@ -55,16 +64,23 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
                 studentId: studentId?.toString(),
                 internshipId: props.jobDescription.jobId.toString(),
               };
-              const res = await internshipApi.postApplyToInternship(
-                inputPostApplyToInternship
-              );
-              console.log(res);
-              dispatch(
-                appActions.global.setConfirmMessage({
-                  newMessage: 'Application Sent Successfully',
-                })
-              );
-              navigate(AppRoutes.ConfirmPage);
+              try {
+                const res = await internshipApi.postApplyToInternship(
+                  inputPostApplyToInternship
+                );
+                console.log(res);
+                dispatch(
+                  appActions.global.setConfirmMessage({
+                    newMessage: 'Application Sent Successfully',
+                  })
+                );
+                navigate(AppRoutes.ConfirmPage);
+              } catch (error: any) {
+                const errorMessage = error.message.split('\\r')[0];
+                console.error(errorMessage);
+                setSnackbarMessage(errorMessage);
+                setSnackbarOpen(true);
+              }
             }}
             sx={{
               textTransform: 'none',
@@ -77,6 +93,13 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
           </Button>
         </Box>
       </Box>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+      />
     </>
   );
 };

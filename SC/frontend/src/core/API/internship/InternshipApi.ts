@@ -21,8 +21,8 @@ export class InternshipApi extends ApiBase implements IInternshipApi {
   async postApplyToInternship(
     input: ApplyToInternshipInput
   ): Promise<Application> {
-    return await this.httpClient.get(
-      `/internship/apply-internship/${input.studentId}`,
+    return await this.httpClient.post(
+      `/internship/apply-internship/${input.studentId}?internshipId=${input.internshipId}`,
       {}
     );
   }

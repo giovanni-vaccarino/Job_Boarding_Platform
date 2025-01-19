@@ -10,8 +10,8 @@ export interface JobDescriptionInterface {
   jobCategory: string;
   jobType: string;
   location: string;
-  postCreated: Date;
-  applicationDeadline: Date;
+  postCreated: string;
+  applicationDeadline: string;
   jobDescriptionMessage: string;
   skillsRequired: string[];
   jobId: number;
