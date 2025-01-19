@@ -7,9 +7,6 @@ import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 
-export interface ApplicantDetailPageProps {
-  nameApplicant: string;
-}
 
 const feedbackMockUp = [
   { feedbackText: 'Great attention to detail.', rating: 5 },
@@ -47,9 +44,32 @@ export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
             label="Skills:"
             value="Python, Java, C++"
             buttons={[]}
+            onFieldChange={}
           />
         </Box>
-
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            mt: '2rem',
+            gap: 3,
+          }}
+        >
+          <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
+            Feedback
+          </Typography>
+          {feedbackMockUp.map((feedback, index) => (
+            <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography
+                sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
+              >{`${index + 1})`}</Typography>
+              <ViewFeedback
+                feedbackText={feedback.feedbackText}
+                rating={feedback.rating}
+              />
+            </Box>
+          ))}
+        </Box>
         <Box
           sx={{
             alignSelf: 'center',

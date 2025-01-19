@@ -91,7 +91,7 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.Job,
-        //loader: ({ params }) => InternshipDetailsLoader(internshipApi, params.id || ''),
+        loader: ({ params }) => InternshipDetailsLoader(internshipApi, params.id || ''),
         element: <Job />,
       },
       {
@@ -136,6 +136,7 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.ApplicantDetailPage,
+          loader: ({params}) =>
         element: <ApplicantDetailPage nameApplicant={'mockname'} />,
       },
       {

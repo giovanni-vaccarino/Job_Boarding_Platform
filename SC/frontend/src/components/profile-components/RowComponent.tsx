@@ -1,14 +1,14 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import ModeIcon from '@mui/icons-material/Mode';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export interface RowComponentProps {
   label: string;
   value: string | string[]; // Accept string or array of strings
   buttons: string[];
   fieldKey: string;
-  onFieldChange: (fieldKey: string, value: string | string[]) => void;
+  onFieldChange?: (fieldKey: string, value: string | string[]) => void;
 }
 
 export const RowComponent: React.FC<RowComponentProps> = (

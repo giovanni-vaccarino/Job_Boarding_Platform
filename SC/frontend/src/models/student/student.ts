@@ -1,3 +1,5 @@
+import { Feedback } from '../feedback/feedback.ts';
+
 export interface Student {
   cf: string;
   cvPath: string;
@@ -6,4 +8,9 @@ export interface Student {
   interests: string[];
   name: string;
   skills: string[];
+}
+
+export interface ApplicantDetailsProps {
+  student: Student;
+  feedback: Feedback[];
 }
