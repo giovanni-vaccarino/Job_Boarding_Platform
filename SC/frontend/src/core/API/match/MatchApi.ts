@@ -12,11 +12,8 @@ export class MatchApi extends ApiBase implements IMatchApi {
   async getMatchesCompany(companyId: string): Promise<Match[]> {
     return await this.httpClient.get(`company/${companyId}`, {});
   }
-  async getApplicantDetails(
-    studentId: string
-  ): Promise<ApplicantDetailsProps> {}
-{
-  //TODO In the backend
-  return await.this.httpClient.get('')
-}
+  //TODO this should be added in match controller in backend
+  async getApplicantDetails(studentId: string): Promise<ApplicantDetailsProps> {
+    return await this.httpClient.get(`student/${studentId}`, {});
+  }
 }

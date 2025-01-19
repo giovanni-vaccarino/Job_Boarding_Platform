@@ -6,13 +6,6 @@ import {
 } from '../tables/StudentsTable.tsx';
 import { Match } from '../../models/match/match.ts';
 
-const exampleData = [
-  { name: 'John Doe', suggestedJob: 'Software Engineer' },
-  { name: 'Jane Smith', suggestedJob: 'Data Scientist' },
-  { name: 'Michael Brown', suggestedJob: 'Frontend Developer' },
-  { name: 'Emily Davis', suggestedJob: 'Backend Developer' },
-  { name: 'Chris Wilson', suggestedJob: 'Full Stack Engineer' },
-];
 
 interface CompanyMatchesProps {
   matches: Match[];

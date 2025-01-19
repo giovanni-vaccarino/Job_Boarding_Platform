@@ -15,7 +15,6 @@ import { Matches } from './pages/Matches.tsx';
 import { ForgotPasswordSetEmail } from './pages/ForgotPasswordSetEmail.tsx';
 import { ForgotPasswordSetPassword } from './pages/ForgotPasswordSetPassword.tsx';
 import { Job } from './pages/Job.tsx';
-import { InternshipLoader } from './core/API/loader/InternshipLoader.ts';
 import { InternshipDetailsLoader } from './core/API/loader/InternshipDetailsLoader.ts';
 import { useService } from './core/ioc/ioc-provider.tsx';
 import { ServiceType } from './core/ioc/service-type.ts';
@@ -31,6 +30,7 @@ import { ICompanyApi } from './core/API/company/ICompanyApi.ts';
 import { MatchesLoaderStudent } from './core/API/loader/MatchesLoaderStudents.ts';
 import { MatchesLoaderCompany } from './core/API/loader/MatchesLoaderCompany.ts';
 import { IMatchApi } from './core/API/match/IMatchApi.ts';
+import { ApplicantDetailsLoader } from './core/API/loader/ApplicantDetailsLoader.ts';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
@@ -49,7 +49,7 @@ export const AppRoutes = Object.freeze({
   OnlineAssessment: '/online-assessment',
   NewJobQuestion: '/new-job-question',
   NewJob: '/new-job',
-  ApplicantDetailPage: '/applicant-detail-page',
+  ApplicantDetailPage: '/applicant-detail-page/:id',
 });
 
 export const useAppRouter = () => {
@@ -91,7 +91,8 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.Job,
-        loader: ({ params }) => InternshipDetailsLoader(internshipApi, params.id || ''),
+        loader: ({ params }) =>
+          InternshipDetailsLoader(internshipApi, params.id || ''),
         element: <Job />,
       },
       {
@@ -136,7 +137,8 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.ApplicantDetailPage,
-          loader: ({params}) =>
+        loader: ({ params }) =>
+          ApplicantDetailsLoader(matchApi, params.id || ''),
         element: <ApplicantDetailPage nameApplicant={'mockname'} />,
       },
       {
