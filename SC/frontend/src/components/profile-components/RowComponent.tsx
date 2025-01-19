@@ -7,8 +7,8 @@ export interface RowComponentProps {
   label: string;
   value: string | string[]; // Accept string or array of strings
   buttons: string[];
-  fieldKey: string;
-  onFieldChange: (fieldKey: string, value: string | string[]) => void;
+  fieldKey?: string;
+  onFieldChange: (fieldKey?: string, value?: string | string[]) => void;
 }
 
 export const RowComponent: React.FC<RowComponentProps> = (
