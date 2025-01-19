@@ -18,4 +18,6 @@ public class User: EntityBase
     public Student? Student { get; set; } 
     
     public Company? Company { get; set; }
+    
+    public List<PlatformFeedback> PlatformFeedbacks { get; set; } = new();
 }

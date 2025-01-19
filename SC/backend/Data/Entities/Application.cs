@@ -16,4 +16,6 @@ public class Application : EntityBase
     public required int InternshipId { get; set; }
     
     public Internship Internship { get; set; } = null!;
+    
+    public List<InternshipFeedback> InternshipFeedbacks { get; set; } = new List<InternshipFeedback>();
 }
