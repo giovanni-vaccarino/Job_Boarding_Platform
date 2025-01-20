@@ -67,10 +67,11 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
         _logger.LogDebug("Successfully registered user with email {Email}, {profileType}", user.Email, registerInput.ProfileType);
         
         return new TokenResponse
-        {
+        {   
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            ProfileId = profileId
+            ProfileId = profileId,
+            ProfileType = registerInput.ProfileType
         };
     }
     

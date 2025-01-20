@@ -62,6 +62,7 @@ export const useAppRouter = () => {
   const profileType = authState.profileType;
   const matchApi = useService<IMatchApi>(ServiceType.MatchApi);
 
+
   return createBrowserRouter(
     [
       {

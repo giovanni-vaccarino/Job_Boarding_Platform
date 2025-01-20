@@ -1,7 +1,9 @@
+import {TypeProfile} from "./register.ts";
+
 export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
-  profileType?: string;
+  profileType: TypeProfile;
   profileId: number;
 }
 

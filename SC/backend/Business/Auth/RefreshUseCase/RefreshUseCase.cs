@@ -62,11 +62,14 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
         
         var profileId = user.Student?.Id ?? user.Company?.Id ?? throw new Exception("User profile not found.");
         
+        var profileType = user.Student != null ? ProfileType.Student : ProfileType.Company; // Set profile type
+
         return new TokenResponse
         {
             AccessToken = newAccessToken,
             RefreshToken = newRefreshToken,
-            ProfileId = profileId
+            ProfileId = profileId,
+            ProfileType = profileType  // Set ProfileType here
         };
     }
     

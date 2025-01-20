@@ -7,7 +7,7 @@ import { useService } from '../core/ioc/ioc-provider.tsx';
 import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
 import { LoginInput } from '../models/auth/login.ts';
-import { appActions, useAppDispatch } from '../core/store';
+import { appActions, useAppDispatch, useAppSelector } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { TypeProfile } from '../models/auth/register.ts';
 
@@ -17,6 +17,10 @@ export const Login = () => {
   const navigate = useNavigateWrapper();
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
   const dispatch = useAppDispatch();
+
+  const authState = useAppSelector((state) => state.auth);
+  const profileType = authState.profileType;
+  console.log('LoginType' + profileType);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -95,10 +99,16 @@ export const Login = () => {
 
               console.log('idstudente' + res.profileId);
 
+              console.log(res);
               dispatch(appActions.auth.successLogin(res));
+              const profileTypeEnum =
+                res.profileType.toString() === 'Student'
+                  ? TypeProfile.Student
+                  : TypeProfile.Company;
               dispatch(
-                appActions.auth.setProfileType({ type: res.profileType })
+                appActions.auth.setProfileType({ type: profileTypeEnum })
               );
+
               dispatch(
                 appActions.auth.setProfileId({ id: res.profileId.toString() })
               );
