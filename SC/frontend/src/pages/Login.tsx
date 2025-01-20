@@ -1,6 +1,6 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Snackbar, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { useService } from '../core/ioc/ioc-provider.tsx';
@@ -17,6 +17,13 @@ export const Login = () => {
   const navigate = useNavigateWrapper();
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
   const dispatch = useAppDispatch();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <Page>
@@ -82,21 +89,29 @@ export const Login = () => {
               password: password,
             };
             console.log(loginInput);
-            const res = await authApi.login(loginInput);
 
-            console.log('idstudente' + res.profileId);
+            try {
+              const res = await authApi.login(loginInput);
 
-            dispatch(appActions.auth.successLogin(res));
-            dispatch(
-              appActions.auth.setProfileType({ type: TypeProfile.Student })
-            ); // TODO change this to the actual profile type
-            dispatch(
-              appActions.auth.setProfileId({ id: res.profileId.toString() })
-            );
-            console.log(res.profileId.toString());
-            navigate(AppRoutes.Profile, {
-              id: res.profileId.toString(),
-            });
+              console.log('idstudente' + res.profileId);
+
+              dispatch(appActions.auth.successLogin(res));
+              dispatch(
+                appActions.auth.setProfileType({ type: TypeProfile.Student })
+              ); // TODO change this to the actual profile type
+              dispatch(
+                appActions.auth.setProfileId({ id: res.profileId.toString() })
+              );
+              console.log(res.profileId.toString());
+              navigate(AppRoutes.Profile, {
+                id: res.profileId.toString(),
+              });
+            } catch (error: any) {
+              const errorMessage = error.message.split('\\r')[0];
+              console.error(errorMessage);
+              setSnackbarMessage(errorMessage);
+              setSnackbarOpen(true);
+            }
           }}
           sx={{
             backgroundColor: 'primary.main',
@@ -137,6 +152,12 @@ export const Login = () => {
           </Typography>
         </Box>
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+      />
     </Page>
   );
 };
