@@ -113,7 +113,7 @@ export const Profile = () => {
               label="eMail"
               value={studentProfile.email}
               fieldKey={'email'}
-              buttons={['edit']}
+              buttons={[]}
               onFieldChange={handleFieldChange}
             />
             <RowComponent
@@ -131,7 +131,7 @@ export const Profile = () => {
             <RowComponent
               label="eMail"
               value={companyProfile.email}
-              buttons={['edit']}
+              buttons={[]}
               fieldKey={'email'}
               onFieldChange={handleFieldChange}
             />
@@ -147,7 +147,7 @@ export const Profile = () => {
     } else {
       if (selectedSection === 'info')
         if (accountType === 'student') {
-          console.log('Student Profile:', studentProfile);
+          console.log('Student Profile:', studentProfile.skills);
           return (
             <Box>
               <RowComponent
@@ -168,7 +168,7 @@ export const Profile = () => {
                 label="Interest"
                 value={studentProfile.interests}
                 buttons={['edit']}
-                fieldKey={'interest'}
+                fieldKey={'interests'}
                 onFieldChange={handleFieldChange}
               />
             </Box>
