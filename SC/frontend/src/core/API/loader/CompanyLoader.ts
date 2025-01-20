@@ -10,7 +10,7 @@ export const CompanyLoader = async (
     console.log(companyInfo);
     return companyInfo;
   } catch (error) {
-    console.error('Failed to load internships', error);
+    console.error('Failed to load companyInfo');
     throw error;
   }
 };

@@ -47,6 +47,16 @@ public class GetCompanyDetailUseCase : IRequestHandler<GetCompanyDetailQuery, Co
                           })
             .FirstOrDefaultAsync(cancellationToken)
             ?? throw new KeyNotFoundException("Company not found.");
+
+
+        var companyToReturn = new CompanyDto
+        {
+            Id = company.Company.Id,
+            Name = company.Company.Name,
+            Email = company.Company.User.Email,
+            VatNumber = company.Company.VatNumber,
+            Website = company.Company.Website,
+        };
         
         return _mapper.Map<CompanyDto>(company);
     }

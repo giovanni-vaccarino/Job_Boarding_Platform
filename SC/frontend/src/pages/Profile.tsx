@@ -13,8 +13,9 @@ import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { Student } from '../models/student/student.ts';
 import { useLoaderData } from 'react-router-dom';
 import { Company } from '../models/company/company.ts';
-import { authSlice } from '../core/store/slices/auth.ts';
+import { useAppSelector } from '../core/store';
 import { appActions, useAppDispatch } from '../core/store';
+import { TypeProfile } from '../models/auth/register.ts';
 
 export const Profile = () => {
   const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
@@ -22,18 +23,23 @@ export const Profile = () => {
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
   const navigate = useNavigateWrapper();
   const data = useLoaderData() as Student | Company;
-  const dispach = useAppDispatch()
+  const authState = useAppSelector((state) => state.auth);
+  const dispach = useAppDispatch();
 
+  const profileType: TypeProfile | null = authState.profileType;
+  const accountType: string = TypeProfile[profileType];
+
+  console.log(accountType);
   const [selectedSection, setSelectedSection] = useState<string>('profile');
-  //TODO to retrieve the account type
-  const [accountType, setAccountType] = useState<string>('student');
 
   const [studentProfile, setStudentProfile] = useState<Student>(
     data as Student
   );
 
+  console.log(accountType);
+
   const [companyProfile, setCompanyProfile] = useState({
-    id: '10',
+    id: 10,
     email: 'company@mail.polimi.it',
     name: 'Amazon',
     vatNumber: '-',
@@ -62,16 +68,14 @@ export const Profile = () => {
     setSelectedSection(section);
   };
 
-  const handleTypeAccount = (type: string) => {
-    setAccountType(type);
-  };
+  // Removed handleTypeAccount
 
   //The function is passed as a props to the row component and handle the update of the profile
   const handleFieldChange = async (
-    fieldKey: string,
-    value: string | string[]
+    fieldKey: string | undefined,
+    value?: string | string[] | undefined
   ) => {
-    if (accountType === 'student') {
+    if (accountType === 'Student') {
       setStudentProfile((prev) => {
         const updatedProfile = { ...prev, [fieldKey]: value };
         console.log('Updated Student Profile:', updatedProfile);
@@ -86,7 +90,7 @@ export const Profile = () => {
 
         return updatedProfile;
       });
-    } else if (accountType === 'company') {
+    } else if (accountType === 'Company') {
       setCompanyProfile((prev) => {
         const updatedProfile = { ...prev, [fieldKey]: value };
         console.log('Updated Company Profile:', updatedProfile);
@@ -106,7 +110,7 @@ export const Profile = () => {
 
   const renderContent = () => {
     if (selectedSection === 'profile') {
-      if (accountType === 'student')
+      if (accountType === 'Student')
         return (
           <Box>
             <RowComponent
@@ -125,7 +129,7 @@ export const Profile = () => {
             />
           </Box>
         );
-      else if (accountType === 'company')
+      else if (accountType === 'Company')
         return (
           <Box>
             <RowComponent
@@ -146,7 +150,7 @@ export const Profile = () => {
         );
     } else {
       if (selectedSection === 'info')
-        if (accountType === 'student') {
+        if (accountType === 'Student') {
           console.log('Student Profile:', studentProfile.skills);
           return (
             <Box>
@@ -173,7 +177,7 @@ export const Profile = () => {
               />
             </Box>
           );
-        } else if (accountType === 'company')
+        } else if (accountType === 'Company')
           return (
             <Box>
               <RowComponent
@@ -319,7 +323,6 @@ export const Profile = () => {
               await authApi.logout();
 
               dispach(appActions.auth.logout());
-              console.log("fuori");
               navigate(AppRoutes.Login);
             }}
           >

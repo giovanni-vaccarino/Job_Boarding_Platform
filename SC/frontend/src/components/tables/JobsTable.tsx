@@ -11,6 +11,7 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../../router.tsx';
+import { useAppSelector } from '../../core/store';
 
 export interface JobsTableHeader {
   title: string;
@@ -18,6 +19,7 @@ export interface JobsTableHeader {
   state: string;
   location: string;
   submissionDate: string;
+  id: string;
 }
 
 export interface JobsTableProps {
@@ -27,7 +29,10 @@ export interface JobsTableProps {
 export const JobsTable = (props: JobsTableProps) => {
   const { jobs = [] } = props;
   const navigate = useNavigateWrapper();
+  const auth = useAppSelector((state) => state.auth);
+  const studentId = auth.profileId;
 
+  console.log('Application available:' + props);
   return (
     <TableContainer
       component={Paper}
@@ -89,7 +94,12 @@ export const JobsTable = (props: JobsTableProps) => {
                   <IconButton
                     color="primary"
                     aria-label="view details"
-                    onClick={() => navigate(AppRoutes.Application)}
+                    onClick={() =>
+                      navigate(AppRoutes.Application, {
+                        studentId: (studentId ?? '').toString(),
+                        applicationId: row.id,
+                      })
+                    }
                   >
                     <VisibilityIcon />
                   </IconButton>

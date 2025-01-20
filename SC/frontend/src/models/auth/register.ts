@@ -8,10 +8,10 @@ export interface RegisterInput {
   email: string;
   password: string;
   confirmPassword: string;
-  profile: TypeProfile;
+  profileType: TypeProfile;
 }
 
 export enum TypeProfile {
-  Company,
-  Student,
+  Student = 0,
+  Company = 1,
 }

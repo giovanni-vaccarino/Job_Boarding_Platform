@@ -5,7 +5,6 @@ import {
   Button,
   MenuItem,
   Select,
-  Snackbar,
   TextField,
   Typography,
 } from '@mui/material';
@@ -27,13 +26,6 @@ export const Register = () => {
   const dispatch = useAppDispatch();
 
   const [profile, setProfile] = useState<TypeProfile>(TypeProfile.Student);
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
 
   return (
     <Page>
@@ -154,38 +146,23 @@ export const Register = () => {
               email: email,
               password: password,
               confirmPassword: confirmPassword,
-              profile: profile,
+              profileType: profile,
             };
 
-            try {
-              console.log(email);
-              const res = await authApi.register(registrationInput);
+            console.log(registrationInput);
+            console.log(email);
+            const res = await authApi.register(registrationInput);
 
-              console.log(res);
-
-              dispatch(appActions.auth.successLogin(res));
-              dispatch(appActions.auth.setProfileType({ type: profile }));
-              navigate(AppRoutes.Profile, {
-                id: res.profileId,
-              });
-            } catch (error: any) {
-              const errorMessage = error.message.split('\\r')[0];
-              console.error(errorMessage);
-              setSnackbarMessage(errorMessage);
-              setSnackbarOpen(true);
-            }
+            dispatch(appActions.auth.successLogin(res));
+            dispatch(appActions.auth.setProfileType({ type: profile }));
+            navigate(AppRoutes.Profile, {
+              id: res.profileId.toString(),
+            });
           }}
         >
           Register
         </Button>
       </Box>
-
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        message={snackbarMessage}
-      />
     </Page>
   );
 };

@@ -2,6 +2,6 @@
 
 public enum ProfileType
 {
-    Student,
-    Company
+    Student = 0,
+    Company = 1
 }
