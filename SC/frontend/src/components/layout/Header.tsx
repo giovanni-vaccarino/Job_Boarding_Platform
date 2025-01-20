@@ -1,4 +1,11 @@
-﻿import { AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
+﻿import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Button,
+  Avatar,
+} from '@mui/material';
 import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
@@ -10,6 +17,7 @@ export const Header = () => {
   const activeTab = useAppSelector((state) => state.global.tabHomePage);
   const authState = useAppSelector((state) => state.auth);
   const profileType = authState.profileType;
+  const isLogged = useAppSelector((s) => s.auth.loggedIn);
   const dispatch = useAppDispatch();
 
   console.log(authState.profileId);
@@ -110,20 +118,32 @@ export const Header = () => {
           </Typography>
         </Box>
 
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            textTransform: 'none',
-            borderRadius: 2,
-            fontWeight: 'bold',
-            fontSize: '1.25rem',
-            px: '3rem',
-          }}
-          onClick={() => navigate(AppRoutes.Login)}
-        >
-          Login
-        </Button>
+        {isLogged == false && (
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              textTransform: 'none',
+              borderRadius: 2,
+              fontWeight: 'bold',
+              fontSize: '1.25rem',
+              px: '3rem',
+            }}
+            onClick={() => navigate(AppRoutes.Login)}
+          >
+            Login
+          </Button>
+        )}
+        {isLogged == true && (
+          <Avatar
+            src="/broken-image.jpg"
+            onClick={() =>
+              navigate(AppRoutes.Profile, {
+                id: authState.profileId,
+              })
+            }
+          />
+        )}
       </Toolbar>
     </AppBar>
   );
