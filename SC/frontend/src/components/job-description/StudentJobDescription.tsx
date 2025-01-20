@@ -75,9 +75,12 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
                   })
                 );
                 navigate(AppRoutes.ConfirmPage);
-              } catch (error: any) {
+              } catch (error) {
                 const errorMessage = error.message.split('\\r')[0];
-                console.error(errorMessage);
+                const response = error?.response || null;
+
+                console.error('Full error object:', JSON.stringify(error, null, 2));
+
                 setSnackbarMessage(errorMessage);
                 setSnackbarOpen(true);
               }

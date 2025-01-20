@@ -43,16 +43,19 @@ export class AxiosHttpClient extends HttpClientBase {
       return response.data;
     } catch (error) {
       const err = (await error) as AxiosError;
+      const errorData = err?.response?.data;
+      const entireErrorMessage = errorData?.split('\n')[0] || 'An unknown error occurred';
+      const errorMessage = entireErrorMessage?.split(':')[1]?.trim() || 'An unknown error occurred';
       console.log(err);
       if (err.code === 'ECONNABORTED') {
         return 'REQUEST ABORTED' as unknown as TResponse;
       }
-      const response = err.response as AxiosResponse<{ message: string }>;
+      //const response = err.response as AxiosResponse<{ message: string }>;
 
       throw new HttpError(
         err.response?.status || -1,
         err.code || 'UNKNOWN',
-        response?.data.message || err.message
+        errorMessage || err.message
       );
     }
   }
