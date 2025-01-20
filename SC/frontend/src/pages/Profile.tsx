@@ -13,6 +13,8 @@ import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { Student } from '../models/student/student.ts';
 import { useLoaderData } from 'react-router-dom';
 import { Company } from '../models/company/company.ts';
+import { authSlice } from '../core/store/slices/auth.ts';
+import { appActions, useAppDispatch } from '../core/store';
 
 export const Profile = () => {
   const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
@@ -20,6 +22,7 @@ export const Profile = () => {
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
   const navigate = useNavigateWrapper();
   const data = useLoaderData() as Student | Company;
+  const dispach = useAppDispatch()
 
   const [selectedSection, setSelectedSection] = useState<string>('profile');
   //TODO to retrieve the account type
@@ -314,6 +317,9 @@ export const Profile = () => {
           <Button
             onClick={async () => {
               await authApi.logout();
+
+              dispach(appActions.auth.logout());
+              console.log("fuori");
               navigate(AppRoutes.Login);
             }}
           >

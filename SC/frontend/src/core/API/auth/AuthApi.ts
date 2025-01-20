@@ -16,7 +16,7 @@ export class AuthApi extends ApiBase implements IAuthApi {
     );
   }
   async logout(): Promise<null>{
-    return await this.httpClient.post<null, null>('logout', null);
+    return await this.httpClient.post<null, null>('/authentication/logout', null);
   }
   async register(input: RegisterInput): Promise<RegisterResponse> {
     return await this.httpClient.post<RegisterInput, RegisterResponse>(
