@@ -97,8 +97,8 @@ export const Login = () => {
 
               dispatch(appActions.auth.successLogin(res));
               dispatch(
-                appActions.auth.setProfileType({ type: TypeProfile.Student })
-              ); // TODO change this to the actual profile type
+                appActions.auth.setProfileType({ type: res.profileType })
+              );
               dispatch(
                 appActions.auth.setProfileId({ id: res.profileId.toString() })
               );
