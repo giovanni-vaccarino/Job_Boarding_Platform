@@ -46,6 +46,7 @@ export const authSlice = createSlice({
       state.refreshToken = null;
       state.accessToken = null;
       state.loggedIn = false;
+      state.profileType = 0;
     },
     setProfileType: (state, action: PayloadAction<SetProfileType>) => {
       state.profileType = action.payload.type;

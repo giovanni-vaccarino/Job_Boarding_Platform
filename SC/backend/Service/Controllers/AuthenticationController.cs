@@ -49,7 +49,7 @@ public class AuthenticationController : ControllerBase
     }
     
     [Authorize]
-    [HttpPost("    logout")]
+    [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
         await _mediator.Send(new LogoutCommand());
