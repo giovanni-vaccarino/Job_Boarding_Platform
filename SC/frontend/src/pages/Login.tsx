@@ -108,7 +108,8 @@ export const Login = () => {
               });
             } catch (error: any) {
               const errorMessage = error.message.split('\\r')[0];
-              console.error(errorMessage);
+              console.log(error.message);
+              console.log('Full error object:', JSON.stringify(error, null, 2));
               setSnackbarMessage(errorMessage);
               setSnackbarOpen(true);
             }
@@ -157,6 +158,13 @@ export const Login = () => {
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
         message={snackbarMessage}
+        sx={{
+          '& .MuiSnackbarContent-root': {
+            backgroundColor: 'red',
+            fontSize: '18px',
+            padding: '16px',
+          },
+        }}
       />
     </Page>
   );

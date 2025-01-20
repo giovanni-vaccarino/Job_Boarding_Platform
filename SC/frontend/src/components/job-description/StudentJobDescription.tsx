@@ -101,6 +101,13 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
         message={snackbarMessage}
+        sx={{
+          '& .MuiSnackbarContent-root': {
+            backgroundColor: 'red',
+            fontSize: '18px',
+            padding: '16px',
+          },
+        }}
       />
     </>
   );
