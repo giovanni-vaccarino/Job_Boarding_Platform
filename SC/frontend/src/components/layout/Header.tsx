@@ -11,6 +11,7 @@ import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
 import { Tab } from '../../core/store/slices/global.ts';
 import { TypeProfile } from '../../models/auth/register.ts';
+import { Matches } from '../../pages/Matches.tsx';
 
 export const Header = () => {
   const navigate = useNavigateWrapper();
@@ -82,10 +83,14 @@ export const Header = () => {
           )}
           <Typography
             onClick={() => {
-              navigate(AppRoutes.Matches, { id: authState.profileId });
-              dispatch(
-                appActions.global.setHomePageTab({ newTab: Tab.Matches })
-              );
+              if (isLogged) {
+                navigate(AppRoutes.Matches, { id: authState.profileId });
+                dispatch(
+                  appActions.global.setHomePageTab({ newTab: Tab.Matches })
+                );
+              } else {
+                navigate(AppRoutes.Login);
+              }
             }}
             variant="body1"
             sx={{
@@ -99,12 +104,16 @@ export const Header = () => {
           </Typography>
           <Typography
             onClick={() => {
-              navigate(AppRoutes.Activity, {
-                id: authState.profileId,
-              });
-              dispatch(
-                appActions.global.setHomePageTab({ newTab: Tab.Activity })
-              );
+              if (isLogged) {
+                navigate(AppRoutes.Activity, {
+                  id: authState.profileId,
+                });
+                dispatch(
+                  appActions.global.setHomePageTab({ newTab: Tab.Activity })
+                );
+              } else {
+                navigate(AppRoutes.Login);
+              }
             }}
             variant="body1"
             sx={{
