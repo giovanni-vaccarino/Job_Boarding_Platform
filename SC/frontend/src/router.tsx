@@ -32,11 +32,12 @@ import { MatchesLoaderCompany } from './core/API/loader/MatchesLoaderCompany.ts'
 import { IMatchApi } from './core/API/match/IMatchApi.ts';
 import { ApplicantDetailsLoader } from './core/API/loader/ApplicantDetailsLoader.ts';
 import { InternshipLoader } from './core/API/loader/InternshipLoader.ts';
+import { ApplicationDetailsLoader } from './core/API/loader/ApplicationDetailsLoader.ts';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
   Matches: '/matches/:id',
-  Application: '/application',
+  Application: '/application/:studentId/:applicationId',
   Job: '/job/:id',
   ConfirmPage: '/confirm-page',
   Activity: '/activity/:id',
@@ -88,6 +89,12 @@ export const useAppRouter = () => {
 
       {
         path: AppRoutes.Application,
+        loader: ({ params }) =>
+          ApplicationDetailsLoader(
+            studentApi,
+            params.studentId || '',
+            params.applicationId || ''
+          ),
         element: <Application />,
       },
       {

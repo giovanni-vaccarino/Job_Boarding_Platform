@@ -13,6 +13,7 @@ import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { Student } from '../models/student/student.ts';
 import { useLoaderData } from 'react-router-dom';
 import { Company } from '../models/company/company.ts';
+import {useAppSelector} from "../core/store";
 import { authSlice } from '../core/store/slices/auth.ts';
 import { appActions, useAppDispatch } from '../core/store';
 
@@ -22,18 +23,18 @@ export const Profile = () => {
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
   const navigate = useNavigateWrapper();
   const data = useLoaderData() as Student | Company;
+  const authState = useAppSelector((state) => state.auth);
+  const accountType: string = authState.profileType;
   const dispach = useAppDispatch()
 
   const [selectedSection, setSelectedSection] = useState<string>('profile');
-  //TODO to retrieve the account type
-  const [accountType, setAccountType] = useState<string>('student');
 
   const [studentProfile, setStudentProfile] = useState<Student>(
     data as Student
   );
 
   const [companyProfile, setCompanyProfile] = useState({
-    id: '10',
+    id: 10,
     email: 'company@mail.polimi.it',
     name: 'Amazon',
     vatNumber: '-',
@@ -62,14 +63,12 @@ export const Profile = () => {
     setSelectedSection(section);
   };
 
-  const handleTypeAccount = (type: string) => {
-    setAccountType(type);
-  };
+  // Removed handleTypeAccount
 
   //The function is passed as a props to the row component and handle the update of the profile
   const handleFieldChange = async (
-    fieldKey: string,
-    value: string | string[]
+    fieldKey: string | undefined,
+    value?: string | string[] | undefined
   ) => {
     if (accountType === 'student') {
       setStudentProfile((prev) => {

@@ -4,6 +4,7 @@ export enum ApplicationStatus {
   OnlineAssessment,
   Ongoing,
   Ended,
+  Screening,
 }
 
 export interface JobDescriptionInterface {
@@ -31,7 +32,7 @@ export interface ApplicationProps {
 }
 
 //TODO to adapt this interface to the above one
-export interface Application {
+export interface ApplicationInfo {
   id: number;
   submissionDate: Date;
   applicationStatus: ApplicationStatus;

@@ -1,10 +1,10 @@
 import { TitleHeader } from '../page-headers/TitleHeader.tsx';
 import { JobsTable, JobsTableHeader } from '../tables/JobsTable.tsx';
 import { Box, Typography } from '@mui/material';
-import { Application } from '../../models/application/application.ts';
+import { ApplicationInfo } from '../../models/application/application.ts';
 
 const mapApplicationToJobsTableHeader = (
-  application: Application
+  application: ApplicationInfo
 ): JobsTableHeader => {
   return {
     title: application.internship.title,
@@ -12,35 +12,13 @@ const mapApplicationToJobsTableHeader = (
     state: application.applicationStatus.toString(),
     location: application.internship.location,
     submissionDate: application.submissionDate.toString(),
+    id: application.id.toString(),
   };
 };
 
-const exampleData = [
-  {
-    title: 'Software Engineer',
-    company: 'Tech Solutions Inc.',
-    state: 'California',
-    location: 'San Francisco',
-    submissionDate: '2024-11-25',
-  },
-  {
-    title: 'Data Analyst',
-    company: 'Data Insights LLC',
-    state: 'New York',
-    location: 'New York City',
-    submissionDate: '2024-11-20',
-  },
-  {
-    title: 'Product Manager',
-    company: 'Innovatech Corp.',
-    state: 'Texas',
-    location: 'Austin',
-    submissionDate: '2024-11-15',
-  },
-];
 
 export interface StudentActivityProps {
-  applications: Application[];
+  applications: ApplicationInfo[];
 }
 
 export const StudentActivity = (props: StudentActivityProps) => {
