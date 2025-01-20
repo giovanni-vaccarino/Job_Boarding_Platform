@@ -7,26 +7,6 @@ import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import {Internship} from "../models/internship/internship.ts";
 
-const jobList = [
-  {
-    companyName: 'Google',
-    title: 'Software Engineer',
-    location: 'Chicago',
-    dataCreated: new Date('2024-11-01'),
-  },
-  {
-    companyName: 'Amazon',
-    title: 'Software Engineer',
-    location: 'Chicago',
-    dateCreated: new Date('2024-10-20'),
-  },
-  {
-    companyName: 'Amazon',
-    title: 'Software Engineer',
-    location: 'Chicago',
-    dataCreated: new Date('2024-10-15'),
-  },
-];
 
 export enum PostedDate {
   Today,

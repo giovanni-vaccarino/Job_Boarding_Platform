@@ -106,7 +106,7 @@ export const Login = () => {
               navigate(AppRoutes.Profile, {
                 id: res.profileId.toString(),
               });
-            } catch (error) {
+            } catch (error: any) {
               const errorMessage = error.message.split('\\r')[0];
               console.error(errorMessage);
               setSnackbarMessage(errorMessage);

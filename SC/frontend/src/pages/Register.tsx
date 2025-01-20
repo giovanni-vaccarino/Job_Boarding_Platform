@@ -146,18 +146,17 @@ export const Register = () => {
               email: email,
               password: password,
               confirmPassword: confirmPassword,
-              profile: profile,
+              profileType: profile,
             };
 
+            console.log(registrationInput);
             console.log(email);
             const res = await authApi.register(registrationInput);
-
-            console.log(res);
 
             dispatch(appActions.auth.successLogin(res));
             dispatch(appActions.auth.setProfileType({ type: profile }));
             navigate(AppRoutes.Profile, {
-              id: res.profileId,
+              id: res.profileId.toString(),
             });
           }}
         >

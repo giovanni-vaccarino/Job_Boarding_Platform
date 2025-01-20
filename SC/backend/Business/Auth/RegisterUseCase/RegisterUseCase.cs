@@ -59,11 +59,12 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
         
         var accessToken = _securityContext.CreateAccessToken(user);
 
-        var profileId = await CreateNewProfile(registerInput.ProfileType, user.Id, cancellationToken);
+        _logger.LogCritical("Received {profileType} registration request for user with email {Email}", registerInput.ProfileType, user.Email);
+        var profileId = await CreateNewProfile(registerInput.ProfileType, user.Id, cancellationToken);  
         
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        _logger.LogDebug("Successfully registered user with email {Email}", user.Email);
+        _logger.LogDebug("Successfully registered user with email {Email}, {profileType}", user.Email, registerInput.ProfileType);
         
         return new TokenResponse
         {
