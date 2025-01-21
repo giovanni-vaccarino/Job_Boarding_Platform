@@ -10,7 +10,7 @@ export const MatchesLoaderStudent = async (
     console.log(matches);
     return matches;
   } catch (error) {
-    console.error("Failed to load student' matches, error");
+    console.error("Failed to load student's matches, error");
     throw error;
   }
 };

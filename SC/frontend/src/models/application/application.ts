@@ -1,10 +1,11 @@
 import { Internship } from '../internship/internship.ts';
 
 export enum ApplicationStatus {
-  OnlineAssessment,
-  Ongoing,
-  Ended,
+  Accepted,
+  Rejected,
   Screening,
+  OnlineAssessment,
+  LastEvaluation,
 }
 
 export interface JobDescriptionInterface {

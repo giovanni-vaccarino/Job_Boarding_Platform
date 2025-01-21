@@ -6,8 +6,9 @@ import {
   Typography,
   FormGroup,
 } from '@mui/material';
+import { Question } from '../../models/company/company.ts';
 
-export const MultipleChoiceQuestion = () => {
+export const MultipleChoiceQuestion = (props: Question) => {
   const [checked, setChecked] = useState({});
 
   const questionsMockData = {
@@ -31,10 +32,10 @@ export const MultipleChoiceQuestion = () => {
       }}
     >
       <Typography sx={{ fontSize: '1.3rem', fontWeight: 'bold' }}>
-        {questionsMockData.question}
+        {props.title}
       </Typography>
       <FormGroup>
-        {questionsMockData.options.map((option, index) => (
+        {props.options.map((option, index) => (
           <FormControlLabel
             key={index}
             control={

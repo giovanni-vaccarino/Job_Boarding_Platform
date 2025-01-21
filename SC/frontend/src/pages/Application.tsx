@@ -5,7 +5,7 @@ import {
   JobDescriptionInterface,
 } from '../models/application/application.ts';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 import { AppRoutes } from '../router.tsx';
 import { JobDescriptionCore } from '../components/job-description/JobDescriptionCore.tsx';
@@ -33,6 +33,7 @@ export const Application = () => {
 
   const navigate = useNavigateWrapper();
 
+  console.log("InternshipId" + applicationToShow.internship.id.toString());
   console.log('Application available:' + applicationToShow.applicationStatus);
   return (
     <Page>
@@ -67,22 +68,28 @@ export const Application = () => {
           >
             Status: {applicationToShow.applicationStatus}
           </Typography>
-          {applicationToShow.applicationStatus ===
-            ApplicationStatus.OnlineAssessment && (
-            <ArrowCircleRightRoundedIcon
-              color="primary"
-              onClick={() => navigate(AppRoutes.OnlineAssessment)}
-              sx={{
-                fontSize: '1.5rem',
-                color: 'primary',
-              }}
-            />
+          {applicationToShow.applicationStatus.toString() ===
+            'OnlineAssessment' && (
+            <Button>
+              <ArrowCircleRightRoundedIcon
+                color="primary"
+                onClick={() =>
+                  navigate(AppRoutes.OnlineAssessment, {
+                    internshipId: applicationToShow.internship.id.toString(),
+                  })
+                }
+                sx={{
+                  fontSize: '1.5rem',
+                  color: 'primary',
+                }}
+              />
+            </Button>
           )}
         </Box>
         <JobDescriptionCore
           jobDescription={mapApplicationToJobsTableHeader(applicationToShow)}
         />
-        {applicationToShow.applicationStatus === ApplicationStatus.Ongoing && (
+        {applicationToShow.applicationStatus === ApplicationStatus.Accepted && (
           <>
             <CreateFeedback />
           </>

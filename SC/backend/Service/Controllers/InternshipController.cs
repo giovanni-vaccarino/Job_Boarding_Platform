@@ -1,6 +1,7 @@
 ﻿using backend.Business.Internship.AnswerQuestionsUseCase;
 using backend.Business.Internship.ApplyToInternshipUseCase;
 using backend.Business.Internship.GetInternshipDetailsUseCase;
+using backend.Business.Internship.GetInternshipQuestions;
 using backend.Business.Internship.GetInternshipUseCase;
 using backend.Business.Internship.UpdateStatusApplicationUseCase;
 using backend.Service.Contracts.Internship;
@@ -71,6 +72,15 @@ public class InternshipController : ControllerBase
         [FromBody] AnswerQuestionsDto dto, [FromQuery] int studentId)
     {
         var response = await _mediator.Send(new AnswerQuestionsCommand(applicationId, dto));
+        
+        return Ok(response);
+    }
+    
+    //[Authorize(Policy = "StudentAccessPolicy")]
+    [HttpGet("{internshipId}/questions")]
+    public async Task<IActionResult> GetInternshipQuestions([FromRoute] int internshipId, [FromQuery] int studentId)
+    {
+        var response = await _mediator.Send(new GetInternshipQuestionsQuery(internshipId));
         
         return Ok(response);
     }

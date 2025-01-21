@@ -5,7 +5,8 @@ import {
   ApplyToInternshipInput,
   Internship,
 } from '../../../models/internship/internship.ts';
-import { Application } from '../../../models/application/application.ts';
+import { ApplicationInfo } from '../../../models/application/application.ts';
+import { Question } from '../../../models/company/company.ts';
 
 @injectable()
 export class InternshipApi extends ApiBase implements IInternshipApi {
@@ -20,10 +21,13 @@ export class InternshipApi extends ApiBase implements IInternshipApi {
   }
   async postApplyToInternship(
     input: ApplyToInternshipInput
-  ): Promise<Application> {
+  ): Promise<ApplicationInfo> {
     return await this.httpClient.post(
       `/internship/apply-internship/${input.studentId}?internshipId=${input.internshipId}`,
       {}
     );
+  }
+  async getInternshipQuestions(internshipId: string): Promise<Question[]> {
+    return await this.httpClient.get(`/internship/${internshipId}/questions`);
   }
 }

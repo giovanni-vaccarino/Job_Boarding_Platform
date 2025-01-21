@@ -26,4 +26,7 @@ public class InternshipDto
     public List<string> Requirements { get; set; } = new List<string>();
     
     public int NumberOfApplications { get; set; }
+    
+    
+    public required int companyId { get; set; }
 }

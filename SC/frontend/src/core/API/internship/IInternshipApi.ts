@@ -2,7 +2,8 @@ import {
   ApplyToInternshipInput,
   Internship,
 } from '../../../models/internship/internship.ts';
-import { Application } from '../../../models/application/application.ts';
+import { Question } from '../../../models/company/company.ts';
+import { ApplicationInfo } from '../../../models/application/application.ts';
 
 export interface IInternshipApi {
   getInternship: () => Promise<Internship[]>;
@@ -10,5 +11,6 @@ export interface IInternshipApi {
   getInternshipDetails: (id?: string) => Promise<Internship>;
   postApplyToInternship: (
     input: ApplyToInternshipInput
-  ) => Promise<Application>;
+  ) => Promise<ApplicationInfo>;
+  getInternshipQuestions: (id: string) => Promise<Question[]>;
 }

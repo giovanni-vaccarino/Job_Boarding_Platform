@@ -33,6 +33,7 @@ import { IMatchApi } from './core/API/match/IMatchApi.ts';
 import { ApplicantDetailsLoader } from './core/API/loader/ApplicantDetailsLoader.ts';
 import { InternshipLoader } from './core/API/loader/InternshipLoader.ts';
 import { ApplicationDetailsLoader } from './core/API/loader/ApplicationDetailsLoader.ts';
+import { QuestionLoader } from './core/API/loader/QuestionLoader.ts';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
@@ -48,7 +49,7 @@ export const AppRoutes = Object.freeze({
   Register: '/register',
   Internship: '/internship/:id',
   ReceivedApplication: '/received-application',
-  OnlineAssessment: '/online-assessment',
+  OnlineAssessment: '/online-assessment/:internshipId',
   NewJobQuestion: '/new-job-question',
   NewJob: '/new-job',
   ApplicantDetailPage: '/applicant-detail-page/:id',
@@ -61,7 +62,6 @@ export const useAppRouter = () => {
   const authState = useAppSelector((state) => state.auth);
   const profileType = authState.profileType;
   const matchApi = useService<IMatchApi>(ServiceType.MatchApi);
-
 
   return createBrowserRouter(
     [
@@ -134,6 +134,8 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.OnlineAssessment,
+        loader: ({ params }) =>
+          QuestionLoader(internshipApi, params.internshipId || ''),
         element: <OnlineAssessment />,
       },
       {

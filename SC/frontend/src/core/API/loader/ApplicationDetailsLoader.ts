@@ -17,7 +17,7 @@ export const ApplicationDetailsLoader = async (
     }
     return applications[0];
   } catch (error) {
-    console.error('Failed to load applications', error);
+    console.error('Failed to load application details', error);
     throw error;
   }
 };

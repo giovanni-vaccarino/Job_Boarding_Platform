@@ -10,7 +10,7 @@ export const MatchesLoaderCompany = async (
     console.log(matches);
     return matches;
   } catch (error) {
-    console.error("Failed to load company' matches, error");
+    console.error("Failed to load company's matches, error");
     throw error;
   }
 };

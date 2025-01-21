@@ -10,7 +10,7 @@ export const StudentLoader = async (
     console.log(studentInfo);
     return studentInfo;
   } catch (error) {
-    console.error('Failed to load internships', error);
+    console.error('Failed to load studentInfo', error);
     throw error;
   }
 };

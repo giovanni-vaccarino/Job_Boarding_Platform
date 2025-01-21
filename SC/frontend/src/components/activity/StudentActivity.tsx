@@ -9,13 +9,12 @@ const mapApplicationToJobsTableHeader = (
   return {
     title: application.internship.title,
     company: 'Name_Company',
-    state: application.applicationStatus.toString(),
+    state: application.applicationStatus,
     location: application.internship.location,
     submissionDate: application.submissionDate.toString(),
     id: application.id.toString(),
   };
 };
-
 
 export interface StudentActivityProps {
   applications: ApplicationInfo[];

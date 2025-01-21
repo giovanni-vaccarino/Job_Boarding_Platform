@@ -10,6 +10,7 @@ export interface Internship {
   jobType: JobType;
   requirements: string[];
   numApplications: number;
+  companyId: string;
 }
 
 export enum JobCategory {

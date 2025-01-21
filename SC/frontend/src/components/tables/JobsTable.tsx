@@ -12,11 +12,12 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../../router.tsx';
 import { useAppSelector } from '../../core/store';
+import { ApplicationStatus } from '../../models/application/application.ts';
 
 export interface JobsTableHeader {
   title: string;
   company: string;
-  state: string;
+  state: ApplicationStatus;
   location: string;
   submissionDate: string;
   id: string;

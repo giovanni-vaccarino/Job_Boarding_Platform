@@ -1,6 +1,9 @@
 import { Box, Typography, TextField } from '@mui/material';
+import { Question } from '../../models/company/company.ts';
 
-export const OpenQuestion = () => {
+export const OpenQuestion = (props: Question) => {
+  console.log(props);
+
   return (
     <Box
       sx={{
@@ -11,7 +14,7 @@ export const OpenQuestion = () => {
       }}
     >
       <Typography sx={{ fontSize: '1.3rem', fontWeight: 'bold' }}>
-        First Question
+        {props.title}
       </Typography>
       <Box sx={{ marginTop: 2 }}>
         <TextField

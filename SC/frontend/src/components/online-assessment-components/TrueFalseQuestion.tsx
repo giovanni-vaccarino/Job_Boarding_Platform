@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Select, Box, MenuItem } from '@mui/material/';
 import { Typography } from '@mui/material';
+import { Question } from '../../models/company/company.ts';
 
-export const TrueFalseQuestion = () => {
+export const TrueFalseQuestion = (props: Question) => {
   const [checked, setChecked] = useState();
 
   const handleChange = (event: { target: { name: any; checked: any } }) => {
@@ -12,7 +13,7 @@ export const TrueFalseQuestion = () => {
   return (
     <Box sx={{ width: 'auto', display: 'flex', flexDirection: 'column' }}>
       <Typography sx={{ fontSize: '1.3rem', fontWeight: 'bold' }}>
-        Insert your answer
+        {props.title}
       </Typography>
       <Select
         variant="outlined"
