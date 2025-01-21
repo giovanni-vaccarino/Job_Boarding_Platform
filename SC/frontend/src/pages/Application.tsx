@@ -33,7 +33,7 @@ export const Application = () => {
 
   const navigate = useNavigateWrapper();
 
-  console.log("InternshipId" + applicationToShow.internship.id.toString());
+  console.log('InternshipId' + applicationToShow.internship.id.toString());
   console.log('Application available:' + applicationToShow.applicationStatus);
   return (
     <Page>
@@ -76,6 +76,7 @@ export const Application = () => {
                 onClick={() =>
                   navigate(AppRoutes.OnlineAssessment, {
                     internshipId: applicationToShow.internship.id.toString(),
+                    applicationId: applicationToShow.id.toString(),
                   })
                 }
                 sx={{

@@ -27,6 +27,7 @@ export interface SetProfileId {
   id: string;
 }
 
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,

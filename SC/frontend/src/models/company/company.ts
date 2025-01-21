@@ -12,6 +12,7 @@ export interface Question {
   title: string;
   questionType: QuestionType;
   options: string[];
+  onChange: (value: string | string[] | boolean) => void;
 }
 
 export enum QuestionType {
@@ -23,4 +24,13 @@ export enum QuestionType {
 export interface QuestionsProps {
   questions: Question;
   id: number;
+}
+
+export interface AnswerResponse {
+  questionId: number;
+  answer: string[];
+}
+
+export interface AllAnswersResponse {
+  questions: AnswerResponse[];
 }

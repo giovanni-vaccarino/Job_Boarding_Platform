@@ -49,7 +49,7 @@ export const AppRoutes = Object.freeze({
   Register: '/register',
   Internship: '/internship/:id',
   ReceivedApplication: '/received-application',
-  OnlineAssessment: '/online-assessment/:internshipId',
+  OnlineAssessment: '/online-assessment/:internshipId/:applicationId',
   NewJobQuestion: '/new-job-question',
   NewJob: '/new-job',
   ApplicantDetailPage: '/applicant-detail-page/:id',

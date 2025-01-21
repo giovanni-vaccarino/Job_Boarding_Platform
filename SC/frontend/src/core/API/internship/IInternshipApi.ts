@@ -2,7 +2,10 @@ import {
   ApplyToInternshipInput,
   Internship,
 } from '../../../models/internship/internship.ts';
-import { Question } from '../../../models/company/company.ts';
+import {
+  AllAnswersResponse, AnswerResponse,
+  Question,
+} from '../../../models/company/company.ts';
 import { ApplicationInfo } from '../../../models/application/application.ts';
 
 export interface IInternshipApi {
@@ -13,4 +16,9 @@ export interface IInternshipApi {
     input: ApplyToInternshipInput
   ) => Promise<ApplicationInfo>;
   getInternshipQuestions: (id: string) => Promise<Question[]>;
+  postAnswer: (
+    idApplication: string,
+    input: AllAnswersResponse,
+    idStudent: string
+  ) => Promise<string>;
 }

@@ -4,6 +4,10 @@ import { Question } from '../../models/company/company.ts';
 export const OpenQuestion = (props: Question) => {
   console.log(props);
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    props.onChange(event.target.value); // Trigger the callback with the input value
+  };
+
   return (
     <Box
       sx={{
@@ -24,6 +28,7 @@ export const OpenQuestion = (props: Question) => {
           multiline
           rows={4}
           placeholder="Type your answer here..."
+          onChange={handleInputChange} // Attach the change handler here
         />
       </Box>
     </Box>
