@@ -1,9 +1,7 @@
-﻿using backend.Data;
-using backend.Data.Entities;
+﻿using backend.Business.Match.AddMatchesUseCase;
+using backend.Data;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.ML;
-using Microsoft.ML.Data;
-using Microsoft.ML.Transforms.Text;
 
 namespace backend.Shared.MatchingBackgroundService;
 
@@ -35,93 +33,95 @@ public class InternshipMatchingTask : IBackgroundTask
             return;
         }
 
-        var students = await dbContext.Students.ToListAsync();
+        var students = await dbContext.Students
+            .Select(s => new { s.Id, s.Skills, s.Interests })
+            .ToListAsync();
+        
         if (!students.Any())
         {
             Console.WriteLine("No students found for matching.");
             return;
         }
         
-        var mlContext = new MLContext();
+        var internshipRequirements = internship.Requirements;
+        const double threshold = 3.0;
+        
+        var studentScores = students
+            .Select(student => new
+            {
+                StudentId = student.Id,
+                Score = CalculateSimilarityScore(internshipRequirements, student.Skills, student.Interests)
+            })
+            .OrderByDescending(s => s.Score)
+            .ToList();
 
-        var results = new List<(int StudentId, double Score)>();
-
-        foreach (var student in students)
+        Console.WriteLine("Scores for all students:");
+        foreach (var studentScore in studentScores)
         {
-            var skillScore = CalculateSimilarity(mlContext, internship.Requirements, student.Skills);
-            var interestScore = CalculateSimilarity(mlContext, internship.Requirements, student.Interests);
-
-            // Weighted score: Skills = 2x, Interests = 1x
-            var totalScore = (2 * skillScore) + interestScore;
-            results.Add((student.Id, totalScore));
+            Console.WriteLine($"Student ID: {studentScore.StudentId}, Score: {studentScore.Score:F2}");
         }
 
-        results = results.OrderByDescending(r => r.Score).ToList();
-        
-        Console.WriteLine("Matching Results:");
-        Console.WriteLine("InternshipID | StudentID | Score");
-        foreach (var result in results)
+        var matchedStudents = studentScores
+            .Where(s => s.Score > threshold)
+            .Take(10)
+            .Select(s => s.StudentId)
+            .ToList();
+
+        Console.WriteLine($"Matched students for internship ID {_internshipId}: {string.Join(", ", matchedStudents)}");
+
+        if (matchedStudents.Count > 0)
         {
-            Console.WriteLine($"{_internshipId,12} | {result.StudentId,9} | {result.Score,5:F2}");
+            var matches = matchedStudents.Select(studentId => new Data.Entities.Match
+            {
+                InternshipId = internship.Id,
+                StudentId = studentId,
+                HasInvite = false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            }).ToList();
+        
+            await dbContext.Matches.AddRangeAsync(matches);
+            await dbContext.SaveChangesAsync();
         }
     }
     
-    private double CalculateSimilarity(MLContext mlContext, List<string> sourceList, List<string> targetList)
+    private static double CalculateSimilarityScore(List<string> requirements, List<string> studentSkills, List<string> studentInterests)
     {
-        var allTexts = sourceList.Concat(targetList).ToList();
-        
-        var data = allTexts.Select(text => new TextData { Text = text }).ToList();
-        
-        var dataView = mlContext.Data.LoadFromEnumerable(data);
-        
-        // Step 1: Preprocess the text data using FeaturizeText
-        var textPipeline = mlContext.Transforms.Text.ApplyWordEmbedding(
-            outputColumnName: "Features",
-            inputColumnName: "Text",
-            modelKind: WordEmbeddingEstimator.PretrainedModelKind.GloVe50D);
-        
-        var transformer = textPipeline.Fit(dataView);
+        const double skillWeight = 2.0; 
+        const double interestWeight = 1.0;
+        const double similarityThreshold = 0.8;
 
-        var transformedData = transformer.Transform(dataView);
+        int skillMatches = CountSimilarItems(requirements, studentSkills, similarityThreshold);
+        int interestMatches = CountSimilarItems(requirements, studentInterests, similarityThreshold);
 
-        var embeddings = mlContext.Data
-            .CreateEnumerable<TransformedData>(transformedData, reuseRowObject: false)
-            .Select(td => td.Features)
-            .ToList();
-        
-        double similaritySum = 0;
-        int similarityCount = 0;
-
-        for (int i = 0; i < sourceList.Count; i++)
+        return (skillMatches * skillWeight) + (interestMatches * interestWeight);
+    }
+    
+    private static int CountSimilarItems(List<string> list1, List<string> list2, double similarityThreshold)
+    {
+        int count = 0;
+        foreach (var item1 in list1)
         {
-            for (int j = sourceList.Count; j < allTexts.Count; j++)
+            foreach (var item2 in list2)
             {
-                similaritySum += CosineSimilarity(embeddings[i], embeddings[j]);
-                similarityCount++;
+                if (GetSimilarity(item1, item2) >= similarityThreshold)
+                {
+                    count++;
+                    break;
+                }
             }
         }
-
-        return similarityCount > 0 ? similaritySum / similarityCount : 0.0;
+        return count;
     }
 
-    private double CosineSimilarity(float[] vector1, float[] vector2)
+    private static double GetSimilarity(string str1, string str2)
     {
-        double dotProduct = vector1.Zip(vector2, (v1, v2) => v1 * v2).Sum();
-        double magnitude1 = Math.Sqrt(vector1.Sum(v => v * v));
-        double magnitude2 = Math.Sqrt(vector2.Sum(v => v * v));
-        return magnitude1 > 0 && magnitude2 > 0 ? dotProduct / (magnitude1 * magnitude2) : 0.0;
-    }
-    
-    public class TextData
-    {
-        [LoadColumn(0)] // Explicitly map this as the first column
-        public string Text { get; set; } = string.Empty; // Initialize with default value
-    }
+        str1 = str1.ToLower();
+        str2 = str2.ToLower();
+        
+        if (str1 == str2) return 1.0;
+        if (str1.Contains(str2) || str2.Contains(str1)) return 0.8;
 
-
-    public class TransformedData
-    {
-        public string Text { get; set; }
-        public float[] Features { get; set; }
+        return 0.0;
     }
 }

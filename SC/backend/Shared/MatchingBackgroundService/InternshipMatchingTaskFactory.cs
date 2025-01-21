@@ -1,4 +1,5 @@
 ﻿using backend.Data;
+using MediatR;
 
 namespace backend.Shared.MatchingBackgroundService;
 

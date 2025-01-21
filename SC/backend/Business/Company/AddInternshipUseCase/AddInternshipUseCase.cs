@@ -15,6 +15,8 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
     private readonly ILogger<AddInternshipUseCase> _logger;
+    private readonly IJobQueue _jobQueue;
+    private readonly IInternshipMatchingTaskFactory _internshipMatchingTaskFactory;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AddInternshipUseCase"/> class.
@@ -25,12 +27,16 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
     public AddInternshipUseCase(
         AppDbContext dbContext,
         IMapper mapper,
-        ILogger<AddInternshipUseCase> logger
+        ILogger<AddInternshipUseCase> logger,
+        IJobQueue jobQueue,
+        IInternshipMatchingTaskFactory internshipMatchingTaskFactory
         )
     {
         _dbContext = dbContext;
         _mapper = mapper;
         _logger = logger;
+        _jobQueue = jobQueue;
+        _internshipMatchingTaskFactory = internshipMatchingTaskFactory;
     }
     
     /// <summary>
@@ -87,6 +93,9 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         var internshipDto = _mapper.Map<InternshipDto>(internship);
+        
+        var job = _internshipMatchingTaskFactory.Create(internship.Id);
+        _jobQueue.EnqueueJob(job);
 
         return internshipDto;
     }
