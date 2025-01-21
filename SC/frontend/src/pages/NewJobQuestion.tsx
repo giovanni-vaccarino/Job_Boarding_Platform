@@ -10,6 +10,7 @@ import { AppRoutes } from '../router.tsx';
 import { appActions, useAppDispatch } from '../core/store';
 
 export const NewJobQuestion = () => {
+
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
 

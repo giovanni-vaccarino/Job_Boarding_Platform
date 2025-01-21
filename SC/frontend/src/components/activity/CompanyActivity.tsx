@@ -5,6 +5,10 @@ import {
   CompanyJobsTableHeader,
 } from '../tables/CompanyJobsTable.tsx';
 import { Internship } from '../../models/internship/internship.ts';
+import { AppRoutes } from '../../router.tsx';
+import { appActions } from '../../core/store';
+import { Tab } from '../../core/store/slices/global.ts';
+import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 
 const exampleData = [
   {
@@ -27,6 +31,7 @@ const exampleData = [
   },
 ];
 
+
 const mapInternshipToCompanyTableHeader = (
   internship: Internship
 ): CompanyJobsTableHeader => {
@@ -43,6 +48,8 @@ export interface CompanyActivityProps {
 }
 
 export const CompanyActivity = (props: CompanyActivityProps) => {
+  const navigate = useNavigateWrapper();
+
   return (
     <>
       <TitleHeader title={'Jobs List'} />
@@ -53,6 +60,9 @@ export const CompanyActivity = (props: CompanyActivityProps) => {
             textDecoration: 'underline',
             fontStyle: 'italic',
             mt: '2rem',
+          }}
+          onClick={() => {
+            navigate(AppRoutes.NewJob);
           }}
         >
           Add New Job

@@ -1,5 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import { AddInternshipDto, AddJobDetailsDto, AddQuestionDto } from '../../../models/internship/internship.ts';
 
 export enum Tab {
   Offers,
@@ -11,13 +12,23 @@ interface GlobalState {
   tabHomePage: Tab;
   confirmMessage: string;
   searchMessage: string;
+  newInternship: AddInternshipDto;
 }
 
 const initialState: GlobalState = {
   tabHomePage: Tab.Offers,
   confirmMessage: '',
   searchMessage: '',
+  newInternship: new class implements AddInternshipDto {
+    ExistingQuestions: number[];
+    JobDetails: AddJobDetailsDto;
+    Questions: AddQuestionDto[];
+  },
 };
+
+export interface SetInternshipDtoInput{
+  newInternship: AddInternshipDto;
+}
 
 export interface TabHomePageInput {
   newTab: Tab;
@@ -42,6 +53,9 @@ export const globalSlice = createSlice({
     },
     setSearchMessage: (state, action: PayloadAction<SearchMessageInput>) => {
       state.searchMessage = action.payload.newSearchMessage;
+    },
+    setNewInternship: (state, action: PayloadAction<SetInternshipDtoInput>) => {
+      state.newInternship = action.payload.newInternship;
     },
   },
 });
