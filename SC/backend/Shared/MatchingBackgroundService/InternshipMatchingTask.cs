@@ -1,6 +1,4 @@
-﻿using backend.Business.Match.AddMatchesUseCase;
-using backend.Data;
-using MediatR;
+﻿using backend.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Shared.MatchingBackgroundService;

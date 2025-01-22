@@ -5,6 +5,7 @@ using backend.Service.Profiles;
 using backend.Shared.MatchingBackgroundService;
 using backend.Shared.Security;
 using backend.Shared.StorageService;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +34,8 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
     
     public Mock<IJobQueue> JobQueue { get; private set; }
     
+    public Mock<IMediator> MediatorMock { get; private set; }
+    
     public IInternshipMatchingTaskFactory InternshipMatchingTaskFactory { get; private set; }
     
     public IStudentMatchingTaskFactory StudentMatchingTaskFactory { get; private set; }
@@ -60,6 +63,7 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
         S3ManagerMock
             .Setup(s3 => s3.UploadFileAsync(It.IsAny<Stream>(), It.IsAny<string>()))
             .Returns(Task.CompletedTask);
+        MediatorMock = new Mock<IMediator>();
 
         var config = new MapperConfiguration(cfg =>
         {
