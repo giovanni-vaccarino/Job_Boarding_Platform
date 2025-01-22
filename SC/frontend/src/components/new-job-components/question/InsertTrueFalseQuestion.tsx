@@ -1,18 +1,55 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
-  TextField,
-  Typography,
   Button,
+  FormControlLabel,
   Radio,
   RadioGroup,
-  FormControlLabel,
+  TextField,
+  Typography,
 } from '@mui/material';
+import {
+  AddInternshipDto,
+  AddQuestionDto,
+} from '../../../models/internship/internship.ts';
+import { QuestionType } from '../../../models/company/company.ts';
+import {
+  appActions,
+  useAppDispatch,
+  useAppSelector,
+} from '../../../core/store';
+import { SetInternshipDtoInput } from '../../../core/store/slices/global.ts';
 
-export const InsertTrueFalseQuestion = () => {
+export const InsertTrueFalseQuestion = ({
+  id,
+  onSave,
+  onRemove,
+}: {
+  id: number;
+  onSave: (id: number, question: AddQuestionDto) => void;
+  onRemove: (id: number) => void;
+}) => {
   const [isVisible, setIsVisible] = useState(true); // Control visibility of the question section
   const [textField, setTextField] = useState('');
   const [selectedOption, setSelectedOption] = useState('True'); // Manage selected option
+  const newInternship = useAppSelector((state) => state.global.newInternship);
+  const dispatch = useAppDispatch();
+
+  const handleQuestionUpdate = () => {
+    const newQuestion: AddQuestionDto = {
+      Title: textField,
+      QuestionType: QuestionType.TrueOrFalse,
+      Options: ['true', 'false'],
+    };
+
+    onSave(id, newQuestion); // Notify the outer component
+  };
+
+  useEffect(() => {
+    if (textField.trim() !== '') {
+      handleQuestionUpdate();
+    }
+  }, [textField, selectedOption]);
 
   return (
     isVisible && (
@@ -51,7 +88,10 @@ export const InsertTrueFalseQuestion = () => {
             <Typography>True-False</Typography>
           </Box>
           <Button
-            onClick={() => setIsVisible(false)}
+            onClick={() => {
+              setIsVisible(false);
+              onRemove(id);
+            }}
             sx={{
               minWidth: '2.5rem',
               height: '2.5rem',

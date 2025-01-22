@@ -219,6 +219,8 @@ export const NewJob = () => {
               ExistingQuestions: [] as number[],
             };
 
+            console.log('New Internship Object:', newInternship);
+
             dispach(
               appActions.global.setNewInternship({
                 newInternship: newInternship,

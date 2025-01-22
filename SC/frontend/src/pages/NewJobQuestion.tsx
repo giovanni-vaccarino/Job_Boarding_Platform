@@ -7,31 +7,73 @@ import { InsertMultipleChoiceQuestion } from '../components/new-job-components/q
 import { InsertTrueFalseQuestion } from '../components/new-job-components/question/InsertTrueFalseQuestion.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../router.tsx';
-import { appActions, useAppDispatch } from '../core/store';
+import { appActions, useAppDispatch, useAppSelector } from '../core/store';
+import {
+  AddInternshipDto,
+  AddQuestionDto,
+} from '../models/internship/internship.ts';
 
 export const NewJobQuestion = () => {
-
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
 
   const [selectedQuestionType, setSelectedQuestionType] = useState(''); // Track selected question type
   const [questions, setQuestions] = useState<any[]>([]); // Store added questions
+  const newInternship = useAppSelector(
+    (state) => state.global.newInternship
+  );
+
+  const [newJobQuestionsDict, setNewJobQuestionsDict] = useState<{
+    [id: number]: AddQuestionDto;
+  }>({});
+
+  const handleSaveQuestion = (id: number, question: AddQuestionDto) => {
+    setNewJobQuestionsDict((prevDict) => ({
+      ...prevDict,
+      [id]: question,
+    }));
+  };
+
+  const handleRemoveQuestion = (id: number) => {
+    setNewJobQuestionsDict((prevDict) => {
+      const updatedDict = { ...prevDict };
+      delete updatedDict[id]; // Remove question by ID
+      return updatedDict;
+    });
+  };
 
   const handleAddQuestion = () => {
+    const id = Object.keys(newJobQuestionsDict).length; // Generate unique ID
+
     if (selectedQuestionType === 'True/False') {
       setQuestions([
         ...questions,
-        <InsertTrueFalseQuestion key={questions.length} />,
+        <InsertTrueFalseQuestion
+          key={id}
+          id={id}
+          onSave={(id, question) => handleSaveQuestion(id, question)}
+          onRemove={(id) => handleRemoveQuestion(id)}
+        />,
       ]);
     } else if (selectedQuestionType === 'Multiple Choice') {
       setQuestions([
         ...questions,
-        <InsertMultipleChoiceQuestion key={questions.length} />,
+        <InsertMultipleChoiceQuestion
+          key={id}
+          id={id}
+          onSave={(id, question) => handleSaveQuestion(id, question)}
+          onRemove={(id) => handleRemoveQuestion(id)}
+        />,
       ]);
     } else if (selectedQuestionType === 'Open Question') {
       setQuestions([
         ...questions,
-        <InsertOpenQuestion key={questions.length} />,
+        <InsertOpenQuestion
+          key={id}
+          id={id}
+          onSave={(id, question) => handleSaveQuestion(id, question)}
+          onRemove={(id) => handleRemoveQuestion(id)}
+        />,
       ]);
     }
     setSelectedQuestionType(''); // Reset selection
@@ -113,6 +155,21 @@ export const NewJobQuestion = () => {
       >
         <Button
           onClick={() => {
+            const updatedQuestions = Object.values(newJobQuestionsDict);
+
+            const updatedInternship: AddInternshipDto = {
+              JobDetails: newInternship?.JobDetails, // Copy JobDetails explicitly
+              Questions: updatedQuestions, // Use updatedQuestions from the dictionary
+              ExistingQuestions: [...(newInternship?.ExistingQuestions || [])],
+            };
+
+            dispatch(
+              appActions.global.setNewInternship({
+                newInternship: updatedInternship,
+              })
+            );
+            console.log('Final newInternship:', updatedInternship);
+
             dispatch(
               appActions.global.setConfirmMessage({
                 newMessage: 'New Job Created',
