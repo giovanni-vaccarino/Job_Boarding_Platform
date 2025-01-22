@@ -7,4 +7,5 @@ export enum ServiceType {
   StudentApi = 'StudentApi',
   CompanyApi = 'CompanyApi',
   MatchApi = 'MatchApi',
+  FeedbackApi = 'FeedbackApi',
 }

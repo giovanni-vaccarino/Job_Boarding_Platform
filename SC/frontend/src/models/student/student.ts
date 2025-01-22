@@ -14,3 +14,7 @@ export interface ApplicantDetailsProps {
   student: Student;
   feedback: Feedback[];
 }
+
+export interface cvToSend {
+  file: File;
+}

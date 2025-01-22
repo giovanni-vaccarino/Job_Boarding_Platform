@@ -157,7 +157,7 @@ export const Profile = () => {
               <RowComponent
                 label="CV"
                 value={studentProfile.cvPath}
-                buttons={['edit', 'view']}
+                buttons={['view']}
                 fieldKey={'cvPath'}
                 onFieldChange={handleFieldChange}
               />

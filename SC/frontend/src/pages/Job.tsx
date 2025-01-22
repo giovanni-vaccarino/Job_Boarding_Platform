@@ -39,7 +39,7 @@ export const Job = () => {
   const profileType = authState.profileType;
 
   const internship = useLoaderData() as Internship;
-  
+
   //TODO the two are the same despite the apply button
   return (
     <Page>

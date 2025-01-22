@@ -23,6 +23,7 @@ const exampleData = [
 ];
 
 export const ReceivedApplication = () => {
+
   return (
     <Page>
       <TitleHeader title={'Received Applications'} />

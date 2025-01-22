@@ -2,6 +2,12 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import ModeIcon from '@mui/icons-material/Mode';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import React, { useState } from 'react';
+import { useService } from '../../core/ioc/ioc-provider.tsx';
+import { IStudentApi } from '../../core/API/student/IStudentApi.ts';
+import { ServiceType } from '../../core/ioc/service-type.ts';
+import { cvToSend } from '../../models/student/student.ts';
+import { useAppSelector } from '../../core/store';
+import axios from 'axios';
 
 export interface RowComponentProps {
   label: string;
@@ -44,6 +50,10 @@ export const RowComponent: React.FC<RowComponentProps> = (
     }
   };
 
+  const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
+  const authState = useAppSelector((state) => state.auth);
+  const studentId = authState.profileId;
+
   return (
     <Box
       sx={{
@@ -64,13 +74,50 @@ export const RowComponent: React.FC<RowComponentProps> = (
         <Typography sx={{ fontSize: '1.2rem', fontWeight: '500' }}>
           {props.label}
         </Typography>
-        {props.buttons.includes('edit') && (
+        {props.buttons.includes('edit') && props.label != 'CV' ? (
           <Button
             variant="text"
             sx={{ marginRight: '20%' }}
             startIcon={<ModeIcon />}
-            onClick={() => setIsEditing(!isEditing)}
+            onClick={() => {
+              setIsEditing(!isEditing);
+            }}
           ></Button>
+        ) : (
+          !props.buttons.includes('edit') &&
+          props.label == 'CV' && (
+            <Box sx={{ marginLeft: '10px', marginTop: '5px' }}>
+              {' '}
+              {/* Adjust margins as needed */}
+              <input
+                type="file"
+                accept="application/pdf"
+                onChange={async (e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    const cvToSend: cvToSend = { file: e.target.files[0] };
+                    console.log(cvToSend);
+
+                    try {
+                      const res = await studentApi.loadCvStudent(
+                        studentId as string,
+                        cvToSend
+                      );
+                      console.log('Upload Successful:', res);
+                    } catch (error) {
+                      if (axios.isAxiosError(error)) {
+                        console.error(
+                          'Axios Error:',
+                          error.response?.data || error.message
+                        );
+                      } else {
+                        console.error('Unexpected Error:', error);
+                      }
+                    }
+                  }
+                }}
+              />
+            </Box>
+          )
         )}
         {props.buttons.includes('view') && (
           <Button

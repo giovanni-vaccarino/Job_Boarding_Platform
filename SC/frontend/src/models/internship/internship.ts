@@ -72,7 +72,7 @@ export enum DurationType {
   TwoToThreeMonths = 1,
   ThreeToSixMonths = 2,
   SixToTwelveMonths = 3,
-  MoreThanOneYear = 4
+  MoreThanOneYear = 4,
 }
 
 export interface AddQuestionDto {

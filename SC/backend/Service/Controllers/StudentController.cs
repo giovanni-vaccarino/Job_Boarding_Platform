@@ -40,7 +40,7 @@ public class StudentController : ControllerBase
     
     [Authorize(Policy = "StudentAccessPolicy")]
     [HttpPost("cv/{studentId}")]
-    public async Task<IActionResult> LoadCvStudent([FromForm] LoadCvFileDto dto, int studentId)
+    public async Task<IActionResult> LoadCvStudent([FromForm] LoadCvFileDto dto, [FromRoute] int studentId)
     {
         var res = await _mediator.Send(new LoadCvCommand(dto, studentId));
 
