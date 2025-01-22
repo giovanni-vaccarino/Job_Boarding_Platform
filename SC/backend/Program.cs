@@ -50,6 +50,7 @@ builder.Services.AddSingleton<IEmailService, EmailService>();
 
 // Background matching service
 builder.Services.AddSingleton<IInternshipMatchingTaskFactory, InternshipMatchingTaskFactory>();
+builder.Services.AddSingleton<IStudentMatchingTaskFactory, StudentMatchingTaskFactory>();
 builder.Services.AddSingleton<MatchingBackgroundService>();
 builder.Services.AddSingleton<IJobQueue>(provider => 
     provider.GetRequiredService<MatchingBackgroundService>());

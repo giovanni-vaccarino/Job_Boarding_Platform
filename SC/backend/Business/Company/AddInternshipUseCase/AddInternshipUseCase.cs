@@ -24,6 +24,8 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
     /// <param name="dbContext">The application database context.</param>
     /// <param name="mapper">The AutoMapper instance for object mapping.</param>
     /// <param name="logger">The logger instance for logging operations.</param>
+    /// <param name="jobQueue">The jobQueue instance for background job operations.</param>
+    /// <param name="internshipMatchingTaskFactory">The internshipMatchingTaskFactory instance for creating a InternshipTask.</param>
     public AddInternshipUseCase(
         AppDbContext dbContext,
         IMapper mapper,

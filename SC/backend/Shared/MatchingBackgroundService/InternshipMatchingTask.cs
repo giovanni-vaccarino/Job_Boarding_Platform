@@ -18,6 +18,7 @@ public class InternshipMatchingTask : IBackgroundTask
     
     public async Task ExecuteAsync()
     {
+        await Task.Delay(15000);
         Console.WriteLine($"Starting matching for internship ID: {_internshipId}");
 
         using var scope = _serviceProvider.CreateScope();

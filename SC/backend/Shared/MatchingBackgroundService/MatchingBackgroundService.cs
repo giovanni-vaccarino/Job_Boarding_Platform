@@ -32,7 +32,7 @@ public class MatchingBackgroundService : BackgroundService, IJobQueue
                 try
                 {
                     Console.WriteLine("Executing");
-                    await job.ExecuteAsync(); // Execute the job
+                    await job.ExecuteAsync();
                 }
                 catch (Exception ex)
                 {
