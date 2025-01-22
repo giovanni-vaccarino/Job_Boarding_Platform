@@ -92,7 +92,7 @@ export const Application = () => {
         />
         {applicationToShow.applicationStatus === ApplicationStatus.Accepted && (
           <>
-            <CreateFeedback />
+            <CreateFeedback applicationId={applicationToShow.id}/>
           </>
         )}
       </Box>

@@ -15,6 +15,8 @@ import { ICompanyApi } from '../API/company/ICompanyApi.ts';
 import { CompanyApi } from '../API/company/CompanyApi.ts';
 import { IMatchApi } from '../API/match/IMatchApi.ts';
 import { MatchApi } from '../API/match/MatchApi.ts';
+import { IFeedbackApi } from '../API/feedback/IFeedbackApi.ts';
+import { FeedbackApi } from '../API/feedback/FeedbackApi.ts';
 
 const container: Container = new Container();
 
@@ -49,5 +51,10 @@ container
   .inSingletonScope();
 
 container.bind<IMatchApi>(ServiceType.MatchApi).to(MatchApi).inSingletonScope();
+
+container
+  .bind<IFeedbackApi>(ServiceType.FeedbackApi)
+  .to(FeedbackApi)
+  .inSingletonScope();
 
 export { container };
