@@ -12,16 +12,18 @@ import {
   AddInternshipDto,
   AddQuestionDto,
 } from '../models/internship/internship.ts';
+import { useService } from '../core/ioc/ioc-provider.tsx';
+import { ServiceType } from '../core/ioc/service-type.ts';
+import { ICompanyApi } from '../core/API/company/ICompanyApi.ts';
 
 export const NewJobQuestion = () => {
+  const companyApi = useService<ICompanyApi>(ServiceType.CompanyApi);
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
 
   const [selectedQuestionType, setSelectedQuestionType] = useState(''); // Track selected question type
   const [questions, setQuestions] = useState<any[]>([]); // Store added questions
-  const newInternship = useAppSelector(
-    (state) => state.global.newInternship
-  );
+  const newInternship = useAppSelector((state) => state.global.newInternship);
 
   const [newJobQuestionsDict, setNewJobQuestionsDict] = useState<{
     [id: number]: AddQuestionDto;
@@ -154,7 +156,7 @@ export const NewJobQuestion = () => {
         }}
       >
         <Button
-          onClick={() => {
+          onClick={async () => {
             const updatedQuestions = Object.values(newJobQuestionsDict);
 
             const updatedInternship: AddInternshipDto = {
@@ -169,6 +171,12 @@ export const NewJobQuestion = () => {
               })
             );
             console.log('Final newInternship:', updatedInternship);
+
+            const res = await companyApi.addInternship(updatedInternship);
+
+            console.log('idstudente' + res.profileId);
+
+            console.log(res);
 
             dispatch(
               appActions.global.setConfirmMessage({
