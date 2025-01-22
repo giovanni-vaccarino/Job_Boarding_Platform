@@ -24,7 +24,8 @@ public class UpdateStudentUseCaseTests
         _services = new IsolatedUseCaseTestServices<UpdateStudentUseCase>("UpdateStudentUseCaseTests");
         _dbContext = _services.DbContext;
         _updateStudentUseCase = (UpdateStudentUseCase)Activator.CreateInstance(
-            typeof(UpdateStudentUseCase), _dbContext, _services.LoggerMock.Object, _services.Mapper)!;
+            typeof(UpdateStudentUseCase), _dbContext, _services.LoggerMock.Object, _services.Mapper,
+            _services.JobQueue.Object, _services.StudentMatchingTaskFactory)!;
     }
     
     /// <summary>

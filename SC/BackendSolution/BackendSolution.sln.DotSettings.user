@@ -9,15 +9,27 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3d777a8c_002Daa6c_002D4e9c_002Dbaef_002Da3d2e486ba87/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Successfully login with valid credentials" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=77a644f6_002D716d_002D4a99_002Db012_002D4d9f2322077c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=92d50ad5_002Ddafc_002D47b2_002D86c5_002D922446179f3b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from RegisterUseCaseTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\Vaccarino Giovanni\SE2\VaccarinoPalladinoVacis\SC\UnitTests" Presentation="&amp;lt;UnitTests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=953b50ac_002D62d5_002D4fea_002Dbff8_002D5e8ff0d61b09/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UpdateStudentUseCaseTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::185C2F43-53C3-412C-8B99-EE13FA7893B5::net8.0::UnitTests.UseCases.Student.UpdateStudentUseCaseTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=98d7f985_002D79dd_002D49d1_002D8e90_002Da69e6909f50c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e3c5ce21_002D101c_002D46ae_002Da8d9_002D16a344d95fee/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Handle_ShouldUpdateStudent_WhenStudentExists" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ebeb78bc_002D70fd_002D4487_002D829b_002D303fa86fbd65/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>

@@ -2,11 +2,13 @@
 using backend.Data;
 using backend.Data.Entities;
 using backend.Service.Profiles;
+using backend.Shared.MatchingBackgroundService;
 using backend.Shared.Security;
 using backend.Shared.StorageService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 
@@ -19,6 +21,7 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
         SetupMocks();
         SetupDbContext(dbName);
         SetupSecurityContext();
+        SetupServiceProvider();
     }
     
     public AppDbContext DbContext { get; private set; }
@@ -27,6 +30,14 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
     public Mock<IConfiguration> ConfigurationMock { get; private set; }
     public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; private set; }
     public IMapper Mapper { get; private set; }
+    
+    public Mock<IJobQueue> JobQueue { get; private set; }
+    
+    public IInternshipMatchingTaskFactory InternshipMatchingTaskFactory { get; private set; }
+    
+    public IStudentMatchingTaskFactory StudentMatchingTaskFactory { get; private set; }
+    
+    public IServiceProvider ServiceProvider { get; private set; }
     
     public Mock<IS3Manager> S3ManagerMock { get; private set; }
 
@@ -60,6 +71,38 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
         });
 
         Mapper = config.CreateMapper();
+    }
+    
+    private void SetupServiceProvider()
+    {
+        JobQueue = new Mock<IJobQueue>();
+        var services = new ServiceCollection();
+
+        services.AddSingleton(DbContext);
+
+        services.AddSingleton(ConfigurationMock.Object);
+        services.AddSingleton(LoggerMock.Object);
+        services.AddSingleton(HttpContextAccessorMock.Object);
+        services.AddSingleton(S3ManagerMock.Object);
+
+        services.AddSingleton(SecurityContext);
+
+        services.AddSingleton<IInternshipMatchingTaskFactory, InternshipMatchingTaskFactory>();
+        services.AddSingleton<IStudentMatchingTaskFactory, StudentMatchingTaskFactory>();
+        services.AddSingleton<MatchingBackgroundService>();
+        services.AddSingleton<IJobQueue>(provider => 
+            provider.GetRequiredService<MatchingBackgroundService>());
+        
+        services.AddSingleton(provider => 
+            provider.GetRequiredService<MatchingBackgroundService>());
+
+        services.AddSingleton(Mapper);
+
+        ServiceProvider = services.BuildServiceProvider();
+
+        // Resolve Dependencies
+        InternshipMatchingTaskFactory = ServiceProvider.GetRequiredService<IInternshipMatchingTaskFactory>();
+        StudentMatchingTaskFactory = ServiceProvider.GetRequiredService<IStudentMatchingTaskFactory>();
     }
 
     private void SetupSecurityContext()
