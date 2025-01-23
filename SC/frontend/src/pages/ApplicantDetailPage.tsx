@@ -6,7 +6,7 @@ import { ViewFeedback } from '../components/applicant-detail-page/ViewFeedback.t
 import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
-import {ApplicantDetailsProps} from "../models/student/student.ts";
+import { ApplicantDetailsProps } from '../models/student/student.ts';
 
 const feedbackMockUp = [
   { feedbackText: 'Great attention to detail.', rating: 5 },

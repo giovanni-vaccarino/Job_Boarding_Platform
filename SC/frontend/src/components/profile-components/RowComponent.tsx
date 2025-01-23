@@ -8,6 +8,7 @@ import { ServiceType } from '../../core/ioc/service-type.ts';
 import { cvToSend } from '../../models/student/student.ts';
 import { useAppSelector } from '../../core/store';
 import axios from 'axios';
+import { IAssetsApi } from '../../core/API/assets/IAssetsApi.ts';
 
 export interface RowComponentProps {
   label: string;
@@ -53,6 +54,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
   const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
   const authState = useAppSelector((state) => state.auth);
   const studentId = authState.profileId;
+  const assetsApi = useService<IAssetsApi>(ServiceType.AssetsApi);
 
   return (
     <Box
@@ -124,6 +126,32 @@ export const RowComponent: React.FC<RowComponentProps> = (
             variant="text"
             sx={{ marginRight: '48%' }}
             startIcon={<RemoveRedEyeIcon />}
+            onClick={async () => {
+              try {
+                const res = await assetsApi.getCvStudent(studentId as string); // Assuming this fetches the file
+                const blob = new Blob([res], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'CV.pdf';
+                document.body.appendChild(a); // Append to the document
+                a.click();
+                document.body.removeChild(a); // Remove after click
+
+                // Clean up the URL object after download
+                URL.revokeObjectURL(url);
+              } catch (error) {
+                if (axios.isAxiosError(error)) {
+                  console.error(
+                    'Axios Error:',
+                    error.response?.data || error.message
+                  );
+                } else {
+                  console.error('Unexpected Error:', error);
+                }
+              }
+            }}
           ></Button>
         )}
       </Box>

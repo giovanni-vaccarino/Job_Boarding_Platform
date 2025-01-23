@@ -8,4 +8,5 @@ export enum ServiceType {
   CompanyApi = 'CompanyApi',
   MatchApi = 'MatchApi',
   FeedbackApi = 'FeedbackApi',
+  AssetsApi = 'AssetsApi',
 }
