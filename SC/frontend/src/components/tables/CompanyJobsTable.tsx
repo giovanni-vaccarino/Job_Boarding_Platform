@@ -9,7 +9,6 @@ import {
   IconButton,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../../router.tsx';
@@ -127,9 +126,6 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
                     onClick={() => navigate(AppRoutes.Job)}
                   >
                     <VisibilityIcon />
-                  </IconButton>
-                  <IconButton color="primary" aria-label="edit">
-                    <EditIcon />
                   </IconButton>
                   <IconButton color="error" aria-label="delete">
                     <DeleteOutlineIcon />
