@@ -15,7 +15,7 @@ import { AppRoutes } from '../../router.tsx';
 
 export interface CompanyJobsTableHeader {
   title: string;
-  applications: number; // Number of applications received
+  applications: number;// Number of applications received
   jobType: string; // Job Type (e.g., Full Time)
   location: string;
 }
@@ -28,6 +28,7 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
   const { jobs = [] } = props;
   const navigate = useNavigateWrapper();
 
+  console.log(jobs);
   return (
     <TableContainer
       component={Paper}

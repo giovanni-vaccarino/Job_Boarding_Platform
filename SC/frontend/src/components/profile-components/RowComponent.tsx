@@ -128,28 +128,31 @@ export const RowComponent: React.FC<RowComponentProps> = (
             startIcon={<RemoveRedEyeIcon />}
             onClick={async () => {
               try {
-                const res = await assetsApi.getCvStudent(studentId as string); // Assuming this fetches the file
-                const blob = new Blob([res], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
+                const res = await assetsApi.getCvStudent(studentId as string);
 
+                // Create and log the blob
+                const blob = new Blob([res], { type: 'application/pdf' });
+                console.log('Blob Size:', blob.size); // Ensure size > 0
+                if (blob.size === 0) {
+                  console.error(
+                    'Error: Blob is empty. Check the API response.'
+                  );
+                  return;
+                }
+
+                // Generate a URL and trigger download
+                const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'CV.pdf';
-                document.body.appendChild(a); // Append to the document
+                document.body.appendChild(a);
                 a.click();
-                document.body.removeChild(a); // Remove after click
+                document.body.removeChild(a);
 
-                // Clean up the URL object after download
+                // Clean up URL
                 URL.revokeObjectURL(url);
               } catch (error) {
-                if (axios.isAxiosError(error)) {
-                  console.error(
-                    'Axios Error:',
-                    error.response?.data || error.message
-                  );
-                } else {
-                  console.error('Unexpected Error:', error);
-                }
+                console.error('Error fetching CV:', error);
               }
             }}
           ></Button>
