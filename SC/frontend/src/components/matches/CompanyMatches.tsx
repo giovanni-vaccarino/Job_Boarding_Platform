@@ -5,6 +5,10 @@ import {
   StudentsTableHeader,
 } from '../tables/StudentsTable.tsx';
 import { Match } from '../../models/match/match.ts';
+import { useService } from '../../core/ioc/ioc-provider.tsx';
+import { ICompanyApi } from '../../core/API/company/ICompanyApi.ts';
+import { ServiceType } from '../../core/ioc/service-type.ts';
+import { IMatchApi } from '../../core/API/match/IMatchApi.ts';
 
 
 interface CompanyMatchesProps {
@@ -20,6 +24,9 @@ const mapMatchToStudentsTableHeader = (match: Match): StudentsTableHeader => {
 
 //StudentsTable because it contains the suitable students for the company
 export const CompanyMatches = (props: CompanyMatchesProps) => {
+
+  console.log(props.matches)
+
   return (
     <>
       <TitleHeader title={'Matches'} />

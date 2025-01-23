@@ -7,10 +7,10 @@ import { ApplicantDetailsProps } from '../../../models/student/student.ts';
 @injectable()
 export class MatchApi extends ApiBase implements IMatchApi {
   async getMatchesStudent(studentId: string): Promise<Match[]> {
-    return await this.httpClient.get(`student/${studentId}`, {});
+    return await this.httpClient.get(`matches/student/${studentId}`, {});
   }
   async getMatchesCompany(companyId: string): Promise<Match[]> {
-    return await this.httpClient.get(`company/${companyId}`, {});
+    return await this.httpClient.get(`matches/company/${companyId}`, {});
   }
   //TODO this should be added in match controller in backend
   async getApplicantDetails(studentId: string): Promise<ApplicantDetailsProps> {
