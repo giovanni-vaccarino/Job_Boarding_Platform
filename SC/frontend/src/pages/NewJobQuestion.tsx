@@ -23,7 +23,11 @@ export const NewJobQuestion = () => {
 
   const [selectedQuestionType, setSelectedQuestionType] = useState(''); // Track selected question type
   const [questions, setQuestions] = useState<any[]>([]); // Store added questions
+
   const newInternship = useAppSelector((state) => state.global.newInternship);
+
+  const authState = useAppSelector((state) => state.auth);
+  const companyId = authState.profileId.toString();
 
   const [newJobQuestionsDict, setNewJobQuestionsDict] = useState<{
     [id: number]: AddQuestionDto;
@@ -159,7 +163,7 @@ export const NewJobQuestion = () => {
           onClick={async () => {
             const updatedQuestions = Object.values(newJobQuestionsDict);
 
-            const updatedInternship: AddInternshipDto = {
+            const dto: AddInternshipDto = {
               JobDetails: newInternship?.JobDetails, // Copy JobDetails explicitly
               Questions: updatedQuestions, // Use updatedQuestions from the dictionary
               ExistingQuestions: [...(newInternship?.ExistingQuestions || [])],
@@ -167,12 +171,12 @@ export const NewJobQuestion = () => {
 
             dispatch(
               appActions.global.setNewInternship({
-                newInternship: updatedInternship,
+                newInternship: dto,
               })
             );
-            console.log('Final newInternship:', updatedInternship);
+            console.log('Final newInternship:', dto);
 
-            const res = await companyApi.addInternship(updatedInternship);
+            const res = await companyApi.addInternship(companyId, dto);
 
             console.log('idstudente' + res.profileId);
 

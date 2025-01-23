@@ -6,6 +6,7 @@ export interface InsertMultipleChoiceProps {
   isRequired: boolean;
   label: string;
   options: string[];
+  onChange: (value: string) => void;
 }
 
 export const InsertMultipleChoice = (props: InsertMultipleChoiceProps) => {
@@ -27,6 +28,7 @@ export const InsertMultipleChoice = (props: InsertMultipleChoiceProps) => {
         label={props.label}
         onChange={(e) => {
           setChoice(e.target.value as string);
+          props.onChange(e.target.value as string);
         }}
         variant={'outlined'}
       >
