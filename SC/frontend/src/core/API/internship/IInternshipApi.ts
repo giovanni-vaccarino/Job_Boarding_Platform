@@ -3,7 +3,7 @@ import {
   Internship,
 } from '../../../models/internship/internship.ts';
 import {
-  AllAnswersResponse, AnswerResponse,
+  AllAnswersResponse,
   Question,
 } from '../../../models/company/company.ts';
 import { ApplicationInfo } from '../../../models/application/application.ts';
@@ -21,4 +21,5 @@ export interface IInternshipApi {
     input: AllAnswersResponse,
     idStudent: string
   ) => Promise<string>;
+  getApplicationsPerInternship: (id: string) => Promise<ApplicationInfo[]>;
 }

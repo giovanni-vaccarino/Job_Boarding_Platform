@@ -6,38 +6,14 @@ import {
 } from '../tables/CompanyJobsTable.tsx';
 import { Internship } from '../../models/internship/internship.ts';
 import { AppRoutes } from '../../router.tsx';
-import { appActions } from '../../core/store';
-import { Tab } from '../../core/store/slices/global.ts';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
-
-const exampleData = [
-  {
-    title: 'Frontend Developer',
-    applications: 5,
-    jobType: 'Full Time',
-    location: 'London',
-  },
-  {
-    title: 'Backend Developer',
-    applications: 3,
-    jobType: 'Part Time',
-    location: 'Berlin',
-  },
-  {
-    title: 'Data Scientist',
-    applications: 7,
-    jobType: 'Remote',
-    location: 'San Francisco',
-  },
-];
-
 
 const mapInternshipToCompanyTableHeader = (
   internship: Internship
 ): CompanyJobsTableHeader => {
   return {
     title: internship.title,
-    applications: internship.numApplications,
+    applications: internship.numberOfApplications,
     jobType: internship.jobType.toString(),
     location: internship.location,
   };
@@ -49,6 +25,8 @@ export interface CompanyActivityProps {
 
 export const CompanyActivity = (props: CompanyActivityProps) => {
   const navigate = useNavigateWrapper();
+
+  console.log(props.internship);
 
   return (
     <>

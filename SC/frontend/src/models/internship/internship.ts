@@ -11,7 +11,7 @@ export interface Internship {
   jobCategory: JobCategory;
   jobType: JobType;
   requirements: string[];
-  numApplications: number;
+  numberOfApplications: number;
   companyId: string;
 }
 
