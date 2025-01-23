@@ -150,7 +150,7 @@ export const useAppRouter = () => {
         path: AppRoutes.ApplicantDetailPage,
         loader: ({ params }) =>
           ApplicantDetailsLoader(matchApi, params.id || ''),
-        element: <ApplicantDetailPage nameApplicant={'mockname'} />,
+        element: <ApplicantDetailPage/>,
       },
       {
         path: AppRoutes.ReceivedApplication,

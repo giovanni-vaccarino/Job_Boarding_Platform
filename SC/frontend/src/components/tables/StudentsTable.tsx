@@ -19,6 +19,7 @@ import { ApplyToInternshipInput } from '../../models/internship/internship.ts';
 export interface StudentsTableHeader {
   name: string;
   suggestedJob: string;
+  id: string;
 }
 
 export interface StudentsTableProps {
@@ -29,6 +30,8 @@ export const StudentsTable = (props: StudentsTableProps) => {
   const { students = [] } = props;
   const navigate = useNavigateWrapper();
   const apiInternship = useService<IInternshipApi>(ServiceType.InternshipApi);
+
+  console.log(props);
 
   return (
     <TableContainer
@@ -127,7 +130,7 @@ export const StudentsTable = (props: StudentsTableProps) => {
                     color="primary"
                     aria-label="view details"
                     onClick={() => {
-                      navigate(AppRoutes.ApplicantDetailPage);
+                      navigate(AppRoutes.ApplicantDetailPage, { id: row.id });
                       //navigate(AppRoutes.ApplicantDetailPage);
                     }}
                   >

@@ -19,13 +19,12 @@ const mapMatchToStudentsTableHeader = (match: Match): StudentsTableHeader => {
   return {
     name: match.student.name,
     suggestedJob: match.internship.title,
+    id: match.student.id,
   };
 };
 
 //StudentsTable because it contains the suitable students for the company
 export const CompanyMatches = (props: CompanyMatchesProps) => {
-
-  console.log(props.matches)
 
   return (
     <>

@@ -6,21 +6,26 @@ import { ViewFeedback } from '../components/applicant-detail-page/ViewFeedback.t
 import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
-import { ApplicantDetailsProps } from '../models/student/student.ts';
+import { ApplicantDetailsProps, Student } from '../models/student/student.ts';
+import { useLoaderData } from 'react-router-dom';
+import { Match } from '../models/match/match.ts';
 
 const feedbackMockUp = [
   { feedbackText: 'Great attention to detail.', rating: 5 },
   { feedbackText: 'Needs improvement in communication.', rating: 3 },
   { feedbackText: 'Excellent technical skills.', rating: 4 },
-];
+]; //TODO MODIFY WITH BACKEND
 
-export const ApplicantDetailPage = (props: ApplicantDetailsProps) => {
+export const ApplicantDetailPage = () => {
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
+  const student = useLoaderData() as Student;
+
+  console.log(student);
 
   return (
     <Page>
-      <TitleHeader title={props.student.name} />
+      <TitleHeader title={student.name} />
       <Box
         sx={{
           display: 'flex',
