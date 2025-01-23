@@ -34,6 +34,7 @@ import { ApplicantDetailsLoader } from './core/API/loader/ApplicantDetailsLoader
 import { InternshipLoader } from './core/API/loader/InternshipLoader.ts';
 import { ApplicationDetailsLoader } from './core/API/loader/ApplicationDetailsLoader.ts';
 import { QuestionLoader } from './core/API/loader/QuestionLoader.ts';
+import { ApplicationsPerInternship } from './core/API/loader/ApplicationsPerInternship.ts';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
@@ -48,7 +49,7 @@ export const AppRoutes = Object.freeze({
   ForgotPasswordSetEmail: '/forgot-password-set-email',
   Register: '/register',
   Internship: '/internship/:id',
-  ReceivedApplication: '/received-application',
+  ReceivedApplications: '/received-application/:internshipId/:companyId',
   OnlineAssessment: '/online-assessment/:internshipId/:applicationId',
   NewJobQuestion: '/new-job-question',
   NewJob: '/new-job',
@@ -153,7 +154,13 @@ export const useAppRouter = () => {
         element: <ApplicantDetailPage/>,
       },
       {
-        path: AppRoutes.ReceivedApplication,
+        path: AppRoutes.ReceivedApplications,
+        loader: ({ params }) =>
+          ApplicationsPerInternship(
+            internshipApi,
+            params.internshipId || '',
+            params.companyId || ''
+          ),
         element: <ReceivedApplication />,
       },
     ],

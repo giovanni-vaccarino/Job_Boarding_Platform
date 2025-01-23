@@ -1,4 +1,5 @@
 import { Internship } from '../internship/internship.ts';
+import {Student} from "../student/student.ts";
 
 export enum ApplicationStatus {
   Accepted,
@@ -38,4 +39,5 @@ export interface ApplicationInfo {
   submissionDate: Date;
   applicationStatus: ApplicationStatus;
   internship: Internship;
+  student: Student;
 }

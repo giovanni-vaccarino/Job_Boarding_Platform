@@ -44,10 +44,11 @@ export class InternshipApi extends ApiBase implements IInternshipApi {
     );
   }
   async getApplicationsPerInternship(
-    internshipId: string
+    internshipId: string,
+    companyId: string
   ): Promise<ApplicationInfo[]> {
     return await this.httpClient.get(
-      `/internship/applications/${internshipId}`
+      `/internship/applications/${internshipId}?companyId=${companyId}`
     );
   }
 }

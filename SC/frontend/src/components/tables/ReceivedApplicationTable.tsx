@@ -1,25 +1,11 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  IconButton,
-} from '@mui/material';
+import {IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,} from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
-import { AppRoutes } from '../../router.tsx';
-
-export interface ReceivedApplicationTableHeader {
-  name: string;
-  state: string;
-  submissionDate: string;
-}
+import {useNavigateWrapper} from '../../hooks/use-navigate-wrapper.ts';
+import {AppRoutes} from '../../router.tsx';
+import {ApplicationInfo, ApplicationStatus} from '../../models/application/application.ts';
 
 export interface ReceivedApplicationTableProps {
-  applications: ReceivedApplicationTableHeader[];
+  applications: ApplicationInfo[];
 }
 
 export const ReceivedApplicationTable = (
@@ -30,8 +16,8 @@ export const ReceivedApplicationTable = (
 
   // Sort applications so "Ongoing" is at the top
   const sortedApplications = applications.sort((a, b) => {
-    if (a.state === 'Ongoing' && b.state !== 'Ongoing') return -1;
-    if (a.state !== 'Ongoing' && b.state === 'Ongoing') return 1;
+    if (a.applicationStatus === ApplicationStatus.OnlineAssessment && b.applicationStatus !== ApplicationStatus.OnlineAssessment) return -1;
+    if (a.applicationStatus !== ApplicationStatus.OnlineAssessment && b.applicationStatus === ApplicationStatus.OnlineAssessment) return 1;
     return 0;
   });
 
@@ -95,18 +81,18 @@ export const ReceivedApplicationTable = (
                 key={index}
                 sx={{
                   borderTop:
-                    row.state !== 'Ongoing' &&
+                    row.applicationStatus !== ApplicationStatus.OnlineAssessment &&
                     index > 0 &&
-                    sortedApplications[index - 1].state === 'Ongoing'
+                    sortedApplications[index - 1].applicationStatus === ApplicationStatus.OnlineAssessment
                       ? '3px solid #e0e0e0' // Thicker line
                       : '1px solid #e0e0e0',
                 }}
               >
                 <TableCell align="left" sx={{ pl: '3rem' }}>
-                  {row.name}
+                  {row.student.name}
                 </TableCell>
-                <TableCell align="center">{row.state}</TableCell>
-                <TableCell align="center">{row.submissionDate}</TableCell>
+                <TableCell align="center">{row.applicationStatus}</TableCell>
+                <TableCell align="center">{row.submissionDate.toString()}</TableCell>
                 <TableCell align="center">
                   <IconButton
                     color="primary"

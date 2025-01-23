@@ -16,6 +16,7 @@ const mapInternshipToCompanyTableHeader = (
     applications: internship.numberOfApplications,
     jobType: internship.jobType.toString(),
     location: internship.location,
+    internshipId: internship.id.toString(),
   };
 };
 

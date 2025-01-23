@@ -21,5 +21,8 @@ export interface IInternshipApi {
     input: AllAnswersResponse,
     idStudent: string
   ) => Promise<string>;
-  getApplicationsPerInternship: (id: string) => Promise<ApplicationInfo[]>;
+  getApplicationsPerInternship: (
+    internshipId: string,
+    companyId: string
+  ) => Promise<ApplicationInfo[]>;
 }

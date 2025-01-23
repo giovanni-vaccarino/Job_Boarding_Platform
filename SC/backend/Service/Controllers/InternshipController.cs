@@ -88,7 +88,7 @@ public class InternshipController : ControllerBase
     
     [Authorize(Policy = "CompanyAccessPolicy")]
     [HttpGet("applications/{internshipId}")]
-    public async Task<IActionResult> AddInternshipQuestions([FromRoute] int internshipId)
+    public async Task<IActionResult> GetApplicantsPerInternship([FromRoute] int internshipId, [FromQuery] int companyId)
     {
         var response = await _mediator.Send(new GetApplicationsQuery(internshipId));
         
