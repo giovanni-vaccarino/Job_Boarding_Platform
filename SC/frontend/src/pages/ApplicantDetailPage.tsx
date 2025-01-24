@@ -9,6 +9,10 @@ import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { ApplicantDetailsProps, Student } from '../models/student/student.ts';
 import { useLoaderData } from 'react-router-dom';
 import { Match } from '../models/match/match.ts';
+import { useService } from '../core/ioc/ioc-provider.tsx';
+import { ICompanyApi } from '../core/API/company/ICompanyApi.ts';
+import { ServiceType } from '../core/ioc/service-type.ts';
+import { IMatchApi } from '../core/API/match/IMatchApi.ts';
 
 const feedbackMockUp = [
   { feedbackText: 'Great attention to detail.', rating: 5 },
@@ -20,6 +24,8 @@ export const ApplicantDetailPage = () => {
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
   const student = useLoaderData() as Student;
+
+  const matchApi = useService<IMatchApi>(ServiceType.MatchApi);
 
   console.log(student);
 
@@ -95,6 +101,7 @@ export const ApplicantDetailPage = () => {
             <Button
               variant="contained"
               onClick={() => {
+                //const res = await matchApi.postInviteStudent();
                 dispatch(
                   appActions.global.setConfirmMessage({
                     newMessage: 'Invite sent',

@@ -16,4 +16,8 @@ export class MatchApi extends ApiBase implements IMatchApi {
   async getApplicantDetails(studentId: string): Promise<ApplicantDetailsProps> {
     return await this.httpClient.get(`student/${studentId}`, {});
   }
+
+  async postInviteStudent(matchId: string, companyId: string): Promise<string> {
+    return await this.httpClient.post(`matches/${matchId}`, companyId);
+  }
 }

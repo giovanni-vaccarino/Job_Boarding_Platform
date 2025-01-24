@@ -5,4 +5,5 @@ export interface IMatchApi {
   getMatchesStudent: (studentId: string) => Promise<Match[]>;
   getMatchesCompany: (companyId: string) => Promise<Match[]>;
   getApplicantDetails: (studentId: string) => Promise<ApplicantDetailsProps>;
+  postInviteStudent: (matchId: string, companyId: string) => Promise<string>;
 }
