@@ -10,6 +10,7 @@ export enum ApplicationStatus {
 }
 
 export interface JobDescriptionInterface {
+  jobTitle: string;
   jobCategory: string;
   jobType: string;
   location: string;

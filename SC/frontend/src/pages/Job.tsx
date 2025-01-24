@@ -23,6 +23,7 @@ const mapInternshipDetailToJobDescription = (
   internship: Internship
 ): JobDescriptionInterface => {
   return {
+    jobTitle: internship.title.toString(),
     jobCategory: internship.jobCategory.toString(),
     jobType: internship.jobType.toString(),
     location: internship.location,

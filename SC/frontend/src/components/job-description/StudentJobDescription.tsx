@@ -34,7 +34,7 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
 
   return (
     <>
-      <TitleHeader title={'Software Engineering, intern - Amazon'} />
+      <TitleHeader title={jobDescription.jobTitle} />
 
       <Box
         sx={{

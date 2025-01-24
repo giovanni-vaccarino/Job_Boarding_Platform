@@ -2,6 +2,9 @@
 import { JobListItem } from '../list-items/JobListItem.tsx';
 import { TitleHeader } from '../page-headers/TitleHeader.tsx';
 import { Match } from '../../models/match/match.ts';
+import { useService } from '../../core/ioc/ioc-provider.tsx';
+import { ICompanyApi } from '../../core/API/company/ICompanyApi.ts';
+import { ServiceType } from '../../core/ioc/service-type.ts';
 
 export interface jobListItem {
   companyName: string;

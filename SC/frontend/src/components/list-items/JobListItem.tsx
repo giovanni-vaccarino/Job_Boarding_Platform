@@ -20,7 +20,7 @@ export const JobListItem = (props: JobListItemProps) => {
   const navigate = useNavigateWrapper();
   const apiInternship = useService<IInternshipApi>(ServiceType.InternshipApi);
 
-  console.log(props.id);
+  console.log(props);
   return (
     <Box
       sx={{
@@ -47,13 +47,24 @@ export const JobListItem = (props: JobListItemProps) => {
         </Typography>
 
         <Box display="flex" alignItems="center" mt={0.5}>
-          <PlaceIcon sx={{ color: 'primary.main', mr: 0.5 }} />
-          <Typography variant="body2">{props.location}</Typography>
 
-          <TimelineIcon fontSize="small" sx={{ ml: 2, mr: 0.5 }} />
-          <Typography variant="body2">
-            Posted {props.datePosted.toLocaleDateString()}
-          </Typography>
+          {props.location != undefined && (
+            <PlaceIcon sx={{ color: 'primary.main', mr: 0.5 }} />
+          )}
+
+          {props.location != undefined && (
+              <Typography variant="body2">{props?.location}</Typography>
+          )}
+
+          {props.datePosted != undefined && (
+            <TimelineIcon fontSize="small" sx={{ ml: 2, mr: 0.5 }} />
+          )}
+
+          {props.datePosted != undefined && (
+            <Typography variant="body2">
+              Posted {props.datePosted?.toLocaleDateString()}
+            </Typography>
+          )}
         </Box>
       </Box>
 
