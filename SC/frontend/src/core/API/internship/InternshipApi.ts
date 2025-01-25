@@ -6,7 +6,7 @@ import {
   ApplyToInternshipInput,
   Internship,
 } from '../../../models/internship/internship.ts';
-import { ApplicationInfo } from '../../../models/application/application.ts';
+import {ApplicationInfo, ApplicationStatus} from '../../../models/application/application.ts';
 import {
   AllAnswersResponse,
   Question,
@@ -53,12 +53,22 @@ export class InternshipApi extends ApiBase implements IInternshipApi {
     );
   }
   async getApplicantInfo(
-    applicationId: string,
-    studentId: string,
-    companyId: string
+    applicationId?: string,
+    studentId?: string,
+    companyId?: string
   ): Promise<ApplicantInfo> {
     return await this.httpClient.get(
       `/internship/applications/applicantInfo/${applicationId}?studentId=${studentId}&companyId=${companyId}`
+    );
+  }
+  async updateApplicationStatus(
+    applicationId: string,
+    status: ApplicationStatus,
+    companyId: string
+  ): Promise<string> {
+    return await this.httpClient.patch(
+      `/internship/applications/${applicationId}?companyId=${companyId}`,
+      status
     );
   }
 }

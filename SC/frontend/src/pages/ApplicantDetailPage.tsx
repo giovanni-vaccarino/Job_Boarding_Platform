@@ -12,6 +12,7 @@ import { ApplicationStatus } from '../models/application/application.ts';
 import { useService } from '../core/ioc/ioc-provider.tsx';
 import { IMatchApi } from '../core/API/match/IMatchApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
+import { IInternshipApi } from '../core/API/internship/IInternshipApi.ts';
 
 const feedbackMockUp = [
   { feedbackText: 'Great attention to detail.', rating: 5 },
@@ -25,30 +26,42 @@ export const ApplicantDetailPage = () => {
   const student = useLoaderData() as ApplicantInfo;
   const applicationStatus = useParams().applicationStatus; // Assuming isApplication is passed as a string in param
   const submissionDate = useParams().submissionDate;
-  const studentId = useParams().studentId;
+  const applicationId = useParams().applicationId;
   const auth = useAppSelector((state) => state.auth);
   const companyId = auth.profileId;
   const matchId = useParams().matchId;
   const matchApi = useService<IMatchApi>(ServiceType.MatchApi);
+  const internshiApi = useService<IInternshipApi>(ServiceType.InternshipApi);
 
   console.log(student);
 
-  const handleAccept = () => {
+  const handleAccept = async () => {
     dispatch(
       appActions.global.setConfirmMessage({
         newMessage: 'Application accepted',
       })
     );
-
+    const res = await internshiApi.updateApplicationStatus(
+      applicationId as string,
+      ApplicationStatus.Accepted,
+      companyId as string
+    );
+    console.log(res);
     navigate(AppRoutes.ConfirmPage);
   };
 
-  const handleReject = () => {
+  const handleReject = async () => {
     dispatch(
       appActions.global.setConfirmMessage({
         newMessage: 'Application rejected',
       })
     );
+    const res = await internshiApi.updateApplicationStatus(
+      applicationId as string,
+      ApplicationStatus.Rejected,
+      companyId as string
+    );
+    console.log(res);
 
     navigate(AppRoutes.ConfirmPage);
   };
