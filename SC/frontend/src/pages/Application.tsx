@@ -17,7 +17,8 @@ const mapApplicationToJobsTableHeader = (
   application: ApplicationInfo
 ): JobDescriptionInterface => {
   return {
-    jobCategory: application.internship.title,
+    jobTitle: application.internship.title,
+    jobCategory: application.internship.jobCategory.toString(),
     jobType: application.internship.jobType.toString(),
     location: application.internship.location,
     postCreated: application.submissionDate.toString(),
@@ -92,7 +93,7 @@ export const Application = () => {
         />
         {applicationToShow.applicationStatus === ApplicationStatus.Accepted && (
           <>
-            <CreateFeedback applicationId={applicationToShow.id}/>
+            <CreateFeedback applicationId={applicationToShow.id} />
           </>
         )}
       </Box>
