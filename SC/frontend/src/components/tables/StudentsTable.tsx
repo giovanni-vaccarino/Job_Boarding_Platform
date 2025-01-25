@@ -11,10 +11,7 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../../router.tsx';
-import { useService } from '../../core/ioc/ioc-provider.tsx';
-import { IInternshipApi } from '../../core/API/internship/IInternshipApi.ts';
-import { ServiceType } from '../../core/ioc/service-type.ts';
-import { ApplyToInternshipInput } from '../../models/internship/internship.ts';
+import { useAppSelector } from '../../core/store';
 
 export interface StudentsTableHeader {
   name: string;
@@ -29,7 +26,8 @@ export interface StudentsTableProps {
 export const StudentsTable = (props: StudentsTableProps) => {
   const { students = [] } = props;
   const navigate = useNavigateWrapper();
-  const apiInternship = useService<IInternshipApi>(ServiceType.InternshipApi);
+  const auth = useAppSelector((state) => state.auth);
+  const companyId = auth.profileId;
 
   console.log(props);
 
@@ -130,8 +128,13 @@ export const StudentsTable = (props: StudentsTableProps) => {
                     color="primary"
                     aria-label="view details"
                     onClick={() => {
-                      navigate(AppRoutes.ApplicantDetailPage, { id: row.id });
-                      //navigate(AppRoutes.ApplicantDetailPage);
+                      navigate(AppRoutes.ApplicantDetailPage, {
+                        applicationId: '-1',
+                        studentId: row.id,
+                        companyId: companyId ? companyId.toString() : '',
+                        applicationStatus: 'null',
+                        submissionDate: 'null',
+                      });
                     }}
                   >
                     <VisibilityIcon />

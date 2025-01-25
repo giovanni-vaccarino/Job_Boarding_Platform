@@ -2,6 +2,7 @@ import { injectable } from 'inversify';
 import { ApiBase } from '../setup-api/api-base/ApiBase.ts';
 import { IInternshipApi } from './IInternshipApi.ts';
 import {
+  ApplicantInfo,
   ApplyToInternshipInput,
   Internship,
 } from '../../../models/internship/internship.ts';
@@ -49,6 +50,15 @@ export class InternshipApi extends ApiBase implements IInternshipApi {
   ): Promise<ApplicationInfo[]> {
     return await this.httpClient.get(
       `/internship/applications/${internshipId}?companyId=${companyId}`
+    );
+  }
+  async getApplicantInfo(
+    applicationId: string,
+    studentId: string,
+    companyId: string
+  ): Promise<ApplicantInfo> {
+    return await this.httpClient.get(
+      `/internship/applications/applicantInfo/${applicationId}?studentId=${studentId}&companyId=${companyId}`
     );
   }
 }

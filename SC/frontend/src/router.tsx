@@ -53,7 +53,8 @@ export const AppRoutes = Object.freeze({
   OnlineAssessment: '/online-assessment/:internshipId/:applicationId',
   NewJobQuestion: '/new-job-question',
   NewJob: '/new-job',
-  ApplicantDetailPage: '/applicant-detail-page/:id',
+  ApplicantDetailPage:
+    '/applicant-detail-page/:applicationId/:studentId/:companyId/:matchId/:applicationStatus/:submissionDate?',
 });
 
 export const useAppRouter = () => {
@@ -150,8 +151,13 @@ export const useAppRouter = () => {
       {
         path: AppRoutes.ApplicantDetailPage,
         loader: ({ params }) =>
-          ApplicantDetailsLoader(matchApi, params.id || ''),
-        element: <ApplicantDetailPage/>,
+          ApplicantDetailsLoader(
+            internshipApi,
+            params.applicationId || '',
+            params.studentId || '',
+            params.companyId || ''
+          ),
+        element: <ApplicantDetailPage />,
       },
       {
         path: AppRoutes.ReceivedApplications,

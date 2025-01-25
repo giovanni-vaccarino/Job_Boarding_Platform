@@ -1,4 +1,5 @@
 import {
+  ApplicantInfo,
   ApplyToInternshipInput,
   Internship,
 } from '../../../models/internship/internship.ts';
@@ -25,4 +26,9 @@ export interface IInternshipApi {
     internshipId: string,
     companyId: string
   ) => Promise<ApplicationInfo[]>;
+  getApplicantInfo: (
+    applicationId?: string,
+    studentId?: string,
+    companyId?: string
+  ) => Promise<ApplicantInfo>;
 }

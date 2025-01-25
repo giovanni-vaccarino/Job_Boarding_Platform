@@ -1,4 +1,5 @@
 import { QuestionType } from '../company/company.ts';
+import { Feedback } from '../feedback/feedback.ts';
 
 export interface Internship {
   id: number;
@@ -79,4 +80,23 @@ export interface AddQuestionDto {
   Title: string;
   QuestionType: QuestionType;
   Options: string[];
+}
+
+export interface ApplicantInfo {
+  skills: string[];
+  name: string;
+  feedback?: Feedback[];
+  answer: ApplicantResponse[];
+}
+
+export interface ApplicantResponse {
+  questions: QuestionResponse;
+  answer: string[];
+}
+
+export interface QuestionResponse {
+  questionId: number;
+  title: string;
+  questionType: QuestionType;
+  options: string[];
 }

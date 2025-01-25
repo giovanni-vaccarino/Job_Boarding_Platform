@@ -5,5 +5,8 @@ export interface ICompanyApi {
   getCompanyInfo: (companyId: string) => Promise<Company>;
   updateCompanyInfo: (studentId: string, input: Company) => Promise<string>;
   getCompanyQuestions: (companyId: string) => Promise<Question[]>;
-  addInternship: (companyId: string, newInternship: AddInternshipDto) => Promise<string>;
+  addInternship: (
+    companyId: string,
+    newInternship: AddInternshipDto
+  ) => Promise<string>;
 }

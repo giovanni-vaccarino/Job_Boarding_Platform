@@ -13,8 +13,14 @@ export class MatchApi extends ApiBase implements IMatchApi {
     return await this.httpClient.get(`matches/company/${companyId}`, {});
   }
   //TODO this should be added in match controller in backend
-  async getApplicantDetails(studentId: string): Promise<ApplicantDetailsProps> {
-    return await this.httpClient.get(`student/${studentId}`, {});
+  async getApplicantDetails(
+    applicationId: string,
+    studentId: string
+  ): Promise<ApplicantDetailsProps> {
+    return await this.httpClient.get(
+      `applications/applicantInfo/${applicationId}?studentId=${studentId}`,
+      {}
+    );
   }
 
   async postInviteStudent(matchId: string, companyId: string): Promise<string> {
