@@ -2,9 +2,6 @@
 import { JobListItem } from '../list-items/JobListItem.tsx';
 import { TitleHeader } from '../page-headers/TitleHeader.tsx';
 import { Match } from '../../models/match/match.ts';
-import { useService } from '../../core/ioc/ioc-provider.tsx';
-import { ICompanyApi } from '../../core/API/company/ICompanyApi.ts';
-import { ServiceType } from '../../core/ioc/service-type.ts';
 
 export interface jobListItem {
   companyName: string;
@@ -13,6 +10,7 @@ export interface jobListItem {
   datePosted: Date;
   hadInvite?: boolean;
   jobId?: string;
+  matchId: string;
 }
 
 //TODO inserted in internship company name
@@ -23,8 +21,9 @@ const mapMatchToStudentsMatches = (match: Match): jobListItem => {
     jobTitle: match.internship.title,
     location: match.internship.location,
     datePosted: match.internship.dataCreated,
-    hadInvite: match.hadInvite,
+    hadInvite: match.hasInvite,
     jobId: match.internship.id.toString(),
+    matchId: match.id,
   };
 };
 
@@ -36,6 +35,7 @@ export const StudentMatches = (props: StudentMatchesProps) => {
   const matchesArray = Array.isArray(props.matches) ? props.matches : [];
   const internshipStudent = matchesArray.map(mapMatchToStudentsMatches);
 
+  console.log("Student's matches" + internshipStudent);
   return (
     <>
       {Object.keys(internshipStudent).length > 0 && (

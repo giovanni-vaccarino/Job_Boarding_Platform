@@ -3,7 +3,7 @@ import { Student } from '../student/student.ts';
 
 export interface Match {
   id: string;
-  hadInvite: boolean;
+  hasInvite: boolean;
   internship: Internship;
   student: Student;
 }

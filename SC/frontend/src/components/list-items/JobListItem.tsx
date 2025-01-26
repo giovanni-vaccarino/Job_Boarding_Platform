@@ -3,9 +3,6 @@ import PlaceIcon from '@mui/icons-material/Place';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
-import { useService } from '../../core/ioc/ioc-provider.tsx';
-import { IInternshipApi } from '../../core/API/internship/IInternshipApi.ts';
-import { ServiceType } from '../../core/ioc/service-type.ts';
 
 export interface JobListItemProps {
   companyName: string;
@@ -18,7 +15,6 @@ export interface JobListItemProps {
 
 export const JobListItem = (props: JobListItemProps) => {
   const navigate = useNavigateWrapper();
-  const apiInternship = useService<IInternshipApi>(ServiceType.InternshipApi);
 
   console.log(props);
   return (
@@ -47,13 +43,12 @@ export const JobListItem = (props: JobListItemProps) => {
         </Typography>
 
         <Box display="flex" alignItems="center" mt={0.5}>
-
           {props.location != undefined && (
             <PlaceIcon sx={{ color: 'primary.main', mr: 0.5 }} />
           )}
 
           {props.location != undefined && (
-              <Typography variant="body2">{props?.location}</Typography>
+            <Typography variant="body2">{props?.location}</Typography>
           )}
 
           {props.datePosted != undefined && (
