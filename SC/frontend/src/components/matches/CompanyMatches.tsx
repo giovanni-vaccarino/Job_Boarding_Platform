@@ -14,7 +14,8 @@ const mapMatchToStudentsTableHeader = (match: Match): StudentsTableHeader => {
   return {
     name: match.student.name,
     suggestedJob: match.internship.title,
-    id: match.student.id,
+    studentId: match.student.id,
+    matchId: match.id,
   };
 };
 

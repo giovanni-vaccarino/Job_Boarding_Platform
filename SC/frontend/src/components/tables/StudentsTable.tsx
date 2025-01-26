@@ -16,7 +16,8 @@ import { useAppSelector } from '../../core/store';
 export interface StudentsTableHeader {
   name: string;
   suggestedJob: string;
-  id: string;
+  studentId: string;
+  matchId: string;
 }
 
 export interface StudentsTableProps {
@@ -130,8 +131,9 @@ export const StudentsTable = (props: StudentsTableProps) => {
                     onClick={() => {
                       navigate(AppRoutes.ApplicantDetailPage, {
                         applicationId: '-1',
-                        studentId: row.id,
+                        studentId: row.studentId,
                         companyId: companyId ? companyId.toString() : '',
+                        matchId: row.matchId,
                         applicationStatus: 'null',
                         submissionDate: 'null',
                       });
