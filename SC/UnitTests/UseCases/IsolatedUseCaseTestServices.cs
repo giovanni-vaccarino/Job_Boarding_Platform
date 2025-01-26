@@ -2,6 +2,7 @@
 using backend.Data;
 using backend.Data.Entities;
 using backend.Service.Profiles;
+using backend.Shared.EmailService;
 using backend.Shared.MatchingBackgroundService;
 using backend.Shared.Security;
 using backend.Shared.StorageService;
@@ -43,6 +44,8 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
     public IServiceProvider ServiceProvider { get; private set; }
     
     public Mock<IS3Manager> S3ManagerMock { get; private set; }
+    
+    public Mock<IEmailService> EmailServiceMock { get; private set; }
 
 
     private void SetupDbContext(string dbName)
@@ -64,6 +67,7 @@ public class IsolatedUseCaseTestServices<TUseCase> where TUseCase : class
             .Setup(s3 => s3.UploadFileAsync(It.IsAny<Stream>(), It.IsAny<string>()))
             .Returns(Task.CompletedTask);
         MediatorMock = new Mock<IMediator>();
+        EmailServiceMock = new Mock<IEmailService>();
 
         var config = new MapperConfiguration(cfg =>
         {
