@@ -9,7 +9,7 @@ import {
 } from '../../../models/company/company.ts';
 import {
   ApplicationInfo,
-  ApplicationStatus,
+  ApplicationStatus, UpdateStatusApplicationDto,
 } from '../../../models/application/application.ts';
 
 export interface IInternshipApi {
@@ -36,7 +36,7 @@ export interface IInternshipApi {
   ) => Promise<ApplicantInfo>;
   updateApplicationStatus: (
     applicationId: string,
-    status: ApplicationStatus,
+    status: UpdateStatusApplicationDto,
     companyId: string
   ) => Promise<string>;
 }

@@ -8,7 +8,10 @@ import { AppRoutes } from '../router.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { useLoaderData, useParams } from 'react-router-dom';
 import { ApplicantInfo } from '../models/internship/internship.ts';
-import { ApplicationStatus } from '../models/application/application.ts';
+import {
+  ApplicationStatus,
+  UpdateStatusApplicationDto,
+} from '../models/application/application.ts';
 import { useService } from '../core/ioc/ioc-provider.tsx';
 import { IMatchApi } from '../core/API/match/IMatchApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
@@ -33,21 +36,45 @@ export const ApplicantDetailPage = () => {
   const matchApi = useService<IMatchApi>(ServiceType.MatchApi);
   const internshiApi = useService<IInternshipApi>(ServiceType.InternshipApi);
 
-  console.log(student);
-
   const handleAccept = async () => {
-    dispatch(
-      appActions.global.setConfirmMessage({
-        newMessage: 'Application accepted',
-      })
-    );
-    const res = await internshiApi.updateApplicationStatus(
-      applicationId as string,
-      ApplicationStatus.Accepted,
-      companyId as string
-    );
-    console.log(res);
-    navigate(AppRoutes.ConfirmPage);
+    if (
+      applicationStatus === ApplicationStatus[ApplicationStatus.LastEvaluation]
+    ) {
+      dispatch(
+        appActions.global.setConfirmMessage({
+          newMessage: 'Application accepted',
+        })
+      );
+      const status: UpdateStatusApplicationDto = {
+        applicationStatus: ApplicationStatus.Accepted,
+      };
+      console.log(applicationId);
+      const res = await internshiApi.updateApplicationStatus(
+        applicationId as string,
+        status,
+        companyId as string
+      );
+      console.log(res);
+      navigate(AppRoutes.ConfirmPage);
+    } else if (
+      applicationStatus === ApplicationStatus[ApplicationStatus.Screening]
+    ) {
+      dispatch(
+        appActions.global.setConfirmMessage({
+          newMessage: 'Application accepted - waiting for online assessment',
+        })
+      );
+      const status: UpdateStatusApplicationDto = {
+        applicationStatus: ApplicationStatus.Accepted,
+      };
+      const res = await internshiApi.updateApplicationStatus(
+        applicationId as string,
+        status,
+        companyId as string
+      );
+      console.log(res);
+      navigate(AppRoutes.ConfirmPage);
+    }
   };
 
   const handleReject = async () => {
@@ -56,9 +83,12 @@ export const ApplicantDetailPage = () => {
         newMessage: 'Application rejected',
       })
     );
+    const status: UpdateStatusApplicationDto = {
+      applicationStatus: ApplicationStatus.Accepted,
+    };
     const res = await internshiApi.updateApplicationStatus(
       applicationId as string,
-      ApplicationStatus.Rejected,
+      status,
       companyId as string
     );
     console.log(res);
@@ -135,35 +165,31 @@ export const ApplicantDetailPage = () => {
               />
             )}
         </Box>
-        {applicationStatus === ApplicationStatus.Accepted.toString() && (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              mt: '2rem',
-              gap: 3,
-            }}
-          >
-            <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
-              Feedback:
-            </Typography>
-            {feedbackMockUp.map((feedback, index) => (
-              <Box
-                key={index}
-                sx={{ display: 'flex', flexDirection: 'column' }}
-              >
-                <Typography
-                  sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
-                >{`${index + 1})`}</Typography>
-                <ViewFeedback
-                  feedbackText={feedback.feedbackText}
-                  rating={feedback.rating}
-                />
-              </Box>
-            ))}
-          </Box>
-        )}
-        {applicationStatus === ApplicationStatus.LastEvaluation.toString() && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            mt: '2rem',
+            gap: 3,
+          }}
+        >
+          <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
+            Feedback:
+          </Typography>
+          {feedbackMockUp.map((feedback, index) => (
+            <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography
+                sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
+              >{`${index + 1})`}</Typography>
+              <ViewFeedback
+                feedbackText={feedback.feedbackText}
+                rating={feedback.rating}
+              />
+            </Box>
+          ))}
+        </Box>
+        {applicationStatus ===
+          ApplicationStatus[ApplicationStatus.LastEvaluation] && (
           <Box
             sx={{
               display: 'flex',
@@ -204,7 +230,9 @@ export const ApplicantDetailPage = () => {
         >
           <Stack spacing={2} direction="row">
             {applicationStatus ===
-            ApplicationStatus.LastEvaluation.toString() ? (
+              ApplicationStatus[ApplicationStatus.LastEvaluation] ||
+            applicationStatus ===
+              ApplicationStatus[ApplicationStatus.Screening] ? (
               <>
                 <Button
                   variant="contained"

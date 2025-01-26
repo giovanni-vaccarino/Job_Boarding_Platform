@@ -1,5 +1,9 @@
 import { Internship } from '../internship/internship.ts';
-import {Student} from "../student/student.ts";
+import { Student } from '../student/student.ts';
+
+export interface UpdateStatusApplicationDto {
+  applicationStatus: ApplicationStatus;
+}
 
 export enum ApplicationStatus {
   Accepted,

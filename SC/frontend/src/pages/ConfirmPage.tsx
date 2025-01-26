@@ -34,9 +34,9 @@ export const ConfirmPage = () => {
           <Button
             onClick={() => {
               dispatch(
-                appActions.global.setHomePageTab({ newTab: Tab.Offers })
+                appActions.global.setHomePageTab({ newTab: Tab.Activity })
               );
-              navigate(AppRoutes.Home);
+              navigate(AppRoutes.Activity);
             }}
             variant="contained"
             color="primary"
