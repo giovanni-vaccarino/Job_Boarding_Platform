@@ -11,6 +11,9 @@ public class ApplicantDetailsResponse
     public FeedbackResponseDto[]? Feedbacks { get; set; } = null!;
     
     [Required]
+    public required int StudentId { get; set; }
+    
+    [Required]
     public required string Name { get; set; }
     
     [Required]

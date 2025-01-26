@@ -55,6 +55,7 @@ public class GetApplicantAnswersUseCase : IRequestHandler<GetApplicantAnswersQue
         var applicantDetailsResponse = new ApplicantDetailsResponse
         {
             Answers = responseDto.ToArray(),
+            StudentId = student.Id,
             Name = student.Name,
             Skills = student.Skills,
             //Feedbacks = feedbacks.Select(f => _mapper.Map<FeedbackDto>(f)).ToArray()

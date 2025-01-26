@@ -87,6 +87,7 @@ export interface ApplicantInfo {
   name: string;
   feedback?: Feedback[];
   answer: ApplicantResponse[];
+  studentId: string;
 }
 
 export interface ApplicantResponse {

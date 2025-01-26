@@ -9,6 +9,7 @@ import { cvToSend } from '../../models/student/student.ts';
 import { useAppSelector } from '../../core/store';
 import axios from 'axios';
 import { IAssetsApi } from '../../core/API/assets/IAssetsApi.ts';
+import { TypeProfile } from '../../models/auth/register.ts';
 
 export interface RowComponentProps {
   label: string;
@@ -16,6 +17,7 @@ export interface RowComponentProps {
   buttons: string[];
   fieldKey?: string;
   onFieldChange: (fieldKey?: string, value?: string | string[]) => void;
+  studentIdToRetrieveCV?: string;
 }
 
 export const RowComponent: React.FC<RowComponentProps> = (
@@ -53,7 +55,8 @@ export const RowComponent: React.FC<RowComponentProps> = (
 
   const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
   const authState = useAppSelector((state) => state.auth);
-  const studentId = authState.profileId;
+  const profileId = authState.profileId;
+  const profileType = authState.profileType;
   const assetsApi = useService<IAssetsApi>(ServiceType.AssetsApi);
 
   return (
@@ -101,7 +104,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
 
                     try {
                       const res = await studentApi.loadCvStudent(
-                        studentId as string,
+                        profileId as string,
                         cvToSend
                       );
                       console.log('Upload Successful:', res);
@@ -128,7 +131,11 @@ export const RowComponent: React.FC<RowComponentProps> = (
             startIcon={<RemoveRedEyeIcon />}
             onClick={async () => {
               try {
-                const res = await assetsApi.getCvStudent(studentId as string);
+                const res = await assetsApi.getCvStudent(
+                  profileType === TypeProfile.Student
+                    ? (profileId as string)
+                    : (props.studentIdToRetrieveCV as string)
+                );
 
                 // Create and log the blob
                 const blob = new Blob([res], { type: 'application/pdf' });

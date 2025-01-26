@@ -112,6 +112,7 @@ export const ApplicantDetailPage = () => {
             value=""
             buttons={['view']}
             onFieldChange={() => {}}
+            studentIdToRetrieveCV={student.studentId}
           />
           <RowComponent
             label="Skills:"
