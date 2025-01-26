@@ -86,12 +86,12 @@ export interface ApplicantInfo {
   skills: string[];
   name: string;
   feedback?: Feedback[];
-  answer: ApplicantResponse[];
+  answers: ApplicantResponse[];
   studentId: string;
 }
 
 export interface ApplicantResponse {
-  questions: QuestionResponse;
+  question: QuestionResponse;
   answer: string[];
 }
 

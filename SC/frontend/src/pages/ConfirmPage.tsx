@@ -7,6 +7,7 @@ import { appActions, useAppDispatch, useAppSelector } from '../core/store';
 import { Tab } from '../core/store/slices/global.ts';
 
 export const ConfirmPage = () => {
+  const authState = useAppSelector((state) => state.auth);
   const confirmMessage = useAppSelector((s) => s.global.confirmMessage);
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
@@ -36,7 +37,9 @@ export const ConfirmPage = () => {
               dispatch(
                 appActions.global.setHomePageTab({ newTab: Tab.Activity })
               );
-              navigate(AppRoutes.Activity);
+              navigate(AppRoutes.Activity, {
+                id: authState.profileId,
+              });
             }}
             variant="contained"
             color="primary"

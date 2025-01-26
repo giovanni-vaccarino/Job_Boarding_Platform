@@ -116,6 +116,8 @@ export const ApplicantDetailPage = () => {
     navigate(AppRoutes.ConfirmPage);
   };
 
+  console.log(student.answers[0].question);
+
   return (
     <Page>
       <TitleHeader title={student.name} />
@@ -202,7 +204,7 @@ export const ApplicantDetailPage = () => {
             <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
               Assessment answers:
             </Typography>
-            {feedbackMockUp.map((feedback, index) => (
+            {student.answers.map((assessment, index) => (
               <Box
                 key={index}
                 sx={{ display: 'flex', flexDirection: 'column' }}
@@ -210,10 +212,12 @@ export const ApplicantDetailPage = () => {
                 <Typography
                   sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
                 >{`${index + 1})`}</Typography>
-                <ViewFeedback
-                  feedbackText={feedback.feedbackText}
-                  rating={feedback.rating}
-                />
+                <Typography sx={{ fontSize: '1.2rem', fontWeight: '500' }}>
+                  {assessment?.question.title}
+                </Typography>
+                <Typography sx={{ fontSize: '1rem', fontWeight: '200' }}>
+                  {assessment?.answer}
+                </Typography>
               </Box>
             ))}
           </Box>
