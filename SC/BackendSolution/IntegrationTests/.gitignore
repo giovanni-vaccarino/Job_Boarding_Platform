@@ -1,0 +1,35 @@
+﻿# Logs
+*.log
+
+# Build output
+/bin/
+/obj/
+
+# User-specific files
+*.user
+*.suo
+
+# IDE-specific
+.vs/
+.idea/
+.vscode/
+
+# Configuration files
+appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+Properties/launchSettings.json
+
+# Certificates
+*.pfx
+*.p12
+
+# Docker
+docker-compose.override.yml
+*.env
+
+# Temporary files
+*.tmp
+*.cache
+*.bak
+*.swp
