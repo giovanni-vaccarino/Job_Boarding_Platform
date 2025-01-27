@@ -8,6 +8,7 @@ import { Tab } from '../core/store/slices/global.ts';
 
 export const ConfirmPage = () => {
   const authState = useAppSelector((state) => state.auth);
+  const isLogged = useAppSelector((s) => s.auth.loggedIn);
   const confirmMessage = useAppSelector((s) => s.global.confirmMessage);
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
@@ -34,12 +35,15 @@ export const ConfirmPage = () => {
         >
           <Button
             onClick={() => {
-              dispatch(
-                appActions.global.setHomePageTab({ newTab: Tab.Activity })
-              );
-              navigate(AppRoutes.Activity, {
-                id: authState.profileId,
-              });
+              if (isLogged) {
+                dispatch(appActions.global.setHomePageTab({ newTab: Tab.Activity }));
+                navigate(AppRoutes.Activity, {
+                  id: authState.profileId,
+                });
+              } else {
+                dispatch(appActions.global.setHomePageTab({ newTab: Tab.Offers }));
+                navigate(AppRoutes.Home);
+              }
             }}
             variant="contained"
             color="primary"
