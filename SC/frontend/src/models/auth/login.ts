@@ -1,4 +1,4 @@
-import {TypeProfile} from "./register.ts";
+import { TypeProfile } from './register.ts';
 
 export interface LoginResponse {
   accessToken: string;
@@ -12,11 +12,11 @@ export interface LoginInput {
   password: string;
 }
 
-export interface SendVerificationEmailDto{
+export interface SendVerificationEmailDto {
   email: string;
 }
 
-export interface UpdatePasswordDto{
+export interface UpdatePasswordDto {
   Token: string;
   Password: string;
 }

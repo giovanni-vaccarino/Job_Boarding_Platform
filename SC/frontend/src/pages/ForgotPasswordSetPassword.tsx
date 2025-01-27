@@ -5,12 +5,24 @@ import { useState } from 'react';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
+import { useLocation } from 'react-router-dom';
+import { useService } from '../core/ioc/ioc-provider.tsx';
+import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
+import { ServiceType } from '../core/ioc/service-type.ts';
+import { UpdatePasswordDto } from '../models/auth/login.ts';
 
 export const ForgotPasswordSetPassword = () => {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
+  const search = useLocation().search;
+  const token = new URLSearchParams(search).get('token');
+  const authApi = useService<IAuthApi>(ServiceType.AuthApi);
+
+  if (token === null) {
+    navigate(AppRoutes.ForgotPasswordSetEmail);
+  }
 
   return (
     <Page>
@@ -82,6 +94,13 @@ export const ForgotPasswordSetPassword = () => {
             marginBottom: 2,
           }}
           onClick={() => {
+            const updatedPassword: UpdatePasswordDto = {
+              Token: token as string,
+              Password: password,
+            };
+
+            authApi.resetPassword(updatedPassword);
+
             dispatch(
               appActions.global.setConfirmMessage({
                 newMessage: 'Password Changed Successfully',
