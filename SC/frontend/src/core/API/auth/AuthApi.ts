@@ -1,6 +1,12 @@
 import { injectable } from 'inversify';
 import { ApiBase } from '../setup-api/api-base/ApiBase';
-import { LoginInput, LoginResponse, SendVerificationEmailDto, UpdatePasswordDto } from '../../../models/auth/login';
+import {
+  LoginInput,
+  LoginResponse,
+  SendVerificationEmailDto,
+  UpdatePasswordDto,
+  VerifyMailDto,
+} from '../../../models/auth/login';
 import { IAuthApi } from './IAuthApi';
 import {
   RegisterInput,
@@ -34,6 +40,20 @@ export class AuthApi extends ApiBase implements IAuthApi {
   async resetPassword(dto: UpdatePasswordDto): Promise<string> {
     return await this.httpClient.post<UpdatePasswordDto, string>(
       '/authentication/reset-password',
+      dto
+    );
+  }
+
+  async sendVerificationMail(dto: SendVerificationEmailDto): Promise<string> {
+    return await this.httpClient.post<SendVerificationEmailDto, string>(
+      '/authentication/send-verification-email',
+      dto
+    );
+  }
+
+  async verifyMail(dto: VerifyMailDto): Promise<string> {
+    return await this.httpClient.post<VerifyMailDto, string>(
+      '/authentication/verify-email',
       dto
     );
   }
