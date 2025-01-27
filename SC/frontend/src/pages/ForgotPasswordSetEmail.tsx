@@ -9,6 +9,7 @@ import { useService } from '../core/ioc/ioc-provider.tsx';
 import { ICompanyApi } from '../core/API/company/ICompanyApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
 import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
+import { SendVerificationEmailDto } from '../models/auth/login.ts';
 
 export const ForgotPasswordSetEmail = () => {
   const [email, setEmail] = useState<string>('');
@@ -66,11 +67,13 @@ export const ForgotPasswordSetEmail = () => {
             marginTop: 2,
             marginBottom: 2,
           }}
-          onClick={async() => {
-
+          onClick={async () => {
             try {
-              const res = await authApi.sendResetPassword(email);
-              //TODO TEST IT
+              const sendResetPassword: SendVerificationEmailDto = {
+                email: email,
+              };
+              const res = await authApi.sendResetPassword(sendResetPassword);
+              console.log(res);
 
               dispatch(
                 appActions.global.setConfirmMessage({
@@ -78,9 +81,10 @@ export const ForgotPasswordSetEmail = () => {
                 })
               );
               navigate(AppRoutes.ConfirmPage);
-            }catch (error: any){
+            } catch (error: any) {
               //TODO PRINT ERR MESSAGE
-          }}}
+            }
+          }}
         >
           Send Email
         </Button>
