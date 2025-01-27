@@ -5,8 +5,7 @@ import { JobListItem } from '../components/list-items/JobListItem.tsx';
 import { useAppSelector } from '../core/store';
 import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import {Internship} from "../models/internship/internship.ts";
-
+import { Internship } from '../models/internship/internship.ts';
 
 export enum PostedDate {
   Today,

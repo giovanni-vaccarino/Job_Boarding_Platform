@@ -45,7 +45,7 @@ export const AppRoutes = Object.freeze({
   Activity: '/activity/:id',
   Profile: `/profile/:id`,
   Login: '/login',
-  ForgotPasswordSetPassword: '/forgot-password-set-password',
+  ForgotPasswordSetPassword: '/reset-password',
   ForgotPasswordSetEmail: '/forgot-password-set-email',
   Register: '/register',
   Internship: '/internship/:id',
