@@ -106,7 +106,7 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
                 colSpan={5}
                 sx={{ textAlign: 'center', fontStyle: 'italic' }}
               >
-                NO DATA
+                NO AVAILABLE JOBS
               </TableCell>
             </TableRow>
           ) : (

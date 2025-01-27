@@ -95,7 +95,7 @@ export const ReceivedApplicationTable = (
                 align="center"
                 sx={{ textAlign: 'center', fontStyle: 'italic' }}
               >
-                NO DATA
+                NO AVAILABLE APPLICATIONS
               </TableCell>
             </TableRow>
           ) : (

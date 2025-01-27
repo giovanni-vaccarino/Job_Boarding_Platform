@@ -36,12 +36,16 @@ export const ConfirmPage = () => {
           <Button
             onClick={() => {
               if (isLogged) {
-                dispatch(appActions.global.setHomePageTab({ newTab: Tab.Activity }));
+                dispatch(
+                  appActions.global.setHomePageTab({ newTab: Tab.Activity })
+                );
                 navigate(AppRoutes.Activity, {
                   id: authState.profileId,
                 });
               } else {
-                dispatch(appActions.global.setHomePageTab({ newTab: Tab.Offers }));
+                dispatch(
+                  appActions.global.setHomePageTab({ newTab: Tab.Offers })
+                );
                 navigate(AppRoutes.Home);
               }
             }}

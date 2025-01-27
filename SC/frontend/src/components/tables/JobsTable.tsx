@@ -80,7 +80,7 @@ export const JobsTable = (props: JobsTableProps) => {
                 colSpan={6}
                 sx={{ textAlign: 'center', fontStyle: 'italic' }}
               >
-                NO DATA
+                NO AVAILABLE JOB
               </TableCell>
             </TableRow>
           ) : (

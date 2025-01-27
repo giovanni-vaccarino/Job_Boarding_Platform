@@ -33,7 +33,7 @@ export const CompanyMatches = (props: CompanyMatchesProps) => {
           <Typography
             sx={{ fontStyle: 'italic', textAlign: 'center', mt: '3rem' }}
           >
-            NO DATA
+            NO AVAILABLE MATCHES
           </Typography>
         )}
       </Box>

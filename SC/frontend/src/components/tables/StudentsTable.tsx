@@ -95,7 +95,7 @@ export const StudentsTable = (props: StudentsTableProps) => {
                 colSpan={3}
                 sx={{ textAlign: 'center', fontStyle: 'italic' }}
               >
-                NO DATA
+                NO AVAILABLE MATCHES
               </TableCell>
             </TableRow>
           ) : (
