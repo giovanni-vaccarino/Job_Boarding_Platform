@@ -5,11 +5,18 @@ import { useState } from 'react';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
+import { useService } from '../core/ioc/ioc-provider.tsx';
+import { ICompanyApi } from '../core/API/company/ICompanyApi.ts';
+import { ServiceType } from '../core/ioc/service-type.ts';
+import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
 
 export const ForgotPasswordSetEmail = () => {
   const [email, setEmail] = useState<string>('');
+
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
+
+  const authApi = useService<IAuthApi>(ServiceType.AuthApi);
 
   return (
     <Page>
@@ -59,14 +66,21 @@ export const ForgotPasswordSetEmail = () => {
             marginTop: 2,
             marginBottom: 2,
           }}
-          onClick={() => {
-            dispatch(
-              appActions.global.setConfirmMessage({
-                newMessage: 'Email Sent Successfully',
-              })
-            );
-            navigate(AppRoutes.ConfirmPage);
-          }}
+          onClick={async() => {
+
+            try {
+              const res = await authApi.sendResetPassword(email);
+              //TODO TEST IT
+
+              dispatch(
+                appActions.global.setConfirmMessage({
+                  newMessage: 'Email Sent Successfully',
+                })
+              );
+              navigate(AppRoutes.ConfirmPage);
+            }catch (error: any){
+              //TODO PRINT ERR MESSAGE
+          }}}
         >
           Send Email
         </Button>

@@ -11,3 +11,12 @@ export interface LoginInput {
   email: string;
   password: string;
 }
+
+export interface SendVerificationEmailDto{
+  email: string;
+}
+
+export interface UpdatePasswordDto{
+  Token: string;
+  Password: string;
+}
