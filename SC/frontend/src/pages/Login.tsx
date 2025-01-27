@@ -116,6 +116,9 @@ export const Login = () => {
               navigate(AppRoutes.Profile, {
                 id: res.profileId.toString(),
               });
+              setInterval(function() {
+                window.location.reload();
+              }, 1000);
             } catch (error: any) {
               const errorMessage = error.message.split('\\r')[0];
               console.log(error.message);
