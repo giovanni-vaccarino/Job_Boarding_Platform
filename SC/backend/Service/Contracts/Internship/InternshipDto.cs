@@ -29,4 +29,6 @@ public class InternshipDto
     
     
     public required int companyId { get; set; }
+    
+    public string? CompanyName { get; set; }
 }

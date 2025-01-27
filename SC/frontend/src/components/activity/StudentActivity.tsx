@@ -8,7 +8,7 @@ const mapApplicationToJobsTableHeader = (
 ): JobsTableHeader => {
   return {
     title: application.internship.title,
-    company: 'Name_Company',
+    company: application.companyName,
     state: application.applicationStatus,
     location: application.internship.location,
     submissionDate: application.submissionDate.toString(),

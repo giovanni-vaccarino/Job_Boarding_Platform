@@ -131,15 +131,21 @@ export const RowComponent: React.FC<RowComponentProps> = (
             startIcon={<RemoveRedEyeIcon />}
             onClick={async () => {
               try {
+                // Fetch the CV
                 const res = await assetsApi.getCvStudent(
                   profileType === TypeProfile.Student
                     ? (profileId as string)
-                    : (props.studentIdToRetrieveCV as string)
+                    : (props.studentIdToRetrieveCV as string),
+                  { responseType: 'arraybuffer' } // Adjust based on API needs
                 );
 
-                // Create and log the blob
+                // Log and verify response
+                console.log('API Response:', res);
+
+                // Create a Blob
                 const blob = new Blob([res], { type: 'application/pdf' });
-                console.log('Blob Size:', blob.size); // Ensure size > 0
+                console.log('Blob Size:', blob.size); // Ensure it’s not empty
+
                 if (blob.size === 0) {
                   console.error(
                     'Error: Blob is empty. Check the API response.'
@@ -147,8 +153,11 @@ export const RowComponent: React.FC<RowComponentProps> = (
                   return;
                 }
 
-                // Generate a URL and trigger download
+                // Generate a URL for the blob
                 const url = URL.createObjectURL(blob);
+                console.log('Generated URL:', url);
+
+                // Open or download the file
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'CV.pdf';
@@ -156,7 +165,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
                 a.click();
                 document.body.removeChild(a);
 
-                // Clean up URL
+                // Clean up
                 URL.revokeObjectURL(url);
               } catch (error) {
                 console.error('Error fetching CV:', error);

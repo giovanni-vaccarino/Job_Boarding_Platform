@@ -45,4 +45,5 @@ export interface ApplicationInfo {
   applicationStatus: ApplicationStatus;
   internship: Internship;
   student: Student;
+  companyName: string;
 }

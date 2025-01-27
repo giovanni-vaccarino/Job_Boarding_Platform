@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.Data;
 using backend.Service.Contracts.Internship;
+using backend.Service.Contracts.Student;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,12 +35,23 @@ public class GetApplicationsUseCase : IRequestHandler<GetApplicationsQuery, List
     public async Task<List<ApplicationDto>> Handle(GetApplicationsQuery request, CancellationToken cancellationToken)
     {
         var studentId = request.Id;
-        
+
         var applications = await _dbContext.Applications
             .Include(a => a.Internship)
+            .ThenInclude(i => i.Company) // Include the company information
             .Where(a => a.StudentId == studentId)
             .ToListAsync(cancellationToken);
 
-        return _mapper.Map<List<ApplicationDto>>(applications);
+        var applicationDtos = applications.Select(application => new ApplicationDto
+        {
+            Id = application.Id,
+            SubmissionDate = application.CreatedAt,
+            ApplicationStatus = application.ApplicationStatus,
+            Internship = _mapper.Map<InternshipDto>(application.Internship),
+            Student = _mapper.Map<StudentDto>(application.Student),
+            CompanyName = application.Internship.Company.Name // Map the company name
+        }).ToList();
+
+        return applicationDtos;
     }
 }

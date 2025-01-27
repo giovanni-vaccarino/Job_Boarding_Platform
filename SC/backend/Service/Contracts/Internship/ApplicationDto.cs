@@ -14,5 +14,7 @@ public class ApplicationDto
     public required InternshipDto Internship { get; set; }
     
     public StudentDto? Student { get; set; }
+    
+    public string? CompanyName { get; set; }
 }
 
