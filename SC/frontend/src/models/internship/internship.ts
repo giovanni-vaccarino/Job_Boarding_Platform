@@ -62,7 +62,7 @@ export interface AddJobDetailsDto {
   Title: string;
   Duration: DurationType;
   Description: string;
-  ApplicationDeadline: Date;
+  ApplicationDeadline: string;
   Location: string;
   JobCategory?: JobCategory;
   JobType?: JobType;

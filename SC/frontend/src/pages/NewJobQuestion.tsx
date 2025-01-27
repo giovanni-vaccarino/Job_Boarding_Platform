@@ -178,8 +178,6 @@ export const NewJobQuestion = () => {
 
             const res = await companyApi.addInternship(companyId, dto);
 
-            console.log('idstudente' + res.profileId);
-
             console.log(res);
 
             dispatch(

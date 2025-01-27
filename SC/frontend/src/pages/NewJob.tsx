@@ -200,20 +200,21 @@ export const NewJob = () => {
       {requiredTextFilled && (
         <Button
           onClick={() => {
+            const requirements: string[] = [];
+            if (typeof skills === "string") {
+              requirements.push(skills);
+            }
+            const date = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
             const newInternship: AddInternshipDto = {
               JobDetails: {
                 Title: jobTitle,
-                Duration: DurationType.TwoToThreeMonths,
+                Duration: "TwoToThreeMonths",
                 Description: jobDescription,
-                ApplicationDeadline: new Date(
-                  Number(year),
-                  Number(month) - 1,
-                  Number(day)
-                ),
+                ApplicationDeadline: date,
                 Location: jobLocation,
                 JobCategory: jobCategory,
                 JobType: jobType,
-                Requirements: skills,
+                Requirements: requirements,
               } as AddJobDetailsDto,
               Questions: [] as AddQuestionDto[],
               ExistingQuestions: [] as number[],

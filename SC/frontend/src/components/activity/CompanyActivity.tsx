@@ -14,7 +14,7 @@ const mapInternshipToCompanyTableHeader = (
   return {
     title: internship.title,
     applications: internship.numberOfApplications,
-    jobType: internship.jobType.toString(),
+    jobType: internship.jobType?.toString(),
     location: internship.location,
     internshipId: internship.id.toString(),
   };
