@@ -214,7 +214,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
               </>
             ) : (
               <TextField
-                value={editedValue as string}
+                value={props.value as string}
                 onChange={(e) => setEditedValue(e.target.value)}
                 fullWidth
               />
@@ -256,7 +256,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
                   color: 'rgba(0, 0, 0, 0.4)',
                 }}
               >
-                {editedValue}
+                {props.value}
               </Typography>
             )}
           </>

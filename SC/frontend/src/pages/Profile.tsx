@@ -177,7 +177,8 @@ export const Profile = () => {
               />
             </Box>
           );
-        } else if (accountType === 'Company')
+        } else if (accountType === 'Company'){
+          console.log('Company Profile:', companyProfile.name);
           return (
             <Box>
               <RowComponent
@@ -210,6 +211,8 @@ export const Profile = () => {
               />
             </Box>
           );
+        }
+
     }
   };
 
