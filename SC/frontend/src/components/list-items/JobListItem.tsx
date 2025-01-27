@@ -16,7 +16,6 @@ export interface JobListItemProps {
 export const JobListItem = (props: JobListItemProps) => {
   const navigate = useNavigateWrapper();
 
-  console.log(props);
   return (
     <Box
       sx={{

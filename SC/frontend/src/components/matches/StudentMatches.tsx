@@ -20,7 +20,7 @@ const mapMatchToStudentsMatches = (match: Match): jobListItem => {
     companyName: match.internship.title,
     jobTitle: match.internship.title,
     location: match.internship.location,
-    datePosted: match.internship.dataCreated,
+    datePosted: match.internship.dateCreated,
     hadInvite: match.hasInvite,
     jobId: match.internship.id.toString(),
     matchId: match.id,

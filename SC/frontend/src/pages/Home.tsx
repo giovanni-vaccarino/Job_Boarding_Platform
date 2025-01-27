@@ -28,6 +28,8 @@ export const Home = () => {
 
   const internship = useLoaderData() as Internship[];
 
+  console.log(internship[0].dateCreated.toString())
+
   const filteredJobs = internship.filter((job) => {
     // Filter by search message
     const matchesSearch =
@@ -38,11 +40,11 @@ export const Home = () => {
     const matchesDate =
       postedDate === PostedDate.Everytime ||
       (postedDate === PostedDate.Today &&
-        job.dataCreated.toDateString() === today.toDateString()) ||
+        job.dateCreated.toString().split('T')[0] === today.toString().split('T')[0]) ||
       (postedDate === PostedDate.CurrentWeek &&
-        job.dataCreated >= startOfWeek) ||
+        job.dateCreated >= startOfWeek) ||
       (postedDate === PostedDate.CurrentMonth &&
-        job.dataCreated >= startOfMonth);
+        job.dateCreated >= startOfMonth);
 
     return matchesSearch && matchesDate;
   });

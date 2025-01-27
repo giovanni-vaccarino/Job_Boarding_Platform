@@ -3,7 +3,7 @@ import { Feedback } from '../feedback/feedback.ts';
 
 export interface Internship {
   id: number;
-  dataCreated: Date;
+  dateCreated: Date;
   title: string;
   duration: number;
   description: string;
