@@ -1,3 +1,3 @@
 export interface IAssetsApi {
-    getCvStudent: (studentId: string) => Promise<File>;
+  getCvStudent: (studentId: string) => Promise<File>;
 }

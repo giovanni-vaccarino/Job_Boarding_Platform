@@ -109,7 +109,7 @@ export const Home = () => {
           filteredJobs.map((job, index) => (
             <JobListItem
               key={index}
-              companyName={job.title}
+              companyName={job.companyName}
               jobTitle={job.title}
               location={job.location}
               datePosted={new Date('2024-11-01')}
