@@ -20,3 +20,7 @@ export interface UpdatePasswordDto {
   Token: string;
   Password: string;
 }
+
+export interface VerifyMailDto {
+  VerificationToken: string;
+}

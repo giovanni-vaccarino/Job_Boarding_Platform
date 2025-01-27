@@ -16,6 +16,7 @@ import { Company } from '../models/company/company.ts';
 import { useAppSelector } from '../core/store';
 import { appActions, useAppDispatch } from '../core/store';
 import { TypeProfile } from '../models/auth/register.ts';
+import { LoginInput } from '../models/auth/login.ts';
 
 export const Profile = () => {
   const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
@@ -28,6 +29,11 @@ export const Profile = () => {
 
   const profileType: TypeProfile | null = authState.profileType;
   const accountType: string = TypeProfile[profileType];
+  const [buttonText, setButtonText] = useState("Verify Email");
+
+  const handleClick = () => {
+    setButtonText("Email Sent");
+  };
 
   console.log(accountType);
   const [selectedSection, setSelectedSection] = useState<string>('profile');
@@ -146,6 +152,23 @@ export const Profile = () => {
               fieldKey={'name'}
               onFieldChange={handleFieldChange}
             />
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: 'primary.main',
+                color: '#FFFFFF',
+                textTransform: 'none',
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                borderRadius: '8px',
+                marginTop: 2,
+                marginBottom: 2,
+              }}
+              onClick={handleClick}
+            >
+              {buttonText}
+            </Button>
+
           </Box>
         );
     } else {
