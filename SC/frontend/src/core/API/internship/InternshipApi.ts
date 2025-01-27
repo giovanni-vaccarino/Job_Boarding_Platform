@@ -8,7 +8,6 @@ import {
 } from '../../../models/internship/internship.ts';
 import {
   ApplicationInfo,
-  ApplicationStatus,
   UpdateStatusApplicationDto,
 } from '../../../models/application/application.ts';
 import {
