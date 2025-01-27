@@ -1,6 +1,6 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, Snackbar } from '@mui/material';
 import { useState } from 'react';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch } from '../core/store';
@@ -23,6 +23,13 @@ export const ForgotPasswordSetPassword = () => {
   if (token === null) {
     navigate(AppRoutes.ForgotPasswordSetEmail);
   }
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <Page>
@@ -93,25 +100,50 @@ export const ForgotPasswordSetPassword = () => {
             marginTop: 2,
             marginBottom: 2,
           }}
-          onClick={() => {
-            const updatedPassword: UpdatePasswordDto = {
-              Token: token as string,
-              Password: password,
-            };
+          onClick={async () => {
+            try {
+              const updatedPassword: UpdatePasswordDto = {
+                Token: token as string,
+                Password: password,
+              };
 
-            authApi.resetPassword(updatedPassword);
+              authApi.resetPassword(updatedPassword);
 
-            dispatch(
-              appActions.global.setConfirmMessage({
-                newMessage: 'Password Changed Successfully',
-              })
-            );
-            navigate(AppRoutes.ConfirmPage);
+              dispatch(
+                appActions.global.setConfirmMessage({
+                  newMessage: 'Password Changed Successfully',
+                })
+              );
+              navigate(AppRoutes.ConfirmPage);
+            } catch (error) {
+              const errorMessage = error.message.split('\\r')[0];
+
+              console.error(
+                'Full error object:',
+                JSON.stringify(error, null, 2)
+              );
+
+              setSnackbarMessage(errorMessage);
+              setSnackbarOpen(true);
+            }
           }}
         >
           Change Password
         </Button>
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+        sx={{
+          '& .MuiSnackbarContent-root': {
+            backgroundColor: 'red',
+            fontSize: '18px',
+            padding: '16px',
+          },
+        }}
+      />
     </Page>
   );
 };
