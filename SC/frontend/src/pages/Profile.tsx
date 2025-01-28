@@ -12,7 +12,7 @@ import { AppRoutes } from '../router.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { Student } from '../models/student/student.ts';
 import { useLoaderData } from 'react-router-dom';
-import { Company } from '../models/company/company.ts';
+import { Company, UpdateCompany } from '../models/company/company.ts';
 import { useAppSelector } from '../core/store';
 import { appActions, useAppDispatch } from '../core/store';
 import { TypeProfile } from '../models/auth/register.ts';
@@ -44,14 +44,7 @@ export const Profile = () => {
 
   console.log(accountType);
 
-  const [companyProfile, setCompanyProfile] = useState({
-    id: 10,
-    email: 'company@mail.polimi.it',
-    name: 'Amazon',
-    vatNumber: '-',
-    website: '-',
-    linkedin: '-',
-  });
+  const [companyProfile, setCompanyProfile] = useState(data as Company);
 
   console.log(studentProfile);
 
@@ -101,9 +94,15 @@ export const Profile = () => {
         const updatedProfile = { ...prev, [fieldKey]: value };
         console.log('Updated Company Profile:', updatedProfile);
 
+        const updateProfileRequest: UpdateCompany= {
+          name: updatedProfile.name,
+          vat: updatedProfile.vatNumber,
+          website: updatedProfile.website,
+        }
+
         // Call the API with the updated profile
         companyApi
-          .updateCompanyInfo(updatedProfile.id.toString(), updatedProfile)
+          .updateCompanyInfo(updatedProfile.id.toString(), updateProfileRequest)
           .then((res) => console.log('API Response:', res))
           .catch((error) =>
             console.error('Error updating company info:', error)

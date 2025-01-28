@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import ModeIcon from '@mui/icons-material/Mode';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useService } from '../../core/ioc/ioc-provider.tsx';
 import { IStudentApi } from '../../core/API/student/IStudentApi.ts';
 import { ServiceType } from '../../core/ioc/service-type.ts';
@@ -25,6 +25,10 @@ export const RowComponent: React.FC<RowComponentProps> = (
   console.log(props);
   const [isEditing, setIsEditing] = useState(false);
   const [editedValue, setEditedValue] = useState(props.value);
+
+  useEffect(() => {
+    setEditedValue(props.value);
+  }, [props.value]);
 
   const handleSave = () => {
     setIsEditing(false);
@@ -201,7 +205,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
               </>
             ) : (
               <TextField
-                value={props.value as string}
+                value={editedValue as string}
                 onChange={(e) => setEditedValue(e.target.value)}
                 fullWidth
               />
@@ -243,7 +247,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
                   color: 'rgba(0, 0, 0, 0.4)',
                 }}
               >
-                {props.value}
+                {editedValue}
               </Typography>
             )}
           </>

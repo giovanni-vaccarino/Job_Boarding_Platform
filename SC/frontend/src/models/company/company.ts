@@ -7,6 +7,12 @@ export interface Company {
   linkedin: string;
 }
 
+export interface UpdateCompany {
+  name: string;
+  vat: string;
+  website: string;
+}
+
 export interface Question {
   id: number;
   title: string;
