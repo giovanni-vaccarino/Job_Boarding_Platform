@@ -25,6 +25,7 @@ export class AxiosHttpClient extends HttpClientBase {
     configService: IConfigService
   ) {
     super(configService.get('API_URL'));
+
     this.client = this.createInstance();
   }
 

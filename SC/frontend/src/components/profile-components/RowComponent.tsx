@@ -8,7 +8,6 @@ import { ServiceType } from '../../core/ioc/service-type.ts';
 import { cvToSend } from '../../models/student/student.ts';
 import { useAppSelector } from '../../core/store';
 import axios from 'axios';
-import { IAssetsApi } from '../../core/API/assets/IAssetsApi.ts';
 import { TypeProfile } from '../../models/auth/register.ts';
 
 export interface RowComponentProps {
@@ -57,7 +56,6 @@ export const RowComponent: React.FC<RowComponentProps> = (
   const authState = useAppSelector((state) => state.auth);
   const profileId = authState.profileId;
   const profileType = authState.profileType;
-  const assetsApi = useService<IAssetsApi>(ServiceType.AssetsApi);
 
   return (
     <Box
@@ -131,42 +129,31 @@ export const RowComponent: React.FC<RowComponentProps> = (
             startIcon={<RemoveRedEyeIcon />}
             onClick={async () => {
               try {
-                // Fetch the CV
-                const res = await assetsApi.getCvStudent(
-                  profileType === TypeProfile.Student
-                    ? (profileId as string)
-                    : (props.studentIdToRetrieveCV as string),
-                  { responseType: 'arraybuffer' } // Adjust based on API needs
+                const response = await fetch(
+                  `http://localhost:5000/api/assets/${profileType === TypeProfile.Student ? profileId : props.studentIdToRetrieveCV}`,
+                  {
+                    method: 'GET',
+                    headers: {
+                      Authorization: `Bearer ${authState.accessToken}`,
+                      Accept: 'application/pdf',
+                    },
+                  }
                 );
 
-                // Log and verify response
-                console.log('API Response:', res);
-
-                // Create a Blob
-                const blob = new Blob([res], { type: 'application/pdf' });
-                console.log('Blob Size:', blob.size); // Ensure it’s not empty
-
-                if (blob.size === 0) {
-                  console.error(
-                    'Error: Blob is empty. Check the API response.'
-                  );
-                  return;
+                if (!response.ok) {
+                  throw new Error(`Failed to fetch PDF: ${response.statusText}`);
                 }
 
-                // Generate a URL for the blob
-                const url = URL.createObjectURL(blob);
-                console.log('Generated URL:', url);
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
 
-                // Open or download the file
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'CV.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-
-                // Clean up
-                URL.revokeObjectURL(url);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'cv.pdf';
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
               } catch (error) {
                 console.error('Error fetching CV:', error);
               }

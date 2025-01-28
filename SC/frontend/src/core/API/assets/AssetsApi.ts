@@ -4,7 +4,7 @@ import { IAssetsApi } from './IAssetsApi.ts';
 
 @injectable()
 export class AssetsApi extends ApiBase implements IAssetsApi {
-  async getCvStudent(studentId: string): Promise<File> {
+  async getCvStudent(studentId: string): Promise<any> {
     return await this.httpClient.get(`assets/${studentId}`);
   }
 }
