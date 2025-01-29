@@ -1,6 +1,10 @@
 import { injectable } from 'inversify';
 import { ApiBase } from '../setup-api/api-base/ApiBase.ts';
-import { Company, Question, UpdateCompany } from '../../../models/company/company.ts';
+import {
+  Company,
+  Question,
+  UpdateCompany,
+} from '../../../models/company/company.ts';
 import { ICompanyApi } from './ICompanyApi.ts';
 import { AddInternshipDto } from '../../../models/internship/internship.ts';
 
@@ -9,7 +13,10 @@ export class CompanyApi extends ApiBase implements ICompanyApi {
   async getCompanyInfo(companyId: string): Promise<Company> {
     return await this.httpClient.get(`company/${companyId}`, {});
   }
-  async updateCompanyInfo(companyId: string, input: UpdateCompany): Promise<string> {
+  async updateCompanyInfo(
+    companyId: string,
+    input: UpdateCompany
+  ): Promise<string> {
     return await this.httpClient.put<UpdateCompany, string>(
       `company/${companyId}`,
       input

@@ -18,7 +18,7 @@ import { MatchApi } from '../API/match/MatchApi.ts';
 import { IFeedbackApi } from '../API/feedback/IFeedbackApi.ts';
 import { FeedbackApi } from '../API/feedback/FeedbackApi.ts';
 import { IAssetsApi } from '../API/assets/IAssetsApi.ts';
-import {AssetsApi} from "../API/assets/AssetsApi.ts";
+import { AssetsApi } from '../API/assets/AssetsApi.ts';
 
 const container: Container = new Container();
 

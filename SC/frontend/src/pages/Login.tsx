@@ -116,7 +116,7 @@ export const Login = () => {
               navigate(AppRoutes.Profile, {
                 id: res.profileId.toString(),
               });
-              setInterval(function() {
+              setInterval(function () {
                 window.location.reload();
               }, 1000);
             } catch (error: any) {

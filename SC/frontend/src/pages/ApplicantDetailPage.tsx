@@ -213,7 +213,10 @@ export const ApplicantDetailPage = () => {
                   sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
                 >{`${index + 1})`}</Typography>
                 <Typography sx={{ fontSize: '1.2rem', fontWeight: '500' }}>
-                  {assessment?.question?.title || assessment?.questions?.title}
+                  {
+                    //@ts-ignore
+                    assessment?.question?.title || assessment?.questions?.title
+                  }
                 </Typography>
                 <Typography sx={{ fontSize: '1rem', fontWeight: '200' }}>
                   {assessment?.answer}

@@ -14,8 +14,9 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
         <strong>Job Category:</strong> {jobDescription.jobCategory} <br />
         <strong>Job Type:</strong> {jobDescription.jobType} <br />
         <strong>Location:</strong> {jobDescription.location} <br />
-        <strong>Post Created:</strong>{' '}
-        {jobDescription.postCreated.toString()} <br />
+        <strong>
+          Post Created:
+        </strong> {jobDescription.postCreated.toString()} <br />
         <strong>Application Deadline:</strong>{' '}
         {jobDescription.applicationDeadline.toString()}
       </Typography>

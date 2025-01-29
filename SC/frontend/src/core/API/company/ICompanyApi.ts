@@ -1,4 +1,8 @@
-import { Company, Question, UpdateCompany } from '../../../models/company/company.ts';
+import {
+  Company,
+  Question,
+  UpdateCompany,
+} from '../../../models/company/company.ts';
 import { AddInternshipDto } from '../../../models/internship/internship.ts';
 
 export interface ICompanyApi {

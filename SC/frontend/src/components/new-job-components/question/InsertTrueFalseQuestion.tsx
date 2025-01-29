@@ -8,17 +8,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import {
-  AddInternshipDto,
-  AddQuestionDto,
-} from '../../../models/internship/internship.ts';
+import { AddQuestionDto } from '../../../models/internship/internship.ts';
 import { QuestionType } from '../../../models/company/company.ts';
-import {
-  appActions,
-  useAppDispatch,
-  useAppSelector,
-} from '../../../core/store';
-import { SetInternshipDtoInput } from '../../../core/store/slices/global.ts';
 
 export const InsertTrueFalseQuestion = ({
   id,
@@ -29,11 +20,9 @@ export const InsertTrueFalseQuestion = ({
   onSave: (id: number, question: AddQuestionDto) => void;
   onRemove: (id: number) => void;
 }) => {
-  const [isVisible, setIsVisible] = useState(true); // Control visibility of the question section
+  const [isVisible, setIsVisible] = useState(true);
   const [textField, setTextField] = useState('');
-  const [selectedOption, setSelectedOption] = useState('True'); // Manage selected option
-  const newInternship = useAppSelector((state) => state.global.newInternship);
-  const dispatch = useAppDispatch();
+  const [selectedOption, setSelectedOption] = useState('True');
 
   const handleQuestionUpdate = () => {
     const newQuestion: AddQuestionDto = {
@@ -42,7 +31,7 @@ export const InsertTrueFalseQuestion = ({
       Options: ['true', 'false'],
     };
 
-    onSave(id, newQuestion); // Notify the outer component
+    onSave(id, newQuestion);
   };
 
   useEffect(() => {

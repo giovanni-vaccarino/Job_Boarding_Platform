@@ -21,13 +21,13 @@ export const NewJobQuestion = () => {
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
 
-  const [selectedQuestionType, setSelectedQuestionType] = useState(''); // Track selected question type
-  const [questions, setQuestions] = useState<any[]>([]); // Store added questions
+  const [selectedQuestionType, setSelectedQuestionType] = useState('');
+  const [questions, setQuestions] = useState<any[]>([]);
 
   const newInternship = useAppSelector((state) => state.global.newInternship);
 
   const authState = useAppSelector((state) => state.auth);
-  const companyId = authState.profileId.toString();
+  const companyId = authState.profileId!.toString();
 
   const [newJobQuestionsDict, setNewJobQuestionsDict] = useState<{
     [id: number]: AddQuestionDto;

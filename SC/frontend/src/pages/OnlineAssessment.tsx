@@ -150,7 +150,6 @@ export const OnlineAssessment = () => {
             setSnackbarMessage(errorMessage);
             setSnackbarOpen(true);
           }
-
         }}
         sx={{
           textTransform: 'none',

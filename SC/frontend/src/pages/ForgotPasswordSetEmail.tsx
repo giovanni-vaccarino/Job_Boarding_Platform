@@ -6,7 +6,6 @@ import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { useService } from '../core/ioc/ioc-provider.tsx';
-import { ICompanyApi } from '../core/API/company/ICompanyApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
 import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
 import { SendVerificationEmailDto } from '../models/auth/login.ts';
@@ -81,7 +80,7 @@ export const ForgotPasswordSetEmail = () => {
                 })
               );
               navigate(AppRoutes.ConfirmPage);
-            } catch (error: any) {
+            } catch (error) {
               //TODO PRINT ERR MESSAGE
             }
           }}

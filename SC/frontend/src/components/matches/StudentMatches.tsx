@@ -114,7 +114,9 @@ export const StudentMatches = (props: StudentMatchesProps) => {
                 )
             )
           ) : (
-            <Typography sx={{ fontStyle: 'italic' }}>NO AVAILABLE MATCHES</Typography>
+            <Typography sx={{ fontStyle: 'italic' }}>
+              NO AVAILABLE MATCHES
+            </Typography>
           )}
         </Stack>
       </Box>

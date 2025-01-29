@@ -9,7 +9,7 @@ import {
 } from '../../../models/company/company.ts';
 import {
   ApplicationInfo,
-  ApplicationStatus, UpdateStatusApplicationDto,
+  UpdateStatusApplicationDto,
 } from '../../../models/application/application.ts';
 
 export interface IInternshipApi {

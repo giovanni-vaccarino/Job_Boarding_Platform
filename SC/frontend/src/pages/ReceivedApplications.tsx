@@ -3,7 +3,7 @@ import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Box, Typography } from '@mui/material';
 import { ReceivedApplicationTable } from '../components/tables/ReceivedApplicationTable.tsx';
 import { useLoaderData } from 'react-router-dom';
-import {ApplicationInfo} from "../models/application/application.ts";
+import { ApplicationInfo } from '../models/application/application.ts';
 
 // Example data for the table
 const exampleData = [
@@ -44,7 +44,9 @@ export const ReceivedApplication = () => {
         {exampleData.length > 0 ? (
           <ReceivedApplicationTable applications={applications} />
         ) : (
-          <Typography sx={{ fontStyle: 'italic' }}>NO AVAILABLE APPLICATIONS</Typography>
+          <Typography sx={{ fontStyle: 'italic' }}>
+            NO AVAILABLE APPLICATIONS
+          </Typography>
         )}
       </Box>
     </Page>

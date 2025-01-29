@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { Box, Select, MenuItem, Checkbox, Typography, ListItemText } from '@mui/material';
+import {
+  Box,
+  Select,
+  MenuItem,
+  Checkbox,
+  Typography,
+  ListItemText,
+} from '@mui/material';
 
 export interface InsertMultipleChoiceProps {
   titleMultipleChoice: string;
@@ -10,8 +17,12 @@ export interface InsertMultipleChoiceProps {
   onChange: (value: string[]) => void;
 }
 
-export const InsertMultipleChoiceMultiSelect = (props: InsertMultipleChoiceProps) => {
-  const [selectedChoices, setSelectedChoices] = useState<string[]>(props.selectedValues);
+export const InsertMultipleChoiceMultiSelect = (
+  props: InsertMultipleChoiceProps
+) => {
+  const [selectedChoices, setSelectedChoices] = useState<string[]>(
+    props.selectedValues
+  );
 
   const handleChange = (event: any) => {
     const {

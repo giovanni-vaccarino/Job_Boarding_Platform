@@ -37,7 +37,7 @@ export class RefreshAuthDecorator extends HttpClientBase {
       config
     );
 
-    console.log("RESPONSE:"+response)
+    console.log('RESPONSE:' + response);
 
     appStore.dispatch(
       appActions.auth.successLogin({

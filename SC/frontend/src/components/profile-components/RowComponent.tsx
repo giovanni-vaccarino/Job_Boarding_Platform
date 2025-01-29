@@ -145,7 +145,9 @@ export const RowComponent: React.FC<RowComponentProps> = (
                 );
 
                 if (!response.ok) {
-                  throw new Error(`Failed to fetch PDF: ${response.statusText}`);
+                  throw new Error(
+                    `Failed to fetch PDF: ${response.statusText}`
+                  );
                 }
 
                 const blob = await response.blob();

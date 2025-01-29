@@ -11,7 +11,6 @@ import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
 import { Tab } from '../../core/store/slices/global.ts';
 import { TypeProfile } from '../../models/auth/register.ts';
-import { Matches } from '../../pages/Matches.tsx';
 
 export const Header = () => {
   const navigate = useNavigateWrapper();

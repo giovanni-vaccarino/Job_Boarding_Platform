@@ -11,7 +11,6 @@ import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
-  AxiosResponse,
   RawAxiosRequestHeaders,
 } from 'axios';
 import { ServiceType } from '../../../ioc/service-type.ts';
@@ -61,7 +60,6 @@ export class AxiosHttpClient extends HttpClientBase {
         err.code || 'UNKNOWN',
         errorMessage
       );
-
     }
   }
 

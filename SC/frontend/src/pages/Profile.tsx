@@ -16,7 +16,6 @@ import { Company, UpdateCompany } from '../models/company/company.ts';
 import { useAppSelector } from '../core/store';
 import { appActions, useAppDispatch } from '../core/store';
 import { TypeProfile } from '../models/auth/register.ts';
-import { LoginInput } from '../models/auth/login.ts';
 
 export const Profile = () => {
   const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
@@ -29,10 +28,10 @@ export const Profile = () => {
 
   const profileType: TypeProfile | null = authState.profileType;
   const accountType: string = TypeProfile[profileType];
-  const [buttonText, setButtonText] = useState("Verify Email");
+  const [buttonText, setButtonText] = useState('Verify Email');
 
   const handleClick = () => {
-    setButtonText("Email Sent");
+    setButtonText('Email Sent');
   };
 
   console.log(accountType);
@@ -94,11 +93,11 @@ export const Profile = () => {
         const updatedProfile = { ...prev, [fieldKey]: value };
         console.log('Updated Company Profile:', updatedProfile);
 
-        const updateProfileRequest: UpdateCompany= {
+        const updateProfileRequest: UpdateCompany = {
           name: updatedProfile.name,
           vat: updatedProfile.vatNumber,
           website: updatedProfile.website,
-        }
+        };
 
         // Call the API with the updated profile
         companyApi
@@ -167,7 +166,6 @@ export const Profile = () => {
             >
               {buttonText}
             </Button>
-
           </Box>
         );
     } else {
@@ -199,7 +197,7 @@ export const Profile = () => {
               />
             </Box>
           );
-        } else if (accountType === 'Company'){
+        } else if (accountType === 'Company') {
           console.log('Company Profile:', companyProfile.name);
           return (
             <Box>
@@ -234,7 +232,6 @@ export const Profile = () => {
             </Box>
           );
         }
-
     }
   };
 

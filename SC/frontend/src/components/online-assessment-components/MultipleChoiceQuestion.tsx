@@ -11,11 +11,6 @@ import { Question } from '../../models/company/company.ts';
 export const MultipleChoiceQuestion = (props: Question) => {
   const [checked, setChecked] = useState({});
 
-  const questionsMockData = {
-    question: 'What are your favorite colors?',
-    options: ['Red', 'Blue', 'Green', 'Yellow'],
-  };
-
   const handleChange = (event: { target: { name: any; checked: any } }) => {
     const { name, checked } = event.target;
     setChecked((prevState) => ({

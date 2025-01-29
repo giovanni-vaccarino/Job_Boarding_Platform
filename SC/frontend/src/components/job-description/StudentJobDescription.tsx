@@ -78,7 +78,10 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
               } catch (error) {
                 const errorMessage = error.message.split('\\r')[0];
 
-                console.error('Full error object:', JSON.stringify(error, null, 2));
+                console.error(
+                  'Full error object:',
+                  JSON.stringify(error, null, 2)
+                );
 
                 setSnackbarMessage(errorMessage);
                 setSnackbarOpen(true);

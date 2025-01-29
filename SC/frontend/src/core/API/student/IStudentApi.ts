@@ -1,4 +1,4 @@
-import {cvToSend, Student} from '../../../models/student/student.ts';
+import { cvToSend, Student } from '../../../models/student/student.ts';
 import { ApplicationInfo } from '../../../models/application/application.ts';
 import { Match } from '../../../models/match/match.ts';
 

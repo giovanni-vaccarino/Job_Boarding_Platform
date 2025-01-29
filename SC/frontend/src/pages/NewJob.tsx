@@ -10,7 +10,6 @@ import {
   AddInternshipDto,
   AddJobDetailsDto,
   AddQuestionDto,
-  DurationType,
   JobCategory,
   JobType,
   SkillsType,
@@ -202,14 +201,19 @@ export const NewJob = () => {
         <Button
           onClick={() => {
             const requirements: string[] = [];
-            if (typeof skills === "string") {
+            if (typeof skills === 'string') {
               requirements.push(skills);
             }
-            const date = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+            const date =
+              year +
+              '-' +
+              String(month).padStart(2, '0') +
+              '-' +
+              String(day).padStart(2, '0');
             const newInternship: AddInternshipDto = {
               JobDetails: {
                 Title: jobTitle,
-                Duration: "TwoToThreeMonths",
+                Duration: 'TwoToThreeMonths',
                 Description: jobDescription,
                 ApplicationDeadline: date,
                 Location: jobLocation,
