@@ -1,19 +1,28 @@
 import { Internship } from '../internship/internship.ts';
+import { Student } from '../student/student.ts';
+
+export interface UpdateStatusApplicationDto {
+  applicationStatus: ApplicationStatus;
+}
 
 export enum ApplicationStatus {
+  Accepted,
+  Rejected,
+  Screening,
   OnlineAssessment,
-  Ongoing,
-  Ended,
+  LastEvaluation,
 }
 
 export interface JobDescriptionInterface {
+  jobTitle: string;
   jobCategory: string;
   jobType: string;
   location: string;
-  postCreated: Date;
-  applicationDeadline: Date;
+  postCreated: string;
+  applicationDeadline: string;
   jobDescriptionMessage: string;
   skillsRequired: string[];
+  jobId: number;
 }
 
 export interface JobDescriptionProps {
@@ -30,9 +39,11 @@ export interface ApplicationProps {
 }
 
 //TODO to adapt this interface to the above one
-export interface Application {
+export interface ApplicationInfo {
   id: number;
   submissionDate: Date;
   applicationStatus: ApplicationStatus;
   internship: Internship;
+  student: Student;
+  companyName: string;
 }

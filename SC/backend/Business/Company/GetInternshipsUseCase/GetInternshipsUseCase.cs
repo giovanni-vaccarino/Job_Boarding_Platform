@@ -55,6 +55,8 @@ public class GetInternshipsUseCase : IRequestHandler<GetInternshipsQuery, List<I
         var internships = internshipsData.Select(data => 
         {
             var internshipDto = _mapper.Map<InternshipDto>(data.Internship);
+            internshipDto.NumberOfApplications = data.NumberOfApplications;
+            internshipDto.companyId = companyId;
             return internshipDto;
         }).ToList();
 

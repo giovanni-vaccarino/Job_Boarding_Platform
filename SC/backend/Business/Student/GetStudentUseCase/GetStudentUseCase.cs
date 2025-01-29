@@ -11,7 +11,6 @@ public class GetStudentUseCase : IRequestHandler<GetStudentQuery, StudentDto>
 {
     private readonly ILogger<GetStudentUseCase> _logger;
     private readonly AppDbContext _dbContext;
-    private readonly IMapper _mapper;
 
     /// <summary>
     /// Initializes a new instance of the GetStudentUseCase class.
@@ -19,9 +18,8 @@ public class GetStudentUseCase : IRequestHandler<GetStudentQuery, StudentDto>
     /// <param name="dbContext">The application database context.</param>
     /// <param name="logger">The logger instance for logging operations.</param>
     /// <param name="mapper">The mapper instance for automapper operations.</param>
-    public GetStudentUseCase(AppDbContext dbContext, ILogger<GetStudentUseCase> logger, IMapper mapper)
+    public GetStudentUseCase(AppDbContext dbContext, ILogger<GetStudentUseCase> logger)
     {
-        _mapper = mapper;
         _logger = logger;
         _dbContext = dbContext;
     }
@@ -32,7 +30,7 @@ public class GetStudentUseCase : IRequestHandler<GetStudentQuery, StudentDto>
 
         _logger.LogInformation("Successfully retrieved student with ID {Id}.", request.Id);
 
-        return _mapper.Map<StudentDto>(student);
+        return student;
     }
     
     /// <summary>
@@ -41,17 +39,38 @@ public class GetStudentUseCase : IRequestHandler<GetStudentQuery, StudentDto>
     /// <param name="studentId">The user ID to look up.</param>
     /// <returns>The <see cref="Student"/> object associated with the student ID.</returns>
     /// <exception cref="KeyNotFoundException">Thrown if the student cannot be found.</exception>
-    private async Task<backend.Data.Entities.Student> GetUser(int studentId)
+    private async Task<StudentDto> GetUser(int studentId)
     {
-        var student =  await _dbContext.Students
+        var studentData = await _dbContext.Students
             .AsNoTracking()
-            .FirstOrDefaultAsync(s => s.Id == studentId);
-        
-        if (student == null)
+            .Where(s => s.Id == studentId)
+            .Select(s => new
+            {
+                Student = s,
+                Email = _dbContext.Users
+                    .Where(u => u.Id == s.UserId)
+                    .Select(u => u.Email)
+                    .FirstOrDefault()
+            })
+            .FirstOrDefaultAsync();
+
+        if (studentData == null)
         {
             throw new KeyNotFoundException($"Student with ID {studentId} not found.");
         }
+        
+        var studentDto = new StudentDto
+        {
+            Id = studentData.Student.Id,
+            Name = studentData.Student.Name,
+            Cf = studentData.Student.Cf,
+            CvPath = studentData.Student.CvPath,
+            Email = studentData.Email,
+            Skills = studentData.Student.Skills,
+            Interests = studentData.Student.Interests
+        };
 
-        return student;
+        return studentDto;
     }
+
 }

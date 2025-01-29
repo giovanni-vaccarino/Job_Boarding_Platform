@@ -5,28 +5,7 @@ import { JobListItem } from '../components/list-items/JobListItem.tsx';
 import { useAppSelector } from '../core/store';
 import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import {Internship} from "../models/internship/internship.ts";
-
-const jobList = [
-  {
-    companyName: 'Google',
-    title: 'Software Engineer',
-    location: 'Chicago',
-    dataCreated: new Date('2024-11-01'),
-  },
-  {
-    companyName: 'Amazon',
-    title: 'Software Engineer',
-    location: 'Chicago',
-    dateCreated: new Date('2024-10-20'),
-  },
-  {
-    companyName: 'Amazon',
-    title: 'Software Engineer',
-    location: 'Chicago',
-    dataCreated: new Date('2024-10-15'),
-  },
-];
+import { Internship } from '../models/internship/internship.ts';
 
 export enum PostedDate {
   Today,
@@ -46,9 +25,11 @@ export const Home = () => {
   startOfWeek.setDate(today.getDate() - today.getDay());
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  //const internship = useLoaderData() as Internship[];
+  const internship = useLoaderData() as Internship[];
 
-  const filteredJobs = jobList.filter((job) => {
+  console.log(internship[0].dateCreated.toString());
+
+  const filteredJobs = internship.filter((job) => {
     // Filter by search message
     const matchesSearch =
       job.title.toLowerCase().includes(searchMessage.toLowerCase()) ||
@@ -58,11 +39,12 @@ export const Home = () => {
     const matchesDate =
       postedDate === PostedDate.Everytime ||
       (postedDate === PostedDate.Today &&
-        job.dataCreated.toDateString() === today.toDateString()) ||
+        job.dateCreated.toString().split('T')[0] ===
+          today.toString().split('T')[0]) ||
       (postedDate === PostedDate.CurrentWeek &&
-        job.dataCreated >= startOfWeek) ||
+        job.dateCreated >= startOfWeek) ||
       (postedDate === PostedDate.CurrentMonth &&
-        job.dataCreated >= startOfMonth);
+        job.dateCreated >= startOfMonth);
 
     return matchesSearch && matchesDate;
   });
@@ -128,10 +110,11 @@ export const Home = () => {
           filteredJobs.map((job, index) => (
             <JobListItem
               key={index}
-              companyName={job.title}
+              companyName={job.companyName}
               jobTitle={job.title}
               location={job.location}
               datePosted={new Date('2024-11-01')}
+              id={job.id.toString()}
             />
           ))
         ) : (

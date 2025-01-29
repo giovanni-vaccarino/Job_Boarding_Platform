@@ -32,10 +32,27 @@ public class GetInternshipUseCase: IRequestHandler<GetInternshipQuery, List<Inte
     /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
     /// <returns>A list of <see cref="InternshipDto"/> objects containing the details of all internships.</returns>
     public async Task<List<InternshipDto>> Handle(GetInternshipQuery request, CancellationToken cancellationToken)
-    { 
+    {
         var internships = await _dbContext.Internships
+            .Include(i => i.Company)
             .ToListAsync(cancellationToken);
 
-        return _mapper.Map<List<InternshipDto>>(internships);
+        var internshipDtos = internships.Select(internship => new InternshipDto
+        {
+            Id = internship.Id,
+            Title = internship.Title,
+            Description = internship.Description,
+            Location = internship.Location,
+            Duration = internship.Duration,
+            ApplicationDeadline = internship.ApplicationDeadline,
+            CompanyName = internship.Company.Name,
+            JobCategory = internship.JobCategory,
+            JobType = internship.JobType,
+            Requirements = internship.Requirements,
+            companyId = internship.CompanyId,
+            DateCreated = internship.CreatedAt,
+        }).ToList();
+
+        return internshipDtos;
     }
 }

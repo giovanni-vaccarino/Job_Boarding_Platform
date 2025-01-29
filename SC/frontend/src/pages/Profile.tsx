@@ -1,77 +1,237 @@
 import { useState } from 'react';
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { RowComponent } from '../components/profile-components/RowComponent.tsx';
+import { useService } from '../core/ioc/ioc-provider.tsx';
+import { ServiceType } from '../core/ioc/service-type.ts';
+import { IStudentApi } from '../core/API/student/IStudentApi.ts';
+import { ICompanyApi } from '../core/API/company/ICompanyApi.ts';
+import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
+import { AppRoutes } from '../router.tsx';
+import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
+import { Student } from '../models/student/student.ts';
+import { useLoaderData } from 'react-router-dom';
+import { Company, UpdateCompany } from '../models/company/company.ts';
+import { useAppSelector } from '../core/store';
+import { appActions, useAppDispatch } from '../core/store';
+import { TypeProfile } from '../models/auth/register.ts';
 
 export const Profile = () => {
+  const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
+  const companyApi = useService<ICompanyApi>(ServiceType.CompanyApi);
+  const authApi = useService<IAuthApi>(ServiceType.AuthApi);
+  const navigate = useNavigateWrapper();
+  const data = useLoaderData() as Student | Company;
+  const authState = useAppSelector((state) => state.auth);
+  const dispach = useAppDispatch();
+
+  const profileType: TypeProfile | null = authState.profileType;
+  const accountType: string = TypeProfile[profileType];
+  const [buttonText, setButtonText] = useState('Verify Email');
+
+  const handleClick = () => {
+    setButtonText('Email Sent');
+  };
+
+  console.log(accountType);
   const [selectedSection, setSelectedSection] = useState<string>('profile');
 
+  const [studentProfile, setStudentProfile] = useState<Student>(
+    data as Student
+  );
+
+  console.log(accountType);
+
+  const [companyProfile, setCompanyProfile] = useState(data as Company);
+
+  console.log(studentProfile);
+
+  //TO avoid infinite loop call the setStudent only when the data or accountType has been changed
+  /*
+    (() => {
+    //Retrieve the accountType
+    //setAccountType();
+    if (data && accountType === 'student') {
+      console.log('Student Profile:', data);
+
+    } else if (data && accountType === 'company') {
+      setCompanyProfile(data as Company);
+      console.log('Company Profile:', data);
+    }
+  }, [data, accountType]); // Add dependencies
+  console.log(studentProfile);
+*/
   const handleSectionChange = (section: string) => {
     setSelectedSection(section);
   };
 
-  const [accountType, setAccountType] = useState<string>('company');
+  // Removed handleTypeAccount
 
-  const handleTypeAccount = (type: string) => {
-    setAccountType(type);
+  //The function is passed as a props to the row component and handle the update of the profile
+  const handleFieldChange = async (
+    fieldKey: string | undefined,
+    value?: string | string[] | undefined
+  ) => {
+    if (accountType === 'Student') {
+      setStudentProfile((prev) => {
+        const updatedProfile = { ...prev, [fieldKey]: value };
+        console.log('Updated Student Profile:', updatedProfile);
+
+        // Call the API with the updated profile
+        studentApi
+          .updateStudentInfo(updatedProfile.id.toString(), updatedProfile)
+          .then((res) => console.log('API Response:', res))
+          .catch((error) =>
+            console.error('Error updating student info:', error)
+          );
+
+        return updatedProfile;
+      });
+    } else if (accountType === 'Company') {
+      setCompanyProfile((prev) => {
+        const updatedProfile = { ...prev, [fieldKey]: value };
+        console.log('Updated Company Profile:', updatedProfile);
+
+        const updateProfileRequest: UpdateCompany = {
+          name: updatedProfile.name,
+          vat: updatedProfile.vatNumber,
+          website: updatedProfile.website,
+        };
+
+        // Call the API with the updated profile
+        companyApi
+          .updateCompanyInfo(updatedProfile.id.toString(), updateProfileRequest)
+          .then((res) => console.log('API Response:', res))
+          .catch((error) =>
+            console.error('Error updating company info:', error)
+          );
+
+        return updatedProfile;
+      });
+    }
   };
 
   const renderContent = () => {
     if (selectedSection === 'profile') {
-      if (accountType === 'student')
+      if (accountType === 'Student')
         return (
           <Box>
             <RowComponent
               label="eMail"
-              value="vittorio.palladino@mail.polimi.it"
-              buttons={['edit']}
+              value={studentProfile.email}
+              fieldKey={'email'}
+              buttons={[]}
+              onFieldChange={handleFieldChange}
             />
-            <RowComponent label="Name" value="vittorio" buttons={['edit']} />
+            <RowComponent
+              label="Name"
+              value={studentProfile.name}
+              buttons={['edit']}
+              fieldKey={'name'}
+              onFieldChange={handleFieldChange}
+            />
           </Box>
         );
-      else if (accountType === 'company')
+      else if (accountType === 'Company')
         return (
           <Box>
             <RowComponent
               label="eMail"
-              value="vittorio.palladino@mail.polimi.it"
-              buttons={['edit']}
+              value={companyProfile.email}
+              buttons={[]}
+              fieldKey={'email'}
+              onFieldChange={handleFieldChange}
             />
-            <RowComponent label="Name" value="vittorio" buttons={['edit']} />
+            <RowComponent
+              label="Name"
+              value={companyProfile.name}
+              buttons={['edit']}
+              fieldKey={'name'}
+              onFieldChange={handleFieldChange}
+            />
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: 'primary.main',
+                color: '#FFFFFF',
+                textTransform: 'none',
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                borderRadius: '8px',
+                marginTop: 2,
+                marginBottom: 2,
+              }}
+              onClick={handleClick}
+            >
+              {buttonText}
+            </Button>
           </Box>
         );
     } else {
       if (selectedSection === 'info')
-        if (accountType === 'student')
+        if (accountType === 'Student') {
+          console.log('Student Profile:', studentProfile.skills);
           return (
             <Box>
-              <RowComponent label="CV" value="-" buttons={['edit', 'view']} />
-              <RowComponent label="Skills" value="-" buttons={['edit']} />
+              <RowComponent
+                label="CV"
+                value={studentProfile.cvPath}
+                buttons={['view']}
+                fieldKey={'cvPath'}
+                onFieldChange={handleFieldChange}
+              />
+              <RowComponent
+                label="Skills"
+                value={studentProfile.skills}
+                buttons={['edit']}
+                fieldKey={'skills'}
+                onFieldChange={handleFieldChange}
+              />
               <RowComponent
                 label="Interest"
-                value="vittorio"
+                value={studentProfile.interests}
                 buttons={['edit']}
+                fieldKey={'interests'}
+                onFieldChange={handleFieldChange}
               />
             </Box>
           );
-        else if (accountType === 'company')
+        } else if (accountType === 'Company') {
+          console.log('Company Profile:', companyProfile.name);
           return (
             <Box>
               <RowComponent
                 label="Company Name"
-                value="Amazon"
+                value={companyProfile.name}
                 buttons={['edit']}
+                fieldKey={'name'}
+                onFieldChange={handleFieldChange}
               />
-              <RowComponent label="Vat" value="-" buttons={['edit']} />
+              <RowComponent
+                label="Vat"
+                value={companyProfile.vatNumber}
+                buttons={['edit']}
+                fieldKey={'vat'}
+                onFieldChange={handleFieldChange}
+              />
               <RowComponent
                 label="Company Website"
-                value="-"
+                value={companyProfile.website}
                 buttons={['edit']}
+                fieldKey={'website'}
+                onFieldChange={handleFieldChange}
               />
-              <RowComponent label="Linkedin" value="-" buttons={['edit']} />
+              <RowComponent
+                label="Linkedin"
+                value={companyProfile.linkedin}
+                buttons={['edit']}
+                fieldKey={'linkedin'}
+                onFieldChange={handleFieldChange}
+              />
             </Box>
           );
+        }
     }
   };
 
@@ -82,9 +242,7 @@ export const Profile = () => {
         sx={{
           display: 'flex',
           flexDirection: 'row', // Align children in a row for two columns
-          justifyContent: 'space-between', // Distribute space evenly
-          width: '100%',
-          maxWidth: '1000px', // Adjust the maximum width to accommodate two columns
+          width: '70%', // Adjust the maximum width to accommodate two columns
           padding: 3,
           mt: '3rem',
           backgroundColor: '#FFFFFF',
@@ -97,6 +255,7 @@ export const Profile = () => {
             position: 'fixed',
             minWidth: '30%',
             marginLeft: '0%',
+            marginRight: '1%',
             display: 'flex',
             flexDirection: 'column', // Stack items vertically
             justifyContent: 'center', // Center items vertically
@@ -181,16 +340,25 @@ export const Profile = () => {
           <Box sx={{ borderTop: '2px solid gray', width: '20%', mt: '1rem' }} />
 
           {/* Logout */}
-          <Typography
-            sx={{
-              color: 'red',
-              fontSize: '1.35rem',
-              fontWeight: '500',
-              marginTop: '10%',
+          <Button
+            onClick={async () => {
+              await authApi.logout();
+
+              dispach(appActions.auth.logout());
+              navigate(AppRoutes.Login);
             }}
           >
-            Log Out
-          </Typography>
+            <Typography
+              sx={{
+                color: 'red',
+                fontSize: '1.35rem',
+                fontWeight: '500',
+                marginTop: '10%',
+              }}
+            >
+              Logout
+            </Typography>
+          </Button>
         </Box>
 
         {/* Right Column */}

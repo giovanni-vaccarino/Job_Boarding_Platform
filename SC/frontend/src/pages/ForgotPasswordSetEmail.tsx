@@ -5,11 +5,18 @@ import { useState } from 'react';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
+import { useService } from '../core/ioc/ioc-provider.tsx';
+import { ServiceType } from '../core/ioc/service-type.ts';
+import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
+import { SendVerificationEmailDto } from '../models/auth/login.ts';
 
 export const ForgotPasswordSetEmail = () => {
   const [email, setEmail] = useState<string>('');
+
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
+
+  const authApi = useService<IAuthApi>(ServiceType.AuthApi);
 
   return (
     <Page>
@@ -59,13 +66,23 @@ export const ForgotPasswordSetEmail = () => {
             marginTop: 2,
             marginBottom: 2,
           }}
-          onClick={() => {
-            dispatch(
-              appActions.global.setConfirmMessage({
-                newMessage: 'Email Sent Successfully',
-              })
-            );
-            navigate(AppRoutes.ConfirmPage);
+          onClick={async () => {
+            try {
+              const sendResetPassword: SendVerificationEmailDto = {
+                email: email,
+              };
+              const res = await authApi.sendResetPassword(sendResetPassword);
+              console.log(res);
+
+              dispatch(
+                appActions.global.setConfirmMessage({
+                  newMessage: 'Email Sent Successfully',
+                })
+              );
+              navigate(AppRoutes.ConfirmPage);
+            } catch (error) {
+              //TODO PRINT ERR MESSAGE
+            }
           }}
         >
           Send Email

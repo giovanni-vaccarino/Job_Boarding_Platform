@@ -1,9 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, TextField, Typography, Button } from '@mui/material';
+import { AddQuestionDto } from '../../../models/internship/internship.ts';
+import { QuestionType } from '../../../models/company/company.ts';
 
-export const InsertOpenQuestion = () => {
+interface InsertOpenQuestionProps {
+  id: number; // Unique identifier for the question
+  onSave: (id: number, question: AddQuestionDto) => void; // Callback for saving question
+  onRemove: (id: number) => void; // Callback for removing the question
+}
+
+export const InsertOpenQuestion = ({
+  id,
+  onSave,
+  onRemove,
+}: InsertOpenQuestionProps) => {
   const [isVisible, setIsVisible] = useState(true); // Control visibility of the question section
-  const [textField, setTextField] = useState('');
+  const [textField, setTextField] = useState(''); // Question text
+
+  // Function to save the question
+  const handleSave = () => {
+    const question: AddQuestionDto = {
+      Title: textField,
+      QuestionType: QuestionType.OpenQuestion,
+      Options: [], // Open questions don't have options
+    };
+    onSave(id, question);
+  };
+
+  // Call handleSave whenever textField changes
+  useEffect(() => {
+    if (textField.trim() !== '') {
+      handleSave();
+    }
+  }, [textField]);
 
   return (
     isVisible && (
@@ -42,7 +71,10 @@ export const InsertOpenQuestion = () => {
             <Typography>Open Question</Typography>
           </Box>
           <Button
-            onClick={() => setIsVisible(false)}
+            onClick={() => {
+              setIsVisible(false);
+              onRemove(id); // Notify the outer component
+            }}
             sx={{
               minWidth: '2.5rem',
               height: '2.5rem',

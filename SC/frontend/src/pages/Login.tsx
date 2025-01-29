@@ -1,13 +1,13 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Snackbar, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { useService } from '../core/ioc/ioc-provider.tsx';
 import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
 import { LoginInput } from '../models/auth/login.ts';
-import { appActions, useAppDispatch } from '../core/store';
+import { appActions, useAppDispatch, useAppSelector } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { TypeProfile } from '../models/auth/register.ts';
 
@@ -17,6 +17,17 @@ export const Login = () => {
   const navigate = useNavigateWrapper();
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
   const dispatch = useAppDispatch();
+
+  const authState = useAppSelector((state) => state.auth);
+  const profileType = authState.profileType;
+  console.log('LoginType' + profileType);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <Page>
@@ -82,15 +93,39 @@ export const Login = () => {
               password: password,
             };
             console.log(loginInput);
-            const res = await authApi.login(loginInput);
 
-            console.log(res);
+            try {
+              const res = await authApi.login(loginInput);
 
-            dispatch(appActions.auth.successLogin(res));
-            dispatch(
-              appActions.auth.setProfileType({ type: TypeProfile.Company })
-            ); // TODO change this to the actual profile type
-            navigate(AppRoutes.Profile);
+              console.log('idstudente' + res.profileId);
+
+              console.log(res);
+              dispatch(appActions.auth.successLogin(res));
+              const profileTypeEnum =
+                res.profileType.toString() === 'Student'
+                  ? TypeProfile.Student
+                  : TypeProfile.Company;
+              dispatch(
+                appActions.auth.setProfileType({ type: profileTypeEnum })
+              );
+
+              dispatch(
+                appActions.auth.setProfileId({ id: res.profileId.toString() })
+              );
+              console.log(res.profileId.toString());
+              navigate(AppRoutes.Profile, {
+                id: res.profileId.toString(),
+              });
+              setInterval(function () {
+                window.location.reload();
+              }, 1000);
+            } catch (error: any) {
+              const errorMessage = error.message.split('\\r')[0];
+              console.log(error.message);
+              console.log('Full error object:', JSON.stringify(error, null, 2));
+              setSnackbarMessage(errorMessage);
+              setSnackbarOpen(true);
+            }
           }}
           sx={{
             backgroundColor: 'primary.main',
@@ -131,6 +166,19 @@ export const Login = () => {
           </Typography>
         </Box>
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+        sx={{
+          '& .MuiSnackbarContent-root': {
+            backgroundColor: 'red',
+            fontSize: '18px',
+            padding: '16px',
+          },
+        }}
+      />
     </Page>
   );
 };

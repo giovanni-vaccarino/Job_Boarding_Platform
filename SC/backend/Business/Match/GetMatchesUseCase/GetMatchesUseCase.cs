@@ -32,15 +32,23 @@ public class GetMatchesUseCase : IRequestHandler<GetMatchesQuery, List<MatchDto>
     
     private async Task<List<Data.Entities.Match>> GetStudentMatches(int studentId, CancellationToken cancellationToken)
     {
+        Console.WriteLine($"Fetching matches for student with ID: {studentId}");
+
+        var appliedInternshipIds = await _dbContext.Applications
+            .Where(a => a.StudentId == studentId)
+            .Select(a => a.InternshipId)
+            .ToListAsync(cancellationToken);
+
         return await _dbContext.Matches
             .Include(m => m.Student)
             .Include(m => m.Internship)
-            .Where(m => m.StudentId == studentId)
+            .Where(m => m.StudentId == studentId && !appliedInternshipIds.Contains(m.InternshipId))
             .ToListAsync(cancellationToken);
     }
     
     private async Task<List<Data.Entities.Match>> GetCompanyMatches(int companyId, CancellationToken cancellationToken)
     {
+        Console.WriteLine($"Fetching matches for companyId: {companyId}");
         var internshipIds = await _dbContext.Internships
             .Where(i => i.CompanyId == companyId)
             .Select(i => i.Id)

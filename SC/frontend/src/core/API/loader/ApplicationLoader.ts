@@ -1,12 +1,11 @@
 import { IStudentApi } from '../student/IStudentApi.ts';
-import { Application } from '../../../models/application/application.ts';
+import { ApplicationInfo } from '../../../models/application/application.ts';
 
 export const ApplicationLoader = async (
-    api: IStudentApi,
-    studentId: string
-): Promise<Application[]> => {
+  api: IStudentApi,
+  studentId: string
+): Promise<ApplicationInfo[]> => {
   try {
-    studentId = "6";
     const applications = await api.getApplications(studentId);
     console.log(applications);
     return applications;

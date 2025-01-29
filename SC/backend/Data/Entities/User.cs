@@ -5,6 +5,7 @@ namespace backend.Data.Entities;
 public class User: EntityBase
 {
     [MaxLength(255)]
+    [EmailAddress]
     public required string Email { get; set; }
     
     [MaxLength(255)]

@@ -24,4 +24,11 @@ public class InternshipDto
     public JobType? JobType { get; set; }
     
     public List<string> Requirements { get; set; } = new List<string>();
+    
+    public int NumberOfApplications { get; set; }
+    
+    
+    public required int companyId { get; set; }
+    
+    public string? CompanyName { get; set; }
 }

@@ -1,6 +1,9 @@
 ﻿using backend.Business.Internship.AnswerQuestionsUseCase;
 using backend.Business.Internship.ApplyToInternshipUseCase;
+using backend.Business.Internship.GetApplicantAnswersUseCase;
+using backend.Business.Internship.GetApplicationsUseCase;
 using backend.Business.Internship.GetInternshipDetailsUseCase;
+using backend.Business.Internship.GetInternshipQuestions;
 using backend.Business.Internship.GetInternshipUseCase;
 using backend.Business.Internship.UpdateStatusApplicationUseCase;
 using backend.Service.Contracts.Internship;
@@ -74,4 +77,33 @@ public class InternshipController : ControllerBase
         
         return Ok(response);
     }
+    
+    //[Authorize(Policy = "StudentAccessPolicy")]
+    [HttpGet("{internshipId}/questions")]
+    public async Task<IActionResult> GetInternshipQuestions([FromRoute] int internshipId, [FromQuery] int studentId)
+    {
+        var response = await _mediator.Send(new GetInternshipQuestionsQuery(internshipId));
+        
+        return Ok(response);
+    }
+    
+    [Authorize(Policy = "CompanyAccessPolicy")]
+    [HttpGet("applications/{applicationId}")]
+    public async Task<IActionResult> GetApplicantsPerInternship([FromRoute] int applicationId, [FromQuery] int studentId)
+    {
+        var response = await _mediator.Send(new GetApplicationsQuery(applicationId));
+        
+        return Ok(response);
+    }
+    
+        
+    //[Authorize(Policy = "CompanyAccessPolicy")]
+    [HttpGet("applications/applicantInfo/{applicationId}")]
+    public async Task<IActionResult> GetApplicantInfo([FromRoute] int applicationId, [FromQuery] int studentId, [FromQuery] int companyId)
+    {
+        var response = await _mediator.Send(new GetApplicantAnswersQuery(applicationId, studentId));
+        
+        return Ok(response);
+    }
+    
 }

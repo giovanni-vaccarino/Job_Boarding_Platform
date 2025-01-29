@@ -11,10 +11,13 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../../router.tsx';
+import { useAppSelector } from '../../core/store';
 
 export interface StudentsTableHeader {
   name: string;
   suggestedJob: string;
+  studentId: string;
+  matchId: string;
 }
 
 export interface StudentsTableProps {
@@ -24,6 +27,10 @@ export interface StudentsTableProps {
 export const StudentsTable = (props: StudentsTableProps) => {
   const { students = [] } = props;
   const navigate = useNavigateWrapper();
+  const auth = useAppSelector((state) => state.auth);
+  const companyId = auth.profileId;
+
+  console.log(props);
 
   return (
     <TableContainer
@@ -88,7 +95,7 @@ export const StudentsTable = (props: StudentsTableProps) => {
                 colSpan={3}
                 sx={{ textAlign: 'center', fontStyle: 'italic' }}
               >
-                NO DATA
+                NO AVAILABLE MATCHES
               </TableCell>
             </TableRow>
           ) : (
@@ -122,7 +129,14 @@ export const StudentsTable = (props: StudentsTableProps) => {
                     color="primary"
                     aria-label="view details"
                     onClick={() => {
-                      navigate(AppRoutes.ApplicantDetailPage);
+                      navigate(AppRoutes.ApplicantDetailPage, {
+                        applicationId: '-1',
+                        studentId: row.studentId,
+                        companyId: companyId ? companyId.toString() : '',
+                        matchId: row.matchId,
+                        applicationStatus: 'null',
+                        submissionDate: 'null',
+                      });
                     }}
                   >
                     <VisibilityIcon />

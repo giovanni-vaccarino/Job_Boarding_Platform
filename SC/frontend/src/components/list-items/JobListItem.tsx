@@ -10,6 +10,7 @@ export interface JobListItemProps {
   location: string;
   datePosted: Date;
   important?: boolean;
+  id?: string;
 }
 
 export const JobListItem = (props: JobListItemProps) => {
@@ -41,19 +42,31 @@ export const JobListItem = (props: JobListItemProps) => {
         </Typography>
 
         <Box display="flex" alignItems="center" mt={0.5}>
-          <PlaceIcon sx={{ color: 'primary.main', mr: 0.5 }} />
-          <Typography variant="body2">{props.location}</Typography>
+          {props.location != undefined && (
+            <PlaceIcon sx={{ color: 'primary.main', mr: 0.5 }} />
+          )}
 
-          <TimelineIcon fontSize="small" sx={{ ml: 2, mr: 0.5 }} />
-          <Typography variant="body2">
-            Posted {props.datePosted.toLocaleDateString()}
-          </Typography>
+          {props.location != undefined && (
+            <Typography variant="body2">{props?.location}</Typography>
+          )}
+
+          {props.datePosted != undefined && (
+            <TimelineIcon fontSize="small" sx={{ ml: 2, mr: 0.5 }} />
+          )}
+
+          {props.datePosted != undefined && (
+            <Typography variant="body2">
+              Posted {props.datePosted?.toLocaleDateString()}
+            </Typography>
+          )}
         </Box>
       </Box>
 
       <Button
         variant="contained"
-        onClick={() => navigate(AppRoutes.Job)}
+        onClick={() => {
+          navigate(AppRoutes.Job, { id: props.id ?? '' });
+        }}
         sx={{
           backgroundColor: props.important ? 'red' : 'primary.main',
           color: 'white',

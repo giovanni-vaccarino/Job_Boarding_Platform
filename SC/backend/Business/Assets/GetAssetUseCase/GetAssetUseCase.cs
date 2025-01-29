@@ -46,10 +46,18 @@ public class GetAssetUseCase : IRequestHandler<GetAssetQuery, FileStreamResult>
     public async Task<FileStreamResult> Handle(GetAssetQuery request, CancellationToken cancellationToken)
     {
         var student = await _dbContext.Students.FindAsync(request.StudentId, cancellationToken)
-            ?? throw new InvalidOperationException("Student not found");
+                      ?? throw new InvalidOperationException("Student not found");
+        Console.WriteLine($"Student retrieved: {student.Id}");
 
         var fileKey = LoadCvUseCase.GetUniqueFileKey(student.Id.ToString(), "cv.pdf");
+        Console.WriteLine($"Generated file key: {fileKey}");
+
         var fileStream = await _s3Manager.DownloadFileAsync(fileKey);
+        if (fileStream == null)
+        {
+            throw new InvalidOperationException($"File not found in S3 for key: {fileKey}");
+        }
+        Console.WriteLine($"File stream length: {fileStream.Length}");
 
         var memoryStream = new MemoryStream();
         await fileStream.CopyToAsync(memoryStream);

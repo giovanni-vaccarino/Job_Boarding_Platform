@@ -16,7 +16,7 @@ export class RefreshAuthDecorator extends HttpClientBase {
   private retry: boolean;
 
   private async sendRefreshTokenRequest() {
-    const refreshToken = appStore.getState().auth.refreshToken;
+    const refreshToken = appStore.getState().auth?.refreshToken;
     if (!refreshToken) {
       throw new HttpError(
         401,
@@ -36,10 +36,15 @@ export class RefreshAuthDecorator extends HttpClientBase {
       },
       config
     );
+
+    console.log('RESPONSE:' + response);
+
     appStore.dispatch(
       appActions.auth.successLogin({
         refreshToken: refreshToken,
         accessToken: response.accessToken,
+        profileType: response.profileType,
+        profileId: response.profileId,
       })
     );
   }

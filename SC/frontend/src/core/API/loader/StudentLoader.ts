@@ -6,11 +6,11 @@ export const StudentLoader = async (
   studentId: string
 ): Promise<Student> => {
   try {
-    const studentInfo = await api.getStudentInfo('6');
+    const studentInfo = await api.getStudentInfo(studentId);
     console.log(studentInfo);
     return studentInfo;
   } catch (error) {
-    console.error('Failed to load internships', error);
+    console.error('Failed to load studentInfo', error);
     throw error;
   }
 };

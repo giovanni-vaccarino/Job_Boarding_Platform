@@ -5,36 +5,19 @@ import {
   CompanyJobsTableHeader,
 } from '../tables/CompanyJobsTable.tsx';
 import { Internship } from '../../models/internship/internship.ts';
-
-const exampleData = [
-  {
-    title: 'Frontend Developer',
-    applications: 5,
-    jobType: 'Full Time',
-    location: 'London',
-  },
-  {
-    title: 'Backend Developer',
-    applications: 3,
-    jobType: 'Part Time',
-    location: 'Berlin',
-  },
-  {
-    title: 'Data Scientist',
-    applications: 7,
-    jobType: 'Remote',
-    location: 'San Francisco',
-  },
-];
+import { AppRoutes } from '../../router.tsx';
+import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 
 const mapInternshipToCompanyTableHeader = (
   internship: Internship
 ): CompanyJobsTableHeader => {
   return {
+    id: internship.id,
     title: internship.title,
-    applications: internship.numApplications,
-    jobType: internship.jobType.toString(),
+    applications: internship.numberOfApplications,
+    jobType: internship.jobType?.toString(),
     location: internship.location,
+    internshipId: internship.id.toString(),
   };
 };
 
@@ -43,6 +26,10 @@ export interface CompanyActivityProps {
 }
 
 export const CompanyActivity = (props: CompanyActivityProps) => {
+  const navigate = useNavigateWrapper();
+
+  console.log(props.internship);
+
   return (
     <>
       <TitleHeader title={'Jobs List'} />
@@ -53,6 +40,9 @@ export const CompanyActivity = (props: CompanyActivityProps) => {
             textDecoration: 'underline',
             fontStyle: 'italic',
             mt: '2rem',
+          }}
+          onClick={() => {
+            navigate(AppRoutes.NewJob);
           }}
         >
           Add New Job

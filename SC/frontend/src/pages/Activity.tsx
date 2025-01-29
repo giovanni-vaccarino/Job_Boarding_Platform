@@ -5,7 +5,7 @@ import { TypeProfile } from '../models/auth/register.ts';
 import { withAuth } from '../core/hoc/withAuth.tsx';
 import { Page } from '../components/layout/Page.tsx';
 import { useLoaderData } from 'react-router-dom';
-import { Application } from '../models/application/application.ts';
+import { ApplicationInfo } from '../models/application/application.ts';
 import { Internship } from '../models/internship/internship.ts';
 
 export const Activity = withAuth(() => {
@@ -18,7 +18,7 @@ export const Activity = withAuth(() => {
       {profileType === TypeProfile.Company ? (
         <CompanyActivity internship={useLoaderData() as Internship[]} />
       ) : (
-        <StudentActivity applications={useLoaderData() as Application[]} />
+        <StudentActivity applications={useLoaderData() as ApplicationInfo[]} />
       )}
     </Page>
   );

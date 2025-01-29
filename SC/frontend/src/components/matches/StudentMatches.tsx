@@ -1,53 +1,44 @@
 ﻿import { Box, Stack, Typography } from '@mui/material';
 import { JobListItem } from '../list-items/JobListItem.tsx';
 import { TitleHeader } from '../page-headers/TitleHeader.tsx';
+import { Match } from '../../models/match/match.ts';
 
-const importantJobList = [
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-15'),
-  },
-];
+export interface jobListItem {
+  companyName: string;
+  jobTitle: string;
+  location: string;
+  datePosted: Date;
+  hadInvite?: boolean;
+  jobId?: string;
+  matchId: string;
+}
 
-const jobList = [
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-14'),
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-13'),
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-12'),
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-11'),
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-10'),
-  },
-];
+//TODO inserted in internship company name
 
-export const StudentMatches = () => {
+const mapMatchToStudentsMatches = (match: Match): jobListItem => {
+  return {
+    companyName: match.internship.title,
+    jobTitle: match.internship.title,
+    location: match.internship.location,
+    datePosted: match.internship.dateCreated,
+    hadInvite: match.hasInvite,
+    jobId: match.internship.id.toString(),
+    matchId: match.id,
+  };
+};
+
+export interface StudentMatchesProps {
+  matches: Match[];
+}
+
+export const StudentMatches = (props: StudentMatchesProps) => {
+  const matchesArray = Array.isArray(props.matches) ? props.matches : [];
+  const internshipStudent = matchesArray.map(mapMatchToStudentsMatches);
+
+  console.log("Student's matches" + internshipStudent);
   return (
     <>
-      {Object.keys(importantJobList).length > 0 && (
+      {Object.keys(internshipStudent).length > 0 && (
         <Box
           sx={{
             width: '100%',
@@ -69,16 +60,20 @@ export const StudentMatches = () => {
               alignItems: 'center',
             }}
           >
-            {importantJobList.map((job, index) => (
-              <JobListItem
-                key={index}
-                companyName={job.companyName}
-                jobTitle={job.jobTitle}
-                location={job.location}
-                datePosted={job.datePosted}
-                important={true}
-              />
-            ))}
+            {internshipStudent.map(
+              (job, index) =>
+                job.hadInvite && (
+                  <JobListItem
+                    key={index}
+                    companyName={job.companyName}
+                    jobTitle={job.jobTitle}
+                    location={job.location}
+                    datePosted={job.datePosted}
+                    important={true}
+                    id={job.jobId}
+                  />
+                )
+            )}
           </Stack>
         </Box>
       )}
@@ -104,18 +99,24 @@ export const StudentMatches = () => {
             alignItems: 'center',
           }}
         >
-          {jobList.length > 0 ? (
-            jobList.map((job, index) => (
-              <JobListItem
-                key={index}
-                companyName={job.companyName}
-                jobTitle={job.jobTitle}
-                location={job.location}
-                datePosted={job.datePosted}
-              />
-            ))
+          {internshipStudent.length > 0 ? (
+            internshipStudent.map(
+              (job, index) =>
+                !job.hadInvite && (
+                  <JobListItem
+                    key={index}
+                    companyName={job.companyName}
+                    jobTitle={job.jobTitle}
+                    location={job.location}
+                    datePosted={job.datePosted}
+                    id={job.jobId}
+                  />
+                )
+            )
           ) : (
-            <Typography sx={{ fontStyle: 'italic' }}>NO DATA</Typography>
+            <Typography sx={{ fontStyle: 'italic' }}>
+              NO AVAILABLE MATCHES
+            </Typography>
           )}
         </Stack>
       </Box>

@@ -5,6 +5,7 @@ import {
   Button,
   MenuItem,
   Select,
+  Snackbar,
   TextField,
   Typography,
 } from '@mui/material';
@@ -26,6 +27,13 @@ export const Register = () => {
   const dispatch = useAppDispatch();
 
   const [profile, setProfile] = useState<TypeProfile>(TypeProfile.Student);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <Page>
@@ -146,22 +154,49 @@ export const Register = () => {
               email: email,
               password: password,
               confirmPassword: confirmPassword,
-              profile: profile,
+              profileType: profile,
             };
 
-            console.log(email);
-            const res = await authApi.register(registrationInput);
+            try {
+              console.log(registrationInput);
+              console.log(email);
+              const res = await authApi.register(registrationInput);
 
-            console.log(res);
+              dispatch(appActions.auth.successLogin(res));
+              dispatch(appActions.auth.setProfileType({ type: profile }));
+              navigate(AppRoutes.Profile, {
+                id: res.profileId.toString(),
+              });
+            } catch (error) {
+              const errorMessage = error.message.split('\\r')[0];
 
-            dispatch(appActions.auth.successLogin(res));
-            dispatch(appActions.auth.setProfileType({ type: profile }));
-            navigate(AppRoutes.Profile);
+              console.error(
+                'Full error object:',
+                JSON.stringify(error, null, 2)
+              );
+
+              setSnackbarMessage(errorMessage);
+              setSnackbarOpen(true);
+            }
           }}
         >
           Register
         </Button>
       </Box>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+        sx={{
+          '& .MuiSnackbarContent-root': {
+            backgroundColor: 'red',
+            fontSize: '18px',
+            padding: '16px',
+          },
+        }}
+      />
     </Page>
   );
 };

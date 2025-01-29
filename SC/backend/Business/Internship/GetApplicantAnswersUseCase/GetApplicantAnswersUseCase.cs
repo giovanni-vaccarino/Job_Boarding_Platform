@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Business.Internship.GetApplicantAnswersUseCase;
 
-public class GetApplicantAnswersUseCase : IRequestHandler<GetApplicantAnswersQuery, List<ApplicantResponseDto>>
+public class GetApplicantAnswersUseCase : IRequestHandler<GetApplicantAnswersQuery, ApplicantDetailsResponse>
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -18,27 +18,50 @@ public class GetApplicantAnswersUseCase : IRequestHandler<GetApplicantAnswersQue
         _mapper = mapper;
     }
     
-    public async Task<List<ApplicantResponseDto>> Handle(GetApplicantAnswersQuery request, CancellationToken cancellationToken)
+    public async Task<ApplicantDetailsResponse> Handle(GetApplicantAnswersQuery request, CancellationToken cancellationToken)
     {
         var applicationId = request.ApplicationId;
+        var studentId = request.StudentId;
 
-        var answers = await _dbContext.Answers
-            .Where(answer => answer.ApplicationId == applicationId)
-            .Include(answer => answer.InternshipQuestion)
-            .ThenInclude(iq => iq.Question)
-            .ToListAsync(cancellationToken);
+        var student = await _dbContext.Students
+            .AsNoTracking()
+            .Where(s => s.Id == studentId)
+            .FirstOrDefaultAsync(cancellationToken);
 
-        if (!answers.Any())
+        if (student == null)
         {
-            throw new KeyNotFoundException($"No answers found for Application ID {applicationId}.");
+            throw new KeyNotFoundException($"No student found for Student ID {studentId}.");
         }
 
-        var responseDto = answers.Select(answer => new ApplicantResponseDto
-        {
-            Question = _mapper.Map<QuestionDto>(answer.InternshipQuestion.Question),
-            Answer = answer.StudentAnswer
-        }).ToList();
+        /*
+        var feedbacks = await _dbContext.Feedbacks
+            .Where(f => f.StudentId == studentId)
+            .ToListAsync(cancellationToken);
+        */
+        
 
-        return responseDto;
+        var answers = await _dbContext.Answers
+                .Where(answer => answer.ApplicationId == applicationId)
+                .Include(answer => answer.InternshipQuestion)
+                .ThenInclude(iq => iq.Question)
+                .ToListAsync(cancellationToken);
+
+        var responseDto = answers.Select(answer => new ApplicantResponseDto
+            {
+                Question = answer.InternshipQuestion.Question != null ? _mapper.Map<QuestionDto>(answer.InternshipQuestion.Question) : null,
+                Answer = answer.StudentAnswer
+            }).ToList();
+
+        var applicantDetailsResponse = new ApplicantDetailsResponse
+        {
+            Answers = responseDto.ToArray(),
+            StudentId = student.Id,
+            Name = student.Name,
+            Skills = student.Skills,
+            //Feedbacks = feedbacks.Select(f => _mapper.Map<FeedbackDto>(f)).ToArray()
+            Feedbacks = null
+        };
+
+        return applicantDetailsResponse;
     }
 }

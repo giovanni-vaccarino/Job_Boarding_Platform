@@ -1,4 +1,5 @@
-﻿using backend.Shared.Enums;
+﻿using backend.Service.Contracts.Student;
+using backend.Shared.Enums;
 
 namespace backend.Service.Contracts.Internship;
 
@@ -11,5 +12,9 @@ public class ApplicationDto
     public required ApplicationStatus ApplicationStatus { get; set; }
     
     public required InternshipDto Internship { get; set; }
+    
+    public StudentDto? Student { get; set; }
+    
+    public string? CompanyName { get; set; }
 }
 

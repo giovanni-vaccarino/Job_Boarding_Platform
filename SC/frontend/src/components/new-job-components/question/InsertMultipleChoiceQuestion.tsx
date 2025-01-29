@@ -1,12 +1,30 @@
-import { useState } from 'react';
-import { Box, TextField, Typography, Button, Checkbox } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Button, Checkbox, TextField, Typography } from '@mui/material';
+import { AddQuestionDto } from '../../../models/internship/internship.ts';
+import { QuestionType } from '../../../models/company/company.ts';
 
-export const InsertMultipleChoiceQuestion = () => {
-  const [isVisible, setIsVisible] = useState(true); // Control visibility of the question section
+interface MultipleChoiceAnswer {
+  id: number;
+  value: string;
+  selected: boolean;
+}
+
+interface InsertMultipleChoiceQuestionProps {
+  id: number;
+  onSave: (id: number, question: AddQuestionDto) => void;
+  onRemove: (id: number) => void;
+}
+
+export const InsertMultipleChoiceQuestion = ({
+  id,
+  onSave,
+  onRemove,
+}: InsertMultipleChoiceQuestionProps) => {
+  const [isVisible, setIsVisible] = useState(true);
   const [textField, setTextField] = useState('');
-  const [answers, setAnswers] = useState([
+  const [answers, setAnswers] = useState<MultipleChoiceAnswer[]>([
     { id: 1, value: '', selected: false },
-  ]); // Manage answers
+  ]);
 
   const handleAddAnswer = () => {
     setAnswers([
@@ -15,25 +33,48 @@ export const InsertMultipleChoiceQuestion = () => {
     ]);
   };
 
-  const handleRemoveAnswer = (id: number) => {
-    setAnswers(answers.filter((answer) => answer.id !== id));
+  const handleRemoveAnswer = (answerId: number) => {
+    setAnswers(answers.filter((answer) => answer.id !== answerId));
   };
 
-  const handleAnswerChange = (id: number, value: string) => {
+  const handleAnswerChange = (answerId: number, value: string) => {
     setAnswers(
       answers.map((answer) =>
-        answer.id === id ? { ...answer, value } : answer
+        answer.id === answerId ? { ...answer, value } : answer
       )
     );
   };
 
-  const handleToggleSelect = (id: number) => {
+  const handleToggleSelect = (answerId: number) => {
     setAnswers(
       answers.map((answer) =>
-        answer.id === id ? { ...answer, selected: !answer.selected } : answer
+        answer.id === answerId
+          ? { ...answer, selected: !answer.selected }
+          : answer
       )
     );
   };
+
+  const handleRemoveQuestion = () => {
+    if (onRemove) {
+      onRemove(id);
+    }
+    setIsVisible(false);
+  };
+
+  const handleSave = () => {
+    const question: AddQuestionDto = {
+      Title: textField,
+      QuestionType: QuestionType.MultipleChoice,
+      Options: answers.map((answer) => answer.value),
+    };
+
+    onSave(id, question);
+  };
+
+  useEffect(() => {
+    handleSave();
+  }, [textField, answers]);
 
   return (
     isVisible && (
@@ -72,7 +113,7 @@ export const InsertMultipleChoiceQuestion = () => {
             <Typography>Multiple Choice</Typography>
           </Box>
           <Button
-            onClick={() => setIsVisible(false)}
+            onClick={handleRemoveQuestion}
             sx={{
               minWidth: '2.5rem',
               height: '2.5rem',
