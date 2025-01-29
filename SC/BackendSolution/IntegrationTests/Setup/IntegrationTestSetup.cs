@@ -227,6 +227,15 @@ public class IntegrationTestSetup : WebApplicationFactory<Program>
                     v => JsonSerializer.Deserialize<List<string>>(v, new JsonSerializerOptions()) ?? new List<string>()
                 ).Metadata.SetValueComparer(listValueComparer);
         });
+        
+        modelBuilder.Entity<backend.Data.Entities.Question>(entity =>
+        {
+            entity.Property(q => q.Options)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<List<string>>(v, new JsonSerializerOptions()) ?? new List<string>()
+                ).Metadata.SetValueComparer(listValueComparer);
+        });
     }
 
 }

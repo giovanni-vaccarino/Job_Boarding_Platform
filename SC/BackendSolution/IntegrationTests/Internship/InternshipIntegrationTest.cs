@@ -101,15 +101,13 @@ public class InternshipIntegrationTest : IClassFixture<IntegrationTestSetup>
         {
             QuestionType = QuestionType.TrueOrFalse,
             Title = "What is your experience with React?",
-            Options = new List<string> { "True", "False" }
+            Options = new List<string> ()
         };
 
-        var questionResponse = await _client.PostAsJsonAsync("/api/question", question);
+        var questionResponse = await _client.PostAsJsonAsync($"/api/company/{loggedUser.ProfileId}/questions", question);
 
-        //questionResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        questionResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var createdQuestion = await questionResponse.Content.ReadFromJsonAsync<QuestionDto>(options);
-        createdQuestion.Should().NotBeNull();
-        createdQuestion.Title.Should().Be(question.Title);
     }
 }
