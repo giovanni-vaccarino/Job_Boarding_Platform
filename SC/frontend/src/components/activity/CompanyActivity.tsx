@@ -12,6 +12,7 @@ const mapInternshipToCompanyTableHeader = (
   internship: Internship
 ): CompanyJobsTableHeader => {
   return {
+    id: internship.id,
     title: internship.title,
     applications: internship.numberOfApplications,
     jobType: internship.jobType?.toString(),

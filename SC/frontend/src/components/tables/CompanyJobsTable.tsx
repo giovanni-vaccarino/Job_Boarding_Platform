@@ -15,6 +15,7 @@ import { AppRoutes } from '../../router.tsx';
 import { useAppSelector } from '../../core/store';
 
 export interface CompanyJobsTableHeader {
+  id: string;
   title: string;
   applications: number; // Number of applications received
   jobType: string; // Job Type (e.g., Full Time)
@@ -112,7 +113,7 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
           ) : (
             jobs.map((row, index) => (
               <TableRow key={index}>
-                <TableCell sx={{ width: '10%' }}>{row.title}</TableCell>
+                <TableCell sx={{ width: '10%', cursor: 'pointer', textDecoration: 'underline' }} onClick={() => navigate(AppRoutes.Job, {id: row.id})}>{row.title}</TableCell>
                 <TableCell sx={{ textAlign: 'center', width: '40%' }}>
                   {row.applications}
                 </TableCell>

@@ -16,6 +16,7 @@ import {
   SkillsType,
 } from '../models/internship/internship.ts';
 import { appActions, useAppDispatch } from '../core/store';
+import { InsertMultipleChoiceMultiSelect } from '../components/new-job-components/InsertMultipleChoiceMultiSelect.tsx';
 
 export const NewJob = () => {
   const navigate = useNavigateWrapper();
@@ -174,11 +175,11 @@ export const NewJob = () => {
               )}
               onChange={(value) => setJobType(value as JobType)}
             />
-
-            <InsertMultipleChoice
+            <InsertMultipleChoiceMultiSelect
               titleMultipleChoice={'Skills'}
               isRequired={true}
               label={'Skills'}
+              selectedValues={skills as string[]}
               options={Object.values(SkillsType).filter(
                 (value) => typeof value === 'string'
               )}
