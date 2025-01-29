@@ -25,7 +25,7 @@ public class GetApplicationsUseCase : IRequestHandler<GetApplicationsQuery, List
         var applications = await _dbContext.Applications
             .Where(app => app.InternshipId == internshipId)
             .Include(app => app.Internship)
-            .Include(app => app.Student) // Include the Student entity
+            .Include(app => app.Student)
             .ToListAsync(cancellationToken);
 
         var applicationsToReturn = applications.Select(app => new ApplicationDto
@@ -34,7 +34,7 @@ public class GetApplicationsUseCase : IRequestHandler<GetApplicationsQuery, List
             SubmissionDate = app.CreatedAt,
             ApplicationStatus = app.ApplicationStatus,
             Internship = _mapper.Map<InternshipDto>(app.Internship),
-            Student = app.Student != null ? _mapper.Map<StudentDto>(app.Student) : null
+            Student = _mapper.Map<StudentDto>(app.Student)
         }).ToList();
         
         

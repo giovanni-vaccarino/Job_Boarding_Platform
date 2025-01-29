@@ -61,7 +61,9 @@ public class InternshipIntegrationTest : IClassFixture<IntegrationTestSetup>
             Location = "Remote",
             JobCategory = JobCategory.Engineering,
             JobType = JobType.FullTime,
-            Requirements = new List<string> { "React", "Javascript" }
+            Requirements = new List<string> { "React", "Javascript" },
+            NumberOfApplications = 0,
+            companyId = loggedUser.ProfileId
         };
 
         var addJobDetails = new AddJobDetailsDto()
