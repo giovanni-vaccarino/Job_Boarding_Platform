@@ -5,7 +5,7 @@ namespace backend.Service.Contracts.Internship;
 
 public class InternshipDto
 {
-    public required int Id { get; set; }
+    public int Id { get; set; }
     
     public required DateTime DateCreated { get; set; }
 

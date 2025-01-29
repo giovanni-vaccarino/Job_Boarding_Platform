@@ -3,12 +3,15 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using backend.Service.Contracts.Auth;
 using backend.Service.Contracts.Internship;
 using backend.Service.Contracts.Student;
+using backend.Shared.EmailService;
 using backend.Shared.Enums;
 using FluentAssertions;
 using IntegrationTests.Setup;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using Xunit.Abstractions;
 using JsonException = Newtonsoft.Json.JsonException;
@@ -119,7 +122,43 @@ public class StudentIntegrationTests : IClassFixture<IntegrationTestSetup>
         // Register the student profile
         var studentRegistration = new UserRegisterDto
         {
-            Email = "student2@test.com",
+            Email = "student3@test.com",
+            Password = "Password123!",
+            ConfirmPassword = "Password123!",
+            ProfileType = ProfileType.Student
+        };
+        
+        var creationResponse = await _client.PostAsJsonAsync("/api/authentication/register", studentRegistration);
+
+        creationResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var createdUser = await creationResponse.Content.ReadFromJsonAsync<TokenResponse>();
+        createdUser.Should().NotBeNull();
+        createdUser.AccessToken.Should().NotBeNullOrEmpty();
+        createdUser.RefreshToken.Should().NotBeNullOrEmpty();
+        
+
+        _client.DefaultRequestHeaders.Authorization =
+            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", createdUser.AccessToken);
+
+        // Retrieve internship details
+        var studentId = createdUser.ProfileId; // Assuming an internship with ID 1 exists
+        var studentResponse = await _client.GetAsync($"/api/student/{studentId}");
+
+        studentResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        
+        var student = await studentResponse.Content.ReadFromJsonAsync<StudentDto>();
+        
+        Console.WriteLine(student.Name);
+    }
+
+
+    [Fact]
+    public async Task StudentGetApplication()
+    {
+        var studentRegistration = new UserRegisterDto
+        {
+            Email = "student4@test.com",
             Password = "Password123!",
             ConfirmPassword = "Password123!",
             ProfileType = ProfileType.Student
@@ -139,10 +178,56 @@ public class StudentIntegrationTests : IClassFixture<IntegrationTestSetup>
 
         // Retrieve internship details
         var studentId = createdUser.ProfileId; // Assuming an internship with ID 1 exists
-        var studentResponse = await _client.GetAsync($"/api/student/{studentId}");
+        var studentResponse = await _client.GetAsync($"/api/student/{studentId}/applications");
 
         studentResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         
-        var student = await studentResponse.Content.ReadFromJsonAsync<StudentDto>();
+        var applications = await studentResponse.Content.ReadFromJsonAsync<List<ApplicationDto>>();
+        
+        Console.WriteLine(applications);
     }
+
+    [Fact]
+    public async Task StudentApplyToInternship()
+    {
+        var studentLogin = new UserLoginDto
+        {
+            Email = "student1@gmail.com",
+            Password = "Password123!"
+        };
+        
+        var loginResponse = await _client.PostAsJsonAsync("/api/authentication/login", studentLogin);
+        
+        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        
+        var createdUser = await loginResponse.Content.ReadFromJsonAsync<TokenResponse>();
+        
+        _client.DefaultRequestHeaders.Authorization =
+            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", createdUser.AccessToken);
+        
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            Converters =
+            {
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            }
+        };
+
+
+        // Retrieve internship details
+        var studentId = createdUser.ProfileId; // Assuming an internship with ID 1 exists
+        var applyToInternship = await _client.PostAsJsonAsync($"/api/internship/apply-internship/{studentId}?internshipId=1", studentId );
+
+        applyToInternship.StatusCode.Should().Be(HttpStatusCode.OK);
+        
+        var applications = await applyToInternship.Content.ReadFromJsonAsync<ApplicationDto>(options);
+        
+    }
+    
+    
+    
+    
+    
+    
 }

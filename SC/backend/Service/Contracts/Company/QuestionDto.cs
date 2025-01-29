@@ -6,7 +6,7 @@ namespace backend.Service.Contracts.Company;
 public class QuestionDto
 {
     [Required]
-    public required int Id { get; set; }
+    public int Id { get; set; }
     
     [MaxLength(255)]
     [Required]
