@@ -14,7 +14,7 @@ export function StartPopup() {
 
   const handleCancel = () => {
     setOpen(false); // Close the popup.
-    navigate(AppRoutes.Activity);
+    navigate(AppRoutes.Home);
   };
 
   return (
