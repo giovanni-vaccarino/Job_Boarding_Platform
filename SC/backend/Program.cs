@@ -9,6 +9,10 @@ using backend.Shared.EmailService;
 using backend.Shared.MatchingBackgroundService;
 using backend.Shared.StorageService;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
+
 var builder = WebApplication.CreateBuilder(args);
 
         // Add logging configuration
@@ -27,6 +31,13 @@ var builder = WebApplication.CreateBuilder(args);
                     .AllowAnyMethod();
             });
         });
+
+        builder.Services.Configure<JsonOptions>(options =>
+        {
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            options.SerializerOptions.Converters.Add(new ProfileTypeConverter()); 
+        });
+
 
         var configuration = builder.Configuration;
 

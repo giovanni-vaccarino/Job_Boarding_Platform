@@ -3,8 +3,10 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using backend.Migrations;
 using backend.Service.Contracts.Auth;
 using backend.Service.Contracts.Company;
+using backend.Service.Contracts.Feedback;
 using backend.Service.Contracts.Internship;
 using backend.Shared.Enums;
 using FluentAssertions;
@@ -112,4 +114,126 @@ public class InternshipIntegrationTest : IClassFixture<IntegrationTestSetup>
 
         var createdQuestion = await questionResponse.Content.ReadFromJsonAsync<QuestionDto>(options);
     }
+
+[Fact]
+public async Task StudentRetrieveApplicationAnswerTheQuestionAndSendFeedback()
+{
+    var options = new JsonSerializerOptions
+    {
+        PropertyNameCaseInsensitive = true,
+        Converters =
+        {
+            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+        }
+    };
+    // Login the company to the backend in order to retrieve the companyId
+    var userLogin = new UserLoginDto()
+    {
+        Email = "student1@gmail.com",
+        Password = "Password123!"
+    };
+        
+    var loginResponse = await _client.PostAsJsonAsync("/api/authentication/login", userLogin);
+
+    loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+    var loggedUser = await loginResponse.Content.ReadFromJsonAsync<TokenResponse>();
+
+    _client.DefaultRequestHeaders.Authorization =
+        new AuthenticationHeaderValue("Bearer", loggedUser.AccessToken);
+    
+    // Retrieve the first application of the student
+
+    var applicationResponse = await _client.GetAsync($"api/student/{loggedUser.ProfileId}/applications");
+    
+    applicationResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    var applications = await applicationResponse.Content.ReadFromJsonAsync<List<ApplicationDto>>(options);
+
+    // Answer the question
+    
+    var singleAnswerResponse = new List<string> { "Begginer" };
+
+    var singleAnswer= new SingleAnswerQuestion()
+    {
+        QuestionId = 1,
+        Answer = singleAnswerResponse
+    };
+    
+    var answerQuestions = new AnswerQuestionsDto()
+    {
+        Questions = new List<SingleAnswerQuestion>() { singleAnswer }
+    };
+    
+    var answerQuestionResponse = await _client.PostAsJsonAsync($"/api/internship/applications/{applications[0].Id}?studentId={loggedUser.ProfileId}", answerQuestions);
+    
+    answerQuestionResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    
+    //Company login to the backend
+    
+    var companyLogin = new UserLoginDto()
+    {
+        Email = "company1@gmail.com",
+        Password = "Password123!"
+    };
+        
+    var loginResponseCompany = await _client.PostAsJsonAsync("/api/authentication/login", companyLogin);
+
+    loginResponseCompany.StatusCode.Should().Be(HttpStatusCode.OK);
+
+    var loggedUserCompany = await loginResponseCompany.Content.ReadFromJsonAsync<TokenResponse>(options);
+
+    _client.DefaultRequestHeaders.Authorization =
+        new AuthenticationHeaderValue("Bearer", loggedUserCompany.AccessToken);
+
+    
+    
+    //Update the status and send Feedback to the student
+    
+    var updateStatus = new UpdateStatusApplicationDto()
+    {
+        Status = ApplicationStatus.Accepted,
+    };
+    
+    var updateStatusResponse = await _client.PatchAsJsonAsync($"/api/internship/applications/{applications[1].Id}?companyId={loggedUserCompany.ProfileId}", updateStatus);
+    
+    updateStatusResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+
+    var feedbackCompanyInternship = new AddInternshipFeedbackDto()
+    {
+        Text = "Great job!",
+        Rating = Rating.FourStars,
+        ProfileId = loggedUser.ProfileId,
+        ApplicationId = applications[0].Id,
+        Actor = ProfileType.Company
+    };
+    
+    var feedbackStudentInternship = new AddInternshipFeedbackDto()
+    {
+        Text = "Great job!",
+        Rating = Rating.FourStars,
+        ProfileId = loggedUser.ProfileId,
+        ApplicationId = applications[0].Id,
+        Actor = ProfileType.Company
+    };
+    
+    
+    var feedbackResponseCompany = await _client.PostAsJsonAsync($"/api/feedback/internship", feedbackCompanyInternship);
+    
+    feedbackResponseCompany.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    //Send the feedback of the Student related to the application
+    var feedbackResponseStudent = await _client.PostAsJsonAsync("/api/feedback/internship", feedbackStudentInternship);
+
+    feedbackResponseStudent.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    //Retrieve applicant information
+    
+    //var feedbackRetrievedStudent = await _client.GetAsync($"/api/feedback/internship/{applications[0].Id}");
+    
+}
+
+
 }
