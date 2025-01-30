@@ -82,6 +82,12 @@ public class StudentIntegrationTests : IClassFixture<IntegrationTestSetup>
         var cvLoadResponse = await _client.PostAsync($"/api/student/cv/{createdUser.ProfileId}", content);
 
         cvLoadResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        
+        // Retrieve the student CV
+        
+        var cvResponse = await _client.GetAsync($"/api/assets/{createdUser.ProfileId}");
+        
+        cvResponse.StatusCode.Should().Be(HttpStatusCode.OK);
     }
     
 
@@ -217,11 +223,18 @@ public class StudentIntegrationTests : IClassFixture<IntegrationTestSetup>
 
         // Retrieve internship details
         var studentId = createdUser.ProfileId; // Assuming an internship with ID 1 exists
-        var applyToInternship = await _client.PostAsJsonAsync($"/api/internship/apply-internship/{studentId}?internshipId=1", studentId );
+        var applyToInternship = await _client.PostAsJsonAsync($"/api/internship/apply-internship/{studentId}?internshipId=2", studentId );
 
         applyToInternship.StatusCode.Should().Be(HttpStatusCode.OK);
         
         var applications = await applyToInternship.Content.ReadFromJsonAsync<ApplicationDto>(options);
+        
+        
+        //Retrieve matches for the student
+        
+        var matchesResponse = await _client.GetAsync($"/api/matches/student/{studentId}");
+        
+        matchesResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         
     }
     

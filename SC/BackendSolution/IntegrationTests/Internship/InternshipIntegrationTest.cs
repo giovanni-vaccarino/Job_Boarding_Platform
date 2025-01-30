@@ -8,6 +8,7 @@ using backend.Service.Contracts.Auth;
 using backend.Service.Contracts.Company;
 using backend.Service.Contracts.Feedback;
 using backend.Service.Contracts.Internship;
+using backend.Service.Contracts.Match;
 using backend.Shared.Enums;
 using FluentAssertions;
 using IntegrationTests.Setup;
@@ -196,7 +197,7 @@ public async Task StudentRetrieveApplicationAnswerTheQuestionAndSendFeedback()
         Status = ApplicationStatus.Accepted,
     };
     
-    var updateStatusResponse = await _client.PatchAsJsonAsync($"/api/internship/applications/{applications[1].Id}?companyId={loggedUserCompany.ProfileId}", updateStatus);
+    var updateStatusResponse = await _client.PatchAsJsonAsync($"/api/internship/applications/{applications[0].Id}?companyId={loggedUserCompany.ProfileId}", updateStatus);
     
     updateStatusResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -233,7 +234,112 @@ public async Task StudentRetrieveApplicationAnswerTheQuestionAndSendFeedback()
     
     //var feedbackRetrievedStudent = await _client.GetAsync($"/api/feedback/internship/{applications[0].Id}");
     
+    //Retrieve all the internship 
+    
+    var allInternship = await _client.GetAsync("/api/internship");
+    
+    allInternship.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    var internships = await allInternship.Content.ReadFromJsonAsync<List<InternshipDto>>(options);
+    
+    //Retrieve the applicant of the internship
+    
+    var applicants = await _client.GetAsync($"/api/internship/{internships[0].Id}/applications?companyId={loggedUser.ProfileId}");
+    
+    applicants.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    //retreive the internship question
+    
+    var internshipQuestion = await _client.GetAsync($"/api/internship/{internships[0].Id}/questions");
+    
+    internshipQuestion.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    var questions = await internshipQuestion.Content.ReadFromJsonAsync<List<QuestionDto>>(options);
+    
+    //Retrieve the details of the internship
+    
+    var internshipDetails = await _client.GetAsync($"/api/internship/{internships[0].Id}");
+    
+    internshipDetails.StatusCode.Should().Be(HttpStatusCode.OK);
+        
+    //Retrieve applicant details
+    
+    var applicantDetails = await _client.GetAsync($"/api/internship/applications/applicantInfo/{applications[0].Id}?studentId=1&companyId={loggedUser.ProfileId}");
+    
+    applicantDetails.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    //Retrieve the company matches
+    
+    var companyMatches = await _client.GetAsync($"/api/matches/company/{loggedUser.ProfileId}");
+    
+    companyMatches.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    var matches = await companyMatches.Content.ReadFromJsonAsync<List<MatchDto>>(options);
+    
+    //Invite the student
+    
+    var inviteStudent = await _client.PatchAsJsonAsync($"/api/matches/{matches[0].Id}?companyId={loggedUserCompany.ProfileId}", matches[0].Id);
+    
+    inviteStudent.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    
+    //The student accept the match
+    
+    var acceptMatch = await _client.PostAsJsonAsync($"/api/matches/{matches[0].Id}?studentId={loggedUser.ProfileId}", matches[0].Id);
+    
+    acceptMatch.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    
 }
+
+
+[Fact]
+public async Task AuthenticationFlowOfCompany()
+{
+    var options = new JsonSerializerOptions
+    {
+        PropertyNameCaseInsensitive = true,
+        Converters =
+        {
+            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+        }
+    };
+    // Login the company to the backend in order to retrieve the companyId
+    var userLogin = new UserLoginDto()
+    {
+        Email = "company1@gmail.com",
+        Password = "Password123!"
+    };
+        
+    var loginResponse = await _client.PostAsJsonAsync("/api/authentication/login", userLogin);
+
+    loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+    var loggedUser = await loginResponse.Content.ReadFromJsonAsync<TokenResponse>();
+
+    _client.DefaultRequestHeaders.Authorization =
+        new AuthenticationHeaderValue("Bearer", loggedUser.AccessToken);
+    
+    // Refresh the token of the company
+    
+    var refreshToken = new RefreshTokenDto()
+    {
+        RefreshToken = loggedUser.RefreshToken
+    };
+    
+    var refreshTokenResponse = await _client.PostAsJsonAsync("/api/authentication/refresh", refreshToken);
+    
+    //refreshTokenResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    //Logout the company
+    
+    var logoutResponse = await _client.PostAsJsonAsync("/api/authentication/logout", refreshToken);
+    
+    logoutResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+}
+
+
 
 
 }

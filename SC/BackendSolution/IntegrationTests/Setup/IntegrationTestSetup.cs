@@ -133,17 +133,6 @@ public class IntegrationTestSetup : WebApplicationFactory<Program>
         dbContext.Applications.Add(Application0);
         await dbContext.SaveChangesAsync();
         
-        var Application1 = new Application
-        {
-            InternshipId = internship1.Id,
-            Internship = internship1,
-            StudentId = student0.Id,
-            Student = student0,
-            ApplicationStatus = ApplicationStatus.Screening
-        };
-        
-        dbContext.Applications.Add(Application1);
-        await dbContext.SaveChangesAsync();
         
         var question0 = new Question()
         {
@@ -189,6 +178,18 @@ public class IntegrationTestSetup : WebApplicationFactory<Program>
         };
         
         dbContext.InternshipQuestions.Add(internshipQuestion1);
+        await dbContext.SaveChangesAsync();
+        
+        var match0 = new Match()
+        {
+            HasInvite = false,
+            StudentId = student0.Id,
+            Student = student0,
+            InternshipId = internship0.Id,
+            Internship = internship0
+        };
+        
+        dbContext.Matches.Add(match0);
         await dbContext.SaveChangesAsync();
 
     }
