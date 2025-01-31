@@ -6,6 +6,11 @@ import { appActions, useAppDispatch, useAppSelector } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { useLocation } from 'react-router-dom';
 import { Tab } from '../core/store/slices/global.ts';
+import { useEffect, useState } from 'react';
+import { SendVerificationMailDto, VerifyMailDto } from '../models/auth/login.ts';
+import { useService } from '../core/ioc/ioc-provider.tsx';
+import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
+import { ServiceType } from '../core/ioc/service-type.ts';
 
 export const VerifyEmail = () => {
   const authState = useAppSelector((state) => state.auth);
@@ -14,6 +19,27 @@ export const VerifyEmail = () => {
   const dispatch = useAppDispatch();
   const search = useLocation().search;
   const token = new URLSearchParams(search).get('token');
+  const authApi = useService<IAuthApi>(ServiceType.AuthApi);
+
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const handleVerificationMail = async () => {
+      const dto: VerifyMailDto = {
+        VerificationToken: token,
+      };
+
+      try {
+        await authApi.verifyMail(dto);
+        setMessage("Email Verified!");
+      } catch (error) {
+        console.error('Error sending verification mail:', error);
+        setMessage("Email Not Verified!");
+      }
+    }
+
+    handleVerificationMail();
+  }, []);
 
   if (token === null) {
     navigate(AppRoutes.Profile);
@@ -30,7 +56,7 @@ export const VerifyEmail = () => {
           mt: '13rem',
         }}
       >
-        <TitleHeader title={"Email Verified!"} />
+        <TitleHeader title={message} />
 
         <Box
           sx={{

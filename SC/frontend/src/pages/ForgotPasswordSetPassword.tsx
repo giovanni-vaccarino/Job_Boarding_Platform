@@ -107,7 +107,7 @@ export const ForgotPasswordSetPassword = () => {
                 Password: password,
               };
 
-              authApi.resetPassword(updatedPassword);
+              await authApi.resetPassword(updatedPassword);
 
               dispatch(
                 appActions.global.setConfirmMessage({
