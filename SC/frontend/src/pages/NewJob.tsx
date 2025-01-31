@@ -7,12 +7,12 @@ import { InsertTextField } from '../components/new-job-components/InsertTextFiel
 import { AppRoutes } from '../router.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import {
-  AddInternshipDto,
-  AddJobDetailsDto,
-  AddQuestionDto,
-  JobCategory,
-  JobType,
-  SkillsType,
+    AddInternshipDto,
+    AddJobDetailsDto,
+    AddQuestionDto, DurationType,
+    JobCategory,
+    JobType,
+    SkillsType,
 } from '../models/internship/internship.ts';
 import { appActions, useAppDispatch } from '../core/store';
 import { InsertMultipleChoiceMultiSelect } from '../components/new-job-components/InsertMultipleChoiceMultiSelect.tsx';
@@ -213,7 +213,7 @@ export const NewJob = () => {
             const newInternship: AddInternshipDto = {
               JobDetails: {
                 Title: jobTitle,
-                Duration: 'TwoToThreeMonths',
+                Duration: DurationType['TwoToThreeMonths'],
                 Description: jobDescription,
                 ApplicationDeadline: date,
                 Location: jobLocation,
