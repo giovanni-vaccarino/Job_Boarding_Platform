@@ -118,7 +118,7 @@ export const Login = () => {
               });
               setInterval(function () {
                 window.location.reload();
-              }, 1000);
+              }, 500);
             } catch (error: any) {
               const errorMessage = error.message.split('\\r')[0];
               console.log(error.message);

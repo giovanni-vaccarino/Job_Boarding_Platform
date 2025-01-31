@@ -16,6 +16,7 @@ import {
 } from '../models/internship/internship.ts';
 import { appActions, useAppDispatch } from '../core/store';
 import { InsertMultipleChoiceMultiSelect } from '../components/new-job-components/InsertMultipleChoiceMultiSelect.tsx';
+import { RowComponent } from '../components/profile-components/RowComponent.tsx';
 
 export const NewJob = () => {
   const navigate = useNavigateWrapper();
@@ -33,7 +34,7 @@ export const NewJob = () => {
 
   const [jobCategory, setJobCategory] = useState<JobCategory | undefined>();
   const [jobType, setJobType] = useState<JobType | undefined>();
-  const [skills, setSkills] = useState<SkillsType[]>([]);
+  const [skills, setSkills] = useState<string[]>([]);
 
   useEffect(() => {
     const validateDate = () => {
@@ -65,7 +66,8 @@ export const NewJob = () => {
     jobTitle.trim() !== '' &&
     jobLocation.trim() !== '' &&
     jobDescription.trim() !== '' &&
-    isDateValid;
+    isDateValid &&
+    skills.length > 0;
 
   return (
     <Page>
@@ -174,16 +176,23 @@ export const NewJob = () => {
               )}
               onChange={(value) => setJobType(value as JobType)}
             />
-            <InsertMultipleChoiceMultiSelect
-              titleMultipleChoice={'Skills'}
-              isRequired={true}
-              label={'Skills'}
-              selectedValues={skills as string[]}
-              options={Object.values(SkillsType).filter(
-                (value) => typeof value === 'string'
-              )}
-              onChange={(value) => setSkills(value as SkillsType[])}
+            <RowComponent
+              label="Skills"
+              value={skills}
+              buttons={['edit']}
+              fieldKey={'skills'}
+              onFieldChange={(_, value) => setSkills(Array.isArray(value) ? value : [])}
             />
+            {/*<InsertMultipleChoiceMultiSelect*/}
+            {/*  titleMultipleChoice={'Skills'}*/}
+            {/*  isRequired={true}*/}
+            {/*  label={'Skills'}*/}
+            {/*  selectedValues={skills as string[]}*/}
+            {/*  options={Object.values(SkillsType).filter(*/}
+            {/*    (value) => typeof value === 'string'*/}
+            {/*  )}*/}
+            {/*  onChange={(value) => setSkills(value as SkillsType[])}*/}
+            {/*/>*/}
           </Box>
         </Box>
         <Box sx={{ mt: '1rem' }}>
@@ -200,16 +209,14 @@ export const NewJob = () => {
       {requiredTextFilled && (
         <Button
           onClick={() => {
-            const requirements: string[] = [];
-            if (typeof skills === 'string') {
-              requirements.push(skills);
-            }
+            const requirements: string[] = [...skills];
             const date =
               year +
               '-' +
               String(month).padStart(2, '0') +
               '-' +
               String(day).padStart(2, '0');
+
             const newInternship: AddInternshipDto = {
               JobDetails: {
                 Title: jobTitle,
@@ -224,6 +231,7 @@ export const NewJob = () => {
               Questions: [] as AddQuestionDto[],
               ExistingQuestions: [] as number[],
             };
+
 
             console.log('New Internship Object:', newInternship);
 

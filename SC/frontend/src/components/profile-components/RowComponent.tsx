@@ -78,7 +78,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
           flex: '1',
         }}
       >
-        <Typography sx={{ fontSize: '1.2rem', fontWeight: '500' }}>
+        <Typography sx={{ fontWeight: 'bold', mb: '0.5rem', ml: '0.5rem' }}>
           {props.label}
         </Typography>
         {props.buttons.includes('edit') && props.label != 'CV' ? (
