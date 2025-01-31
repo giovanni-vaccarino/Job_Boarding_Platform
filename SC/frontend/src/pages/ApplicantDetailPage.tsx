@@ -179,13 +179,13 @@ export const ApplicantDetailPage = () => {
           <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
             Feedback:
           </Typography>
-          {feedbackMockUp.map((feedback, index) => (
+          {student.feedback?.map((feedback, index) => (
             <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography
                 sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
               >{`${index + 1})`}</Typography>
               <ViewFeedback
-                feedbackText={feedback.feedbackText}
+                feedbackText={feedback.description}
                 rating={feedback.rating}
               />
             </Box>
