@@ -113,8 +113,7 @@ export const OnlineAssessment = () => {
         variant="contained"
         color="primary"
         disabled={!isLogged}
-        onClick={
-          async () => {
+        onClick={async () => {
           const answerResponse: AnswerResponse[] = Object.entries(answers).map(
             ([id, value]) => ({
               questionId: Number(id), // Ensure questionId is a number

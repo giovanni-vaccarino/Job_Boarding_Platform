@@ -7,11 +7,12 @@ import { InsertTextField } from '../components/new-job-components/InsertTextFiel
 import { AppRoutes } from '../router.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import {
-    AddInternshipDto,
-    AddJobDetailsDto,
-    AddQuestionDto, DurationType,
-    JobCategory,
-    JobType,
+  AddInternshipDto,
+  AddJobDetailsDto,
+  AddQuestionDto,
+  DurationType,
+  JobCategory,
+  JobType,
 } from '../models/internship/internship.ts';
 import { appActions, useAppDispatch } from '../core/store';
 import { RowComponent } from '../components/profile-components/RowComponent.tsx';
@@ -179,7 +180,9 @@ export const NewJob = () => {
               value={skills}
               buttons={['edit']}
               fieldKey={'skills'}
-              onFieldChange={(_, value) => setSkills(Array.isArray(value) ? value : [])}
+              onFieldChange={(_, value) =>
+                setSkills(Array.isArray(value) ? value : [])
+              }
             />
             {/*<InsertMultipleChoiceMultiSelect*/}
             {/*  titleMultipleChoice={'Skills'}*/}
@@ -229,7 +232,6 @@ export const NewJob = () => {
               Questions: [] as AddQuestionDto[],
               ExistingQuestions: [] as number[],
             };
-
 
             console.log('New Internship Object:', newInternship);
 
