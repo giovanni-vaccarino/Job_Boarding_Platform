@@ -35,6 +35,7 @@ import { InternshipLoader } from './core/API/loader/InternshipLoader.ts';
 import { ApplicationDetailsLoader } from './core/API/loader/ApplicationDetailsLoader.ts';
 import { QuestionLoader } from './core/API/loader/QuestionLoader.ts';
 import { ApplicationsPerInternship } from './core/API/loader/ApplicationsPerInternship.ts';
+import { VerifyEmail } from './pages/VerifyEmail.tsx';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
@@ -55,6 +56,7 @@ export const AppRoutes = Object.freeze({
   NewJob: '/new-job',
   ApplicantDetailPage:
     '/applicant-detail-page/:applicationId/:studentId/:companyId/:matchId/:applicationStatus/:submissionDate?',
+  VerifyEmailPage:'/verify-email',
 });
 
 export const useAppRouter = () => {
@@ -169,6 +171,10 @@ export const useAppRouter = () => {
           ),
         element: <ReceivedApplication />,
       },
+      {
+        path: AppRoutes.VerifyEmailPage,
+        element: <VerifyEmail />,
+      }
     ],
     {
       future: {

@@ -3,7 +3,7 @@ import { ApiBase } from '../setup-api/api-base/ApiBase';
 import {
   LoginInput,
   LoginResponse,
-  SendVerificationEmailDto,
+  SendVerificationMailDto,
   UpdatePasswordDto,
   VerifyMailDto,
 } from '../../../models/auth/login';
@@ -33,8 +33,8 @@ export class AuthApi extends ApiBase implements IAuthApi {
       input
     );
   }
-  async sendResetPassword(dto: SendVerificationEmailDto): Promise<string> {
-    return await this.httpClient.post<SendVerificationEmailDto, string>(
+  async sendResetPassword(dto: SendVerificationMailDto): Promise<string> {
+    return await this.httpClient.post<SendVerificationMailDto, string>(
       '/authentication/send-reset-password',
       dto
     );
@@ -47,8 +47,8 @@ export class AuthApi extends ApiBase implements IAuthApi {
     );
   }
 
-  async sendVerificationMail(dto: SendVerificationEmailDto): Promise<string> {
-    return await this.httpClient.post<SendVerificationEmailDto, string>(
+  async sendVerificationMail(dto: SendVerificationMailDto): Promise<string> {
+    return await this.httpClient.post<SendVerificationMailDto, string>(
       '/authentication/send-verification-email',
       dto
     );

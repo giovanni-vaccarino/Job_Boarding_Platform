@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Avatar, Box, Button, TextField, Typography } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { RowComponent } from '../components/profile-components/RowComponent.tsx';
@@ -16,6 +16,10 @@ import { Company, UpdateCompany } from '../models/company/company.ts';
 import { useAppSelector } from '../core/store';
 import { appActions, useAppDispatch } from '../core/store';
 import { TypeProfile } from '../models/auth/register.ts';
+import {
+  SendVerificationMailDto,
+  VerifyMailDto,
+} from '../models/auth/login.ts';
 
 export const Profile = () => {
   const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
@@ -28,11 +32,8 @@ export const Profile = () => {
 
   const profileType: TypeProfile | null = authState.profileType;
   const accountType: string = TypeProfile[profileType];
-  const [buttonText, setButtonText] = useState('Verify Email');
-
-  const handleClick = () => {
-    setButtonText('Email Sent');
-  };
+  const [verifyButtonValue, setVerifyButtonValue] = useState('Verify Email');
+  const [token, setToken] = useState('');
 
   console.log(accountType);
   const [selectedSection, setSelectedSection] = useState<string>('profile');
@@ -150,6 +151,7 @@ export const Profile = () => {
               fieldKey={'name'}
               onFieldChange={handleFieldChange}
             />
+
             <Button
               variant="contained"
               sx={{
@@ -162,9 +164,25 @@ export const Profile = () => {
                 marginTop: 2,
                 marginBottom: 2,
               }}
-              onClick={handleClick}
+              onClick={async () => {
+                if (!companyProfile?.email) {
+                  console.error('Error: companyProfile.email is undefined');
+                  return;
+                }
+
+                const dto: SendVerificationMailDto = {
+                  email: companyProfile.email,
+                };
+
+                try {
+                  await authApi.sendVerificationMail(dto);
+                  setVerifyButtonValue('Email Sent');
+                } catch (error) {
+                  console.error('Error sending verification mail:', error);
+                }
+              }}
             >
-              {buttonText}
+              {verifyButtonValue}
             </Button>
           </Box>
         );
@@ -271,15 +289,16 @@ export const Profile = () => {
               marginBottom: '10%', // Space between sections
             }}
           >
-            <Button
-              variant="contained"
-              //startIcon={<PhotoCameraSharpIcon sx={{ marginLeft: '30%' }} />}
-              sx={{
-                width: '60px', // Circular button dimensions
-                height: '60px',
-                borderRadius: '50%', // Make it a circle
-              }}
-            ></Button>
+            {/*<Button*/}
+            {/*  variant="contained"*/}
+            {/*  //startIcon={<PhotoCameraSharpIcon sx={{ marginLeft: '30%' }} />}*/}
+            {/*  sx={{*/}
+            {/*    width: '60px', // Circular button dimensions*/}
+            {/*    height: '60px',*/}
+            {/*    borderRadius: '50%', // Make it a circle*/}
+            {/*  }}*/}
+            {/*></Button>*/}
+            <Avatar src="/broken-image.jpg" />
           </Box>
 
           <Box sx={{ borderTop: '2px solid gray', width: '20%', mb: '1rem' }} />

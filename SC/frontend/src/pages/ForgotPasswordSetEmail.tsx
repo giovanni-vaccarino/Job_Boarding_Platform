@@ -8,7 +8,7 @@ import { AppRoutes } from '../router.tsx';
 import { useService } from '../core/ioc/ioc-provider.tsx';
 import { ServiceType } from '../core/ioc/service-type.ts';
 import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
-import { SendVerificationEmailDto } from '../models/auth/login.ts';
+import { SendVerificationMailDto } from '../models/auth/login.ts';
 
 export const ForgotPasswordSetEmail = () => {
   const [email, setEmail] = useState<string>('');
@@ -68,7 +68,7 @@ export const ForgotPasswordSetEmail = () => {
           }}
           onClick={async () => {
             try {
-              const sendResetPassword: SendVerificationEmailDto = {
+              const sendResetPassword: SendVerificationMailDto = {
                 email: email,
               };
               const res = await authApi.sendResetPassword(sendResetPassword);

@@ -12,7 +12,7 @@ export interface LoginInput {
   password: string;
 }
 
-export interface SendVerificationEmailDto {
+export interface SendVerificationMailDto {
   email: string;
 }
 

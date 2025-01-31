@@ -1,7 +1,7 @@
 import {
   LoginInput,
   LoginResponse,
-  SendVerificationEmailDto,
+  SendVerificationMailDto,
   UpdatePasswordDto,
   VerifyMailDto,
 } from '../../../models/auth/login';
@@ -14,8 +14,8 @@ export interface IAuthApi {
   login: (input: LoginInput) => Promise<LoginResponse>;
   logout: () => Promise<null>;
   register: (input: RegisterInput) => Promise<RegisterResponse>;
-  sendResetPassword: (dto: SendVerificationEmailDto) => Promise<string>;
+  sendResetPassword: (dto: SendVerificationMailDto) => Promise<string>;
   resetPassword: (dto: UpdatePasswordDto) => Promise<string>;
-  sendVerificationMail: (dto: SendVerificationEmailDto) => Promise<string>;
+  sendVerificationMail: (dto: SendVerificationMailDto) => Promise<string>;
   verifyMail: (dto: VerifyMailDto) => Promise<string>;
 }
