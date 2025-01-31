@@ -36,7 +36,6 @@ export const Home = () => {
             // Filter by search message
             const matchesSearch =
                 job.title.toLowerCase().includes(searchMessage.toLowerCase()) ||
-                job.title.toLowerCase().includes(searchMessage.toLowerCase()) ||
                 job.location.toLowerCase().includes(searchMessage.toLowerCase());
 
             console.log(job.dateCreated.toString().split('T')[0]);
@@ -57,7 +56,7 @@ export const Home = () => {
             return matchesSearch && matchesDate;
         });
          setFilteredJobs(jobsToUpdate)
-    }, [postedDate]);
+    }, [postedDate, searchMessage]);
 
 
   return (
