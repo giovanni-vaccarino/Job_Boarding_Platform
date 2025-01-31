@@ -18,8 +18,8 @@ const mapApplicationToJobsTableHeader = (
 ): JobDescriptionInterface => {
   return {
     jobTitle: application.internship.title,
-    jobCategory: application.internship.jobCategory.toString(),
-    jobType: application.internship.jobType.toString(),
+    jobCategory: application.internship.jobCategory?.toString(),
+    jobType: application.internship.jobType?.toString(),
     location: application.internship.location,
     postCreated: application.submissionDate.toString(),
     applicationDeadline: application.internship.applicationDeadline.toString(),
