@@ -38,7 +38,7 @@ export const Application = () => {
   console.log('Application available:' + applicationToShow.applicationStatus);
   return (
     <Page>
-      <TitleHeader title={'Software Engineering, intern - Amazon'} />
+      <TitleHeader title={applicationToShow.internship.title} />
 
       <Box
         sx={{
