@@ -12,10 +12,8 @@ import {
     AddQuestionDto, DurationType,
     JobCategory,
     JobType,
-    SkillsType,
 } from '../models/internship/internship.ts';
 import { appActions, useAppDispatch } from '../core/store';
-import { InsertMultipleChoiceMultiSelect } from '../components/new-job-components/InsertMultipleChoiceMultiSelect.tsx';
 import { RowComponent } from '../components/profile-components/RowComponent.tsx';
 
 export const NewJob = () => {

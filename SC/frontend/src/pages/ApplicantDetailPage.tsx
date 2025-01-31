@@ -17,12 +17,6 @@ import { IMatchApi } from '../core/API/match/IMatchApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
 import { IInternshipApi } from '../core/API/internship/IInternshipApi.ts';
 
-const feedbackMockUp = [
-  { feedbackText: 'Great attention to detail.', rating: 5 },
-  { feedbackText: 'Needs improvement in communication.', rating: 3 },
-  { feedbackText: 'Excellent technical skills.', rating: 4 },
-];
-
 export const ApplicantDetailPage = () => {
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
@@ -86,7 +80,7 @@ export const ApplicantDetailPage = () => {
       })
     );
     const status: UpdateStatusApplicationDto = {
-      applicationStatus: ApplicationStatus.Accepted,
+      status: ApplicationStatus.Accepted,
     };
     const res = await internshiApi.updateApplicationStatus(
       applicationId as string,
