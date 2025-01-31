@@ -5,6 +5,7 @@ export interface LoginResponse {
   refreshToken: string;
   profileType: TypeProfile;
   profileId: number;
+  verified: boolean;
 }
 
 export interface LoginInput {

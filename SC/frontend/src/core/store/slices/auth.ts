@@ -9,6 +9,7 @@ interface AuthState {
   loggedIn: boolean;
   profileType: TypeProfile | null;
   profileId: string | null;
+  verified: boolean;
 }
 
 const initialState: AuthState = {
@@ -17,6 +18,7 @@ const initialState: AuthState = {
   loggedIn: false,
   profileType: null,
   profileId: null,
+  verified: false,
 };
 
 export interface SetProfileType {
@@ -36,6 +38,7 @@ export const authSlice = createSlice({
       state.refreshToken = action.payload.refreshToken;
       state.loggedIn = true;
       state.profileId = action.payload.profileId.toString();
+      state.verified = action.payload.verified;
     },
     failLogin: (state) => {
       state.refreshToken = null;
@@ -47,6 +50,7 @@ export const authSlice = createSlice({
       state.accessToken = null;
       state.loggedIn = false;
       state.profileType = 0;
+      state.verified = null;
     },
     setProfileType: (state, action: PayloadAction<SetProfileType>) => {
       state.profileType = action.payload.type;
@@ -54,5 +58,8 @@ export const authSlice = createSlice({
     setProfileId: (state, action: PayloadAction<SetProfileId>) => {
       state.profileId = action.payload.id;
     },
+    setVerified:(state) => {
+      state.verified = true;
+    }
   },
 });

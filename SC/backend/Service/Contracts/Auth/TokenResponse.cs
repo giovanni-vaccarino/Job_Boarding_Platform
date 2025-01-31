@@ -18,4 +18,6 @@ public class TokenResponse
     
     [Required]
     public required ProfileType ProfileType { get; set; }
+    [Required]
+    public required bool Verified { get; set; }
 }

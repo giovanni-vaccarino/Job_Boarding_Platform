@@ -69,7 +69,8 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
             AccessToken = newAccessToken,
             RefreshToken = newRefreshToken,
             ProfileId = profileId,
-            ProfileType = profileType  // Set ProfileType here
+            ProfileType = profileType,  // Set ProfileType here
+            Verified = user.Verified
         };
     }
     

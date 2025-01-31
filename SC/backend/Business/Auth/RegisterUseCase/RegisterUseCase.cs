@@ -71,7 +71,8 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             ProfileId = profileId,
-            ProfileType = registerInput.ProfileType
+            ProfileType = registerInput.ProfileType,  
+            Verified = user.Verified
         };
     }
     

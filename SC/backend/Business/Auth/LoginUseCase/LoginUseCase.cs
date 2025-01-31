@@ -53,7 +53,8 @@ public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
             AccessToken = _securityContext.CreateAccessToken(user),
             RefreshToken = _securityContext.CreateRefreshToken(user),
             ProfileId = profileId,
-            ProfileType = profileType  // Set ProfileType here
+            ProfileType = profileType,  // Set ProfileType here
+            Verified = user.Verified
         };
 
         user.UpdatedAt = DateTime.UtcNow;

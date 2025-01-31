@@ -31,22 +31,20 @@ export const Profile = () => {
   const dispach = useAppDispatch();
 
   const profileType: TypeProfile | null = authState.profileType;
+  const verified: boolean = authState.verified;
   const accountType: string = TypeProfile[profileType];
   const [verifyButtonValue, setVerifyButtonValue] = useState('Verify Email');
   const [token, setToken] = useState('');
 
-  console.log(accountType);
   const [selectedSection, setSelectedSection] = useState<string>('profile');
 
   const [studentProfile, setStudentProfile] = useState<Student>(
     data as Student
   );
 
-  console.log(accountType);
 
   const [companyProfile, setCompanyProfile] = useState(data as Company);
 
-  console.log(studentProfile);
 
   //TO avoid infinite loop call the setStudent only when the data or accountType has been changed
   /*
@@ -132,6 +130,39 @@ export const Profile = () => {
               fieldKey={'name'}
               onFieldChange={handleFieldChange}
             />
+            {!verified && <Button
+              variant="contained"
+              sx={{
+                backgroundColor: 'primary.main',
+                color: '#FFFFFF',
+                textTransform: 'none',
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                borderRadius: '8px',
+                marginTop: 2,
+                marginBottom: 2,
+              }}
+              onClick={async () => {
+                if (!companyProfile?.email) {
+                  console.error('Error: email is undefined');
+                  return;
+                }
+
+                const dto: SendVerificationMailDto = {
+                  email: companyProfile.email,
+                };
+
+                try {
+                  await authApi.sendVerificationMail(dto);
+                  setVerifyButtonValue('Email Sent');
+                } catch (error) {
+                  console.error('Error sending verification mail:', error);
+                }
+              }}
+            >
+              {verifyButtonValue}
+            </Button>
+            }
           </Box>
         );
       else if (accountType === 'Company')
@@ -152,7 +183,7 @@ export const Profile = () => {
               onFieldChange={handleFieldChange}
             />
 
-            <Button
+            {!verified && <Button
               variant="contained"
               sx={{
                 backgroundColor: 'primary.main',
@@ -166,7 +197,7 @@ export const Profile = () => {
               }}
               onClick={async () => {
                 if (!companyProfile?.email) {
-                  console.error('Error: companyProfile.email is undefined');
+                  console.error('Error: email is undefined');
                   return;
                 }
 
@@ -184,6 +215,7 @@ export const Profile = () => {
             >
               {verifyButtonValue}
             </Button>
+            }
           </Box>
         );
     } else {

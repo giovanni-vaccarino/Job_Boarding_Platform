@@ -32,6 +32,7 @@ export const VerifyEmail = () => {
       try {
         await authApi.verifyMail(dto);
         setMessage("Email Verified!");
+        dispatch(appActions.auth.setVerified());
       } catch (error) {
         console.error('Error sending verification mail:', error);
         setMessage("Email Not Verified!");
@@ -39,7 +40,7 @@ export const VerifyEmail = () => {
     }
 
     handleVerificationMail();
-  }, []);
+  },[]);
 
   if (token === null) {
     navigate(AppRoutes.Profile);
