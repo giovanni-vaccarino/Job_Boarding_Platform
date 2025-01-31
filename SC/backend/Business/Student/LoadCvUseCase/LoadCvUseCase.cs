@@ -30,14 +30,14 @@ public class LoadCvUseCase : IRequestHandler<LoadCvCommand, string>
     /// <param name="request">The command containing the student ID and CV file details.</param>
     /// <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
     /// <returns>The unique key name of the uploaded CV in the S3 bucket.</returns>
-    /// <exception cref="InvalidOperationException">Thrown if the student is not found.</exception>
+    /// <exception cref="KeyNotFoundException">Thrown if the student is not found.</exception>
     /// <exception cref="ArgumentException">Thrown if the provided file is invalid.</exception>
     public async Task<string> Handle(LoadCvCommand request, CancellationToken cancellationToken)
     {
         var input = request.Dto;
         var studentId = request.StudentId.ToString();
         var student = await _dbContext.Students.FirstOrDefaultAsync(s => s.Id == request.StudentId, cancellationToken) ?? 
-                      throw new InvalidOperationException("Student not found");
+                      throw new KeyNotFoundException("Student not found");
         
         if (input.File.Length == 0)
             throw new ArgumentException("Invalid file");

@@ -27,11 +27,11 @@ public class UpdatePasswordUseCase : IRequestHandler<UpdatePasswordCommand, Unit
         if (string.IsNullOrEmpty(userId))
         {
             _logger.LogWarning("Invalid password reset token: no user ID found");
-            throw new Exception("Invalid token.");
+            throw new UnauthorizedAccessException("Invalid token.");
         }
 
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userId, cancellationToken)
-            ?? throw new Exception("User not found.");
+            ?? throw new KeyNotFoundException("User not found.");
 
         user.PasswordHash = _securityContext.Hash(request.Password);
         user.UpdatedAt = DateTime.UtcNow;

@@ -94,7 +94,7 @@ public class ApplyToInternshipUseCaseTests
 
         var act = async () => await _applyToInternshipUseCase.Handle(command, CancellationToken.None);
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
+        var exception = await Assert.ThrowsAsync<ArgumentException>(act);
         Assert.Equal("The student must have a name, a valid CF, and an uploaded CV to apply for an internship.", exception.Message);
     }
 
@@ -168,7 +168,7 @@ public class ApplyToInternshipUseCaseTests
 
         var act = async () => await _applyToInternshipUseCase.Handle(command, CancellationToken.None);
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
+        var exception = await Assert.ThrowsAsync<ArgumentException>(act);
         Assert.Equal("The application deadline for this internship has passed.", exception.Message);
     }
 
@@ -228,7 +228,7 @@ public class ApplyToInternshipUseCaseTests
 
         var act = async () => await _applyToInternshipUseCase.Handle(command, CancellationToken.None);
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
+        var exception = await Assert.ThrowsAsync<ArgumentException>(act);
         Assert.Equal("The student has already applied to this internship.", exception.Message);
     }
 }

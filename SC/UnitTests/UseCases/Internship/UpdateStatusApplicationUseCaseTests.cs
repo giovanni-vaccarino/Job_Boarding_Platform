@@ -142,7 +142,7 @@ public class UpdateStatusApplicationUseCaseTests
         
         var result = async () => await _updateStatusApplicationUseCase.Handle(command, CancellationToken.None);
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(result);
+        var exception = await Assert.ThrowsAsync<ArgumentException>(result);
         Assert.Equal("The application status is not valid for updating.", exception.Message);
     }
 

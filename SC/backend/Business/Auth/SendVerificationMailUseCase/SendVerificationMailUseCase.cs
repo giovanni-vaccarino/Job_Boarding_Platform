@@ -24,7 +24,7 @@ public class SendVerificationMailUseCase : IRequestHandler<SendVerificationMailC
     public async Task<Unit> Handle(SendVerificationMailCommand request, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken)
-            ?? throw new Exception("User not found");
+            ?? throw new KeyNotFoundException("User not found");
 
         var email = request.Email;
 

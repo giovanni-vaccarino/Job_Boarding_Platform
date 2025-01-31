@@ -33,8 +33,6 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
     /// <param name="request">The command containing the student ID and internship ID.</param>
     /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
     /// <returns>An <see cref="ApplicationDto"/> object containing the details of the submitted application.</returns>
-    /// <exception cref="KeyNotFoundException">Thrown if the internship is not found.</exception>
-    /// <exception cref="InvalidOperationException">Thrown if the application deadline has passed or the student has already applied.</exception>
     public async Task<ApplicationDto> Handle(ApplyToInternshipCommand request, CancellationToken cancellationToken)
     {
         var studentId = request.StudentId;
@@ -68,7 +66,7 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
     /// <exception cref="KeyNotFoundException">
     /// Thrown if the internship is not found.
     /// </exception>
-    /// <exception cref="InvalidOperationException">
+    /// <exception cref="ArgumentException">
     /// Thrown if the application deadline has passed, the student has already applied, 
     /// or the student's profile is incomplete (missing name, CF, or CV).
     /// </exception>
@@ -78,7 +76,7 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
         
         if (string.IsNullOrWhiteSpace(student.Name) || string.IsNullOrWhiteSpace(student.Cf) || string.IsNullOrWhiteSpace(student.CvPath))
         {
-            throw new InvalidOperationException("The student must have a name, a valid CF, and an uploaded CV to apply for an internship.");
+            throw new ArgumentException("The student must have a name, a valid CF, and an uploaded CV to apply for an internship.");
         }
 
         var internship = await _dbContext.Internships.FirstOrDefaultAsync(i => i.Id == internshipId, cancellationToken);
@@ -89,14 +87,14 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
 
         if (internship.ApplicationDeadline < DateOnly.FromDateTime(DateTime.UtcNow))
         {
-            throw new InvalidOperationException("The application deadline for this internship has passed.");
+            throw new ArgumentException("The application deadline for this internship has passed.");
         }
 
         var alreadyApplied = await _dbContext.Applications
             .AnyAsync(a => a.StudentId == studentId && a.InternshipId == internshipId, cancellationToken);
         if (alreadyApplied)
         {
-            throw new InvalidOperationException("The student has already applied to this internship.");
+            throw new ArgumentException("The student has already applied to this internship.");
         }
     }
 }

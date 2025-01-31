@@ -37,7 +37,7 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
     /// <param name="request">The refresh command containing the refresh token.</param>
     /// <param name="cancellationToken">The cancellation token for the operation.</param>
     /// <returns>The new <see cref="TokenResponse"/> containing updated access and refresh tokens.</returns>
-    /// <exception cref="UnauthorizedAccessException">
+    /// <exception cref="KeyNotFoundException">
     /// Thrown if the refresh token is invalid, the user cannot be found, or the token does not match the stored value.
     /// </exception>
     public async Task<TokenResponse> Handle(RefreshCommand request, CancellationToken cancellationToken)
@@ -60,7 +60,7 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
         
         _logger.LogDebug("Successfully refreshed token for user with email {Email}", user.Email);
         
-        var profileId = user.Student?.Id ?? user.Company?.Id ?? throw new Exception("User profile not found.");
+        var profileId = user.Student?.Id ?? user.Company?.Id ?? throw new KeyNotFoundException("User profile not found.");
         
         var profileType = user.Student != null ? ProfileType.Student : ProfileType.Company; // Set profile type
 
@@ -99,6 +99,9 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
     /// <exception cref="UnauthorizedAccessException">
     /// Thrown if the claims principal does not contain a valid user ID.
     /// </exception>
+    /// <exception cref="FormatException">
+    /// Invalid parse error.
+    /// </exception>
     private int GetUserIdFromClaims(ClaimsPrincipal principal)
     {
         var userIdClaim = principal.FindFirst(ClaimTypes.NameIdentifier)
@@ -106,7 +109,7 @@ public class RefreshUseCase : IRequestHandler<RefreshCommand, TokenResponse>
 
         if (!int.TryParse(userIdClaim.Value, out int userId))
         {
-            throw new UnauthorizedAccessException("Invalid parse error.");
+            throw new FormatException("Invalid parse error.");
         }
 
         return userId;

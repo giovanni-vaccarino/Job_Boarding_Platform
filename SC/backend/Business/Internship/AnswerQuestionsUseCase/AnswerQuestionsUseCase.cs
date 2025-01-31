@@ -33,7 +33,7 @@ public class AnswerQuestionsUseCase : IRequestHandler<AnswerQuestionsCommand, Ap
         
         if (application.ApplicationStatus != ApplicationStatus.OnlineAssessment)
         {
-            throw new InvalidOperationException("The application status is not valid for answering assessment questions.");
+            throw new ArgumentException("The application status is not valid for answering assessment questions.");
         }
 
         var internshipQuestions = application.Internship.InternshipQuestions;

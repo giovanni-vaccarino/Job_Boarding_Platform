@@ -31,7 +31,7 @@ public class UpdateStatusApplicationUseCase : IRequestHandler<UpdateStatusApplic
         if (application.ApplicationStatus != ApplicationStatus.Screening
             && application.ApplicationStatus != ApplicationStatus.LastEvaluation)
         {
-            throw new InvalidOperationException("The application status is not valid for updating.");
+            throw new ArgumentException("The application status is not valid for updating.");
         }
         
         application.ApplicationStatus = updateStatusDto.Status;

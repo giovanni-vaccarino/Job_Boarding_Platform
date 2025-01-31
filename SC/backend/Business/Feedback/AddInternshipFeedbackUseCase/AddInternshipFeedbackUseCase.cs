@@ -39,7 +39,7 @@ public class AddInternshipFeedbackUseCase : IRequestHandler<AddInternshipFeedbac
        
        if (application == null)
        {
-           throw new InvalidOperationException("Application not found.");
+           throw new KeyNotFoundException("Application not found.");
        }
        
        // Validate that the company id or the student id are involved in that application
@@ -52,14 +52,14 @@ public class AddInternshipFeedbackUseCase : IRequestHandler<AddInternshipFeedbac
            
               if(companyId != dto.ProfileId)
               {
-                  throw new InvalidOperationException("Company is not involved in this application.");
+                  throw new UnauthorizedAccessException("Company is not involved in this application.");
               }
        }
        else
        {
            if (dto.ProfileId != application.StudentId)
            {
-               throw new InvalidOperationException("Student is not involved in this application.");
+               throw new UnauthorizedAccessException("Student is not involved in this application.");
            }
        }
        

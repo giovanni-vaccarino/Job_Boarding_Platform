@@ -115,7 +115,7 @@ public class RegisterUseCaseTests
         
         var act = async () => await _registerUseCase.Handle(command, CancellationToken.None);
         
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
+        var exception = await Assert.ThrowsAsync<ArgumentException>(act);
         Assert.Equal("User already exists.", exception.Message);
     }
 
@@ -140,7 +140,7 @@ public class RegisterUseCaseTests
 
         var act = async () => await _registerUseCase.Handle(command, CancellationToken.None);
         
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
+        var exception = await Assert.ThrowsAsync<ArgumentException>(act);
         Assert.Equal(expectedErrorMessage, exception.Message);
     }
     
@@ -160,7 +160,7 @@ public class RegisterUseCaseTests
         
         var act = async () => await _registerUseCase.Handle(command, CancellationToken.None);
         
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
+        var exception = await Assert.ThrowsAsync<UnauthorizedAccessException>(act);
         Assert.Equal("Passwords do not match.", exception.Message);
     }
 }

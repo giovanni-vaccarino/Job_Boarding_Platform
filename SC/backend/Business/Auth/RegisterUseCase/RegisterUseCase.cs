@@ -80,28 +80,31 @@ public class RegisterUseCase: IRequestHandler<RegisterCommand, TokenResponse>
     /// </summary>
     /// <param name="registerInput">The user registration Dto containing email and password details.</param>
     /// <returns>A task representing the verification process.</returns>
-    /// <exception cref="InvalidOperationException">
-    /// Thrown if:
-    /// - Passwords do not match.
-    /// - A user with the given email already exists.
-    /// - Password does not meet security requirements.
+    /// <exception cref="UnauthorizedAccessException">
+    /// Thrown if the provided passwords do not match.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    /// Thrown if a user with the given email already exists.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    /// Thrown if the password does not meet security requirements.
     /// </exception>
     private async Task VerifyUserCredentials(UserRegisterDto registerInput)
     {
         if (registerInput.Password != registerInput.ConfirmPassword)
         {
-            throw new InvalidOperationException("Passwords do not match.");
+            throw new UnauthorizedAccessException("Passwords do not match.");
         }
         var user =  await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == registerInput.Email);
         
         if (user != null)
         {
-            throw new InvalidOperationException("User already exists.");
+            throw new ArgumentException("User already exists.");
         }
         
         if (registerInput.Password.Length < 8 || !registerInput.Password.Any(char.IsDigit) || !registerInput.Password.Any(char.IsUpper))
         {
-            throw new InvalidOperationException("Password must be at least 8 characters long, contain at least one digit and one uppercase character.");
+            throw new ArgumentException("Password must be at least 8 characters long, contain at least one digit and one uppercase character.");
         }
     }
     

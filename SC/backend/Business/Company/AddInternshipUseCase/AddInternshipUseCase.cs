@@ -47,7 +47,6 @@ public class AddInternshipUseCase : IRequestHandler<AddInternshipCommand, Intern
     /// <param name="request">The command containing the internship details and associated data.</param>
     /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
     /// <returns>An <see cref="InternshipDto"/> object containing the details of the added internship.</returns>
-    /// <exception cref="Exception">Thrown if the operation encounters issues while persisting data.</exception>
     public async Task<InternshipDto> Handle(AddInternshipCommand request, CancellationToken cancellationToken)
     {
         var companyId = request.Id;

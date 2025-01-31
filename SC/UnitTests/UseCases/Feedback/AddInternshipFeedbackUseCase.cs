@@ -190,7 +190,7 @@ public class AddInternshipFeedbackUseCaseTests
 
         var act = async () => await _addInternshipFeedbackUseCase.Handle(command, CancellationToken.None);
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
+        var exception = await Assert.ThrowsAsync<KeyNotFoundException>(act);
         Assert.Equal("Application not found.", exception.Message);
     }
 
@@ -268,7 +268,7 @@ public class AddInternshipFeedbackUseCaseTests
 
         var act = async () => await _addInternshipFeedbackUseCase.Handle(command, CancellationToken.None);
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
+        var exception = await Assert.ThrowsAsync<UnauthorizedAccessException>(act);
         Assert.Equal("Company is not involved in this application.", exception.Message);
     }
 
@@ -346,7 +346,7 @@ public class AddInternshipFeedbackUseCaseTests
 
         var act = async () => await _addInternshipFeedbackUseCase.Handle(command, CancellationToken.None);
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(act);
+        var exception = await Assert.ThrowsAsync<UnauthorizedAccessException>(act);
         Assert.Equal("Student is not involved in this application.", exception.Message);
     }
 }

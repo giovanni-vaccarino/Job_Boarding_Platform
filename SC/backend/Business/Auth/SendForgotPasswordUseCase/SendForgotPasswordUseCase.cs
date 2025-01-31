@@ -24,7 +24,7 @@ public class SendForgotPasswordUseCase : IRequestHandler<SendForgotPasswordComma
     public async Task<Unit> Handle(SendForgotPasswordCommand request, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken)
-            ?? throw new Exception("User not found.");;
+            ?? throw new KeyNotFoundException("User not found.");;
 
         var resetToken = _securityContext.CreateVerificationToken(user.Id.ToString());
 

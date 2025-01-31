@@ -35,11 +35,11 @@ public class VerifyMailUseCase : IRequestHandler<VerifyMailCommand, Unit>
         if (string.IsNullOrEmpty(userId))
         {
             _logger.LogWarning("Invalid verification token: no user ID found");
-            throw new Exception("Invalid token.");
+            throw new UnauthorizedAccessException("Invalid token.");
         }
 
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userId, cancellationToken)
-            ?? throw new Exception("User not found.");
+            ?? throw new KeyNotFoundException("User not found.");
 
         user.Verified = true;
         await _dbContext.SaveChangesAsync(cancellationToken);
