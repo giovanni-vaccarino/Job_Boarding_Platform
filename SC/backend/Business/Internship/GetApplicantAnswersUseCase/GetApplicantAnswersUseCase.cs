@@ -3,6 +3,7 @@ using backend.Data;
 using backend.Service.Contracts.Company;
 using backend.Service.Contracts.Feedback;
 using backend.Service.Contracts.Internship;
+using backend.Shared.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,9 +36,9 @@ public class GetApplicantAnswersUseCase : IRequestHandler<GetApplicantAnswersQue
         }
         
         var feedbacks = await _dbContext.InternshipFeedbacks
-            .Where(f => f.ApplicationId == applicationId)
+            .Where(f => f.Actor == ProfileType.Student && 
+                        _dbContext.Applications.Any(a => a.Id == f.ApplicationId && a.StudentId == studentId))
             .ToListAsync(cancellationToken);
-        
         
 
         var answers = await _dbContext.Answers

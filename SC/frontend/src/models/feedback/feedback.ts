@@ -1,8 +1,17 @@
 import { TypeProfile } from '../auth/register.ts';
 
 export interface Feedback {
-  description: string;
-  rating: number;
+  id: string;
+  text: string;
+  rating: Rating;
+}
+
+export enum Rating{
+    OneStar,
+    TwoStars,
+    ThreeStars,
+    FourStars,
+    FiveStars
 }
 
 export interface FeedbackInternshipInput {

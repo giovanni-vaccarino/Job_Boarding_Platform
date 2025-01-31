@@ -43,13 +43,11 @@ export const ApplicantDetailPage = () => {
         status: ApplicationStatus.Accepted,
       };
       console.log(status);
-      /*
       const res = await internshiApi.updateApplicationStatus(
         applicationId as string,
         status,
         companyId as string
       );
-      */
       navigate(AppRoutes.ConfirmPage);
     } else if (
       applicationStatus === ApplicationStatus[ApplicationStatus.Screening]
@@ -175,13 +173,13 @@ export const ApplicantDetailPage = () => {
           <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
             Feedback:
           </Typography>
-          {student.feedback?.map((feedback, index) => (
+          {student.feedbacks?.map((feedback, index) => (
             <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography
                 sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
               >{`${index + 1})`}</Typography>
               <ViewFeedback
-                feedbackText={feedback.description}
+                feedbackText={feedback.text}
                 rating={feedback.rating}
               />
             </Box>
