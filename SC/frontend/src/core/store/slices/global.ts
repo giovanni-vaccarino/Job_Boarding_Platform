@@ -15,7 +15,7 @@ export enum Tab {
 interface GlobalState {
   tabHomePage: Tab;
   confirmMessage: string;
-  searchMessage: string;
+        searchMessage: string;
   newInternship: AddInternshipDto;
 }
 

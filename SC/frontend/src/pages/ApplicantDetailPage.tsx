@@ -46,15 +46,16 @@ export const ApplicantDetailPage = () => {
         })
       );
       const status: UpdateStatusApplicationDto = {
-        applicationStatus: ApplicationStatus.Accepted,
+        status: ApplicationStatus.Accepted,
       };
-      console.log(applicationId);
+      console.log(status);
+      /*
       const res = await internshiApi.updateApplicationStatus(
         applicationId as string,
         status,
         companyId as string
       );
-      console.log(res);
+      */
       navigate(AppRoutes.ConfirmPage);
     } else if (
       applicationStatus === ApplicationStatus[ApplicationStatus.Screening]
@@ -65,7 +66,7 @@ export const ApplicantDetailPage = () => {
         })
       );
       const status: UpdateStatusApplicationDto = {
-        applicationStatus: ApplicationStatus.OnlineAssessment,
+        status: ApplicationStatus.OnlineAssessment,
       };
       const res = await internshiApi.updateApplicationStatus(
         applicationId as string,
@@ -73,6 +74,7 @@ export const ApplicantDetailPage = () => {
         companyId as string
       );
       console.log(res);
+
       navigate(AppRoutes.ConfirmPage);
     }
   };
