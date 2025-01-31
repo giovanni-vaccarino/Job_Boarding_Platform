@@ -79,7 +79,8 @@ public class IntegrationTestSetup : WebApplicationFactory<Program>
         dbContext.Add(user);
         await dbContext.SaveChangesAsync();
 
-        var company = new Company
+
+        var company = new backend.Data.Entities.Company
         {
             Name = "Company1",
             VatNumber = "12345678901",
@@ -126,23 +127,12 @@ public class IntegrationTestSetup : WebApplicationFactory<Program>
             Internship = internship0,
             StudentId = student0.Id,
             Student = student0,
-            ApplicationStatus = ApplicationStatus.Accepted
+            ApplicationStatus = ApplicationStatus.OnlineAssessment
         };
         
         dbContext.Applications.Add(Application0);
         await dbContext.SaveChangesAsync();
         
-        var Application1 = new Application
-        {
-            InternshipId = internship1.Id,
-            Internship = internship1,
-            StudentId = student0.Id,
-            Student = student0,
-            ApplicationStatus = ApplicationStatus.Screening
-        };
-        
-        dbContext.Applications.Add(Application1);
-        await dbContext.SaveChangesAsync();
         
         var question0 = new Question()
         {
@@ -190,8 +180,17 @@ public class IntegrationTestSetup : WebApplicationFactory<Program>
         dbContext.InternshipQuestions.Add(internshipQuestion1);
         await dbContext.SaveChangesAsync();
         
+        var match0 = new Match()
+        {
+            HasInvite = false,
+            StudentId = student0.Id,
+            Student = student0,
+            InternshipId = internship0.Id,
+            Internship = internship0
+        };
         
-
+        dbContext.Matches.Add(match0);
+        await dbContext.SaveChangesAsync();
 
     }
     
@@ -202,7 +201,7 @@ public class IntegrationTestSetup : WebApplicationFactory<Program>
             c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
             c => c != null ? new List<string>(c) : new List<string>()
         );
-
+        
         // Configure for `Skills` and `Interests`
         modelBuilder.Entity<backend.Data.Entities.Student>(entity =>
         {

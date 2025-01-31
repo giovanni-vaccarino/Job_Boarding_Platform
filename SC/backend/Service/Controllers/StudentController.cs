@@ -43,7 +43,6 @@ public class StudentController : ControllerBase
     public async Task<IActionResult> LoadCvStudent([FromForm] LoadCvFileDto dto, [FromRoute] int studentId)
     {
         var res = await _mediator.Send(new LoadCvCommand(dto, studentId));
-
         return Ok(res);
     }
     

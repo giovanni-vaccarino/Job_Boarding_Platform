@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { styled } from '@mui/system';
+import {useNavigate} from "react-router-dom";
+import {AppRoutes} from "../../router.tsx";
 
 export function StartPopup() {
   const [open, setOpen] = useState(true); // Initially, the popup is open.
+  const navigate = useNavigate();
+
 
   const handleStart = () => {
     setOpen(false); // Close the popup.
@@ -10,6 +14,7 @@ export function StartPopup() {
 
   const handleCancel = () => {
     setOpen(false); // Close the popup.
+    navigate(AppRoutes.Home);
   };
 
   return (

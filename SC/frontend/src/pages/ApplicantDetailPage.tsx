@@ -65,7 +65,7 @@ export const ApplicantDetailPage = () => {
         })
       );
       const status: UpdateStatusApplicationDto = {
-        applicationStatus: ApplicationStatus.Accepted,
+        applicationStatus: ApplicationStatus.OnlineAssessment,
       };
       const res = await internshiApi.updateApplicationStatus(
         applicationId as string,

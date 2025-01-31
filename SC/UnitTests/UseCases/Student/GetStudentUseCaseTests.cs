@@ -19,7 +19,7 @@ public class GetStudentUseCaseTests
         _services = new IsolatedUseCaseTestServices<GetStudentUseCase>("GetStudentUseCaseTests");
         _dbContext = _services.DbContext;
         _getStudentUseCase = (GetStudentUseCase)Activator.CreateInstance(
-            typeof(GetStudentUseCase), _dbContext, _services.LoggerMock.Object, _services.Mapper)!;
+            typeof(GetStudentUseCase), _dbContext, _services.LoggerMock.Object)!;
     }
     
     /// <summary>

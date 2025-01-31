@@ -17,6 +17,10 @@ export const MultipleChoiceQuestion = (props: Question) => {
       ...prevState,
       [name]: checked,
     }));
+
+    //TODO da fare un array che controlli se è checked o no per ogni campo
+
+    props.onChange(event.target.name); // Trigger the callback with the input value
   };
 
   return (

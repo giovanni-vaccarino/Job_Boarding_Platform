@@ -32,6 +32,28 @@ public class GetApplicationsUseCaseTests
     [Fact(DisplayName = "Retrieve applications for an internship successfully")]
     public async Task Should_Retrieve_Applications_For_Internship_Successfully()
     {
+        var student1 = new backend.Data.Entities.Student
+        {
+            Name = "Test Student",
+            Cf = "AAABBB00H00A000A",
+            UserId = 2,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        
+        var student2 = new backend.Data.Entities.Student
+        {
+            Name = "Test Student",
+            Cf = "AAABBB00H00A000A",
+            UserId = 2,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        
+        _dbContext.Students.AddRange(student1, student2);
+        await _dbContext.SaveChangesAsync();
+
+        
         var company = new backend.Data.Entities.Company
         {
             Name = "Test Company",
@@ -63,7 +85,7 @@ public class GetApplicationsUseCaseTests
         var application1 = new Application
         {
             ApplicationStatus = ApplicationStatus.Screening,
-            StudentId = 1,
+            StudentId = student1.Id,
             InternshipId = internship.Id,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
@@ -72,7 +94,7 @@ public class GetApplicationsUseCaseTests
         var application2 = new Application
         {
             ApplicationStatus = ApplicationStatus.Screening,
-            StudentId = 2,
+            StudentId = student2.Id,
             InternshipId = internship.Id,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow

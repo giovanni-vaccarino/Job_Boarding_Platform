@@ -134,13 +134,13 @@ export const RowComponent: React.FC<RowComponentProps> = (
             onClick={async () => {
               try {
                 const response = await fetch(
-                  `http://localhost:5000/api/assets/${profileType === TypeProfile.Student ? profileId : props.studentIdToRetrieveCV}`,
+                  `http://localhost:5000/api/assets/${profileType === TypeProfile.Student ? profileId : props.studentIdToRetrieveCV + "?companyId="+profileId}`,
                   {
-                    method: 'GET',
                     headers: {
                       Authorization: `Bearer ${authState.accessToken}`,
                       Accept: 'application/pdf',
                     },
+                    method: 'GET',
                   }
                 );
 

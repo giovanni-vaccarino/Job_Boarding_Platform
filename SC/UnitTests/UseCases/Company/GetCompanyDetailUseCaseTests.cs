@@ -21,7 +21,7 @@ public class GetCompanyDetailUseCaseTests
         _services = new IsolatedUseCaseTestServices<GetCompanyDetailUseCase>("GetCompanyDetailUseCaseTests");
         _dbContext = _services.DbContext;
         _getCompanyDetailUseCase = (GetCompanyDetailUseCase)Activator.CreateInstance(
-            typeof(GetCompanyDetailUseCase), _dbContext, _services.Mapper)!;
+            typeof(GetCompanyDetailUseCase), _dbContext, _services.Mapper, _services.LoggerMock.Object)!;
     }
     
     /// <summary>
