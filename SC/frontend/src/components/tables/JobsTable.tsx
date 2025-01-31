@@ -33,6 +33,11 @@ export const JobsTable = (props: JobsTableProps) => {
   const auth = useAppSelector((state) => state.auth);
   const studentId = auth.profileId;
 
+  const getDatePart = (timestamp: string): string => {
+    const date = new Date(timestamp);
+    return date.toISOString().split('T')[0];
+  };
+
   console.log('Application available:' + props);
   return (
     <TableContainer
@@ -90,7 +95,7 @@ export const JobsTable = (props: JobsTableProps) => {
                 <TableCell>{row.company}</TableCell>
                 <TableCell>{row.state}</TableCell>
                 <TableCell>{row.location}</TableCell>
-                <TableCell>{row.submissionDate}</TableCell>
+                <TableCell>{getDatePart(row.submissionDate)}</TableCell>
                 <TableCell>
                   <IconButton
                     color="primary"

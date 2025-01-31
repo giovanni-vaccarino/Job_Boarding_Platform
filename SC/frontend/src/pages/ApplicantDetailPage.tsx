@@ -38,8 +38,9 @@ export const ApplicantDetailPage = () => {
 
   const handleAccept = async () => {
     if (
-      applicationStatus === ApplicationStatus[ApplicationStatus.LastEvaluation]
+      applicationStatus === "LastEvaluation"
     ) {
+
       dispatch(
         appActions.global.setConfirmMessage({
           newMessage: 'Application accepted',
@@ -57,8 +58,9 @@ export const ApplicantDetailPage = () => {
       console.log(res);
       navigate(AppRoutes.ConfirmPage);
     } else if (
-      applicationStatus === ApplicationStatus[ApplicationStatus.Screening]
+      applicationStatus == "Screening"
     ) {
+
       dispatch(
         appActions.global.setConfirmMessage({
           newMessage: 'Application accepted - waiting for online assessment',

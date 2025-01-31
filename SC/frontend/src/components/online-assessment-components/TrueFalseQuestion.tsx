@@ -9,7 +9,7 @@ export const TrueFalseQuestion = (props: Question) => {
   const handleChange = (event: SelectChangeEvent<string>) => {
     const value = event.target.value === 'true' ? true : false; // Convert to boolean
     setChecked(value); // Update internal state
-    props.onChange(value); // Notify parent of the selected value
+    props.onChange(event.target.value); // Notify parent of the selected value
   };
 
   return (
