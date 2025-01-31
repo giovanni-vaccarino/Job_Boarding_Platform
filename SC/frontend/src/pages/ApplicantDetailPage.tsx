@@ -17,12 +17,6 @@ import { IMatchApi } from '../core/API/match/IMatchApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
 import { IInternshipApi } from '../core/API/internship/IInternshipApi.ts';
 
-const feedbackMockUp = [
-  { feedbackText: 'Great attention to detail.', rating: 5 },
-  { feedbackText: 'Needs improvement in communication.', rating: 3 },
-  { feedbackText: 'Excellent technical skills.', rating: 4 },
-];
-
 export const ApplicantDetailPage = () => {
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
@@ -38,34 +32,35 @@ export const ApplicantDetailPage = () => {
 
   const handleAccept = async () => {
     if (
-      applicationStatus === ApplicationStatus[ApplicationStatus.LastEvaluation]
+      applicationStatus === "LastEvaluation"
     ) {
+
       dispatch(
         appActions.global.setConfirmMessage({
           newMessage: 'Application accepted',
         })
       );
       const status: UpdateStatusApplicationDto = {
-        applicationStatus: ApplicationStatus.Accepted,
+        status: ApplicationStatus.Accepted,
       };
-      console.log(applicationId);
+      console.log(status);
       const res = await internshiApi.updateApplicationStatus(
         applicationId as string,
         status,
         companyId as string
       );
-      console.log(res);
       navigate(AppRoutes.ConfirmPage);
     } else if (
-      applicationStatus === ApplicationStatus[ApplicationStatus.Screening]
+      applicationStatus == "Screening"
     ) {
+
       dispatch(
         appActions.global.setConfirmMessage({
           newMessage: 'Application accepted - waiting for online assessment',
         })
       );
       const status: UpdateStatusApplicationDto = {
-        applicationStatus: ApplicationStatus.OnlineAssessment,
+        status: ApplicationStatus.OnlineAssessment,
       };
       const res = await internshiApi.updateApplicationStatus(
         applicationId as string,
@@ -73,6 +68,7 @@ export const ApplicantDetailPage = () => {
         companyId as string
       );
       console.log(res);
+
       navigate(AppRoutes.ConfirmPage);
     }
   };
@@ -84,7 +80,7 @@ export const ApplicantDetailPage = () => {
       })
     );
     const status: UpdateStatusApplicationDto = {
-      applicationStatus: ApplicationStatus.Accepted,
+      status: ApplicationStatus.Accepted,
     };
     const res = await internshiApi.updateApplicationStatus(
       applicationId as string,
@@ -179,13 +175,13 @@ export const ApplicantDetailPage = () => {
           <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
             Feedback:
           </Typography>
-          {student.feedback?.map((feedback, index) => (
+          {student.feedbacks?.map((feedback, index) => (
             <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography
                 sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
               >{`${index + 1})`}</Typography>
               <ViewFeedback
-                feedbackText={feedback.description}
+                feedbackText={feedback.text}
                 rating={feedback.rating}
               />
             </Box>

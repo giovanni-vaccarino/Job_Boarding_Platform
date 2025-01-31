@@ -86,7 +86,7 @@ export interface AddQuestionDto {
 export interface ApplicantInfo {
   skills: string[];
   name: string;
-  feedback?: Feedback[];
+  feedbacks?: Feedback[];
   answers: ApplicantResponse[];
   studentId: string;
 }

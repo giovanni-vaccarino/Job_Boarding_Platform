@@ -13,7 +13,7 @@ export const ApplicantDetailsLoader = async (
       studentId,
       companyId
     );
-    console.log("applicantInfo");
+    console.log('applicantInfo');
     console.log(applicantInfo);
     return applicantInfo;
   } catch (error) {

@@ -11,7 +11,7 @@ const mapApplicationToJobsTableHeader = (
     company: application.companyName,
     state: application.applicationStatus,
     location: application.internship.location,
-    submissionDate: application.submissionDate.toString(),
+    submissionDate: application.submissionDate.toString().split('T')[0],
     id: application.id.toString(),
   };
 };

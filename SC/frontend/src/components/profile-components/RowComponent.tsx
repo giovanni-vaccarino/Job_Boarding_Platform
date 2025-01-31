@@ -134,7 +134,7 @@ export const RowComponent: React.FC<RowComponentProps> = (
             onClick={async () => {
               try {
                 const response = await fetch(
-                  `http://localhost:5000/api/assets/${profileType === TypeProfile.Student ? profileId : props.studentIdToRetrieveCV + "?companyId="+profileId}`,
+                  `http://localhost:5000/api/assets/${profileType === TypeProfile.Student ? profileId : props.studentIdToRetrieveCV + '?companyId=' + profileId}`,
                   {
                     headers: {
                       Authorization: `Bearer ${authState.accessToken}`,

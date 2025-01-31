@@ -106,15 +106,14 @@ export const OnlineAssessment = () => {
     <Page>
       <StartPopup />
       <TitleHeader title={'Online Assessment'} />
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', marginBottom: '1rem' }}>
         {questions.map(renderQuestion)}
       </Box>
       <Button
         variant="contained"
         color="primary"
         disabled={!isLogged}
-        onClick={
-          async () => {
+        onClick={async () => {
           const answerResponse: AnswerResponse[] = Object.entries(answers).map(
             ([id, value]) => ({
               questionId: Number(id), // Ensure questionId is a number
@@ -162,6 +161,7 @@ export const OnlineAssessment = () => {
         Send
       </Button>
 
+      <Box sx={{marginTop: '2rem'}}> </Box>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
