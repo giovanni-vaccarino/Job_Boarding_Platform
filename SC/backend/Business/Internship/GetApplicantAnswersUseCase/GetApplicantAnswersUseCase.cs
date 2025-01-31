@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using backend.Data;
 using backend.Service.Contracts.Company;
+using backend.Service.Contracts.Feedback;
 using backend.Service.Contracts.Internship;
+using backend.Shared.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,12 +34,11 @@ public class GetApplicantAnswersUseCase : IRequestHandler<GetApplicantAnswersQue
         {
             throw new KeyNotFoundException($"No student found for Student ID {studentId}.");
         }
-
-        /*
-        var feedbacks = await _dbContext.Feedbacks
-            .Where(f => f.StudentId == studentId)
+        
+        var feedbacks = await _dbContext.InternshipFeedbacks
+            .Where(f => f.Actor == ProfileType.Student && 
+                        _dbContext.Applications.Any(a => a.Id == f.ApplicationId && a.StudentId == studentId))
             .ToListAsync(cancellationToken);
-        */
         
 
         var answers = await _dbContext.Answers
@@ -58,8 +59,7 @@ public class GetApplicantAnswersUseCase : IRequestHandler<GetApplicantAnswersQue
             StudentId = student.Id,
             Name = student.Name,
             Skills = student.Skills,
-            //Feedbacks = feedbacks.Select(f => _mapper.Map<FeedbackDto>(f)).ToArray()
-            Feedbacks = null
+            Feedbacks = feedbacks.Select(f => _mapper.Map<FeedbackResponseDto>(f)).ToArray()
         };
 
         return applicantDetailsResponse;

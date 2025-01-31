@@ -15,7 +15,7 @@ const mapInternshipDetailToJobDescription = (
     jobCategory: internship.jobCategory?.toString(),
     jobType: internship.jobType?.toString(),
     location: internship.location,
-    postCreated: internship.applicationDeadline.toString(),
+    postCreated: internship.dateCreated.toString().split('T')[0],
     applicationDeadline: internship.applicationDeadline.toString(),
     jobDescriptionMessage: internship.description,
     skillsRequired: internship.requirements,

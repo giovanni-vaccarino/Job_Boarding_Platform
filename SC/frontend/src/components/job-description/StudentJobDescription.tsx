@@ -75,7 +75,7 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
                   })
                 );
                 navigate(AppRoutes.ConfirmPage);
-              } catch (error:any) {
+              } catch (error: any) {
                 const errorMessage = error.message.split('\\r')[0];
 
                 console.error(
