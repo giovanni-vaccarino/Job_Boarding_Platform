@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Avatar, Box, Button, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { RowComponent } from '../components/profile-components/RowComponent.tsx';
@@ -18,7 +18,6 @@ import { appActions, useAppDispatch } from '../core/store';
 import { TypeProfile } from '../models/auth/register.ts';
 import {
   SendVerificationMailDto,
-  VerifyMailDto,
 } from '../models/auth/login.ts';
 
 export const Profile = () => {
@@ -32,9 +31,10 @@ export const Profile = () => {
 
   const profileType: TypeProfile | null = authState.profileType;
   const verified: boolean = authState.verified;
-  const accountType: string = TypeProfile[profileType];
+  // @ts-ignore
+    const accountType: string = TypeProfile[profileType];
   const [verifyButtonValue, setVerifyButtonValue] = useState('Verify Email');
-  const [token, setToken] = useState('');
+  //const [token, setToken] = useState('');
 
   const [selectedSection, setSelectedSection] = useState<string>('profile');
 
@@ -251,13 +251,6 @@ export const Profile = () => {
           console.log('Company Profile:', companyProfile.name);
           return (
             <Box>
-              <RowComponent
-                label="Company Name"
-                value={companyProfile.name}
-                buttons={['edit']}
-                fieldKey={'name'}
-                onFieldChange={handleFieldChange}
-              />
               <RowComponent
                 label="Vat"
                 value={companyProfile.vatNumber}
