@@ -27,6 +27,8 @@ export const MultipleChoiceQuestion = (props: Question) => {
     });
   };
 
+
+
   return (
     <Box
       sx={{
@@ -42,6 +44,7 @@ export const MultipleChoiceQuestion = (props: Question) => {
           <FormControlLabel
             key={index}
             control={
+              // @ts-ignore
               <Checkbox
                 checked={checkedAnsweres[option] || false} // Check the individual option
                 onChange={handleChange}
