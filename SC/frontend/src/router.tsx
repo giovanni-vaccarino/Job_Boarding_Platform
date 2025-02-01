@@ -56,7 +56,7 @@ export const AppRoutes = Object.freeze({
   NewJob: '/new-job',
   ApplicantDetailPage:
     '/applicant-detail-page/:applicationId/:studentId/:companyId/:matchId/:applicationStatus/:submissionDate?',
-  VerifyEmailPage:'/verify-email',
+  VerifyEmailPage: '/verify-email',
 });
 
 export const useAppRouter = () => {
@@ -174,7 +174,7 @@ export const useAppRouter = () => {
       {
         path: AppRoutes.VerifyEmailPage,
         element: <VerifyEmail />,
-      }
+      },
     ],
     {
       future: {
