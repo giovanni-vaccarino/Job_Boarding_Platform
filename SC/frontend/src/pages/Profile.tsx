@@ -16,9 +16,7 @@ import { Company, UpdateCompany } from '../models/company/company.ts';
 import { useAppSelector } from '../core/store';
 import { appActions, useAppDispatch } from '../core/store';
 import { TypeProfile } from '../models/auth/register.ts';
-import {
-  SendVerificationMailDto,
-} from '../models/auth/login.ts';
+import { SendVerificationMailDto } from '../models/auth/login.ts';
 
 export const Profile = () => {
   const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
@@ -32,7 +30,7 @@ export const Profile = () => {
   const profileType: TypeProfile | null = authState.profileType;
   const verified: boolean = authState.verified;
   // @ts-ignore
-    const accountType: string = TypeProfile[profileType];
+  const accountType: string = TypeProfile[profileType];
   const [verifyButtonValue, setVerifyButtonValue] = useState('Verify Email');
   //const [token, setToken] = useState('');
 
@@ -72,6 +70,7 @@ export const Profile = () => {
   ) => {
     if (accountType === 'Student') {
       setStudentProfile((prev) => {
+        // @ts-ignore
         const updatedProfile = { ...prev, [fieldKey]: value };
         console.log('Updated Student Profile:', updatedProfile);
 
@@ -87,6 +86,7 @@ export const Profile = () => {
       });
     } else if (accountType === 'Company') {
       setCompanyProfile((prev) => {
+        // @ts-ignore
         const updatedProfile = { ...prev, [fieldKey]: value };
         console.log('Updated Company Profile:', updatedProfile);
 

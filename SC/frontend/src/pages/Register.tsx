@@ -38,17 +38,13 @@ export const Register = () => {
     setSnackbarOpen(false);
   };
 
-    const validateEmail = (email: string) => {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    };
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
 
   useEffect(() => {
-    if (
-      email.length > 0 &&
-      password.length > 0 &&
-      confirmPassword.length > 0
-    ) {
+    if (email.length > 0 && password.length > 0 && confirmPassword.length > 0) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
