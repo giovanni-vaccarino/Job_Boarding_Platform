@@ -1,0 +1,33 @@
+As detailed in the Design Document (Chapter 5), we adopted a bottom-up implementation approach during the development of the platform. For each section of the platform, including Authentication, Internship management, and more, we implemented the corresponding Use Cases and conducted Unit Tests in parallel. Specifically, we utilized the \texttt{xUnit} testing framework and developed an \texttt{IsolatedUnitTests} class. This class provided an isolated environment for creating unit tests, including all necessary dependencies and mock objects. 
+
+To illustrate, for the \texttt{RegisterUseCase}, we conducted the following key unit tests:
+\begin{itemize}
+    \item Successful registration of a student.
+    \item Successful registration of a company.
+    \item Handling of already registered email addresses.
+    \item Validation of password strength.
+\end{itemize}
+
+We aimed for a line code coverage of at least 97\% in each section, ensuring that every line of code functioned as intended. Performing these unit tests during the development of each section was critical for maintaining consistent functionality over time, essentially forming a continuous integration (CI) workflow.
+
+After implementing and unit testing all sections of the platform, we moved to integration testing. This phase was designed to verify that the individual building blocks of the platform worked in the right way together. Integration testing included comprehensive scenarios such as:
+\begin{itemize}
+    \item For students: registration, profile editing, and applying to internships.
+    \item For companies: registration, profile editing, and internship creation.
+\end{itemize}
+
+In addition to verifying correct functionality and database effects, we ensured that HTTP requests returned the correct response codes for each interaction. As with unit testing, \texttt{xUnit} was used for integration tests.
+
+The final phase of testing involved End-to-End (E2E) testing, conducted using \texttt{Cypress}, to simulate real-world scenarios and ensure the platform functioned correctly from the user's perspective. E2E testing included:
+\begin{itemize}
+    \item Verification of the user interface: ensuring it rendered correctly across different browsers and devices.
+    \item Testing critical user workflows: such as student registration, internship application, and company creation of internships.
+    \item Validation of edge cases: such as handling invalid user inputs or ensuring robust error recovery mechanisms.
+    \item Performance testing: measuring response times for key user actions to ensure the platform's responsiveness.
+\end{itemize}
+
+The E2E tests not only validated the correctness of the platform but also ensured a smooth and intuitive user experience. \texttt{Cypress} provided an efficient framework for automating these scenarios, enabling us to identify and address issues early. This comprehensive testing strategy ensured that our platform met the highest standards of reliability and usability.
+
+
+\subsection{Static Analysis}
+In addition to unit, integration, and end-to-end testing, we also performed static analysis on the codebase to ensure code quality at static time. Static analysis has been done using linters which helped us identify potential issues such as syntax errors, unused variables, and violations of coding standards. For example, \texttt{ESLint} helped ensure TypeScript type safety and React best practices. Additionally, we employed code formatters such as \texttt{Prettier} to enforce consistent code formatting across the project. While formatters do not analyze code behavior, their contribution to maintaining readability and consistency aligns with the goals of static analysis.

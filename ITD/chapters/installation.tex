@@ -1,0 +1,88 @@
+This chapter provides detailed instructions for setting up and running the platform locally, including both the backend (written in ASP.NET Core) and the frontend (developed in React with TypeScript). Follow these steps carefully to ensure proper configuration and execution.
+
+\section{Prerequisites}
+
+Before proceeding with the installation, ensure that the following prerequisites are met:
+\begin{itemize}
+    \item \textbf{Backend Requirements}:
+    \begin{itemize}
+        \item .NET SDK (version 8.0 or later)
+        \item A code editor (e.g., Rider or Visual Studio Code)
+    \end{itemize}
+    \item \textbf{Frontend Requirements}:
+    \begin{itemize}
+        \item Node.js (version 18.x or later) and npm (version 9.x or later)
+        \item A code editor (e.g., Visual Studio Code)
+    \end{itemize}
+\end{itemize}
+
+\section{Setting up}
+
+\begin{enumerate}
+    \item Copy the folder in the zip file named "VaccarinoPalladinoVacis" wherever you prefer on your device
+\end{enumerate}
+
+\subsection{Setting Up the Backend}
+
+The backend is implemented as an ASP.NET Core application. Follow these steps to set it up:
+\begin{enumerate}
+    \item Consider the backend folder(assuming you're in the "VaccarinoPalladinoVacis" folder:
+    \begin{verbatim}
+    cd SC/backend
+    \end{verbatim}
+
+    \item \textbf{Configure the environment variables}.\\\\ In the zip file you can find a directory called env-files that contains all the necessary file to copy. In particular for the backend you will copy:
+    \begin{itemize}
+        \item An \texttt{appsettings.json} file containing the required configuration (e.g., database connection string, API keys, etc.) Place this file in the root of the backend project directory.
+        \item An \texttt{appsettings.Development.json} file containing the required configuration for the development settings. Place this file in the root of the backend project directory.
+        \item A \texttt{launchSettings.json} file containing the required settings for launching. Place this file into a directory called \texttt{"Properties"}, that must be placed in the root of the backend project directory.
+    \end{itemize}
+
+    \item Restore dependencies:
+    \begin{verbatim}
+    dotnet restore
+    \end{verbatim}
+
+    \item Run the application locally:
+    \begin{verbatim}
+    dotnet run
+    \end{verbatim}
+    The backend will typically run on \texttt{https://localhost/api:5000} by default. \textbf{Ensure the port is 5000}
+\end{enumerate}
+
+\subsection{Setting Up the Frontend}
+
+The frontend is a React application written in TypeScript. Follow these steps to set it up:
+\begin{enumerate}
+    \item Consider the frontend folder(assuming you're in the "VaccarinoPalladinoVacis" folder:
+    \begin{verbatim}
+    cd SC/backend
+    \end{verbatim}
+
+    \item Install dependencies:
+    \begin{verbatim}
+    npm install
+    \end{verbatim}
+
+    \item Run the application locally:
+    \begin{verbatim}
+    npm start
+    \end{verbatim}
+    The frontend will typically be available at \texttt{http://localhost:5173}. \textbf{Ensure the running port is 5173, in order to don't face CORS policies issues}.
+\end{enumerate}
+
+\section{Running the Platform Locally}
+
+Once both the backend and frontend are set up, follow these steps to run the entire platform:
+\begin{enumerate}
+    \item Start the backend (if not already started) by running \texttt{dotnet run}.
+    \item Start the frontend (if not already started) by running \texttt{npm start}.
+    \item Open a browser and navigate to \texttt{http://localhost:5173} to access the platform.
+\end{enumerate}
+
+\section{Troubleshooting}
+
+\begin{itemize}
+    \item \textbf{Frontend API errors}: Ensure the running ports are correct(5000 for backend and 5173 for frontend).
+    \item \textbf{Dependency installation issues}: Make sure the correct versions of .NET SDK, Node.js, and npm are installed.
+\end{itemize}

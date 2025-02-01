@@ -1,0 +1,58 @@
+\section{Technology Stack Selection}
+
+In this section, the rationale for choosing the specific frameworks and languages for the backend and frontend development of the job-boarding platform is discussed.
+
+\subsection{Backend: ASP.NET Core with C\#}
+The backend framework chosen for the application is ASP.NET Core, utilizing the C\# programming language. The primary reasons for this choice are outlined below:
+
+\begin{itemize}
+    \item \textbf{Cross-Platform Support:} ASP.NET Core is a modern, cross-platform framework that enables the development of web applications on Windows, Linux, and macOS, ensuring deployment flexibility.
+    
+    \item \textbf{Performance:} ASP.NET Core is known for its exceptional performance and speed, which are critical for handling concurrent requests in a scalable job-boarding platform.
+    
+    \item \textbf{Robust Ecosystem:} The .NET ecosystem offers a wide range of libraries, tools, and integrations, which accelerates development and reduces the need for third-party dependencies.
+    
+    \item \textbf{Built-In Pattern Implementations:} ASP.NET Core provides easy access to widely adopted software patterns such as Dependency Injection (DI) and Mediator, making it straightforward to implement clean architecture principles and maintain a modular codebase.
+    
+    \item \textbf{Security:} ASP.NET Core includes built-in features for managing authentication, authorization, and data protection, making it easier to build secure applications.
+    
+    \item \textbf{Community and Support:} ASP.NET Core has a large and active community, ensuring access to extensive documentation, tutorials, and third-party tools.
+\end{itemize}
+
+\textbf{Disadvantages:}
+\begin{itemize}
+    \item \textbf{Learning Curve:} For developers unfamiliar with .NET Core, the framework can have a steep learning curve, especially when adopting patterns such as DI and Mediator.
+    \item \textbf{Overhead for Small Projects:} The robust ecosystem and extensive features may introduce unnecessary overhead for simpler applications.
+\end{itemize}
+
+\subsection{Frontend: React with TypeScript}
+For the frontend, the chosen framework is React, combined with TypeScript. The reasons for this selection are as follows:
+
+\begin{itemize}
+    \item \textbf{Component-Based Architecture:} React's component-based design simplifies the creation of reusable and modular UI components. This feature of React has been crucial during the frontend development.
+    
+    \item \textbf{Rich Ecosystem:} React has a vast ecosystem of libraries and tools that we've used, such as React Router for navigation and state management solutions like Redux. Moreover, for the design, we've chosen to use the MUI library.
+
+    \item \textbf{Dependency Injection Support:} Libraries like \texttt{Inversify} made it easier to implement the Dependency Injection (DI) pattern on the frontend, promoting clean architecture principles and maintaining consistency between the frontend and backend.
+
+    \item \textbf{Type Safety with TypeScript:} TypeScript enhances JavaScript by adding static typing, reducing runtime errors and improving code maintainability in large applications.
+    
+    \item \textbf{Performance:} React's virtual DOM efficiently updates the user interface, ensuring fast rendering and a responsive user experience.
+
+    \item \textbf{Popularity and Community Support:} React is one of the most popular frontend frameworks, with a strong community and extensive resources for learning and troubleshooting.
+\end{itemize}
+
+\textbf{Disadvantages:}
+\begin{itemize}
+    \item \textbf{Boilerplate Code:} While React provides flexibility, managing state and other common tasks often requires additional libraries and setup, leading to boilerplate code.
+    \item \textbf{Tooling Complexity:} Setting up a React project with TypeScript, state management, and DI libraries can be complex and time-consuming for developers new to the ecosystem.
+\end{itemize}
+
+\subsection{Overall Justification and Limitations}
+The combination of ASP.NET Core with C\# for the backend and React with TypeScript for the frontend provides a well-rounded, modern technology stack. 
+
+\textbf{Limitations:}
+\begin{itemize}
+    \item The initial learning curve for both ASP.NET Core and React with TypeScript may increase the onboarding time for new developers.
+    \item Integration between the frontend and backend may require careful coordination, particularly when implementing DI patterns and managing shared state.
+\end{itemize}
