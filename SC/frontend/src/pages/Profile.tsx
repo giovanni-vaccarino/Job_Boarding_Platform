@@ -28,7 +28,6 @@ export const Profile = () => {
   const dispatch = useAppDispatch();
 
   const profileType: TypeProfile | null = authState.profileType;
-  const verified: boolean = authState.verified;
   // @ts-ignore
   const verified: boolean | null = authState.verified;
   const accountType: string = TypeProfile[profileType];

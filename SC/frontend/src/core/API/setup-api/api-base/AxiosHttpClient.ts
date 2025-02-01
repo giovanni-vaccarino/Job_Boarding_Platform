@@ -48,8 +48,6 @@ export class AxiosHttpClient extends HttpClientBase {
       }
       //const response = err.response as AxiosResponse<{ message: string }>;
 
-      console.log(err);
-
       const errorMessage =
         typeof err?.response?.data === 'string'
           ? err.response.data.split('.')[1]?.trim()

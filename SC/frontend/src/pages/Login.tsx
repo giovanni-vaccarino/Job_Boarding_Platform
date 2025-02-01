@@ -127,9 +127,6 @@ export const Login = () => {
               setIsLoading(true);
               const res = await authApi.login(loginInput);
 
-              console.log('idstudente' + res.profileId);
-
-              console.log(res);
               dispatch(appActions.auth.successLogin(res));
               const profileTypeEnum =
                 res.profileType.toString() === 'Student'
