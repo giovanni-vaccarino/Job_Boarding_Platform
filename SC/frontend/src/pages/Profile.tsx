@@ -115,6 +115,13 @@ export const Profile = () => {
               fieldKey={'name'}
               onFieldChange={handleFieldChange}
             />
+            <RowComponent
+              label="Cf"
+              value={studentProfile.cf}
+              buttons={['edit']}
+              fieldKey={'cf'}
+              onFieldChange={handleFieldChange}
+            />
             {!verified &&
               isMoreThanSixHoursOld(authState.verificationMailSent) && (
                 <Button

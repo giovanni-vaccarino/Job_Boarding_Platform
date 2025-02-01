@@ -70,17 +70,27 @@ public class InternshipMatchingTask : IBackgroundTask
 
         if (matchedStudents.Count > 0)
         {
-            var matches = matchedStudents.Select(studentId => new Data.Entities.Match
+            var existingMatches = await dbContext.Matches
+                .Where(m => m.InternshipId == internship.Id && matchedStudents.Contains(m.StudentId))
+                .Select(m => new { m.StudentId, m.InternshipId })
+                .ToListAsync();
+
+            var matchesToInsert = matchedStudents
+                .Where(studentId => !existingMatches.Any(e => e.StudentId == studentId && e.InternshipId == internship.Id))
+                .Select(studentId => new Data.Entities.Match
+                {
+                    InternshipId = internship.Id,
+                    StudentId = studentId,
+                    HasInvite = false,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                }).ToList();
+
+            if (matchesToInsert.Any())
             {
-                InternshipId = internship.Id,
-                StudentId = studentId,
-                HasInvite = false,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            }).ToList();
-        
-            await dbContext.Matches.AddRangeAsync(matches);
-            await dbContext.SaveChangesAsync();
+                await dbContext.Matches.AddRangeAsync(matchesToInsert);
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
     
