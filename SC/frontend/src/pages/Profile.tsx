@@ -31,7 +31,7 @@ export const Profile = () => {
   // @ts-ignore
   const verified: boolean | null = authState.verified;
   // @ts-ignore
-    const accountType: string = TypeProfile[profileType];
+  const accountType: string = TypeProfile[profileType];
   const [verifyButtonValue, setVerifyButtonValue] = useState('Verify Email');
 
   const [selectedSection, setSelectedSection] = useState<string>('profile');

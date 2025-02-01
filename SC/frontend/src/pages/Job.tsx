@@ -20,6 +20,7 @@ const mapInternshipDetailToJobDescription = (
     jobDescriptionMessage: internship.description,
     skillsRequired: internship.requirements,
     jobId: internship.id,
+    feedbacks: internship.feedbacks,
   };
 };
 

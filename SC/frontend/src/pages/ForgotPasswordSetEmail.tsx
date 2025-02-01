@@ -88,13 +88,12 @@ export const ForgotPasswordSetEmail = () => {
               );
               navigate(AppRoutes.ConfirmPage);
             } catch (error: any) {
-
               console.error(
                 'Full error object:',
                 JSON.stringify(error, null, 2)
               );
 
-              setSnackbarMessage("Mail error");
+              setSnackbarMessage('Mail error');
               setSnackbarOpen(true);
             }
           }}
