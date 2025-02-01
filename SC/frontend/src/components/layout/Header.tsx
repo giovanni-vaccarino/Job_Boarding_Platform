@@ -57,6 +57,8 @@ export const Header = () => {
           sx={{
             display: 'flex',
             gap: 5,
+            marginLeft:
+              authState.profileType === TypeProfile.Company ? '-5rem' : '0',
           }}
         >
           {profileType !== TypeProfile.Company && (
