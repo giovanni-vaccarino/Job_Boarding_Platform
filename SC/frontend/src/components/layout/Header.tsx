@@ -81,7 +81,7 @@ export const Header = () => {
           <Typography
             onClick={() => {
               if (isLogged) {
-                navigate(AppRoutes.Matches, { id: authState.profileId || ''});
+                navigate(AppRoutes.Matches, { id: authState.profileId || '' });
                 dispatch(
                   appActions.global.setHomePageTab({ newTab: Tab.Matches })
                 );

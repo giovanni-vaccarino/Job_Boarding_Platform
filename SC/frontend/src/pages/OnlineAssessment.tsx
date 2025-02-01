@@ -130,7 +130,7 @@ export const OnlineAssessment = () => {
                 const question = questions.find((q) => q.id.toString() === id);
                 if (!question) return [id, value];
 
-                  if (
+                if (
                   question.questionType === 'MultipleChoice' &&
                   Array.isArray(value)
                 ) {
@@ -171,7 +171,7 @@ export const OnlineAssessment = () => {
             navigate(AppRoutes.ConfirmPage);
           } catch (error) {
             // @ts-ignore
-              const errorMessage = error.message.split('\\r')[0];
+            const errorMessage = error.message.split('\\r')[0];
             console.error('Full error object:', JSON.stringify(error, null, 2));
             setSnackbarMessage(errorMessage);
             setSnackbarOpen(true);
