@@ -20,7 +20,6 @@ export const Login = () => {
 
   const authState = useAppSelector((state) => state.auth);
   const profileType = authState.profileType;
-  console.log('LoginType' + profileType);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -61,6 +60,7 @@ export const Login = () => {
             placeholder="Email"
             required
             margin="normal"
+            id = "emailField"
           />
         </Box>
 
@@ -81,18 +81,19 @@ export const Login = () => {
             type="password"
             required
             margin="normal"
+            id = "passwordField"
           />
         </Box>
 
         <Button
           fullWidth
           variant="contained"
+          id = "loginButton"
           onClick={async () => {
             const loginInput: LoginInput = {
               email: email,
               password: password,
             };
-            console.log(loginInput);
 
             try {
               const res = await authApi.login(loginInput);

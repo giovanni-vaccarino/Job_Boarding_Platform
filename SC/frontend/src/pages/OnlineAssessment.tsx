@@ -106,7 +106,14 @@ export const OnlineAssessment = () => {
     <Page>
       <StartPopup />
       <TitleHeader title={'Online Assessment'} />
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', marginBottom: '1rem' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '50%',
+          marginBottom: '1rem',
+        }}
+      >
         {questions.map(renderQuestion)}
       </Box>
       <Button
@@ -161,7 +168,7 @@ export const OnlineAssessment = () => {
         Send
       </Button>
 
-      <Box sx={{marginTop: '2rem'}}> </Box>
+      <Box sx={{ marginTop: '2rem' }}> </Box>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}

@@ -6,12 +6,12 @@ export interface Feedback {
   rating: Rating;
 }
 
-export enum Rating{
-    OneStar,
-    TwoStars,
-    ThreeStars,
-    FourStars,
-    FiveStars
+export enum Rating {
+  OneStar,
+  TwoStars,
+  ThreeStars,
+  FourStars,
+  FiveStars,
 }
 
 export interface FeedbackInternshipInput {

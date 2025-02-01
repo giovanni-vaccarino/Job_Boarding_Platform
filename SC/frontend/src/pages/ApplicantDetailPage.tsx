@@ -31,10 +31,7 @@ export const ApplicantDetailPage = () => {
   const internshiApi = useService<IInternshipApi>(ServiceType.InternshipApi);
 
   const handleAccept = async () => {
-    if (
-      applicationStatus === "LastEvaluation"
-    ) {
-
+    if (applicationStatus === 'LastEvaluation') {
       dispatch(
         appActions.global.setConfirmMessage({
           newMessage: 'Application accepted',
@@ -50,10 +47,7 @@ export const ApplicantDetailPage = () => {
         companyId as string
       );
       navigate(AppRoutes.ConfirmPage);
-    } else if (
-      applicationStatus == "Screening"
-    ) {
-
+    } else if (applicationStatus == 'Screening') {
       dispatch(
         appActions.global.setConfirmMessage({
           newMessage: 'Application accepted - waiting for online assessment',

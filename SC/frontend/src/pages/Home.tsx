@@ -28,8 +28,6 @@ export const Home = () => {
 
   const internship = useLoaderData() as Internship[];
 
-  console.log(internship[0].dateCreated.toString());
-
   useEffect(() => {
     const jobsToUpdate = internship.filter((job) => {
       // Filter by search message

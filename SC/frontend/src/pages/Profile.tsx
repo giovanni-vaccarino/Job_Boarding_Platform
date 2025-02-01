@@ -272,13 +272,6 @@ export const Profile = () => {
                 fieldKey={'website'}
                 onFieldChange={handleFieldChange}
               />
-              <RowComponent
-                label="Linkedin"
-                value={companyProfile.linkedin}
-                buttons={['edit']}
-                fieldKey={'linkedin'}
-                onFieldChange={handleFieldChange}
-              />
             </Box>
           );
         }

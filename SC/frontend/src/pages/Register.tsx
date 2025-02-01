@@ -68,6 +68,7 @@ export const Register = () => {
             placeholder="Email"
             required
             margin="normal"
+            id="emailField"
           />
         </Box>
 
@@ -88,6 +89,7 @@ export const Register = () => {
             type="password"
             required
             margin="normal"
+            id="passwordField"
           />
         </Box>
 
@@ -108,6 +110,7 @@ export const Register = () => {
             type="password"
             required
             margin="normal"
+            id="confirmPasswordField"
           />
         </Box>
 
@@ -127,18 +130,20 @@ export const Register = () => {
             displayEmpty
             required
             sx={{ marginTop: '0.5rem' }}
+            id = "profileField"
           >
             <MenuItem value="" disabled>
               Select Profile
             </MenuItem>
-            <MenuItem value={TypeProfile.Company}>Company</MenuItem>
-            <MenuItem value={TypeProfile.Student}>Student</MenuItem>
+            <MenuItem id = "Company" value={TypeProfile.Company}>Company</MenuItem>
+            <MenuItem id = "Student" value={TypeProfile.Student}>Student</MenuItem>
           </Select>
         </Box>
 
         <Button
           fullWidth
           variant="contained"
+          id = "registerButton"
           sx={{
             backgroundColor: 'primary.main',
             color: '#FFFFFF',
@@ -158,8 +163,6 @@ export const Register = () => {
             };
 
             try {
-              console.log(registrationInput);
-              console.log(email);
               const res = await authApi.register(registrationInput);
 
               dispatch(appActions.auth.successLogin(res));

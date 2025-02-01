@@ -6,6 +6,8 @@ using backend.Service.Contracts.Internship;
 using backend.Shared.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace backend.Business.Internship.GetApplicantAnswersUseCase;
 
@@ -47,12 +49,24 @@ public class GetApplicantAnswersUseCase : IRequestHandler<GetApplicantAnswersQue
                 .ThenInclude(iq => iq.Question)
                 .ToListAsync(cancellationToken);
 
+        var answersToSend = answers.Select(answer =>
+        {
+            if (answer.InternshipQuestion.Question.Type == QuestionType.MultipleChoice)
+            {
+                var index = int.Parse(answer.StudentAnswer.First());
+                answer.StudentAnswer[0] = answer.InternshipQuestion.Question.Options[index];
+            }
+            return answer;
+        }).ToList();
+
+        
         var responseDto = answers.Select(answer => new ApplicantResponseDto
             {
                 Question = answer.InternshipQuestion.Question != null ? _mapper.Map<QuestionDto>(answer.InternshipQuestion.Question) : null,
                 Answer = answer.StudentAnswer
             }).ToList();
-
+        
+    
         var applicantDetailsResponse = new ApplicantDetailsResponse
         {
             Answers = responseDto.ToArray(),
