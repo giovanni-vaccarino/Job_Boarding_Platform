@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using backend.Data;
+using backend.Service.Contracts.Feedback;
 using backend.Service.Contracts.Internship;
+using backend.Shared.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,7 +45,22 @@ public class GetInternshipDetailsUseCase : IRequestHandler<GetInternshipDetailsQ
         {
             throw new KeyNotFoundException($"Internship with ID {internshipId} not found.");
         }
+        
+        var companyId = internship!.CompanyId;
 
+        var allInternships = await _dbContext.Internships
+            .Where(i => i.CompanyId == companyId)
+            .ToListAsync(cancellationToken);
+        
+        var allInternshipIds = allInternships.Select(i => i.Id).ToList();
+
+        var internshipFeedbacks = await _dbContext.InternshipFeedbacks
+            .Where(f => allInternshipIds.Contains(f.Id) && f.Actor == ProfileType.Student)
+            .ToListAsync(cancellationToken);
+        
+        var internshipDto = _mapper.Map<InternshipDto>(internship);
+        internshipDto.Feedbacks = _mapper.Map<List<FeedbackResponseDto>>(internshipFeedbacks);
+            
         return _mapper.Map<InternshipDto>(internship);
     }
 }

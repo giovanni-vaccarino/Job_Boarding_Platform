@@ -60,6 +60,8 @@ public class InternshipMatchingTask : IBackgroundTask
             Console.WriteLine($"Student ID: {studentScore.StudentId}, Score: {studentScore.Score:F2}");
         }
 
+        
+        
         var matchedStudents = studentScores
             .Where(s => s.Score > threshold)
             .Take(10)
