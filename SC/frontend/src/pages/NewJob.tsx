@@ -37,25 +37,25 @@ export const NewJob = () => {
 
   useEffect(() => {
     const validateDate = () => {
-      const dayNum = parseInt(day, 10);
-      const monthNum = parseInt(month, 10);
-      const yearNum = parseInt(year, 10);
+      // Ensure the values are numeric strings
+      const isNumericString = (str) => /^\d+$/.test(str);
 
-      if (
-        !isNaN(dayNum) &&
-        !isNaN(monthNum) &&
-        !isNaN(yearNum) &&
-        dayNum >= 1 &&
-        dayNum <= 31 &&
-        monthNum >= 1 &&
-        monthNum <= 12 &&
-        yearNum >= 1900 &&
-        yearNum <= 2100
-      ) {
-        setIsDateValid(true);
-      } else {
-        setIsDateValid(false);
+      if (isNumericString(day) && isNumericString(month) && isNumericString(year)) {
+        const dayNum = parseInt(day, 10);
+        const monthNum = parseInt(month, 10);
+        const yearNum = parseInt(year, 10);
+
+        if (
+          dayNum >= 1 && dayNum <= 31 &&
+          monthNum >= 1 && monthNum <= 12 &&
+          yearNum >= 1900 && yearNum <= 2100
+        ) {
+          setIsDateValid(true);
+          return;
+        }
       }
+
+      setIsDateValid(false);
     };
 
     validateDate();
