@@ -1,13 +1,16 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Button} from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch, useAppSelector } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { useLocation } from 'react-router-dom';
 import { Tab } from '../core/store/slices/global.ts';
 import { useEffect, useState } from 'react';
-import { SendVerificationMailDto, VerifyMailDto } from '../models/auth/login.ts';
+import {
+  SendVerificationMailDto,
+  VerifyMailDto,
+} from '../models/auth/login.ts';
 import { useService } from '../core/ioc/ioc-provider.tsx';
 import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
@@ -31,16 +34,16 @@ export const VerifyEmail = () => {
 
       try {
         await authApi.verifyMail(dto);
-        setMessage("Email Verified!");
+        setMessage('Email Verified!');
         dispatch(appActions.auth.setVerified());
       } catch (error) {
         console.error('Error sending verification mail:', error);
-        setMessage("Email Not Verified!");
+        setMessage('Email Not Verified!');
       }
-    }
+    };
 
     handleVerificationMail();
-  },[]);
+  }, []);
 
   if (token === null) {
     navigate(AppRoutes.Profile);

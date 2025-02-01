@@ -58,8 +58,8 @@ export const authSlice = createSlice({
     setProfileId: (state, action: PayloadAction<SetProfileId>) => {
       state.profileId = action.payload.id;
     },
-    setVerified:(state) => {
+    setVerified: (state) => {
       state.verified = true;
-    }
+    },
   },
 });

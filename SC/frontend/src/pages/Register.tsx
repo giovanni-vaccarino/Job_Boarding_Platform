@@ -2,14 +2,13 @@ import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import {
   Box,
-  Button,
   MenuItem,
   Select,
   Snackbar,
   TextField,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RegisterInput, TypeProfile } from '../models/auth/register.ts';
 import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
@@ -17,14 +16,18 @@ import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { useService } from '../core/ioc/ioc-provider.tsx';
 import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
+import { BusyButton } from '../components/button/BusyButton.tsx';
 
 export const Register = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [emailError, setEmailError] = useState<string>('');
   const navigate = useNavigateWrapper();
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
   const dispatch = useAppDispatch();
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [profile, setProfile] = useState<TypeProfile>(TypeProfile.Student);
 
@@ -33,6 +36,29 @@ export const Register = () => {
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
+  };
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  useEffect(() => {
+    if (email.length > 0 && password.length > 0 && confirmPassword.length > 0) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [email, password, confirmPassword, profile]);
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    if (!validateEmail(value)) {
+      setEmailError('Invalid email format');
+    } else {
+      setEmailError('');
+    }
   };
 
   return (
@@ -62,13 +88,15 @@ export const Register = () => {
           </Typography>
           <TextField
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             fullWidth
             variant="outlined"
             placeholder="Email"
             required
             margin="normal"
             id="emailField"
+            error={!!emailError}
+            helperText={emailError}
           />
         </Box>
 
@@ -130,20 +158,26 @@ export const Register = () => {
             displayEmpty
             required
             sx={{ marginTop: '0.5rem' }}
-            id = "profileField"
+            id="profileField"
           >
             <MenuItem value="" disabled>
               Select Profile
             </MenuItem>
-            <MenuItem id = "Company" value={TypeProfile.Company}>Company</MenuItem>
-            <MenuItem id = "Student" value={TypeProfile.Student}>Student</MenuItem>
+            <MenuItem id="Company" value={TypeProfile.Company}>
+              Company
+            </MenuItem>
+            <MenuItem id="Student" value={TypeProfile.Student}>
+              Student
+            </MenuItem>
           </Select>
         </Box>
 
-        <Button
+        <BusyButton
+          disabled={isDisabled}
+          isBusy={isLoading}
           fullWidth
           variant="contained"
-          id = "registerButton"
+          id="registerButton"
           sx={{
             backgroundColor: 'primary.main',
             color: '#FFFFFF',
@@ -163,8 +197,10 @@ export const Register = () => {
             };
 
             try {
+              setIsLoading(true);
               const res = await authApi.register(registrationInput);
 
+              // @ts-ignore
               dispatch(appActions.auth.successLogin(res));
               dispatch(appActions.auth.setProfileType({ type: profile }));
               navigate(AppRoutes.Profile, {
@@ -174,6 +210,8 @@ export const Register = () => {
                 window.location.reload();
               }, 500);
             } catch (error) {
+              setIsLoading(false);
+              // @ts-ignore
               const errorMessage = error.message.split('\\r')[0];
 
               console.error(
@@ -187,7 +225,7 @@ export const Register = () => {
           }}
         >
           Register
-        </Button>
+        </BusyButton>
       </Box>
 
       <Snackbar

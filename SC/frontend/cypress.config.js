@@ -1,9 +1,9 @@
-process.env.NODE_OPTIONS = "--loader ts-node/esm";
-import { defineConfig } from "cypress";
+process.env.NODE_OPTIONS = '--loader ts-node/esm';
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: "http://localhost:5173",
+    baseUrl: 'http://localhost:5173',
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
