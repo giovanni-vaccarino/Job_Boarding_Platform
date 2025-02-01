@@ -9,7 +9,8 @@ interface AuthState {
   loggedIn: boolean;
   profileType: TypeProfile | null;
   profileId: string | null;
-  verified: boolean;
+  verified: boolean | null;
+  verificationMailSent: Date | null;
 }
 
 const initialState: AuthState = {
@@ -19,6 +20,7 @@ const initialState: AuthState = {
   profileType: null,
   profileId: null,
   verified: false,
+  verificationMailSent: null,
 };
 
 export interface SetProfileType {
@@ -60,6 +62,9 @@ export const authSlice = createSlice({
     },
     setVerified: (state) => {
       state.verified = true;
+    },
+    setVerificationMailSent: (state) => {
+      state.verificationMailSent = new Date();
     },
   },
 });

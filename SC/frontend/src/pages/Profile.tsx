@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Avatar, Box, Button, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { RowComponent } from '../components/profile-components/RowComponent.tsx';
@@ -16,10 +16,7 @@ import { Company, UpdateCompany } from '../models/company/company.ts';
 import { useAppSelector } from '../core/store';
 import { appActions, useAppDispatch } from '../core/store';
 import { TypeProfile } from '../models/auth/register.ts';
-import {
-  SendVerificationMailDto,
-  VerifyMailDto,
-} from '../models/auth/login.ts';
+import { SendVerificationMailDto } from '../models/auth/login.ts';
 
 export const Profile = () => {
   const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
@@ -28,13 +25,12 @@ export const Profile = () => {
   const navigate = useNavigateWrapper();
   const data = useLoaderData() as Student | Company;
   const authState = useAppSelector((state) => state.auth);
-  const dispach = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const profileType: TypeProfile | null = authState.profileType;
-  const verified: boolean = authState.verified;
+  const verified: boolean | null = authState.verified;
   const accountType: string = TypeProfile[profileType];
   const [verifyButtonValue, setVerifyButtonValue] = useState('Verify Email');
-  const [token, setToken] = useState('');
 
   const [selectedSection, setSelectedSection] = useState<string>('profile');
 
@@ -44,28 +40,16 @@ export const Profile = () => {
 
   const [companyProfile, setCompanyProfile] = useState(data as Company);
 
-  //TO avoid infinite loop call the setStudent only when the data or accountType has been changed
-  /*
-    (() => {
-    //Retrieve the accountType
-    //setAccountType();
-    if (data && accountType === 'student') {
-      console.log('Student Profile:', data);
+  const isMoreThanSixHoursOld = (date: Date | null): boolean => {
+    if (date === null) return true;
+    const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000);
+    return date < sixHoursAgo;
+  };
 
-    } else if (data && accountType === 'company') {
-      setCompanyProfile(data as Company);
-      console.log('Company Profile:', data);
-    }
-  }, [data, accountType]); // Add dependencies
-  console.log(studentProfile);
-*/
   const handleSectionChange = (section: string) => {
     setSelectedSection(section);
   };
 
-  // Removed handleTypeAccount
-
-  //The function is passed as a props to the row component and handle the update of the profile
   const handleFieldChange = async (
     fieldKey: string | undefined,
     value?: string | string[] | undefined
@@ -128,40 +112,42 @@ export const Profile = () => {
               fieldKey={'name'}
               onFieldChange={handleFieldChange}
             />
-            {!verified && (
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: 'primary.main',
-                  color: '#FFFFFF',
-                  textTransform: 'none',
-                  fontSize: '1rem',
-                  fontWeight: 'bold',
-                  borderRadius: '8px',
-                  marginTop: 2,
-                  marginBottom: 2,
-                }}
-                onClick={async () => {
-                  if (!companyProfile?.email) {
-                    console.error('Error: email is undefined');
-                    return;
-                  }
+            {!verified &&
+              isMoreThanSixHoursOld(authState.verificationMailSent) && (
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: 'primary.main',
+                    color: '#FFFFFF',
+                    textTransform: 'none',
+                    fontSize: '1rem',
+                    fontWeight: 'bold',
+                    borderRadius: '8px',
+                    marginTop: 2,
+                    marginBottom: 2,
+                  }}
+                  onClick={async () => {
+                    if (!companyProfile?.email) {
+                      console.error('Error: email is undefined');
+                      return;
+                    }
 
-                  const dto: SendVerificationMailDto = {
-                    email: companyProfile.email,
-                  };
+                    const dto: SendVerificationMailDto = {
+                      email: companyProfile.email,
+                    };
 
-                  try {
-                    await authApi.sendVerificationMail(dto);
-                    setVerifyButtonValue('Email Sent');
-                  } catch (error) {
-                    console.error('Error sending verification mail:', error);
-                  }
-                }}
-              >
-                {verifyButtonValue}
-              </Button>
-            )}
+                    try {
+                      await authApi.sendVerificationMail(dto);
+                      dispatch(appActions.auth.setVerificationMailSent())
+                      setVerifyButtonValue('Email Sent');
+                    } catch (error) {
+                      console.error('Error sending verification mail:', error);
+                    }
+                  }}
+                >
+                  {verifyButtonValue}
+                </Button>
+              )}
           </Box>
         );
       else if (accountType === 'Company')
@@ -388,7 +374,7 @@ export const Profile = () => {
             onClick={async () => {
               await authApi.logout();
 
-              dispach(appActions.auth.logout());
+              dispatch(appActions.auth.logout());
               navigate(AppRoutes.Login);
             }}
           >
