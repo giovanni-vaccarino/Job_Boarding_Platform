@@ -32,6 +32,8 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
     setSnackbarOpen(false);
   };
 
+  console.log(props.jobDescription);
+
   return (
     <>
       <TitleHeader title={jobDescription.jobTitle} />

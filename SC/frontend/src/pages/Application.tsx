@@ -26,6 +26,7 @@ const mapApplicationToJobsTableHeader = (
     jobDescriptionMessage: application.internship.description,
     skillsRequired: application.internship.requirements,
     jobId: application.id,
+    feedbacks: application.internship.feedbacks,
   };
 };
 
