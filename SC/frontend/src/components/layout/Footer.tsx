@@ -38,46 +38,46 @@ export const Footer = () => {
       >
         ©2024 SC Platform. All Rights Reserved.
       </Typography>
-        {logged && (
-            <>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignSelf: 'flex-end',
-                        marginRight: '1rem',
-                    }}
-                >
-                    <Button onClick={handleToggleFeedback}>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                color: 'common.white',
-                                fontWeight: 'bold',
-                                fontSize: '0.98rem',
-                            }}
-                        >
-                            {!showFeedback ? 'Leave a feedback for us' : 'Close feedback'}
-                        </Typography>
-                    </Button>
-                </Box>
-                {showFeedback && (
-                    <Box
-                        sx={{
-                            bgcolor: 'secondary.main',
-                            p: 2,
-                            mt: 2,
-                            borderRadius: 1,
-                            width: '100%',
-                            maxWidth: '600px',
-                            margin: 'auto',
-                            color: 'common.black',
-                        }}
-                    >
-                        <CreateFeedback applicationId={-1} />
-                    </Box>
-                )}
-            </>
-        )}
+      {logged && (
+        <>
+          <Box
+            sx={{
+              display: 'flex',
+              alignSelf: 'flex-end',
+              marginRight: '1rem',
+            }}
+          >
+            <Button onClick={handleToggleFeedback}>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'common.white',
+                  fontWeight: 'bold',
+                  fontSize: '0.98rem',
+                }}
+              >
+                {!showFeedback ? 'Leave a feedback for us' : 'Close feedback'}
+              </Typography>
+            </Button>
+          </Box>
+          {showFeedback && (
+            <Box
+              sx={{
+                bgcolor: 'secondary.main',
+                p: 2,
+                mt: 2,
+                borderRadius: 1,
+                width: '100%',
+                maxWidth: '600px',
+                margin: 'auto',
+                color: 'common.black',
+              }}
+            >
+              <CreateFeedback applicationId={-1} />
+            </Box>
+          )}
+        </>
+      )}
     </Box>
   );
 };

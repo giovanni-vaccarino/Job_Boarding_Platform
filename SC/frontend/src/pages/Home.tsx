@@ -2,7 +2,7 @@ import { Page } from '../components/layout/Page.tsx';
 import { HomePageHeader } from '../components/page-headers/HomePageHeader.tsx';
 import { Box, MenuItem, Select, Stack, Typography } from '@mui/material';
 import { JobListItem } from '../components/list-items/JobListItem.tsx';
-import { useAppSelector } from '../core/store';
+import { appActions, useAppDispatch, useAppSelector } from '../core/store';
 import { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { Internship } from '../models/internship/internship.ts';
@@ -20,6 +20,7 @@ export const Home = () => {
   );
   const [filteredJobs, setFilteredJobs] = useState<Internship[]>([]);
   const searchMessage = useAppSelector((s) => s.global.searchMessage);
+  const dispatch = useAppDispatch();
 
   const today = new Date();
   const startOfWeek = new Date(today);
@@ -47,6 +48,16 @@ export const Home = () => {
     });
     setFilteredJobs(jobsToUpdate);
   }, [postedDate, searchMessage]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(
+        appActions.global.setSearchMessage({
+          newSearchMessage: '',
+        })
+      );
+    };
+  }, []);
 
   return (
     <Page>
