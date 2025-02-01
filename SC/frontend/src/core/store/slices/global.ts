@@ -24,8 +24,11 @@ const initialState: GlobalState = {
   confirmMessage: '',
   searchMessage: '',
   newInternship: new (class implements AddInternshipDto {
+    // @ts-ignore
     ExistingQuestions: number[];
+    // @ts-ignore
     JobDetails: AddJobDetailsDto;
+    // @ts-ignore
     Questions: AddQuestionDto[];
   })(),
 };

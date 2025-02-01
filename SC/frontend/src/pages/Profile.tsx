@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Avatar, Box, Button, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { RowComponent } from '../components/profile-components/RowComponent.tsx';
@@ -30,7 +30,8 @@ export const Profile = () => {
   const profileType: TypeProfile | null = authState.profileType;
   // @ts-ignore
   const verified: boolean | null = authState.verified;
-  const accountType: string = TypeProfile[profileType];
+  // @ts-ignore
+    const accountType: string = TypeProfile[profileType];
   const [verifyButtonValue, setVerifyButtonValue] = useState('Verify Email');
 
   const [selectedSection, setSelectedSection] = useState<string>('profile');
