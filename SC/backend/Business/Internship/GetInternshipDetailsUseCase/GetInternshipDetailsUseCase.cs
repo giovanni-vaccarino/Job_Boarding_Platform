@@ -46,7 +46,7 @@ public class GetInternshipDetailsUseCase : IRequestHandler<GetInternshipDetailsQ
             throw new KeyNotFoundException($"Internship with ID {internshipId} not found.");
         }
         
-        var companyId = internship!.CompanyId;
+        var companyId = internship.CompanyId;
 
         var allInternships = await _dbContext.Internships
             .Where(i => i.CompanyId == companyId)
@@ -55,12 +55,12 @@ public class GetInternshipDetailsUseCase : IRequestHandler<GetInternshipDetailsQ
         var allInternshipIds = allInternships.Select(i => i.Id).ToList();
 
         var internshipFeedbacks = await _dbContext.InternshipFeedbacks
-            .Where(f => allInternshipIds.Contains(f.Id) && f.Actor == ProfileType.Student)
+            .Where(f => allInternshipIds.Contains(f.Application.InternshipId) && f.Actor == ProfileType.Student)
             .ToListAsync(cancellationToken);
         
         var internshipDto = _mapper.Map<InternshipDto>(internship);
         internshipDto.Feedbacks = _mapper.Map<List<FeedbackResponseDto>>(internshipFeedbacks);
             
-        return _mapper.Map<InternshipDto>(internship);
+        return internshipDto;
     }
 }
