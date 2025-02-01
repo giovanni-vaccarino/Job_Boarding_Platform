@@ -56,20 +56,27 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
           gap: 3,
         }}
       >
-        <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
-          Feedback:
-        </Typography>
-        {props.jobDescription.feedbacks?.map((feedback, index) => (
-          <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography
-              sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
-            >{`${index + 1})`}</Typography>
-            <ViewFeedback
-              feedbackText={feedback.text}
-              rating={feedback.rating}
-            />
-          </Box>
-        ))}
+        {props.jobDescription.feedbacks?.length > 0 && (
+          <>
+            <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
+              Feedback:
+            </Typography>
+            {props.jobDescription.feedbacks?.map((feedback, index) => (
+              <Box
+                key={index}
+                sx={{ display: 'flex', flexDirection: 'column' }}
+              >
+                <Typography
+                  sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
+                >{`${index + 1})`}</Typography>
+                <ViewFeedback
+                  feedbackText={feedback.text}
+                  rating={feedback.rating}
+                />
+              </Box>
+            ))}
+          </>
+        )}
       </Box>
     </>
   );

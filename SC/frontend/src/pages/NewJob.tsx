@@ -40,15 +40,22 @@ export const NewJob = () => {
       // Ensure the values are numeric strings
       const isNumericString = (str) => /^\d+$/.test(str);
 
-      if (isNumericString(day) && isNumericString(month) && isNumericString(year)) {
+      if (
+        isNumericString(day) &&
+        isNumericString(month) &&
+        isNumericString(year)
+      ) {
         const dayNum = parseInt(day, 10);
         const monthNum = parseInt(month, 10);
         const yearNum = parseInt(year, 10);
 
         if (
-          dayNum >= 1 && dayNum <= 31 &&
-          monthNum >= 1 && monthNum <= 12 &&
-          yearNum >= 1900 && yearNum <= 2100
+          dayNum >= 1 &&
+          dayNum <= 31 &&
+          monthNum >= 1 &&
+          monthNum <= 12 &&
+          yearNum >= 1900 &&
+          yearNum <= 2100
         ) {
           setIsDateValid(true);
           return;
