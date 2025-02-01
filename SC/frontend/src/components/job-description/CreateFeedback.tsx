@@ -2,11 +2,15 @@ import { Box, Typography, TextField, Rating, Button } from '@mui/material';
 import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
 import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
-import { FeedbackInternshipInput } from '../../models/feedback/feedback.ts';
+import {
+  FeedackPlatformInput,
+  FeedbackInternshipInput,
+} from '../../models/feedback/feedback.ts';
 import { useState } from 'react';
 import { useService } from '../../core/ioc/ioc-provider.tsx';
 import { IFeedbackApi } from '../../core/API/feedback/IFeedbackApi.ts';
 import { ServiceType } from '../../core/ioc/service-type.ts';
+import { TypeProfile } from '../../models/auth/register.ts';
 
 export interface CreateFeedbackProps {
   applicationId: number;
@@ -73,26 +77,45 @@ export const CreateFeedback = (props: CreateFeedbackProps) => {
           variant="contained"
           color="primary"
           onClick={() => {
-            const feedbackInternshipInput: FeedbackInternshipInput = {
-              text: text,
-              rating: rating,
-              profileId: Number(profileId),
-              applicationId: props.applicationId,
-              actor: profileType,
-            };
-
-            const res = feedbackApi.postFeedbackInternship(
-              feedbackInternshipInput
-            );
-
-            console.log(res);
-
-            dispatch(
-              appActions.global.setConfirmMessage({
-                newMessage: 'Feedback Sent Successfully',
-              })
-            );
-            navigate(AppRoutes.ConfirmPage);
+            if (props.applicationId === -1) {
+              const feedbackPlatformInput: FeedackPlatformInput = {
+                text: text,
+                rating: rating,
+                profileId: Number(profileId),
+                actor: profileType as TypeProfile,
+              };
+              const res = feedbackApi.postFeedbackPlatform(
+                feedbackPlatformInput
+              );
+              console.log(res);
+              dispatch(
+                appActions.global.setConfirmMessage({
+                  newMessage: 'Feedback Sent Successfully',
+                })
+              );
+                setInterval(function () {
+                    window.location.reload();
+                }, 1000);
+              console.log("imhere")
+            } else {
+              const feedbackInternshipInput: FeedbackInternshipInput = {
+                text: text,
+                rating: rating,
+                profileId: Number(profileId),
+                applicationId: props.applicationId,
+                actor: profileType,
+              };
+              const res = feedbackApi.postFeedbackInternship(
+                feedbackInternshipInput
+              );
+              console.log(res);
+              dispatch(
+                appActions.global.setConfirmMessage({
+                  newMessage: 'Feedback Sent Successfully',
+                })
+              );
+              navigate(AppRoutes.ConfirmPage);
+            }
           }}
           sx={{
             textTransform: 'none',
