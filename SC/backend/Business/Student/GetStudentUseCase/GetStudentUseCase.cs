@@ -62,10 +62,10 @@ public class GetStudentUseCase : IRequestHandler<GetStudentQuery, StudentDto>
         var studentDto = new StudentDto
         {
             Id = studentData.Student.Id,
-            Name = studentData.Student.Name,
-            Cf = studentData.Student.Cf,
-            CvPath = studentData.Student.CvPath,
-            Email = studentData.Email,
+            Name = studentData.Student.Name!,
+            Cf = studentData.Student.Cf!,
+            CvPath = studentData.Student.CvPath!,
+            Email = studentData.Email!,
             Skills = studentData.Student.Skills,
             Interests = studentData.Student.Interests
         };

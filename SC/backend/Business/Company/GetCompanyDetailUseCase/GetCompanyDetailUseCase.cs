@@ -62,10 +62,10 @@ public class GetCompanyDetailUseCase : IRequestHandler<GetCompanyDetailQuery, Co
         var companyDto = new CompanyDto
         {
             Id = company.Company.Id,
-            Name = company.Company.Name,
-            Email = company.Email,  // This can be null if no email is found
-            VatNumber = company.Company.VatNumber,
-            Website = company.Company.Website,
+            Name = company.Company.Name!,
+            Email = company.Email!,
+            VatNumber = company.Company.VatNumber!,
+            Website = company.Company.Website!,
         };
 
         return companyDto;

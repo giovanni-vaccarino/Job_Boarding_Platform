@@ -16,7 +16,7 @@ public class InternshipFeedback : EntityBase
     [Required]
     public required ProfileType Actor { get; set; }
     
-    public Application Application { get; set; }
+    public Application Application { get; set; } = null!;
     
     [ForeignKey("ApplicationId")]
     public required int ApplicationId { get; set; }

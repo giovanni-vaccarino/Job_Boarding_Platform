@@ -13,7 +13,7 @@ public class PlatformFeedback : EntityBase
    [Required]
    public required Rating Rating { get; set; }
    
-   public User User { get; set; }
+   public User User { get; set; } = null!;
    
    [ForeignKey("UserId")]
    public required int UserId { get; set; }
