@@ -34,8 +34,6 @@ export const Application = () => {
 
   const navigate = useNavigateWrapper();
 
-  console.log('InternshipId' + applicationToShow.internship.id.toString());
-  console.log('Application available:' + applicationToShow.applicationStatus);
   return (
     <Page>
       <TitleHeader title={applicationToShow.internship.title} />

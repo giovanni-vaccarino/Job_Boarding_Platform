@@ -59,7 +59,6 @@ export const Profile = () => {
       setStudentProfile((prev) => {
         // @ts-ignore
         const updatedProfile = { ...prev, [fieldKey]: value };
-        console.log('Updated Student Profile:', updatedProfile);
 
         // Call the API with the updated profile
         studentApi
@@ -141,7 +140,7 @@ export const Profile = () => {
 
                     try {
                       await authApi.sendVerificationMail(dto);
-                      dispatch(appActions.auth.setVerificationMailSent())
+                      dispatch(appActions.auth.setVerificationMailSent());
                       setVerifyButtonValue('Email Sent');
                     } catch (error) {
                       console.error('Error sending verification mail:', error);

@@ -21,7 +21,6 @@ import { AppRoutes } from '../router.tsx';
 
 export const OnlineAssessment = () => {
   const questions = useLoaderData() as Question[];
-  console.log(questions);
 
   const { internshipId, applicationId } = useParams();
   console.log(
@@ -121,7 +120,6 @@ export const OnlineAssessment = () => {
         color="primary"
         disabled={!isLogged}
         onClick={async () => {
-
           // FUNCTION TO MAP MULTIPLE CHOICE ANSWERES TO NUMERICAL ID
           const mapAnswers = (
             questions: Question[],
@@ -129,12 +127,17 @@ export const OnlineAssessment = () => {
           ) => {
             return Object.fromEntries(
               Object.entries(answers).map(([id, value]) => {
-                const question = questions.find(q => q.id.toString() === id);
+                const question = questions.find((q) => q.id.toString() === id);
                 if (!question) return [id, value];
 
-                if (question.questionType === "MultipleChoice" && Array.isArray(value)) {
-                  const optionMap = Object.fromEntries(question.options.map((opt, i) => [opt, i.toString()]));
-                  return [id, value.map(ans => optionMap[ans] ?? ans)];
+                  if (
+                  question.questionType === 'MultipleChoice' &&
+                  Array.isArray(value)
+                ) {
+                  const optionMap = Object.fromEntries(
+                    question.options.map((opt, i) => [opt, i.toString()])
+                  );
+                  return [id, value.map((ans) => optionMap[ans] ?? ans)];
                 }
 
                 return [id, value]; // Copy everything else unchanged
@@ -142,16 +145,12 @@ export const OnlineAssessment = () => {
             );
           };
 
-          const answerResponse: AnswerResponse[] = Object.entries(mapAnswers(questions, answers)).map(
-            ([id, value]) => ({
-              questionId: Number(id), // Ensure questionId is a number
-              answer: Array.isArray(value)
-                ? value
-                : value
-                  ? [String(value)]
-                  : [], // Convert value to string array if necessary
-            })
-          );
+          const answerResponse: AnswerResponse[] = Object.entries(
+            mapAnswers(questions, answers)
+          ).map(([id, value]) => ({
+            questionId: Number(id), // Ensure questionId is a number
+            answer: Array.isArray(value) ? value : value ? [String(value)] : [], // Convert value to string array if necessary
+          }));
 
           const answersResponse: AllAnswersResponse = {
             questions: answerResponse,
@@ -171,7 +170,8 @@ export const OnlineAssessment = () => {
             );
             navigate(AppRoutes.ConfirmPage);
           } catch (error) {
-            const errorMessage = error.message.split('\\r')[0];
+            // @ts-ignore
+              const errorMessage = error.message.split('\\r')[0];
             console.error('Full error object:', JSON.stringify(error, null, 2));
             setSnackbarMessage(errorMessage);
             setSnackbarOpen(true);
