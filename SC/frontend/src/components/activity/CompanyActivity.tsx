@@ -64,7 +64,15 @@ export const CompanyActivity = (props: CompanyActivityProps) => {
             jobs={props.internship.map(mapInternshipToCompanyTableHeader)}
           />
         ) : (
-          <Typography sx={{ fontStyle: 'italic' }}>
+          <Typography
+            sx={{
+              fontStyle: 'italic',
+              color: 'gray',
+              fontSize: '1.2rem',
+              textAlign: 'center',
+              mt: '2rem',
+            }}
+          >
             THERE IS NO JOB AVAILABLE
           </Typography>
         )}

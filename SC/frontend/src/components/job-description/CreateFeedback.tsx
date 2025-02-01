@@ -93,10 +93,10 @@ export const CreateFeedback = (props: CreateFeedbackProps) => {
                   newMessage: 'Feedback Sent Successfully',
                 })
               );
-                setInterval(function () {
-                    window.location.reload();
-                }, 1000);
-              console.log("imhere")
+              setInterval(function () {
+                window.location.reload();
+              }, 1000);
+              console.log('imhere');
             } else {
               const feedbackInternshipInput: FeedbackInternshipInput = {
                 text: text,

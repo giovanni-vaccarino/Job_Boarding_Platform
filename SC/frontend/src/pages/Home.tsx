@@ -35,9 +35,6 @@ export const Home = () => {
         job.title.toLowerCase().includes(searchMessage.toLowerCase()) ||
         job.location.toLowerCase().includes(searchMessage.toLowerCase());
 
-      console.log(job.dateCreated.toString().split('T')[0]);
-      console.log(today.toString().split('T')[0]);
-      console.log(postedDate);
       const dateToMatch = new Date(job.dateCreated.toString().split('T')[0]);
       const matchesDate =
         postedDate === PostedDate.Everytime ||

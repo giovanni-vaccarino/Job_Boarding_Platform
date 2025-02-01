@@ -11,18 +11,21 @@ import { Question } from '../../models/company/company.ts';
 export const MultipleChoiceQuestion = (props: Question) => {
   const [checkedAnsweres, setCheckedAnsweres] = useState({});
 
-  const handleChange = (event: { target: { name: string; checked: boolean } }) => {
+  const handleChange = (event: {
+    target: { name: string; checked: boolean };
+  }) => {
     const { name, checked } = event.target;
 
     setCheckedAnsweres((prevState) => {
       const updatedState = { ...prevState, [name]: checked };
 
-      props.onChange(Object.keys(updatedState).filter(key => updatedState[key]));
+      props.onChange(
+        Object.keys(updatedState).filter((key) => updatedState[key])
+      );
 
       return updatedState;
     });
   };
-
 
   return (
     <Box

@@ -20,8 +20,6 @@ export const Header = () => {
   const isLogged = useAppSelector((s) => s.auth.loggedIn);
   const dispatch = useAppDispatch();
 
-  console.log(authState.profileId);
-
   return (
     <AppBar
       position="static"
@@ -83,7 +81,7 @@ export const Header = () => {
           <Typography
             onClick={() => {
               if (isLogged) {
-                navigate(AppRoutes.Matches, { id: authState.profileId });
+                navigate(AppRoutes.Matches, { id: authState.profileId || ''});
                 dispatch(
                   appActions.global.setHomePageTab({ newTab: Tab.Matches })
                 );
@@ -105,7 +103,7 @@ export const Header = () => {
             onClick={() => {
               if (isLogged) {
                 navigate(AppRoutes.Activity, {
-                  id: authState.profileId,
+                  id: authState.profileId || '',
                 });
                 dispatch(
                   appActions.global.setHomePageTab({ newTab: Tab.Activity })
@@ -147,7 +145,7 @@ export const Header = () => {
             src="/broken-image.jpg"
             onClick={() =>
               navigate(AppRoutes.Profile, {
-                id: authState.profileId,
+                id: authState.profileId || '',
               })
             }
           />

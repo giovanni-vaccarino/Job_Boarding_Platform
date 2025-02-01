@@ -9,7 +9,6 @@ import {
   IconButton,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../../router.tsx';
 import { useAppSelector } from '../../core/store';
@@ -146,9 +145,6 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
                     }
                   >
                     <VisibilityIcon />
-                  </IconButton>
-                  <IconButton color="error" aria-label="delete">
-                    <DeleteOutlineIcon />
                   </IconButton>
                 </TableCell>
               </TableRow>
