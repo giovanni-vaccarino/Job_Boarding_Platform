@@ -5,14 +5,17 @@ import { JobDescriptionCore } from './JobDescriptionCore.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 import { JobDescriptionProps } from '../../models/application/application.ts';
+import { useAppSelector } from '../../core/store';
 
 export const CompanyJobDescription = (props: JobDescriptionProps) => {
   const navigate = useNavigateWrapper();
   const jobDescription = props.jobDescription;
 
+  const authState = useAppSelector((state) => state.auth);
+
   return (
     <>
-      <TitleHeader title={'Software Engineering, intern - Amazon'} />
+      <TitleHeader title={jobDescription.jobTitle} />
 
       <Box
         sx={{
@@ -26,7 +29,7 @@ export const CompanyJobDescription = (props: JobDescriptionProps) => {
         }}
       >
         <Box
-          onClick={() => navigate(AppRoutes.ReceivedApplication)}
+          onClick={() => navigate(AppRoutes.ReceivedApplications, {internshipId: jobDescription.jobId.toString(), companyId : authState.profileId})}
           sx={{
             display: 'flex',
             alignItems: 'center',
