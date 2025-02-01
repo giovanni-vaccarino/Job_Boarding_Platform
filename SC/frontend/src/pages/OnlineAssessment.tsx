@@ -130,7 +130,7 @@ export const OnlineAssessment = () => {
                 const question = questions.find((q) => q.id.toString() === id);
                 if (!question) return [id, value];
 
-                  if (
+                if (
                   question.questionType.toString() === 'MultipleChoice' &&
                   Array.isArray(value)
                 ) {

@@ -29,7 +29,12 @@ export const CompanyJobDescription = (props: JobDescriptionProps) => {
         }}
       >
         <Box
-          onClick={() => navigate(AppRoutes.ReceivedApplications, {internshipId: jobDescription.jobId.toString(), companyId : authState.profileId || ''})}
+          onClick={() =>
+            navigate(AppRoutes.ReceivedApplications, {
+              internshipId: jobDescription.jobId.toString(),
+              companyId: authState.profileId || '',
+            })
+          }
           sx={{
             display: 'flex',
             alignItems: 'center',

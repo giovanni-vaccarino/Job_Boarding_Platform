@@ -15,6 +15,7 @@ export interface Internship {
   numberOfApplications: number;
   companyId: string;
   companyName: string;
+  feedbacks: Feedback[];
 }
 
 export enum JobCategory {

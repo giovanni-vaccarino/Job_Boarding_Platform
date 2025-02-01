@@ -27,8 +27,6 @@ export const MultipleChoiceQuestion = (props: Question) => {
     });
   };
 
-
-
   return (
     <Box
       sx={{

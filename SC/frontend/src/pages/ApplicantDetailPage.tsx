@@ -41,7 +41,8 @@ export const ApplicantDetailPage = () => {
         status: ApplicationStatus.Accepted,
       };
       console.log(status);
-      const res = await internshiApi.updateApplicationStatus(
+      // @ts-ignore
+        const res = await internshiApi.updateApplicationStatus(
         applicationId as string,
         status,
         companyId as string

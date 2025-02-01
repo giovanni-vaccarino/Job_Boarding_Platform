@@ -46,8 +46,8 @@ export const Header = () => {
           variant="h4"
           sx={{ fontWeight: 'bold', color: 'primary.main', cursor: 'pointer' }}
           onClick={() => {
-            navigate(AppRoutes.Home);
-            dispatch(appActions.global.setHomePageTab({ newTab: Tab.Offers }));
+            // navigate(AppRoutes.Home);
+            // dispatch(appActions.global.setHomePageTab({ newTab: Tab.Offers }));
           }}
         >
           S&C

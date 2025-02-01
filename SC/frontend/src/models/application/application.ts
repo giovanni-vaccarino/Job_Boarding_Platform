@@ -1,5 +1,6 @@
 import { Internship } from '../internship/internship.ts';
 import { Student } from '../student/student.ts';
+import { Feedback } from '../feedback/feedback.ts';
 
 export interface UpdateStatusApplicationDto {
   status: ApplicationStatus;
@@ -23,6 +24,7 @@ export interface JobDescriptionInterface {
   jobDescriptionMessage: string;
   skillsRequired: string[];
   jobId: number;
+  feedbacks: Feedback[];
 }
 
 export interface JobDescriptionProps {
