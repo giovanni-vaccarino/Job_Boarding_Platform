@@ -1,31 +1,55 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Button, Snackbar, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Box, Snackbar, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { useService } from '../core/ioc/ioc-provider.tsx';
 import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
 import { LoginInput } from '../models/auth/login.ts';
-import { appActions, useAppDispatch, useAppSelector } from '../core/store';
+import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { TypeProfile } from '../models/auth/register.ts';
+import { BusyButton } from '../components/button/BusyButton.tsx';
 
 export const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [emailError, setEmailError] = useState<string>('');
   const navigate = useNavigateWrapper();
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
   const dispatch = useAppDispatch();
-
-  const authState = useAppSelector((state) => state.auth);
-  const profileType = authState.profileType;
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
+  };
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  useEffect(() => {
+    if (email.length > 0 && password.length > 0) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [email, password]);
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    if (!validateEmail(value)) {
+      setEmailError('Invalid email format');
+    } else {
+      setEmailError('');
+    }
   };
 
   return (
@@ -54,13 +78,15 @@ export const Login = () => {
           </Typography>
           <TextField
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             fullWidth
             variant="outlined"
             placeholder="Email"
             required
             margin="normal"
-            id = "emailField"
+            id="emailField"
+            error={!!emailError}
+            helperText={emailError}
           />
         </Box>
 
@@ -81,14 +107,16 @@ export const Login = () => {
             type="password"
             required
             margin="normal"
-            id = "passwordField"
+            id="passwordField"
           />
         </Box>
 
-        <Button
+        <BusyButton
           fullWidth
           variant="contained"
-          id = "loginButton"
+          id="loginButton"
+          disabled={isDisabled}
+          isBusy={isLoading}
           onClick={async () => {
             const loginInput: LoginInput = {
               email: email,
@@ -96,6 +124,7 @@ export const Login = () => {
             };
 
             try {
+              setIsLoading(true);
               const res = await authApi.login(loginInput);
 
               console.log('idstudente' + res.profileId);
@@ -121,7 +150,9 @@ export const Login = () => {
                 window.location.reload();
               }, 500);
             } catch (error: any) {
-              const errorMessage = error.message.split('\\r')[0];
+              setIsLoading(false);
+              const errorMessage =
+                'Check your email and password and try again';
               console.log(error.message);
               console.log('Full error object:', JSON.stringify(error, null, 2));
               setSnackbarMessage(errorMessage);
@@ -140,7 +171,7 @@ export const Login = () => {
           }}
         >
           Login
-        </Button>
+        </BusyButton>
 
         <Box display="flex" justifyContent="space-between">
           <Typography

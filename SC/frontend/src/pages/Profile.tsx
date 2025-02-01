@@ -42,9 +42,7 @@ export const Profile = () => {
     data as Student
   );
 
-
   const [companyProfile, setCompanyProfile] = useState(data as Company);
-
 
   //TO avoid infinite loop call the setStudent only when the data or accountType has been changed
   /*
@@ -130,39 +128,40 @@ export const Profile = () => {
               fieldKey={'name'}
               onFieldChange={handleFieldChange}
             />
-            {!verified && <Button
-              variant="contained"
-              sx={{
-                backgroundColor: 'primary.main',
-                color: '#FFFFFF',
-                textTransform: 'none',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                borderRadius: '8px',
-                marginTop: 2,
-                marginBottom: 2,
-              }}
-              onClick={async () => {
-                if (!companyProfile?.email) {
-                  console.error('Error: email is undefined');
-                  return;
-                }
+            {!verified && (
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: 'primary.main',
+                  color: '#FFFFFF',
+                  textTransform: 'none',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  borderRadius: '8px',
+                  marginTop: 2,
+                  marginBottom: 2,
+                }}
+                onClick={async () => {
+                  if (!companyProfile?.email) {
+                    console.error('Error: email is undefined');
+                    return;
+                  }
 
-                const dto: SendVerificationMailDto = {
-                  email: companyProfile.email,
-                };
+                  const dto: SendVerificationMailDto = {
+                    email: companyProfile.email,
+                  };
 
-                try {
-                  await authApi.sendVerificationMail(dto);
-                  setVerifyButtonValue('Email Sent');
-                } catch (error) {
-                  console.error('Error sending verification mail:', error);
-                }
-              }}
-            >
-              {verifyButtonValue}
-            </Button>
-            }
+                  try {
+                    await authApi.sendVerificationMail(dto);
+                    setVerifyButtonValue('Email Sent');
+                  } catch (error) {
+                    console.error('Error sending verification mail:', error);
+                  }
+                }}
+              >
+                {verifyButtonValue}
+              </Button>
+            )}
           </Box>
         );
       else if (accountType === 'Company')
@@ -183,39 +182,40 @@ export const Profile = () => {
               onFieldChange={handleFieldChange}
             />
 
-            {!verified && <Button
-              variant="contained"
-              sx={{
-                backgroundColor: 'primary.main',
-                color: '#FFFFFF',
-                textTransform: 'none',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                borderRadius: '8px',
-                marginTop: 2,
-                marginBottom: 2,
-              }}
-              onClick={async () => {
-                if (!companyProfile?.email) {
-                  console.error('Error: email is undefined');
-                  return;
-                }
+            {!verified && (
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: 'primary.main',
+                  color: '#FFFFFF',
+                  textTransform: 'none',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  borderRadius: '8px',
+                  marginTop: 2,
+                  marginBottom: 2,
+                }}
+                onClick={async () => {
+                  if (!companyProfile?.email) {
+                    console.error('Error: email is undefined');
+                    return;
+                  }
 
-                const dto: SendVerificationMailDto = {
-                  email: companyProfile.email,
-                };
+                  const dto: SendVerificationMailDto = {
+                    email: companyProfile.email,
+                  };
 
-                try {
-                  await authApi.sendVerificationMail(dto);
-                  setVerifyButtonValue('Email Sent');
-                } catch (error) {
-                  console.error('Error sending verification mail:', error);
-                }
-              }}
-            >
-              {verifyButtonValue}
-            </Button>
-            }
+                  try {
+                    await authApi.sendVerificationMail(dto);
+                    setVerifyButtonValue('Email Sent');
+                  } catch (error) {
+                    console.error('Error sending verification mail:', error);
+                  }
+                }}
+              >
+                {verifyButtonValue}
+              </Button>
+            )}
           </Box>
         );
     } else {
