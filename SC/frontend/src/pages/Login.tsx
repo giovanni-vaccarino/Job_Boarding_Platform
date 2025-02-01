@@ -139,7 +139,6 @@ export const Login = () => {
               dispatch(
                 appActions.auth.setProfileId({ id: res.profileId.toString() })
               );
-              console.log(res.profileId.toString());
               navigate(AppRoutes.Profile, {
                 id: res.profileId.toString(),
               });
@@ -150,8 +149,6 @@ export const Login = () => {
               setIsLoading(false);
               const errorMessage =
                 'Check your email and password and try again';
-              console.log(error.message);
-              console.log('Full error object:', JSON.stringify(error, null, 2));
               setSnackbarMessage(errorMessage);
               setSnackbarOpen(true);
             }

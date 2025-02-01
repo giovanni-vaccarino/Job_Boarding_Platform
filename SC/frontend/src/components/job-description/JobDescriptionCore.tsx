@@ -11,12 +11,11 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
           lineHeight: '1.9rem',
         }}
       >
-        <strong>Job Category:</strong> {jobDescription.jobCategory} <br />
-        <strong>Job Type:</strong> {jobDescription.jobType} <br />
+        <strong>Internship Category:</strong> {jobDescription.jobCategory} <br />
+        <strong>Internship Type:</strong> {jobDescription.jobType} <br />
         <strong>Location:</strong> {jobDescription.location} <br />
-        <strong>
-          Post Created:
-        </strong> {jobDescription.postCreated.toString().split('T')[0]} <br />
+        <strong>Post Created:</strong>{' '}
+        {jobDescription.postCreated.toString().split('T')[0]} <br />
         <strong>Application Deadline:</strong>{' '}
         {jobDescription.applicationDeadline.toString()}
       </Typography>
@@ -28,7 +27,7 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
           mt: '1rem',
         }}
       >
-        <strong>Job description</strong>
+        <strong>Internship description</strong>
         <br />
         {jobDescription.jobDescriptionMessage}
       </Typography>

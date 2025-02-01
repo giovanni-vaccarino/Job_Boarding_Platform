@@ -1,6 +1,6 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Snackbar, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch } from '../core/store';
@@ -15,6 +15,13 @@ export const ForgotPasswordSetEmail = () => {
 
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
 
@@ -80,13 +87,33 @@ export const ForgotPasswordSetEmail = () => {
                 })
               );
               navigate(AppRoutes.ConfirmPage);
-            } catch (error) {
-              //TODO PRINT ERR MESSAGE
+            } catch (error: any) {
+
+              console.error(
+                'Full error object:',
+                JSON.stringify(error, null, 2)
+              );
+
+              setSnackbarMessage("Mail error");
+              setSnackbarOpen(true);
             }
           }}
         >
           Send Email
         </Button>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleSnackbarClose}
+          message={snackbarMessage}
+          sx={{
+            '& .MuiSnackbarContent-root': {
+              backgroundColor: 'red',
+              fontSize: '18px',
+              padding: '16px',
+            },
+          }}
+        />
       </Box>
     </Page>
   );
