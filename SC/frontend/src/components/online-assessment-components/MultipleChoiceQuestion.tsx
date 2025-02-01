@@ -9,19 +9,20 @@ import {
 import { Question } from '../../models/company/company.ts';
 
 export const MultipleChoiceQuestion = (props: Question) => {
-  const [checked, setChecked] = useState({});
+  const [checkedAnsweres, setCheckedAnsweres] = useState({});
 
-  const handleChange = (event: { target: { name: any; checked: any } }) => {
+  const handleChange = (event: { target: { name: string; checked: boolean } }) => {
     const { name, checked } = event.target;
-    setChecked((prevState) => ({
-      ...prevState,
-      [name]: checked,
-    }));
 
-    //TODO da fare un array che controlli se è checked o no per ogni campo
+    setCheckedAnsweres((prevState) => {
+      const updatedState = { ...prevState, [name]: checked };
 
-    props.onChange(event.target.name); // Trigger the callback with the input value
+      props.onChange(Object.keys(updatedState).filter(key => updatedState[key]));
+
+      return updatedState;
+    });
   };
+
 
   return (
     <Box
@@ -39,7 +40,7 @@ export const MultipleChoiceQuestion = (props: Question) => {
             key={index}
             control={
               <Checkbox
-                checked={checked[option] || false} // Check the individual option
+                checked={checkedAnsweres[option] || false} // Check the individual option
                 onChange={handleChange}
                 name={option} // Use the option as the name
               />

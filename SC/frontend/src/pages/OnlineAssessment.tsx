@@ -121,7 +121,28 @@ export const OnlineAssessment = () => {
         color="primary"
         disabled={!isLogged}
         onClick={async () => {
-          const answerResponse: AnswerResponse[] = Object.entries(answers).map(
+
+          // FUNCTION TO MAP MULTIPLE CHOICE ANSWERES TO NUMERICAL ID
+          const mapAnswers = (
+            questions: Question[],
+            answers: Record<string, string | string[] | boolean>
+          ) => {
+            return Object.fromEntries(
+              Object.entries(answers).map(([id, value]) => {
+                const question = questions.find(q => q.id.toString() === id);
+                if (!question) return [id, value];
+
+                if (question.questionType === "MultipleChoice" && Array.isArray(value)) {
+                  const optionMap = Object.fromEntries(question.options.map((opt, i) => [opt, i.toString()]));
+                  return [id, value.map(ans => optionMap[ans] ?? ans)];
+                }
+
+                return [id, value]; // Copy everything else unchanged
+              })
+            );
+          };
+
+          const answerResponse: AnswerResponse[] = Object.entries(mapAnswers(questions, answers)).map(
             ([id, value]) => ({
               questionId: Number(id), // Ensure questionId is a number
               answer: Array.isArray(value)
@@ -135,8 +156,6 @@ export const OnlineAssessment = () => {
           const answersResponse: AllAnswersResponse = {
             questions: answerResponse,
           };
-
-          console.log(answersResponse);
 
           try {
             const res = await internshipApi.postAnswer(
