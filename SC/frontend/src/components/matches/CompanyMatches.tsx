@@ -31,7 +31,13 @@ export const CompanyMatches = (props: CompanyMatchesProps) => {
           />
         ) : (
           <Typography
-            sx={{ fontStyle: 'italic', textAlign: 'center', mt: '3rem' }}
+              sx={{
+                  fontStyle: 'italic',
+                  color: 'gray',
+                  fontSize: '1.2rem',
+                  textAlign: 'center',
+                  mt: '2rem',
+              }}
           >
             NO AVAILABLE MATCHES
           </Typography>

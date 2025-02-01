@@ -16,6 +16,7 @@ import { useService } from '../core/ioc/ioc-provider.tsx';
 import { IMatchApi } from '../core/API/match/IMatchApi.ts';
 import { ServiceType } from '../core/ioc/service-type.ts';
 import { IInternshipApi } from '../core/API/internship/IInternshipApi.ts';
+import { CreateFeedback } from '../components/job-description/CreateFeedback.tsx';
 
 export const ApplicantDetailPage = () => {
   const navigate = useNavigateWrapper();
@@ -41,6 +42,7 @@ export const ApplicantDetailPage = () => {
         status: ApplicationStatus.Accepted,
       };
       console.log(status);
+      // @ts-ignore
       const res = await internshiApi.updateApplicationStatus(
         applicationId as string,
         status,
@@ -166,20 +168,41 @@ export const ApplicantDetailPage = () => {
             gap: 3,
           }}
         >
-          <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
-            Feedback:
-          </Typography>
-          {student.feedbacks?.map((feedback, index) => (
-            <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography
-                sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
-              >{`${index + 1})`}</Typography>
-              <ViewFeedback
-                feedbackText={feedback.text}
-                rating={feedback.rating}
-              />
+          {applicationStatus ===
+            ApplicationStatus[ApplicationStatus.Accepted] && (
+            <Box
+              sx={{
+                bgcolor: 'secondary.main',
+                p: 2,
+                mt: 2,
+                borderRadius: 1,
+                width: '100%',
+                maxWidth: '600px',
+                margin: 'auto',
+                color: 'common.black',
+              }}
+            >
+              <CreateFeedback applicationId={-1} />
             </Box>
-          ))}
+          )}
+            {student.feedbacks != undefined && student.feedbacks.length > 0 && (
+                <>
+                    <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
+                        Feedback:
+                    </Typography>
+                    {student.feedbacks?.map((feedback, index) => (
+                        <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography
+                                sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
+                            >{`${index + 1})`}</Typography>
+                            <ViewFeedback
+                                feedbackText={feedback.text}
+                                rating={feedback.rating}
+                            />
+                        </Box>
+                    ))}
+                </>
+            )}
         </Box>
         {applicationStatus ===
           ApplicationStatus[ApplicationStatus.LastEvaluation] && (
