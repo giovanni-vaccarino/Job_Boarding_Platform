@@ -127,7 +127,7 @@ export const Login = () => {
                         };
 
                         try {
-                            setIsLoading();
+                            setIsLoading(true);
                             const res = await authApi.login(loginInput);
 
                             console.log('idstudente' + res.profileId);
