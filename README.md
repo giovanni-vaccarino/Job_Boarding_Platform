@@ -72,7 +72,7 @@ The frontend is a React application written in TypeScript. Follow these steps to
 Once both the backend and frontend are set up, follow these steps to run the entire platform:
 
 1. Start the backend (if not already started) by running `dotnet run`.
-2. Start the frontend (if not already started) by running `npm start`.
+2. Start the frontend (if not already started) by running `npm run dev`.
 3. Open a browser and navigate to `http://localhost:5173` to access the platform.
 
 ## Troubleshooting
