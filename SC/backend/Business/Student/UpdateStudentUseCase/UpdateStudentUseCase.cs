@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.Data;
 using backend.Service.Contracts.Student;
+using backend.Shared.MatchingBackgroundService;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,8 @@ public class UpdateStudentUseCase : IRequestHandler<UpdateStudentCommand, Studen
     private readonly ILogger<UpdateStudentUseCase> _logger;
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly IJobQueue _jobQueue;
+    private readonly IStudentMatchingTaskFactory _studentMatchingTaskFactory;
 
     /// <summary>
     /// Initializes a new instance of the UpdateStudentUseCase class.
@@ -21,11 +24,15 @@ public class UpdateStudentUseCase : IRequestHandler<UpdateStudentCommand, Studen
     /// <param name="dbContext">The application database context.</param>
     /// <param name="logger">The logger instance for logging operations.</param>
     /// <param name="mapper">The mapper instance for automapper operations.</param>
-    public UpdateStudentUseCase(AppDbContext dbContext, ILogger<UpdateStudentUseCase> logger, IMapper mapper)
+    /// <param name="jobQueue">The jobQueue instance for background job operations.</param>
+    /// <param name="studentMatchingTaskFactory">The _studentMatchingTaskFactory instance for creating a MatchingTask.</param>
+    public UpdateStudentUseCase(AppDbContext dbContext, ILogger<UpdateStudentUseCase> logger, IMapper mapper, IJobQueue jobQueue, IStudentMatchingTaskFactory studentMatchingTaskFactory)
     {
         _mapper = mapper;
         _logger = logger;
         _dbContext = dbContext;
+        _jobQueue = jobQueue;
+        _studentMatchingTaskFactory = studentMatchingTaskFactory;
     }
     
     /// <summary>
@@ -53,6 +60,12 @@ public class UpdateStudentUseCase : IRequestHandler<UpdateStudentCommand, Studen
         await _dbContext.SaveChangesAsync(cancellationToken);
         
         _logger.LogInformation("Successfully updated student with ID {Id}.", student.Id);
+
+        if (student.Skills.Count > 0 || student.Interests.Count > 0)
+        {
+            var matchingTask = _studentMatchingTaskFactory.Create(student.Id);
+            _jobQueue.EnqueueJob(matchingTask);
+        }
 
         return _mapper.Map<StudentDto>(student);
     }

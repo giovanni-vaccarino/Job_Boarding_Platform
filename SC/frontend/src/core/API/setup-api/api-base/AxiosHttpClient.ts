@@ -11,7 +11,6 @@ import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
-  AxiosResponse,
   RawAxiosRequestHeaders,
 } from 'axios';
 import { ServiceType } from '../../../ioc/service-type.ts';
@@ -25,6 +24,7 @@ export class AxiosHttpClient extends HttpClientBase {
     configService: IConfigService
   ) {
     super(configService.get('API_URL'));
+
     this.client = this.createInstance();
   }
 
@@ -43,16 +43,20 @@ export class AxiosHttpClient extends HttpClientBase {
       return response.data;
     } catch (error) {
       const err = (await error) as AxiosError;
-      console.log(err);
       if (err.code === 'ECONNABORTED') {
         return 'REQUEST ABORTED' as unknown as TResponse;
       }
-      const response = err.response as AxiosResponse<{ message: string }>;
+      //const response = err.response as AxiosResponse<{ message: string }>;
+
+      const errorMessage =
+        typeof err?.response?.data === 'string'
+          ? err.response.data.split('.')[1]?.trim()
+          : err.message;
 
       throw new HttpError(
         err.response?.status || -1,
         err.code || 'UNKNOWN',
-        response?.data.message || err.message
+        errorMessage
       );
     }
   }

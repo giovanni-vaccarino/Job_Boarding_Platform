@@ -3,27 +3,116 @@ import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { RowComponent } from '../components/profile-components/RowComponent.tsx';
 import { ViewFeedback } from '../components/applicant-detail-page/ViewFeedback.tsx';
-import { appActions, useAppDispatch } from '../core/store';
+import { appActions, useAppDispatch, useAppSelector } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
+import { useLoaderData, useParams } from 'react-router-dom';
+import { ApplicantInfo } from '../models/internship/internship.ts';
+import {
+  ApplicationStatus,
+  UpdateStatusApplicationDto,
+} from '../models/application/application.ts';
+import { useService } from '../core/ioc/ioc-provider.tsx';
+import { IMatchApi } from '../core/API/match/IMatchApi.ts';
+import { ServiceType } from '../core/ioc/service-type.ts';
+import { IInternshipApi } from '../core/API/internship/IInternshipApi.ts';
+import { CreateFeedback } from '../components/job-description/CreateFeedback.tsx';
 
-export interface ApplicantDetailPageProps {
-  nameApplicant: string;
-}
-
-const feedbackMockUp = [
-  { feedbackText: 'Great attention to detail.', rating: 5 },
-  { feedbackText: 'Needs improvement in communication.', rating: 3 },
-  { feedbackText: 'Excellent technical skills.', rating: 4 },
-];
-
-export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
+export const ApplicantDetailPage = () => {
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
+  const student = useLoaderData() as ApplicantInfo;
+  const applicationStatus = useParams().applicationStatus; // Assuming isApplication is passed as a string in param
+  const submissionDate = useParams().submissionDate;
+  const applicationId = useParams().applicationId;
+  const auth = useAppSelector((state) => state.auth);
+  const companyId = auth.profileId;
+  const matchId = useParams().matchId;
+  const matchApi = useService<IMatchApi>(ServiceType.MatchApi);
+  const internshiApi = useService<IInternshipApi>(ServiceType.InternshipApi);
+
+  const handleAccept = async () => {
+    if (applicationStatus === 'LastEvaluation') {
+      dispatch(
+        appActions.global.setConfirmMessage({
+          newMessage: 'Application accepted',
+        })
+      );
+      const status: UpdateStatusApplicationDto = {
+        status: ApplicationStatus.Accepted,
+      };
+      console.log(status);
+      // @ts-ignore
+      const res = await internshiApi.updateApplicationStatus(
+        applicationId as string,
+        status,
+        companyId as string
+      );
+      navigate(AppRoutes.ConfirmPage);
+    } else if (applicationStatus == 'Screening') {
+      dispatch(
+        appActions.global.setConfirmMessage({
+          newMessage: 'Application accepted - waiting for online assessment',
+        })
+      );
+      const status: UpdateStatusApplicationDto = {
+        status: ApplicationStatus.OnlineAssessment,
+      };
+      const res = await internshiApi.updateApplicationStatus(
+        applicationId as string,
+        status,
+        companyId as string
+      );
+      console.log(res);
+
+      navigate(AppRoutes.ConfirmPage);
+    }
+  };
+
+  const handleReject = async () => {
+    dispatch(
+      appActions.global.setConfirmMessage({
+        newMessage: 'Application rejected',
+      })
+    );
+    const status: UpdateStatusApplicationDto = {
+      status: ApplicationStatus.Accepted,
+    };
+    const res = await internshiApi.updateApplicationStatus(
+      applicationId as string,
+      status,
+      companyId as string
+    );
+    console.log(res);
+
+    navigate(AppRoutes.ConfirmPage);
+  };
+
+  const handleInvite = async () => {
+    dispatch(
+      appActions.global.setConfirmMessage({
+        newMessage: 'Invite sent',
+      })
+    );
+    //TODO add matchId in the Database
+    const inputToApi = {
+      matchId: matchId,
+      companyId: companyId,
+    };
+
+    const res = await matchApi.postInviteStudent(
+      inputToApi.matchId as string,
+      inputToApi.companyId as string
+    );
+    console.log(res);
+    navigate(AppRoutes.ConfirmPage);
+  };
+
+  console.log(student.answers[0]);
 
   return (
     <Page>
-      <TitleHeader title={props.nameApplicant} />
+      <TitleHeader title={student.name} />
       <Box
         sx={{
           display: 'flex',
@@ -42,12 +131,34 @@ export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
             marginBottom: '5%',
           }}
         >
-          <RowComponent label="CV:" value="" buttons={['view']} />
+          <RowComponent
+            label="CV:"
+            value=""
+            buttons={['view']}
+            onFieldChange={() => {}}
+            studentIdToRetrieveCV={student.studentId}
+          />
           <RowComponent
             label="Skills:"
-            value="Python, Java, C++"
+            value={student.skills}
             buttons={[]}
+            onFieldChange={() => {}}
           />
+          {applicationStatus != 'null' && (
+              <RowComponent
+                label="Submission Date:"
+                value={submissionDate as string}
+                buttons={[]}
+                onFieldChange={() => {}}
+              />
+            ) && (
+              <RowComponent
+                label="Status:"
+                value={applicationStatus?.toString() as string}
+                buttons={[]}
+                onFieldChange={() => {}}
+              />
+            )}
         </Box>
         <Box
           sx={{
@@ -57,21 +168,79 @@ export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
             gap: 3,
           }}
         >
-          <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
-            Feedback
-          </Typography>
-          {feedbackMockUp.map((feedback, index) => (
-            <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography
-                sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
-              >{`${index + 1})`}</Typography>
-              <ViewFeedback
-                feedbackText={feedback.feedbackText}
-                rating={feedback.rating}
-              />
+          {applicationStatus ===
+            ApplicationStatus[ApplicationStatus.Accepted] && (
+            <Box
+              sx={{
+                bgcolor: 'secondary.main',
+                p: 2,
+                mt: 2,
+                borderRadius: 1,
+                width: '100%',
+                maxWidth: '600px',
+                margin: 'auto',
+                color: 'common.black',
+              }}
+            >
+              <CreateFeedback applicationId={-1} />
             </Box>
-          ))}
+          )}
+          {student.feedbacks != undefined && student.feedbacks.length > 0 && (
+            <>
+              <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
+                Feedback:
+              </Typography>
+              {student.feedbacks?.map((feedback, index) => (
+                <Box
+                  key={index}
+                  sx={{ display: 'flex', flexDirection: 'column' }}
+                >
+                  <Typography
+                    sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
+                  >{`${index + 1})`}</Typography>
+                  <ViewFeedback
+                    feedbackText={feedback.text}
+                    rating={feedback.rating}
+                  />
+                </Box>
+              ))}
+            </>
+          )}
         </Box>
+        {applicationStatus ===
+          ApplicationStatus[ApplicationStatus.LastEvaluation] && (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              mt: '2rem',
+              gap: 3,
+            }}
+          >
+            <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
+              Assessment answers:
+            </Typography>
+            {student.answers.map((assessment, index) => (
+              <Box
+                key={index}
+                sx={{ display: 'flex', flexDirection: 'column' }}
+              >
+                <Typography
+                  sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
+                >{`${index + 1})`}</Typography>
+                <Typography sx={{ fontSize: '1.2rem', fontWeight: '500' }}>
+                  {
+                    //@ts-ignore
+                    assessment?.question?.title || assessment?.questions?.title
+                  }
+                </Typography>
+                <Typography sx={{ fontSize: '1rem', fontWeight: '200' }}>
+                  {assessment?.answer}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        )}
         <Box
           sx={{
             alignSelf: 'center',
@@ -84,24 +253,49 @@ export const ApplicantDetailPage = (props: ApplicantDetailPageProps) => {
           }}
         >
           <Stack spacing={2} direction="row">
-            <Button
-              variant="contained"
-              onClick={() => {
-                dispatch(
-                  appActions.global.setConfirmMessage({
-                    newMessage: 'Invite sent',
-                  })
-                );
-                navigate(AppRoutes.ConfirmPage);
-              }}
-              sx={{
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                borderRadius: '8px',
-              }}
-            >
-              Invite
-            </Button>
+            {applicationStatus ===
+              ApplicationStatus[ApplicationStatus.LastEvaluation] ||
+            applicationStatus ===
+              ApplicationStatus[ApplicationStatus.Screening] ? (
+              <>
+                <Button
+                  variant="contained"
+                  onClick={handleAccept}
+                  sx={{
+                    fontSize: '1rem',
+                    fontWeight: 'bold',
+                    borderRadius: '8px',
+                  }}
+                >
+                  Accept
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={handleReject}
+                  sx={{
+                    fontSize: '1rem',
+                    fontWeight: 'bold',
+                    borderRadius: '8px',
+                  }}
+                >
+                  Reject
+                </Button>
+              </>
+            ) : (
+              applicationStatus == 'null' && (
+                <Button
+                  variant="contained"
+                  onClick={handleInvite}
+                  sx={{
+                    fontSize: '1rem',
+                    fontWeight: 'bold',
+                    borderRadius: '8px',
+                  }}
+                >
+                  Invite
+                </Button>
+              )
+            )}
           </Stack>
         </Box>
       </Box>

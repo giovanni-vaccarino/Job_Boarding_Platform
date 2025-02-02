@@ -39,4 +39,6 @@ public class Internship : EntityBase
    public List<Application> Applications { get; set; } = new List<Application>();
    
    public List<InternshipQuestion> InternshipQuestions { get; set; } = new List<InternshipQuestion>(); 
+   
+   public List<Match> Matches { get; set; } = new List<Match>();
 }

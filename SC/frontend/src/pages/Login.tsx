@@ -1,7 +1,7 @@
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Box, Snackbar, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
 import { useService } from '../core/ioc/ioc-provider.tsx';
 import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
@@ -10,13 +10,47 @@ import { LoginInput } from '../models/auth/login.ts';
 import { appActions, useAppDispatch } from '../core/store';
 import { AppRoutes } from '../router.tsx';
 import { TypeProfile } from '../models/auth/register.ts';
+import { BusyButton } from '../components/button/BusyButton.tsx';
 
 export const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [emailError, setEmailError] = useState<string>('');
   const navigate = useNavigateWrapper();
   const authApi = useService<IAuthApi>(ServiceType.AuthApi);
   const dispatch = useAppDispatch();
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  useEffect(() => {
+    if (email.length > 0 && password.length > 0) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [email, password]);
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    if (!validateEmail(value)) {
+      setEmailError('Invalid email format');
+    } else {
+      setEmailError('');
+    }
+  };
 
   return (
     <Page>
@@ -44,12 +78,15 @@ export const Login = () => {
           </Typography>
           <TextField
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             fullWidth
             variant="outlined"
             placeholder="Email"
             required
             margin="normal"
+            id="emailField"
+            error={!!emailError}
+            helperText={emailError}
           />
         </Box>
 
@@ -70,27 +107,51 @@ export const Login = () => {
             type="password"
             required
             margin="normal"
+            id="passwordField"
           />
         </Box>
 
-        <Button
+        <BusyButton
           fullWidth
           variant="contained"
+          id="loginButton"
+          disabled={isDisabled}
+          isBusy={isLoading}
           onClick={async () => {
             const loginInput: LoginInput = {
               email: email,
               password: password,
             };
-            console.log(loginInput);
-            const res = await authApi.login(loginInput);
 
-            console.log(res);
+            try {
+              setIsLoading(true);
+              const res = await authApi.login(loginInput);
 
-            dispatch(appActions.auth.successLogin(res));
-            dispatch(
-              appActions.auth.setProfileType({ type: TypeProfile.Company })
-            ); // TODO change this to the actual profile type
-            navigate(AppRoutes.Profile);
+              dispatch(appActions.auth.successLogin(res));
+              const profileTypeEnum =
+                res.profileType.toString() === 'Student'
+                  ? TypeProfile.Student
+                  : TypeProfile.Company;
+              dispatch(
+                appActions.auth.setProfileType({ type: profileTypeEnum })
+              );
+
+              dispatch(
+                appActions.auth.setProfileId({ id: res.profileId.toString() })
+              );
+              navigate(AppRoutes.Profile, {
+                id: res.profileId.toString(),
+              });
+              setInterval(function () {
+                window.location.reload();
+              }, 500);
+            } catch (error: any) {
+              setIsLoading(false);
+              const errorMessage =
+                'Check your email and password and try again';
+              setSnackbarMessage(errorMessage);
+              setSnackbarOpen(true);
+            }
           }}
           sx={{
             backgroundColor: 'primary.main',
@@ -104,7 +165,7 @@ export const Login = () => {
           }}
         >
           Login
-        </Button>
+        </BusyButton>
 
         <Box display="flex" justifyContent="space-between">
           <Typography
@@ -131,6 +192,19 @@ export const Login = () => {
           </Typography>
         </Box>
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+        sx={{
+          '& .MuiSnackbarContent-root': {
+            backgroundColor: 'red',
+            fontSize: '18px',
+            padding: '16px',
+          },
+        }}
+      />
     </Page>
   );
 };

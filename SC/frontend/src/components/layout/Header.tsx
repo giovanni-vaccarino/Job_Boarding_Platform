@@ -1,4 +1,11 @@
-﻿import { AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
+﻿import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Button,
+  Avatar,
+} from '@mui/material';
 import { AppRoutes } from '../../router.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { appActions, useAppDispatch, useAppSelector } from '../../core/store';
@@ -10,6 +17,7 @@ export const Header = () => {
   const activeTab = useAppSelector((state) => state.global.tabHomePage);
   const authState = useAppSelector((state) => state.auth);
   const profileType = authState.profileType;
+  const isLogged = useAppSelector((s) => s.auth.loggedIn);
   const dispatch = useAppDispatch();
 
   return (
@@ -38,8 +46,8 @@ export const Header = () => {
           variant="h4"
           sx={{ fontWeight: 'bold', color: 'primary.main', cursor: 'pointer' }}
           onClick={() => {
-            navigate(AppRoutes.Home);
-            dispatch(appActions.global.setHomePageTab({ newTab: Tab.Offers }));
+            // navigate(AppRoutes.Home);
+            // dispatch(appActions.global.setHomePageTab({ newTab: Tab.Offers }));
           }}
         >
           S&C
@@ -49,6 +57,8 @@ export const Header = () => {
           sx={{
             display: 'flex',
             gap: 5,
+            marginLeft:
+              authState.profileType === TypeProfile.Company ? '-5rem' : '0',
           }}
         >
           {profileType !== TypeProfile.Company && (
@@ -72,10 +82,14 @@ export const Header = () => {
           )}
           <Typography
             onClick={() => {
-              navigate(AppRoutes.Matches);
-              dispatch(
-                appActions.global.setHomePageTab({ newTab: Tab.Matches })
-              );
+              if (isLogged) {
+                navigate(AppRoutes.Matches, { id: authState.profileId || '' });
+                dispatch(
+                  appActions.global.setHomePageTab({ newTab: Tab.Matches })
+                );
+              } else {
+                navigate(AppRoutes.Login);
+              }
             }}
             variant="body1"
             sx={{
@@ -89,10 +103,16 @@ export const Header = () => {
           </Typography>
           <Typography
             onClick={() => {
-              navigate(AppRoutes.Activity);
-              dispatch(
-                appActions.global.setHomePageTab({ newTab: Tab.Activity })
-              );
+              if (isLogged) {
+                navigate(AppRoutes.Activity, {
+                  id: authState.profileId || '',
+                });
+                dispatch(
+                  appActions.global.setHomePageTab({ newTab: Tab.Activity })
+                );
+              } else {
+                navigate(AppRoutes.Login);
+              }
             }}
             variant="body1"
             sx={{
@@ -106,20 +126,32 @@ export const Header = () => {
           </Typography>
         </Box>
 
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            textTransform: 'none',
-            borderRadius: 2,
-            fontWeight: 'bold',
-            fontSize: '1.25rem',
-            px: '3rem',
-          }}
-          onClick={() => navigate(AppRoutes.Login)}
-        >
-          Login
-        </Button>
+        {isLogged == false && (
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              textTransform: 'none',
+              borderRadius: 2,
+              fontWeight: 'bold',
+              fontSize: '1.25rem',
+              px: '3rem',
+            }}
+            onClick={() => navigate(AppRoutes.Login)}
+          >
+            Login
+          </Button>
+        )}
+        {isLogged == true && (
+          <Avatar
+            src="/broken-image.jpg"
+            onClick={() =>
+              navigate(AppRoutes.Profile, {
+                id: authState.profileId || '',
+              })
+            }
+          />
+        )}
       </Toolbar>
     </AppBar>
   );

@@ -2,6 +2,8 @@ import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { Box, Typography } from '@mui/material';
 import { ReceivedApplicationTable } from '../components/tables/ReceivedApplicationTable.tsx';
+import { useLoaderData } from 'react-router-dom';
+import { ApplicationInfo } from '../models/application/application.ts';
 
 // Example data for the table
 const exampleData = [
@@ -23,6 +25,9 @@ const exampleData = [
 ];
 
 export const ReceivedApplication = () => {
+  const applications = useLoaderData() as ApplicationInfo[];
+
+  console.log(applications);
   return (
     <Page>
       <TitleHeader title={'Received Applications'} />
@@ -37,9 +42,19 @@ export const ReceivedApplication = () => {
         }}
       >
         {exampleData.length > 0 ? (
-          <ReceivedApplicationTable applications={exampleData} />
+          <ReceivedApplicationTable applications={applications} />
         ) : (
-          <Typography sx={{ fontStyle: 'italic' }}>NO DATA</Typography>
+          <Typography
+            sx={{
+              fontStyle: 'italic',
+              color: 'black',
+              fontSize: '1.2rem',
+              textAlign: 'center',
+              mt: '2rem',
+            }}
+          >
+            There is no available applications yet
+          </Typography>
         )}
       </Box>
     </Page>

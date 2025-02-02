@@ -8,6 +8,9 @@ interface AuthState {
   refreshToken: string | null;
   loggedIn: boolean;
   profileType: TypeProfile | null;
+  profileId: string | null;
+  verified: boolean | null;
+  verificationMailSent: Date | null;
 }
 
 const initialState: AuthState = {
@@ -15,10 +18,17 @@ const initialState: AuthState = {
   refreshToken: null,
   loggedIn: false,
   profileType: null,
+  profileId: null,
+  verified: false,
+  verificationMailSent: null,
 };
 
 export interface SetProfileType {
   type: TypeProfile;
+}
+
+export interface SetProfileId {
+  id: string;
 }
 
 export const authSlice = createSlice({
@@ -29,6 +39,8 @@ export const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.loggedIn = true;
+      state.profileId = action.payload.profileId.toString();
+      state.verified = action.payload.verified;
     },
     failLogin: (state) => {
       state.refreshToken = null;
@@ -39,9 +51,20 @@ export const authSlice = createSlice({
       state.refreshToken = null;
       state.accessToken = null;
       state.loggedIn = false;
+      state.profileType = 0;
+      state.verified = null;
     },
     setProfileType: (state, action: PayloadAction<SetProfileType>) => {
       state.profileType = action.payload.type;
+    },
+    setProfileId: (state, action: PayloadAction<SetProfileId>) => {
+      state.profileId = action.payload.id;
+    },
+    setVerified: (state) => {
+      state.verified = true;
+    },
+    setVerificationMailSent: (state) => {
+      state.verificationMailSent = new Date();
     },
   },
 });

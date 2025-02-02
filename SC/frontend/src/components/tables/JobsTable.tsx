@@ -11,13 +11,16 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../../router.tsx';
+import { useAppSelector } from '../../core/store';
+import { ApplicationStatus } from '../../models/application/application.ts';
 
 export interface JobsTableHeader {
   title: string;
   company: string;
-  state: string;
+  state: ApplicationStatus;
   location: string;
   submissionDate: string;
+  id: string;
 }
 
 export interface JobsTableProps {
@@ -27,7 +30,15 @@ export interface JobsTableProps {
 export const JobsTable = (props: JobsTableProps) => {
   const { jobs = [] } = props;
   const navigate = useNavigateWrapper();
+  const auth = useAppSelector((state) => state.auth);
+  const studentId = auth.profileId;
 
+  const getDatePart = (timestamp: string): string => {
+    const date = new Date(timestamp);
+    return date.toISOString().split('T')[0];
+  };
+
+  console.log('Application available:' + props);
   return (
     <TableContainer
       component={Paper}
@@ -74,7 +85,7 @@ export const JobsTable = (props: JobsTableProps) => {
                 colSpan={6}
                 sx={{ textAlign: 'center', fontStyle: 'italic' }}
               >
-                NO DATA
+                NO AVAILABLE JOB
               </TableCell>
             </TableRow>
           ) : (
@@ -84,12 +95,17 @@ export const JobsTable = (props: JobsTableProps) => {
                 <TableCell>{row.company}</TableCell>
                 <TableCell>{row.state}</TableCell>
                 <TableCell>{row.location}</TableCell>
-                <TableCell>{row.submissionDate}</TableCell>
+                <TableCell>{getDatePart(row.submissionDate)}</TableCell>
                 <TableCell>
                   <IconButton
                     color="primary"
                     aria-label="view details"
-                    onClick={() => navigate(AppRoutes.Application)}
+                    onClick={() =>
+                      navigate(AppRoutes.Application, {
+                        studentId: (studentId ?? '').toString(),
+                        applicationId: row.id,
+                      })
+                    }
                   >
                     <VisibilityIcon />
                   </IconButton>

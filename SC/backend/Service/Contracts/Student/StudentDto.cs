@@ -10,6 +10,10 @@ public class StudentDto
     public required string Name { get; set; }
     
     [MaxLength(255)]
+    [EmailAddress]
+    public required string Email { get; set; }
+    
+    [MaxLength(255)]
     public required string Cf { get; set; }
     
     [MaxLength(255)]

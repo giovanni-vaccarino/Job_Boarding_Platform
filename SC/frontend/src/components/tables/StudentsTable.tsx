@@ -11,10 +11,13 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../../router.tsx';
+import { useAppSelector } from '../../core/store';
 
 export interface StudentsTableHeader {
   name: string;
   suggestedJob: string;
+  studentId: string;
+  matchId: string;
 }
 
 export interface StudentsTableProps {
@@ -24,6 +27,10 @@ export interface StudentsTableProps {
 export const StudentsTable = (props: StudentsTableProps) => {
   const { students = [] } = props;
   const navigate = useNavigateWrapper();
+  const auth = useAppSelector((state) => state.auth);
+  const companyId = auth.profileId;
+
+  console.log(props);
 
   return (
     <TableContainer
@@ -86,9 +93,16 @@ export const StudentsTable = (props: StudentsTableProps) => {
             <TableRow>
               <TableCell
                 colSpan={3}
-                sx={{ textAlign: 'center', fontStyle: 'italic' }}
+                sx={{
+                  fontStyle: 'italic',
+                  color: 'black',
+                  fontSize: '1.2rem',
+                  textAlign: 'center',
+                  mt: '2rem',
+                }}
               >
-                NO DATA
+                There are not available matches yet, update your skills to
+                exploit the recommendation system
               </TableCell>
             </TableRow>
           ) : (
@@ -122,7 +136,14 @@ export const StudentsTable = (props: StudentsTableProps) => {
                     color="primary"
                     aria-label="view details"
                     onClick={() => {
-                      navigate(AppRoutes.ApplicantDetailPage);
+                      navigate(AppRoutes.ApplicantDetailPage, {
+                        applicationId: '-1',
+                        studentId: row.studentId,
+                        companyId: companyId ? companyId.toString() : '',
+                        matchId: row.matchId,
+                        applicationStatus: 'null',
+                        submissionDate: 'null',
+                      });
                     }}
                   >
                     <VisibilityIcon />

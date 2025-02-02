@@ -15,48 +15,97 @@ import { Matches } from './pages/Matches.tsx';
 import { ForgotPasswordSetEmail } from './pages/ForgotPasswordSetEmail.tsx';
 import { ForgotPasswordSetPassword } from './pages/ForgotPasswordSetPassword.tsx';
 import { Job } from './pages/Job.tsx';
+import { InternshipDetailsLoader } from './core/API/loader/InternshipDetailsLoader.ts';
+import { useService } from './core/ioc/ioc-provider.tsx';
+import { ServiceType } from './core/ioc/service-type.ts';
+import { IInternshipApi } from './core/API/internship/IInternshipApi.ts';
+import { IStudentApi } from './core/API/student/IStudentApi.ts';
+import { ApplicationLoader } from './core/API/loader/ApplicationLoader.ts';
+import { useAppSelector } from './core/store';
+import { TypeProfile } from './models/auth/register.ts';
+import { InternshipCompanyLoader } from './core/API/loader/InternshipCompanyLoader.ts';
+import { StudentLoader } from './core/API/loader/StudentLoader.ts';
+import { CompanyLoader } from './core/API/loader/CompanyLoader.ts';
+import { ICompanyApi } from './core/API/company/ICompanyApi.ts';
+import { MatchesLoaderStudent } from './core/API/loader/MatchesLoaderStudents.ts';
+import { MatchesLoaderCompany } from './core/API/loader/MatchesLoaderCompany.ts';
+import { IMatchApi } from './core/API/match/IMatchApi.ts';
+import { ApplicantDetailsLoader } from './core/API/loader/ApplicantDetailsLoader.ts';
+import { InternshipLoader } from './core/API/loader/InternshipLoader.ts';
+import { ApplicationDetailsLoader } from './core/API/loader/ApplicationDetailsLoader.ts';
+import { QuestionLoader } from './core/API/loader/QuestionLoader.ts';
+import { ApplicationsPerInternship } from './core/API/loader/ApplicationsPerInternship.ts';
+import { VerifyEmail } from './pages/VerifyEmail.tsx';
 
 export const AppRoutes = Object.freeze({
   Home: '/',
-  Matches: '/matches',
-  Application: '/application',
-  Job: '/job',
+  Matches: '/matches/:id',
+  Application: '/application/:studentId/:applicationId',
+  Job: '/job/:id',
   ConfirmPage: '/confirm-page',
-  Activity: '/activity',
-  Profile: '/profile',
+  Activity: '/activity/:id',
+  Profile: `/profile/:id`,
   Login: '/login',
-  ForgotPasswordSetPassword: '/forgot-password-set-password',
+  ForgotPasswordSetPassword: '/reset-password',
   ForgotPasswordSetEmail: '/forgot-password-set-email',
   Register: '/register',
   Internship: '/internship/:id',
-  ReceivedApplication: '/received-application',
-  OnlineAssessment: '/online-assessment',
+  ReceivedApplications: '/received-application/:internshipId/:companyId',
+  OnlineAssessment: '/online-assessment/:internshipId/:applicationId',
   NewJobQuestion: '/new-job-question',
   NewJob: '/new-job',
-  ApplicantDetailPage: '/applicant-detail-page',
+  ApplicantDetailPage:
+    '/applicant-detail-page/:applicationId/:studentId/:companyId/:matchId/:applicationStatus/:submissionDate?',
+  VerifyEmailPage: '/verify-email',
 });
 
 export const useAppRouter = () => {
+  const internshipApi = useService<IInternshipApi>(ServiceType.InternshipApi);
+  const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
+  const companyApi = useService<ICompanyApi>(ServiceType.CompanyApi);
+  const authState = useAppSelector((state) => state.auth);
+  const profileType = authState.profileType;
+  const matchApi = useService<IMatchApi>(ServiceType.MatchApi);
+
   return createBrowserRouter(
     [
       {
         path: AppRoutes.Home,
+        loader: () => InternshipLoader(internshipApi),
         element: <Home />,
       },
       {
         path: AppRoutes.Matches,
+        loader: ({ params }) =>
+          profileType === TypeProfile.Student
+            ? MatchesLoaderStudent(matchApi, params.id || '')
+            : MatchesLoaderCompany(matchApi, params.id || ''),
         element: <Matches />,
       },
       {
+        //Note: in the activity page the users see the applications, while the companies see their internships
         path: AppRoutes.Activity,
+        loader: ({ params }) =>
+          profileType === TypeProfile.Student
+            ? ApplicationLoader(studentApi, params.id || '')
+            : InternshipCompanyLoader(internshipApi, params.id || ''),
         element: <Activity />,
       },
+
       {
         path: AppRoutes.Application,
+        loader: ({ params }) =>
+          ApplicationDetailsLoader(
+            studentApi,
+            params.studentId || '',
+            params.applicationId || ''
+          ),
         element: <Application />,
       },
       {
         path: AppRoutes.Job,
+        loader: ({ params }) =>
+          InternshipDetailsLoader(internshipApi, params.id || ''),
         element: <Job />,
       },
       {
@@ -65,6 +114,10 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.Profile,
+        loader: ({ params }) =>
+          profileType === TypeProfile.Student
+            ? StudentLoader(studentApi, params.id || '')
+            : CompanyLoader(companyApi, params.id || ''),
         element: <Profile />,
       },
       {
@@ -85,6 +138,8 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.OnlineAssessment,
+        loader: ({ params }) =>
+          QuestionLoader(internshipApi, params.internshipId || ''),
         element: <OnlineAssessment />,
       },
       {
@@ -97,11 +152,28 @@ export const useAppRouter = () => {
       },
       {
         path: AppRoutes.ApplicantDetailPage,
-        element: <ApplicantDetailPage nameApplicant={'mockname'} />,
+        loader: ({ params }) =>
+          ApplicantDetailsLoader(
+            internshipApi,
+            params.applicationId || '',
+            params.studentId || '',
+            params.companyId || ''
+          ),
+        element: <ApplicantDetailPage />,
       },
       {
-        path: AppRoutes.ReceivedApplication,
+        path: AppRoutes.ReceivedApplications,
+        loader: ({ params }) =>
+          ApplicationsPerInternship(
+            internshipApi,
+            params.internshipId || '',
+            params.companyId || ''
+          ),
         element: <ReceivedApplication />,
+      },
+      {
+        path: AppRoutes.VerifyEmailPage,
+        element: <VerifyEmail />,
       },
     ],
     {

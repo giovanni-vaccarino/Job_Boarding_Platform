@@ -1,77 +1,269 @@
 import { useState } from 'react';
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import { Page } from '../components/layout/Page.tsx';
 import { TitleHeader } from '../components/page-headers/TitleHeader.tsx';
 import { RowComponent } from '../components/profile-components/RowComponent.tsx';
+import { useService } from '../core/ioc/ioc-provider.tsx';
+import { ServiceType } from '../core/ioc/service-type.ts';
+import { IStudentApi } from '../core/API/student/IStudentApi.ts';
+import { ICompanyApi } from '../core/API/company/ICompanyApi.ts';
+import { IAuthApi } from '../core/API/auth/IAuthApi.ts';
+import { AppRoutes } from '../router.tsx';
+import { useNavigateWrapper } from '../hooks/use-navigate-wrapper.ts';
+import { Student } from '../models/student/student.ts';
+import { useLoaderData } from 'react-router-dom';
+import { Company, UpdateCompany } from '../models/company/company.ts';
+import { useAppSelector } from '../core/store';
+import { appActions, useAppDispatch } from '../core/store';
+import { TypeProfile } from '../models/auth/register.ts';
+import { SendVerificationMailDto } from '../models/auth/login.ts';
 
 export const Profile = () => {
+  const studentApi = useService<IStudentApi>(ServiceType.StudentApi);
+  const companyApi = useService<ICompanyApi>(ServiceType.CompanyApi);
+  const authApi = useService<IAuthApi>(ServiceType.AuthApi);
+  const navigate = useNavigateWrapper();
+  const data = useLoaderData() as Student | Company;
+  const authState = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const profileType: TypeProfile | null = authState.profileType;
+  // @ts-ignore
+  const verified: boolean | null = authState.verified;
+  // @ts-ignore
+  const accountType: string = TypeProfile[profileType];
+  const [verifyButtonValue, setVerifyButtonValue] = useState('Verify Email');
+
   const [selectedSection, setSelectedSection] = useState<string>('profile');
+
+  const [studentProfile, setStudentProfile] = useState<Student>(
+    data as Student
+  );
+
+  const [companyProfile, setCompanyProfile] = useState(data as Company);
+
+  const isMoreThanSixHoursOld = (date: Date | null): boolean => {
+    if (date === null) return true;
+    const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000);
+    return date < sixHoursAgo;
+  };
 
   const handleSectionChange = (section: string) => {
     setSelectedSection(section);
   };
 
-  const [accountType, setAccountType] = useState<string>('company');
+  const handleFieldChange = async (
+    fieldKey: string | undefined,
+    value?: string | string[] | undefined
+  ) => {
+    if (accountType === 'Student') {
+      setStudentProfile((prev) => {
+        // @ts-ignore
+        const updatedProfile = { ...prev, [fieldKey]: value };
 
-  const handleTypeAccount = (type: string) => {
-    setAccountType(type);
+        // Call the API with the updated profile
+        studentApi
+          .updateStudentInfo(updatedProfile.id.toString(), updatedProfile)
+          .then((res) => console.log('API Response:', res))
+          .catch((error) =>
+            console.error('Error updating student info:', error)
+          );
+
+        return updatedProfile;
+      });
+    } else if (accountType === 'Company') {
+      setCompanyProfile((prev) => {
+        // @ts-ignore
+        const updatedProfile = { ...prev, [fieldKey]: value };
+        console.log('Updated Company Profile:', updatedProfile);
+
+        const updateProfileRequest: UpdateCompany = {
+          name: updatedProfile.name,
+          vat: updatedProfile.vatNumber,
+          website: updatedProfile.website,
+        };
+
+        // Call the API with the updated profile
+        companyApi
+          .updateCompanyInfo(updatedProfile.id.toString(), updateProfileRequest)
+          .then((res) => console.log('API Response:', res))
+          .catch((error) =>
+            console.error('Error updating company info:', error)
+          );
+
+        return updatedProfile;
+      });
+    }
   };
 
   const renderContent = () => {
     if (selectedSection === 'profile') {
-      if (accountType === 'student')
+      if (accountType === 'Student')
         return (
           <Box>
             <RowComponent
               label="eMail"
-              value="vittorio.palladino@mail.polimi.it"
-              buttons={['edit']}
+              value={studentProfile.email}
+              fieldKey={'email'}
+              buttons={[]}
+              onFieldChange={handleFieldChange}
             />
-            <RowComponent label="Name" value="vittorio" buttons={['edit']} />
+            <RowComponent
+              label="Name"
+              value={studentProfile.name}
+              buttons={['edit']}
+              fieldKey={'name'}
+              onFieldChange={handleFieldChange}
+            />
+            <RowComponent
+              label="Cf"
+              value={studentProfile.cf}
+              buttons={['edit']}
+              fieldKey={'cf'}
+              onFieldChange={handleFieldChange}
+            />
+            {!verified &&
+              isMoreThanSixHoursOld(authState.verificationMailSent) && (
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: 'primary.main',
+                    color: '#FFFFFF',
+                    textTransform: 'none',
+                    fontSize: '1rem',
+                    fontWeight: 'bold',
+                    borderRadius: '8px',
+                    marginTop: 2,
+                    marginBottom: 2,
+                  }}
+                  onClick={async () => {
+                    if (!companyProfile?.email) {
+                      console.error('Error: email is undefined');
+                      return;
+                    }
+
+                    const dto: SendVerificationMailDto = {
+                      email: companyProfile.email,
+                    };
+
+                    try {
+                      await authApi.sendVerificationMail(dto);
+                      dispatch(appActions.auth.setVerificationMailSent());
+                      setVerifyButtonValue('Email Sent');
+                    } catch (error) {
+                      console.error('Error sending verification mail:', error);
+                    }
+                  }}
+                >
+                  {verifyButtonValue}
+                </Button>
+              )}
           </Box>
         );
-      else if (accountType === 'company')
+      else if (accountType === 'Company')
         return (
           <Box>
             <RowComponent
               label="eMail"
-              value="vittorio.palladino@mail.polimi.it"
-              buttons={['edit']}
+              value={companyProfile.email}
+              buttons={[]}
+              fieldKey={'email'}
+              onFieldChange={handleFieldChange}
             />
-            <RowComponent label="Name" value="vittorio" buttons={['edit']} />
+            <RowComponent
+              label="Name"
+              value={companyProfile.name}
+              buttons={['edit']}
+              fieldKey={'name'}
+              onFieldChange={handleFieldChange}
+            />
+
+            {!verified && (
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: 'primary.main',
+                  color: '#FFFFFF',
+                  textTransform: 'none',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  borderRadius: '8px',
+                  marginTop: 2,
+                  marginBottom: 2,
+                }}
+                onClick={async () => {
+                  if (!companyProfile?.email) {
+                    console.error('Error: email is undefined');
+                    return;
+                  }
+
+                  const dto: SendVerificationMailDto = {
+                    email: companyProfile.email,
+                  };
+
+                  try {
+                    await authApi.sendVerificationMail(dto);
+                    setVerifyButtonValue('Email Sent');
+                  } catch (error) {
+                    console.error('Error sending verification mail:', error);
+                  }
+                }}
+              >
+                {verifyButtonValue}
+              </Button>
+            )}
           </Box>
         );
     } else {
       if (selectedSection === 'info')
-        if (accountType === 'student')
+        if (accountType === 'Student') {
+          console.log('Student Profile:', studentProfile.skills);
           return (
             <Box>
-              <RowComponent label="CV" value="-" buttons={['edit', 'view']} />
-              <RowComponent label="Skills" value="-" buttons={['edit']} />
+              <RowComponent
+                label="CV"
+                value={studentProfile.cvPath}
+                buttons={['view']}
+                fieldKey={'cvPath'}
+                onFieldChange={handleFieldChange}
+              />
+              <RowComponent
+                label="Skills"
+                value={studentProfile.skills}
+                buttons={['edit']}
+                fieldKey={'skills'}
+                onFieldChange={handleFieldChange}
+              />
               <RowComponent
                 label="Interest"
-                value="vittorio"
+                value={studentProfile.interests}
                 buttons={['edit']}
+                fieldKey={'interests'}
+                onFieldChange={handleFieldChange}
               />
             </Box>
           );
-        else if (accountType === 'company')
+        } else if (accountType === 'Company') {
+          console.log('Company Profile:', companyProfile.name);
           return (
             <Box>
               <RowComponent
-                label="Company Name"
-                value="Amazon"
+                label="Vat"
+                value={companyProfile.vatNumber}
                 buttons={['edit']}
+                fieldKey={'vat'}
+                onFieldChange={handleFieldChange}
               />
-              <RowComponent label="Vat" value="-" buttons={['edit']} />
               <RowComponent
                 label="Company Website"
-                value="-"
+                value={companyProfile.website}
                 buttons={['edit']}
+                fieldKey={'website'}
+                onFieldChange={handleFieldChange}
               />
-              <RowComponent label="Linkedin" value="-" buttons={['edit']} />
             </Box>
           );
+        }
     }
   };
 
@@ -82,9 +274,7 @@ export const Profile = () => {
         sx={{
           display: 'flex',
           flexDirection: 'row', // Align children in a row for two columns
-          justifyContent: 'space-between', // Distribute space evenly
-          width: '100%',
-          maxWidth: '1000px', // Adjust the maximum width to accommodate two columns
+          width: '70%', // Adjust the maximum width to accommodate two columns
           padding: 3,
           mt: '3rem',
           backgroundColor: '#FFFFFF',
@@ -97,6 +287,7 @@ export const Profile = () => {
             position: 'fixed',
             minWidth: '30%',
             marginLeft: '0%',
+            marginRight: '1%',
             display: 'flex',
             flexDirection: 'column', // Stack items vertically
             justifyContent: 'center', // Center items vertically
@@ -112,15 +303,16 @@ export const Profile = () => {
               marginBottom: '10%', // Space between sections
             }}
           >
-            <Button
-              variant="contained"
-              //startIcon={<PhotoCameraSharpIcon sx={{ marginLeft: '30%' }} />}
-              sx={{
-                width: '60px', // Circular button dimensions
-                height: '60px',
-                borderRadius: '50%', // Make it a circle
-              }}
-            ></Button>
+            {/*<Button*/}
+            {/*  variant="contained"*/}
+            {/*  //startIcon={<PhotoCameraSharpIcon sx={{ marginLeft: '30%' }} />}*/}
+            {/*  sx={{*/}
+            {/*    width: '60px', // Circular button dimensions*/}
+            {/*    height: '60px',*/}
+            {/*    borderRadius: '50%', // Make it a circle*/}
+            {/*  }}*/}
+            {/*></Button>*/}
+            <Avatar src="/broken-image.jpg" />
           </Box>
 
           <Box sx={{ borderTop: '2px solid gray', width: '20%', mb: '1rem' }} />
@@ -181,16 +373,25 @@ export const Profile = () => {
           <Box sx={{ borderTop: '2px solid gray', width: '20%', mt: '1rem' }} />
 
           {/* Logout */}
-          <Typography
-            sx={{
-              color: 'red',
-              fontSize: '1.35rem',
-              fontWeight: '500',
-              marginTop: '10%',
+          <Button
+            onClick={async () => {
+              await authApi.logout();
+
+              dispatch(appActions.auth.logout());
+              navigate(AppRoutes.Login);
             }}
           >
-            Log Out
-          </Typography>
+            <Typography
+              sx={{
+                color: 'red',
+                fontSize: '1.35rem',
+                fontWeight: '500',
+                marginTop: '10%',
+              }}
+            >
+              Logout
+            </Typography>
+          </Button>
         </Box>
 
         {/* Right Column */}

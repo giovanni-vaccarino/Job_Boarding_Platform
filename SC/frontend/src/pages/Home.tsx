@@ -2,30 +2,10 @@ import { Page } from '../components/layout/Page.tsx';
 import { HomePageHeader } from '../components/page-headers/HomePageHeader.tsx';
 import { Box, MenuItem, Select, Stack, Typography } from '@mui/material';
 import { JobListItem } from '../components/list-items/JobListItem.tsx';
-import { useAppSelector } from '../core/store';
-import * as React from 'react';
-import { useState } from 'react';
-
-const jobList = [
-  {
-    companyName: 'Google',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-11-01'),
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-10-20'),
-  },
-  {
-    companyName: 'Amazon',
-    jobTitle: 'Software Engineer',
-    location: 'Chicago',
-    datePosted: new Date('2024-10-15'),
-  },
-];
+import { appActions, useAppDispatch, useAppSelector } from '../core/store';
+import { useEffect, useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
+import { Internship } from '../models/internship/internship.ts';
 
 export enum PostedDate {
   Today,
@@ -38,32 +18,46 @@ export const Home = () => {
   const [postedDate, setPostedDate] = useState<PostedDate>(
     PostedDate.Everytime
   );
+  const [filteredJobs, setFilteredJobs] = useState<Internship[]>([]);
   const searchMessage = useAppSelector((s) => s.global.searchMessage);
+  const dispatch = useAppDispatch();
 
   const today = new Date();
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay());
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const filteredJobs = jobList.filter((job) => {
-    // Filter by search message
-    const matchesSearch =
-      job.companyName.toLowerCase().includes(searchMessage.toLowerCase()) ||
-      job.jobTitle.toLowerCase().includes(searchMessage.toLowerCase()) ||
-      job.location.toLowerCase().includes(searchMessage.toLowerCase());
+  const internship = useLoaderData() as Internship[];
 
-    // Filter by postedDate
-    const matchesDate =
-      postedDate === PostedDate.Everytime ||
-      (postedDate === PostedDate.Today &&
-        job.datePosted.toDateString() === today.toDateString()) ||
-      (postedDate === PostedDate.CurrentWeek &&
-        job.datePosted >= startOfWeek) ||
-      (postedDate === PostedDate.CurrentMonth &&
-        job.datePosted >= startOfMonth);
+  useEffect(() => {
+    const jobsToUpdate = internship.filter((job) => {
+      // Filter by search message
+      const matchesSearch =
+        job.title.toLowerCase().includes(searchMessage.toLowerCase()) ||
+        job.location.toLowerCase().includes(searchMessage.toLowerCase());
 
-    return matchesSearch && matchesDate;
-  });
+      const dateToMatch = new Date(job.dateCreated.toString().split('T')[0]);
+      const matchesDate =
+        postedDate === PostedDate.Everytime ||
+        (postedDate === PostedDate.Today &&
+          dateToMatch.getDate() === today.getDate()) ||
+        (postedDate === PostedDate.CurrentWeek && dateToMatch >= startOfWeek) ||
+        (postedDate === PostedDate.CurrentMonth && dateToMatch >= startOfMonth);
+
+      return matchesSearch && matchesDate;
+    });
+    setFilteredJobs(jobsToUpdate);
+  }, [postedDate, searchMessage]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(
+        appActions.global.setSearchMessage({
+          newSearchMessage: '',
+        })
+      );
+    };
+  }, []);
 
   return (
     <Page>
@@ -127,9 +121,10 @@ export const Home = () => {
             <JobListItem
               key={index}
               companyName={job.companyName}
-              jobTitle={job.jobTitle}
+              jobTitle={job.title}
               location={job.location}
-              datePosted={job.datePosted}
+              datePosted={new Date(job.dateCreated.toString().split('T')[0])}
+              id={job.id.toString()}
             />
           ))
         ) : (

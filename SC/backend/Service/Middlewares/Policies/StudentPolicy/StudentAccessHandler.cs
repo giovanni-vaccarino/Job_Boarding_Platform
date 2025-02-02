@@ -40,11 +40,12 @@ public class StudentAccessHandler : AuthorizationHandler<StudentAccessRequiremen
     /// If the conditions are met, the requirement is succeeded; otherwise, it fails.
     /// </remarks>
     protected override async Task HandleRequirementAsync(
-        AuthorizationHandlerContext context, 
+        AuthorizationHandlerContext context,
         StudentAccessRequirement requirement)
     {
-        var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new InvalidOperationException("User ID not found.");
-
+        var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ??
+                     throw new InvalidOperationException("User ID not found.");
+        
         if (context.Resource is HttpContext httpContext)
         {
             var studentId = httpContext.Request.RouteValues["studentId"]?.ToString();
@@ -52,10 +53,10 @@ public class StudentAccessHandler : AuthorizationHandler<StudentAccessRequiremen
             {
                 studentId = httpContext.Request.Query["studentId"].FirstOrDefault();
             }
-            _logger.LogCritical(userId);
+            
             _logger.LogCritical(studentId);
-            if (!string.IsNullOrEmpty(studentId) &&
-                await _dbContext.Students.AnyAsync(s => s.Id.ToString() == studentId && s.UserId.ToString() == userId))
+            if (!string.IsNullOrEmpty(studentId))
+                await _dbContext.Students.AnyAsync(s => s.Id.ToString() == studentId && s.UserId.ToString() == userId);
             {
                 context.Succeed(requirement);
                 return;
@@ -63,5 +64,8 @@ public class StudentAccessHandler : AuthorizationHandler<StudentAccessRequiremen
         }
 
         context.Fail();
+        
     }
+    
+
 }

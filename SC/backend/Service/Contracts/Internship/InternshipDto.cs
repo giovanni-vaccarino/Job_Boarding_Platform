@@ -1,11 +1,12 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
+using backend.Service.Contracts.Feedback;
 using backend.Shared.Enums;
 
 namespace backend.Service.Contracts.Internship;
 
 public class InternshipDto
 {
-    public required int Id { get; set; }
+    public int Id { get; set; }
     
     public required DateTime DateCreated { get; set; }
 
@@ -24,4 +25,13 @@ public class InternshipDto
     public JobType? JobType { get; set; }
     
     public List<string> Requirements { get; set; } = new List<string>();
+    
+    public int NumberOfApplications { get; set; }
+    
+    
+    public required int companyId { get; set; }
+    
+    public string? CompanyName { get; set; }
+    
+    public List<FeedbackResponseDto>? Feedbacks { get; set; }
 }

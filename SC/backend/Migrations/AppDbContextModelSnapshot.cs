@@ -181,6 +181,41 @@ namespace backend.Migrations
                     b.ToTable("Internships");
                 });
 
+            modelBuilder.Entity("backend.Data.Entities.InternshipFeedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Actor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ApplicationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId");
+
+                    b.ToTable("InternshipFeedbacks");
+                });
+
             modelBuilder.Entity("backend.Data.Entities.InternshipQuestion", b =>
                 {
                     b.Property<int>("Id")
@@ -209,6 +244,69 @@ namespace backend.Migrations
                         .IsUnique();
 
                     b.ToTable("InternshipQuestions");
+                });
+
+            modelBuilder.Entity("backend.Data.Entities.Match", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("HasInvite")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("InternshipId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InternshipId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Matches");
+                });
+
+            modelBuilder.Entity("backend.Data.Entities.PlatformFeedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PlatformFeedbacks");
                 });
 
             modelBuilder.Entity("backend.Data.Entities.Question", b =>
@@ -320,6 +418,9 @@ namespace backend.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<bool>("Verified")
+                        .HasColumnType("tinyint(1)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -385,6 +486,17 @@ namespace backend.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("backend.Data.Entities.InternshipFeedback", b =>
+                {
+                    b.HasOne("backend.Data.Entities.Application", "Application")
+                        .WithMany("InternshipFeedbacks")
+                        .HasForeignKey("ApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Application");
+                });
+
             modelBuilder.Entity("backend.Data.Entities.InternshipQuestion", b =>
                 {
                     b.HasOne("backend.Data.Entities.Internship", "Internship")
@@ -402,6 +514,36 @@ namespace backend.Migrations
                     b.Navigation("Internship");
 
                     b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("backend.Data.Entities.Match", b =>
+                {
+                    b.HasOne("backend.Data.Entities.Internship", "Internship")
+                        .WithMany("Matches")
+                        .HasForeignKey("InternshipId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Data.Entities.Student", "Student")
+                        .WithMany("Matches")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Internship");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("backend.Data.Entities.PlatformFeedback", b =>
+                {
+                    b.HasOne("backend.Data.Entities.User", "User")
+                        .WithMany("PlatformFeedbacks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Data.Entities.Question", b =>
@@ -426,6 +568,11 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("backend.Data.Entities.Application", b =>
+                {
+                    b.Navigation("InternshipFeedbacks");
+                });
+
             modelBuilder.Entity("backend.Data.Entities.Company", b =>
                 {
                     b.Navigation("Internships");
@@ -438,6 +585,8 @@ namespace backend.Migrations
                     b.Navigation("Applications");
 
                     b.Navigation("InternshipQuestions");
+
+                    b.Navigation("Matches");
                 });
 
             modelBuilder.Entity("backend.Data.Entities.Question", b =>
@@ -448,11 +597,15 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Data.Entities.Student", b =>
                 {
                     b.Navigation("Applications");
+
+                    b.Navigation("Matches");
                 });
 
             modelBuilder.Entity("backend.Data.Entities.User", b =>
                 {
                     b.Navigation("Company");
+
+                    b.Navigation("PlatformFeedbacks");
 
                     b.Navigation("Student");
                 });

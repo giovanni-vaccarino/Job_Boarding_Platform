@@ -1,29 +1,35 @@
 import { TitleHeader } from '../page-headers/TitleHeader.tsx';
 import { Box, Typography } from '@mui/material';
-import { CompanyJobsTable } from '../tables/CompanyJobsTable.tsx';
+import {
+  CompanyJobsTable,
+  CompanyJobsTableHeader,
+} from '../tables/CompanyJobsTable.tsx';
+import { Internship } from '../../models/internship/internship.ts';
+import { AppRoutes } from '../../router.tsx';
+import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 
-const exampleData = [
-  {
-    title: 'Frontend Developer',
-    applications: 5,
-    jobType: 'Full Time',
-    location: 'London',
-  },
-  {
-    title: 'Backend Developer',
-    applications: 3,
-    jobType: 'Part Time',
-    location: 'Berlin',
-  },
-  {
-    title: 'Data Scientist',
-    applications: 7,
-    jobType: 'Remote',
-    location: 'San Francisco',
-  },
-];
+const mapInternshipToCompanyTableHeader = (
+  internship: Internship
+): CompanyJobsTableHeader => {
+  return {
+    id: internship.id.toString(),
+    title: internship.title,
+    applications: internship.numberOfApplications,
+    jobType: internship.jobType?.toString(),
+    location: internship.location,
+    internshipId: internship.id.toString(),
+  };
+};
 
-export const CompanyActivity = () => {
+export interface CompanyActivityProps {
+  internship: Internship[];
+}
+
+export const CompanyActivity = (props: CompanyActivityProps) => {
+  const navigate = useNavigateWrapper();
+
+  console.log(props.internship);
+
   return (
     <>
       <TitleHeader title={'Jobs List'} />
@@ -34,6 +40,9 @@ export const CompanyActivity = () => {
             textDecoration: 'underline',
             fontStyle: 'italic',
             mt: '2rem',
+          }}
+          onClick={() => {
+            navigate(AppRoutes.NewJob);
           }}
         >
           Add New Job
@@ -50,10 +59,20 @@ export const CompanyActivity = () => {
           marginTop: '1rem',
         }}
       >
-        {exampleData.length > 0 ? (
-          <CompanyJobsTable jobs={exampleData} />
+        {props.internship.length > 0 ? (
+          <CompanyJobsTable
+            jobs={props.internship.map(mapInternshipToCompanyTableHeader)}
+          />
         ) : (
-          <Typography sx={{ fontStyle: 'italic' }}>
+          <Typography
+            sx={{
+              fontStyle: 'italic',
+              color: 'gray',
+              fontSize: '1.2rem',
+              textAlign: 'center',
+              mt: '2rem',
+            }}
+          >
             THERE IS NO JOB AVAILABLE
           </Typography>
         )}

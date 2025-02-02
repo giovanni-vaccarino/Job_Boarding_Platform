@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using backend.Shared.Enums;
 
 namespace backend.Service.Contracts.Auth;
 
@@ -14,4 +15,9 @@ public class TokenResponse
     
     [Required]
     public required int ProfileId { get; set; }
+    
+    [Required]
+    public required ProfileType ProfileType { get; set; }
+    [Required]
+    public required bool Verified { get; set; }
 }

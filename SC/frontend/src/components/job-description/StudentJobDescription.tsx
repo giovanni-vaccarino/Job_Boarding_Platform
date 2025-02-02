@@ -5,6 +5,12 @@ import { AppRoutes } from '../../router.tsx';
 import { JobDescriptionCore } from './JobDescriptionCore.tsx';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { JobDescriptionProps } from '../../models/application/application.ts';
+import { useService } from '../../core/ioc/ioc-provider.tsx';
+import { IInternshipApi } from '../../core/API/internship/IInternshipApi.ts';
+import { ServiceType } from '../../core/ioc/service-type.ts';
+import { ApplyToInternshipInput } from '../../models/internship/internship.ts';
+import { Snackbar } from '@mui/material';
+import { useState } from 'react';
 
 export const StudentJobDescription = (props: JobDescriptionProps) => {
   const jobDescription = props.jobDescription;
@@ -14,9 +20,23 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
   const navigate = useNavigateWrapper();
   const dispatch = useAppDispatch();
 
+  const internshipApi = useService<IInternshipApi>(ServiceType.InternshipApi);
+
+  const authState = useAppSelector((state) => state.auth);
+  const studentId = authState.profileId;
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
+  console.log(props.jobDescription);
+
   return (
     <>
-      <TitleHeader title={'Software Engineering, intern - Amazon'} />
+      <TitleHeader title={jobDescription.jobTitle} />
 
       <Box
         sx={{
@@ -41,13 +61,34 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
             variant="contained"
             color="primary"
             disabled={!isLogged}
-            onClick={() => {
-              dispatch(
-                appActions.global.setConfirmMessage({
-                  newMessage: 'Application Sent Successfully',
-                })
-              );
-              navigate(AppRoutes.ConfirmPage);
+            onClick={async () => {
+              const inputPostApplyToInternship: ApplyToInternshipInput = {
+                studentId: studentId?.toString(),
+                internshipId: props.jobDescription.jobId.toString(),
+              };
+              try {
+                const res = await internshipApi.postApplyToInternship(
+                  inputPostApplyToInternship
+                );
+                console.log(res);
+                dispatch(
+                  appActions.global.setConfirmMessage({
+                    newMessage: 'Application Sent Successfully',
+                  })
+                );
+                navigate(AppRoutes.ConfirmPage);
+              } catch (error: any) {
+                const errorMessage =
+                  'You have already applied to this internship';
+
+                console.error(
+                  'Full error object:',
+                  JSON.stringify(error, null, 2)
+                );
+
+                setSnackbarMessage(errorMessage);
+                setSnackbarOpen(true);
+              }
             }}
             sx={{
               textTransform: 'none',
@@ -60,6 +101,20 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
           </Button>
         </Box>
       </Box>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+        sx={{
+          '& .MuiSnackbarContent-root': {
+            backgroundColor: 'red',
+            fontSize: '18px',
+            padding: '16px',
+          },
+        }}
+      />
     </>
   );
 };

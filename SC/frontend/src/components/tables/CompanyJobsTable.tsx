@@ -9,16 +9,17 @@ import {
   IconButton,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useNavigateWrapper } from '../../hooks/use-navigate-wrapper.ts';
 import { AppRoutes } from '../../router.tsx';
+import { useAppSelector } from '../../core/store';
 
 export interface CompanyJobsTableHeader {
+  id: string;
   title: string;
   applications: number; // Number of applications received
   jobType: string; // Job Type (e.g., Full Time)
   location: string;
+  internshipId: string;
 }
 
 export interface CompanyJobsTableProps {
@@ -28,7 +29,10 @@ export interface CompanyJobsTableProps {
 export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
   const { jobs = [] } = props;
   const navigate = useNavigateWrapper();
+  const auth = useAppSelector((state) => state.auth);
+  const profileId = auth.profileId;
 
+  console.log(jobs);
   return (
     <TableContainer
       component={Paper}
@@ -100,15 +104,30 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
             <TableRow>
               <TableCell
                 colSpan={5}
-                sx={{ textAlign: 'center', fontStyle: 'italic' }}
+                sx={{
+                  fontStyle: 'italic',
+                  color: 'gray',
+                  fontSize: '1.2rem',
+                  textAlign: 'center',
+                  mt: '2rem',
+                }}
               >
-                NO DATA
+                NO AVAILABLE JOBS
               </TableCell>
             </TableRow>
           ) : (
             jobs.map((row, index) => (
               <TableRow key={index}>
-                <TableCell sx={{ width: '10%' }}>{row.title}</TableCell>
+                <TableCell
+                  sx={{
+                    width: '10%',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                  }}
+                  onClick={() => navigate(AppRoutes.Job, { id: row.id })}
+                >
+                  {row.title}
+                </TableCell>
                 <TableCell sx={{ textAlign: 'center', width: '40%' }}>
                   {row.applications}
                 </TableCell>
@@ -124,15 +143,14 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
                   <IconButton
                     color="primary"
                     aria-label="view details"
-                    onClick={() => navigate(AppRoutes.Job)}
+                    onClick={() =>
+                      navigate(AppRoutes.ReceivedApplications, {
+                        internshipId: row.internshipId,
+                        companyId: profileId ? profileId.toString() : '',
+                      })
+                    }
                   >
                     <VisibilityIcon />
-                  </IconButton>
-                  <IconButton color="primary" aria-label="edit">
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton color="error" aria-label="delete">
-                    <DeleteOutlineIcon />
                   </IconButton>
                 </TableCell>
               </TableRow>

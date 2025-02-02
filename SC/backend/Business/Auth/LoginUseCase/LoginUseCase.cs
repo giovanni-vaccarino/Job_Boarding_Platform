@@ -4,6 +4,8 @@ using backend.Service.Contracts.Auth;
 using backend.Shared.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using backend.Shared.Enums;
+ 
 
 namespace backend.Business.Auth.LoginUseCase;
 
@@ -44,11 +46,15 @@ public class LoginUseCase: IRequestHandler<LoginCommand, TokenResponse>
         
         var profileId = user.Student?.Id ?? user.Company?.Id ?? throw new Exception("User profile not found.");
         
+        var profileType = user.Student != null ? ProfileType.Student : ProfileType.Company; // Set profile type
+
         var tokenResponse = new TokenResponse
         {
             AccessToken = _securityContext.CreateAccessToken(user),
             RefreshToken = _securityContext.CreateRefreshToken(user),
-            ProfileId = profileId
+            ProfileId = profileId,
+            ProfileType = profileType,  // Set ProfileType here
+            Verified = user.Verified
         };
 
         user.UpdatedAt = DateTime.UtcNow;

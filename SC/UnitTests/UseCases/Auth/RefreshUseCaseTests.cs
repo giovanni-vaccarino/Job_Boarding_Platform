@@ -37,6 +37,7 @@ public class RefreshUseCaseTests
             Id = 1,
             Email = "test@example.com",
             PasswordHash = _services.SecurityContext.Hash("Password123!"),
+            Verified = false
         };
         var refreshToken = _services.SecurityContext.CreateRefreshToken(user);
         user.RefreshToken = _services.SecurityContext.Hash(refreshToken);
@@ -99,6 +100,7 @@ public class RefreshUseCaseTests
             Id = 1,
             Email = "test@example.com",
             PasswordHash = _services.SecurityContext.Hash("Password123!"),
+            Verified = false
         };
         user.RefreshToken = _services.SecurityContext.CreateRefreshToken(user);
         _dbContext.Users.Add(user);
@@ -109,6 +111,7 @@ public class RefreshUseCaseTests
             Id = 2,
             Email = "test2@example.com",
             PasswordHash = _services.SecurityContext.Hash("Password123!"),
+            Verified = false
         };
         
         var refreshTokenDto = new RefreshTokenDto
@@ -132,6 +135,7 @@ public class RefreshUseCaseTests
             Id = 1,
             Email = "test@example.com",
             PasswordHash = _services.SecurityContext.Hash("Password123!"),
+            Verified = false
         };
         var refreshToken = _services.SecurityContext.CreateRefreshToken(user);
         _dbContext.Users.Add(user);

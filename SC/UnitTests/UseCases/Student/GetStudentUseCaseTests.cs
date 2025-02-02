@@ -19,7 +19,7 @@ public class GetStudentUseCaseTests
         _services = new IsolatedUseCaseTestServices<GetStudentUseCase>("GetStudentUseCaseTests");
         _dbContext = _services.DbContext;
         _getStudentUseCase = (GetStudentUseCase)Activator.CreateInstance(
-            typeof(GetStudentUseCase), _dbContext, _services.LoggerMock.Object, _services.Mapper)!;
+            typeof(GetStudentUseCase), _dbContext, _services.LoggerMock.Object)!;
     }
     
     /// <summary>
@@ -33,7 +33,8 @@ public class GetStudentUseCaseTests
         var existingUser = new User
         {
             Email = "test@example.com",
-            PasswordHash = _services.SecurityContext.Hash("Password123!")
+            PasswordHash = _services.SecurityContext.Hash("Password123!"),
+            Verified = false
         };
         _dbContext.Users.Add(existingUser);
         await _dbContext.SaveChangesAsync();

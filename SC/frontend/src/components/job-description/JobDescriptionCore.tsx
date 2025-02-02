@@ -1,5 +1,6 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { JobDescriptionProps } from '../../models/application/application.ts';
+import { ViewFeedback } from '../applicant-detail-page/ViewFeedback.tsx';
 
 export const JobDescriptionCore = (props: JobDescriptionProps) => {
   const jobDescription = props.jobDescription;
@@ -11,13 +12,14 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
           lineHeight: '1.9rem',
         }}
       >
-        <strong>Job Category:</strong> {jobDescription.jobCategory} <br />
-        <strong>Job Type:</strong> {jobDescription.jobType} <br />
+        <strong>Internship Category:</strong> {jobDescription.jobCategory}{' '}
+        <br />
+        <strong>Internship Type:</strong> {jobDescription.jobType} <br />
         <strong>Location:</strong> {jobDescription.location} <br />
         <strong>Post Created:</strong>{' '}
-        {jobDescription.postCreated.toLocaleDateString()} <br />
+        {jobDescription.postCreated.toString().split('T')[0]} <br />
         <strong>Application Deadline:</strong>{' '}
-        {jobDescription.applicationDeadline.toLocaleDateString()}
+        {jobDescription.applicationDeadline.toString()}
       </Typography>
 
       {/* Job description section */}
@@ -27,7 +29,7 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
           mt: '1rem',
         }}
       >
-        <strong>Job description</strong>
+        <strong>Internship description</strong>
         <br />
         {jobDescription.jobDescriptionMessage}
       </Typography>
@@ -46,6 +48,36 @@ export const JobDescriptionCore = (props: JobDescriptionProps) => {
           ))}
         </ul>
       </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          mt: '2rem',
+          gap: 3,
+        }}
+      >
+        {props.jobDescription.feedbacks?.length > 0 && (
+          <>
+            <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
+              Feedback:
+            </Typography>
+            {props.jobDescription.feedbacks?.map((feedback, index) => (
+              <Box
+                key={index}
+                sx={{ display: 'flex', flexDirection: 'column' }}
+              >
+                <Typography
+                  sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
+                >{`${index + 1})`}</Typography>
+                <ViewFeedback
+                  feedbackText={feedback.text}
+                  rating={feedback.rating}
+                />
+              </Box>
+            ))}
+          </>
+        )}
+      </Box>
     </>
   );
 };

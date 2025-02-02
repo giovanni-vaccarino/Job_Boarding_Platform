@@ -24,4 +24,6 @@ public class Student : EntityBase
     public User User { get; set; } = null!;
 
     public List<Application> Applications { get; set; } = new List<Application>();
+    
+    public List<Match> Matches { get; set; } = new List<Match>();
 }

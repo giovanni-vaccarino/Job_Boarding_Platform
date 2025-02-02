@@ -35,7 +35,8 @@ public class LoginUseCaseTests
         var existingUser = new User
         {
             Email = "test@example.com",
-            PasswordHash = _services.SecurityContext.Hash("Password123!")
+            PasswordHash = _services.SecurityContext.Hash("Password123!"),
+            Verified = false
         };
         _dbContext.Users.Add(existingUser);
         await _dbContext.SaveChangesAsync();
@@ -92,7 +93,8 @@ public class LoginUseCaseTests
         var existingUser = new User
         {
             Email = "test@example.com",
-            PasswordHash = _services.SecurityContext.Hash("CorrectPassword123!")
+            PasswordHash = _services.SecurityContext.Hash("CorrectPassword123!"),
+            Verified = false
         };
         _dbContext.Users.Add(existingUser);
         await _dbContext.SaveChangesAsync();

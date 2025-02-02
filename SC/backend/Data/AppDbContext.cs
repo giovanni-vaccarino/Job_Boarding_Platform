@@ -18,6 +18,9 @@ public class AppDbContext : DbContext
     public DbSet<Question> Questions { get; set; } = null!;
     public DbSet<InternshipQuestion> InternshipQuestions { get; set; } = null!;
     public DbSet<Answer> Answers { get; set; } = null!;
+    public DbSet<Match> Matches { get; set; } = null!;
+    public DbSet<PlatformFeedback> PlatformFeedbacks { get; set; } = null!;
+    public DbSet<InternshipFeedback> InternshipFeedbacks { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
@@ -77,10 +80,38 @@ public class AppDbContext : DbContext
         .HasForeignKey(a => a.StudentId)
         .OnDelete(DeleteBehavior.Cascade);
 
-    // Application ↔ Job 
+    // Application ↔ Internship 
     modelBuilder.Entity<Application>()
         .HasOne(a => a.Internship)
         .WithMany(j => j.Applications)
+        .HasForeignKey(a => a.InternshipId)
+        .OnDelete(DeleteBehavior.Cascade);
+    
+    // InternshipFeedback ↔ Application
+    modelBuilder.Entity<InternshipFeedback>()
+        .HasOne(a => a.Application)
+        .WithMany(s => s.InternshipFeedbacks)
+        .HasForeignKey(a => a.ApplicationId)
+        .OnDelete(DeleteBehavior.Cascade);
+    
+    // PlatformFeedback ↔ User
+    modelBuilder.Entity<PlatformFeedback>()
+        .HasOne(a => a.User)
+        .WithMany(s => s.PlatformFeedbacks)
+        .HasForeignKey(a => a.UserId)
+        .OnDelete(DeleteBehavior.Cascade);
+    
+    // Match ↔ Student
+    modelBuilder.Entity<Match>()
+        .HasOne(a => a.Student)
+        .WithMany(s => s.Matches)
+        .HasForeignKey(a => a.StudentId)
+        .OnDelete(DeleteBehavior.Cascade);
+    
+    // Match ↔ Internship
+    modelBuilder.Entity<Match>()
+        .HasOne(a => a.Internship)
+        .WithMany(s => s.Matches)
         .HasForeignKey(a => a.InternshipId)
         .OnDelete(DeleteBehavior.Cascade);
 

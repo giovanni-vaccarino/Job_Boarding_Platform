@@ -575,7 +575,7 @@ public class AnswerQuestionsUseCaseTests
                 }
             });
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+        var exception = await Assert.ThrowsAsync<ArgumentException>(() =>
             _answerQuestionsUseCase.Handle(command, CancellationToken.None));
 
         Assert.Equal("The application status is not valid for answering assessment questions.", exception.Message);

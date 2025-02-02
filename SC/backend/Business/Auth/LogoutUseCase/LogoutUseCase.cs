@@ -92,7 +92,7 @@ public class LogoutUseCase: IRequestHandler<LogoutCommand, Unit>
     /// </summary>
     /// <param name="principal">The claims principal to extract the user ID from.</param>
     /// <returns>The user ID as an integer.</returns>
-    /// <exception cref="UnauthorizedAccessException">
+    /// <exception cref="FormatException">
     /// Thrown if:
     /// - The name identifier claim is missing.
     /// - The user ID cannot be parsed.
@@ -100,11 +100,11 @@ public class LogoutUseCase: IRequestHandler<LogoutCommand, Unit>
     private int GetUserIdFromClaims(ClaimsPrincipal principal)
     {
         var userIdClaim = principal.FindFirst(ClaimTypes.NameIdentifier)
-                          ?? throw new UnauthorizedAccessException("Invalid refresh token payload.");
+                          ?? throw new FormatException("Invalid refresh token payload.");
 
         if (!int.TryParse(userIdClaim.Value, out int userId))
         {
-            throw new UnauthorizedAccessException("Invalid parse error.");
+            throw new FormatException("Invalid parse error.");
         }
 
         return userId;

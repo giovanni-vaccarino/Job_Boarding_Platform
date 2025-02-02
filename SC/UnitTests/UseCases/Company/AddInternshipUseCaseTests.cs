@@ -25,7 +25,8 @@ public class AddInternshipUseCaseTests
         _services = new IsolatedUseCaseTestServices<AddInternshipUseCase>("AddInternshipUseCaseTests");
         _dbContext = _services.DbContext;
         _addInternshipUseCase = (AddInternshipUseCase)Activator.CreateInstance(
-            typeof(AddInternshipUseCase), _dbContext, _services.Mapper, _services.LoggerMock.Object)!;
+            typeof(AddInternshipUseCase), _dbContext, _services.Mapper, _services.LoggerMock.Object,
+            _services.JobQueue.Object, _services.InternshipMatchingTaskFactory)!;
     }
 
     /// <summary>

@@ -1,11 +1,14 @@
 import { Box, Rating, Typography } from '@mui/material';
+import { Rating as RatingValue } from '../../models/feedback/feedback.ts';
 
 export interface RowComponentProps {
   feedbackText: string;
-  rating: number;
+  rating: RatingValue;
 }
 
 export const ViewFeedback = (props: RowComponentProps) => {
+  const rating: number = props.rating as number;
+  console.log(rating);
   return (
     <Box
       sx={{
@@ -34,7 +37,7 @@ export const ViewFeedback = (props: RowComponentProps) => {
         </Typography>
         <Rating
           name="simple-controlled"
-          value={props.rating}
+          value={Number(RatingValue[props.rating] + 1)}
           readOnly
           size="large"
         />

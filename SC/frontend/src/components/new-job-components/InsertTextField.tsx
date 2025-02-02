@@ -1,14 +1,26 @@
-import { useState } from 'react';
 import { Box, TextField, Typography } from '@mui/material';
 
 export interface InsertTextFieldProps {
   titleTextField: string;
   isRequired: boolean;
   label: string;
+  value: string;
+  onChange: (value: string) => void;
 }
 
 export const InsertTextField = (props: InsertTextFieldProps) => {
-  const [textField, setTextField] = useState('');
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+
+    if (props.label === 'Application Deadline' && value.length >= 10) {
+      const date = new Date(value);
+      if (!isNaN(date.getTime())) {
+        value = date.toISOString().split('T')[0];
+      }
+    }
+
+    props.onChange(value);
+  };
 
   return (
     <Box
@@ -23,11 +35,9 @@ export const InsertTextField = (props: InsertTextFieldProps) => {
       <TextField
         required={props.isRequired}
         id={props.label}
-        onChange={(e) => {
-          setTextField(e.target.value);
-        }}
+        onChange={handleInputChange}
         label={props.label}
-        value={textField}
+        value={props.value}
       />
     </Box>
   );

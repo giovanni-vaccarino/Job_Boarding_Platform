@@ -5,12 +5,12 @@ export interface InsertMultipleChoiceProps {
   titleMultipleChoice: string;
   isRequired: boolean;
   label: string;
+  options: string[];
+  onChange: (value: string) => void;
 }
 
 export const InsertMultipleChoice = (props: InsertMultipleChoiceProps) => {
   const [choice, setChoice] = useState('');
-
-  const MockUpChoice = ['London', 'Paris'];
 
   return (
     <Box
@@ -27,11 +27,12 @@ export const InsertMultipleChoice = (props: InsertMultipleChoiceProps) => {
         value={choice}
         label={props.label}
         onChange={(e) => {
-          setChoice(e.target.value);
+          setChoice(e.target.value as string);
+          props.onChange(e.target.value as string);
         }}
         variant={'outlined'}
       >
-        {MockUpChoice.map((choice) => (
+        {props.options.map((choice) => (
           <MenuItem value={choice}>{choice}</MenuItem>
         ))}
       </Select>

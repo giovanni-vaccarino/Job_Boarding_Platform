@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using backend.Data.Entities;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
 using backend.Shared.Enums;
 
 namespace backend.Shared.Security;
@@ -89,5 +88,65 @@ public class SecurityContext
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
+    }
+    
+    public string CreateVerificationToken(string userId)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_jwtConfig.Key);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim("userId", userId),
+                new Claim("jti", Guid.NewGuid().ToString()),
+                new Claim("purpose", "email-verification")
+            }),
+            Expires = DateTime.UtcNow.AddHours(24),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
+    }
+    
+    public ClaimsPrincipal ValidateVerificationToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_jwtConfig.Key);
+
+        var validationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ClockSkew = TimeSpan.Zero
+        };
+
+        try
+        {
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
+
+            if (!(validatedToken is JwtSecurityToken jwtToken) ||
+                !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            {
+                throw new SecurityTokenException("Invalid token");
+            }
+
+            var purposeClaim = principal.FindFirst("purpose")?.Value;
+            if (purposeClaim != "email-verification")
+            {
+                throw new SecurityTokenException("Invalid token purpose");
+            }
+
+            return principal;
+        }
+        catch
+        {
+            throw new SecurityTokenException("Invalid token");
+        }
     }
 }

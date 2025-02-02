@@ -4,17 +4,21 @@ import { useAppSelector } from '../core/store';
 import { TypeProfile } from '../models/auth/register.ts';
 import { withAuth } from '../core/hoc/withAuth.tsx';
 import { Page } from '../components/layout/Page.tsx';
+import { useLoaderData } from 'react-router-dom';
+import { Match } from '../models/match/match.ts';
 
 export const Matches = withAuth(() => {
   const authState = useAppSelector((state) => state.auth);
   const profileType = authState.profileType;
 
+  const matches = useLoaderData() as Match[];
+
   return (
     <Page>
-      {profileType === TypeProfile.Company ? (
-        <CompanyMatches />
+      {profileType === TypeProfile.Student ? (
+        <StudentMatches matches={matches} />
       ) : (
-        <StudentMatches />
+        <CompanyMatches matches={matches} />
       )}
     </Page>
   );
