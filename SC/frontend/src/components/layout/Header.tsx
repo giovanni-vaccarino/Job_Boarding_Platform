@@ -46,7 +46,11 @@ export const Header = () => {
           variant="h4"
           sx={{ fontWeight: 'bold', color: 'primary.main', cursor: 'pointer' }}
           onClick={() => {
-            // navigate(AppRoutes.Home);
+            if (profileType === TypeProfile.Company) {
+              navigate(AppRoutes.Matches, { id: authState.profileId || '' });
+            } else {
+              navigate(AppRoutes.Home);
+            }
             // dispatch(appActions.global.setHomePageTab({ newTab: Tab.Offers }));
           }}
         >
@@ -58,7 +62,11 @@ export const Header = () => {
             display: 'flex',
             gap: 5,
             marginLeft:
-              authState.profileType === null ? '2.5rem' : authState.profileType === TypeProfile.Company ? '-5rem' : '-4.5rem',
+              authState.profileType === null
+                ? '2.5rem'
+                : authState.profileType === TypeProfile.Company
+                  ? '-5rem'
+                  : '-4.5rem',
           }}
         >
           {profileType !== TypeProfile.Company && (

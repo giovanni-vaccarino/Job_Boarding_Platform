@@ -124,7 +124,7 @@ export const ReceivedApplicationTable = (
                 </TableCell>
                 <TableCell align="center">{row.applicationStatus}</TableCell>
                 <TableCell align="center">
-                  {row.submissionDate.toString().split("T")[0]}
+                  {row.submissionDate.toString().split('T')[0]}
                 </TableCell>
                 <TableCell align="center">
                   <IconButton
