@@ -1,4 +1,5 @@
 ﻿using backend.Data;
+using backend.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Shared.MatchingBackgroundService;
@@ -13,6 +14,7 @@ public class StudentMatchingTask : IBackgroundTask
         _studentId = studentId;
         _serviceProvider = serviceProvider;
     }
+
     
     public async Task ExecuteAsync()
     {
@@ -35,7 +37,7 @@ public class StudentMatchingTask : IBackgroundTask
         }
         
         var internships = await dbContext.Internships
-            .Select(i => new { i.Id, i.Requirements})
+            .Select(i => new { i.Id, i.Requirements, i.CompanyId })
             .ToListAsync();
         
         if (!internships.Any())
@@ -47,10 +49,18 @@ public class StudentMatchingTask : IBackgroundTask
         const double threshold = 3.0;
         
         var internshipScores = internships
-            .Select(internship => new
+            .Select(internship =>
             {
-                InternshipId = internship.Id,
-                Score = CalculateSimilarityScore(internship.Requirements, student.Skills, student.Interests)
+                var avgCompanyScore = dbContext.Applications
+                    .Where(a => a.Internship.CompanyId == internship.CompanyId)
+                    .SelectMany(a => a.InternshipFeedbacks)
+                    .Where(f => f.Actor == ProfileType.Student) 
+                    .Average(f => (double?)((int)f.Rating + 1)) ?? 2.5;
+                
+                double similarityScore = CalculateSimilarityScore(internship.Requirements, student.Skills, student.Interests);
+                double finalScore = similarityScore * (avgCompanyScore * 2 / 5);
+
+                return (InternshipId: internship.Id, Score: finalScore);
             })
             .OrderByDescending(s => s.Score)
             .ToList();

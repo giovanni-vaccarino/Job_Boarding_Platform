@@ -93,9 +93,16 @@ export const StudentsTable = (props: StudentsTableProps) => {
             <TableRow>
               <TableCell
                 colSpan={3}
-                sx={{ textAlign: 'center', fontStyle: 'italic' }}
+                sx={{
+                  fontStyle: 'italic',
+                  color: 'black',
+                  fontSize: '1.2rem',
+                  textAlign: 'center',
+                  mt: '2rem',
+                }}
               >
-                NO AVAILABLE MATCHES
+                There are not available matches yet, update your skills to
+                exploit the recommendation system
               </TableCell>
             </TableRow>
           ) : (

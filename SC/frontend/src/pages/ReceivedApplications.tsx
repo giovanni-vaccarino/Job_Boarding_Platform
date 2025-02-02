@@ -44,8 +44,16 @@ export const ReceivedApplication = () => {
         {exampleData.length > 0 ? (
           <ReceivedApplicationTable applications={applications} />
         ) : (
-          <Typography sx={{ fontStyle: 'italic' }}>
-            NO AVAILABLE APPLICATIONS
+          <Typography
+            sx={{
+              fontStyle: 'italic',
+              color: 'black',
+              fontSize: '1.2rem',
+              textAlign: 'center',
+              mt: '2rem',
+            }}
+          >
+            There is no available applications yet
           </Typography>
         )}
       </Box>
