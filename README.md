@@ -86,7 +86,7 @@ Once both the backend and frontend are set up, follow these steps to run the ent
    cd SC/BackendSolution
    ```
 
-2. Run the tests
-```sh
-dotnet test
-```
+2. Run the tests(before executing it, **ensure** that there are not any active executions of the backend 
+   ```sh
+   dotnet test
+   ```
