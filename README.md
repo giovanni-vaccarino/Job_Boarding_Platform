@@ -5,10 +5,10 @@
 - **Vaccarino Giovanni**
 - **Vacis Nicolò**
 
-## Overview
-This chapter provides detailed instructions for setting up and running the platform locally, including both the backend (written in ASP.NET Core) and the frontend (developed in React with TypeScript). Follow these steps carefully to ensure proper configuration and execution.
+## Installation Instructions
+Following the instructions for setting up and running the platform locally, including both the backend (written in ASP.NET Core) and the frontend (developed in React with TypeScript). Follow these steps carefully to ensure proper configuration and execution.
 
-## Prerequisites
+### Prerequisites
 
 Before proceeding with the installation, ensure that the following prerequisites are met:
 
