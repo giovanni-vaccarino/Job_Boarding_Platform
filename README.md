@@ -79,3 +79,14 @@ Once both the backend and frontend are set up, follow these steps to run the ent
 
 - **Frontend API errors:** Ensure the running ports are correct (5000 for backend and 5173 for frontend).
 - **Dependency installation issues:** Make sure the correct versions of .NET SDK, Node.js, and npm are installed.
+
+## Running the tests
+1. Navigate to the BackendSolution folder (assuming you're in the `VaccarinoPalladinoVacis` folder):
+   ```sh
+   cd SC/BackendSolution
+   ```
+
+2. Run the tests
+```sh
+dotnet test
+```
