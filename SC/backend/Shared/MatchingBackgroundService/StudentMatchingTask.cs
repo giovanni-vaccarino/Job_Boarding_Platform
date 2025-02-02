@@ -1,4 +1,5 @@
 ﻿using backend.Data;
+using backend.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Shared.MatchingBackgroundService;
@@ -53,10 +54,9 @@ public class StudentMatchingTask : IBackgroundTask
                 var avgCompanyScore = dbContext.Applications
                     .Where(a => a.Internship.CompanyId == internship.CompanyId)
                     .SelectMany(a => a.InternshipFeedbacks)
+                    .Where(f => f.Actor == ProfileType.Student) 
                     .Average(f => (double?)((int)f.Rating + 1)) ?? 2.5;
                 
-                Console.WriteLine($"AVERAGE SCORE OF COMPANY{internship.CompanyId}: {avgCompanyScore}:");
-
                 double similarityScore = CalculateSimilarityScore(internship.Requirements, student.Skills, student.Interests);
                 double finalScore = similarityScore * (avgCompanyScore * 2 / 5);
 

@@ -1,4 +1,5 @@
 ﻿using backend.Data;
+using backend.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Shared.MatchingBackgroundService;
@@ -46,10 +47,18 @@ public class InternshipMatchingTask : IBackgroundTask
         const double threshold = 3.0;
         
         var studentScores = students
-            .Select(student => new
+            .Select(student =>
             {
-                StudentId = student.Id,
-                Score = CalculateSimilarityScore(internshipRequirements, student.Skills, student.Interests)
+                var avgStudentScore = dbContext.Applications
+                    .Where(a => a.StudentId == student.Id)
+                    .SelectMany(a => a.InternshipFeedbacks)
+                    .Where(f => f.Actor == ProfileType.Company) 
+                    .Average(f => (double?)((int)f.Rating + 1)) ?? 2.5;
+
+                double similarityScore = CalculateSimilarityScore(internshipRequirements, student.Skills, student.Interests);
+                double finalScore = similarityScore * (avgStudentScore * 2 / 5);
+
+                return new { StudentId = student.Id, Score = finalScore };
             })
             .OrderByDescending(s => s.Score)
             .ToList();
