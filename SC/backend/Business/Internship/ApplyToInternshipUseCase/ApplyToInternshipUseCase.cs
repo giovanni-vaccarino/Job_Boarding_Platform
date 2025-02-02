@@ -76,7 +76,7 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
         
         if (string.IsNullOrWhiteSpace(student.Name) || string.IsNullOrWhiteSpace(student.Cf) || string.IsNullOrWhiteSpace(student.CvPath))
         {
-            throw new InvalidOperationException("ERR1:The student must have a name, a valid CF, and an uploaded CV to apply for an internship.", "ERR1");
+            throw new ArgumentException("ERR1:The student must have a name, a valid CF, and an uploaded CV to apply for an internship.");
         }
 
         var internship = await _dbContext.Internships.FirstOrDefaultAsync(i => i.Id == internshipId, cancellationToken);
