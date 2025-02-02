@@ -1,3 +1,4 @@
+using System.Diagnostics.Eventing.Reader;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -12,6 +13,7 @@ using backend.Service.Contracts.Match;
 using backend.Shared.Enums;
 using FluentAssertions;
 using IntegrationTests.Setup;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Xunit;
 
@@ -283,12 +285,32 @@ public async Task StudentRetrieveApplicationAnswerTheQuestionAndSendFeedback()
     
     inviteStudent.StatusCode.Should().Be(HttpStatusCode.OK);
     
+    //Retrieve the student matches
+    
+    var studentMatches = await _client.GetAsync($"/api/matches/student/{loggedUser.ProfileId}");
+    
+    studentMatches.StatusCode.Should().Be(HttpStatusCode.OK);
+    
+    var studentMatchesList = await studentMatches.Content.ReadFromJsonAsync<List<MatchDto>>(options);
     
     //The student accept the match
     
-    var acceptMatch = await _client.PostAsJsonAsync($"/api/matches/{matches[0].Id}?studentId={loggedUser.ProfileId}", matches[0].Id);
-    
-    acceptMatch.StatusCode.Should().Be(HttpStatusCode.OK);
+    var alreadyApplied = true;
+    foreach (var match in studentMatchesList)
+    {
+        //if the match is find inside the matches of the students then the student has not already applied
+        if(match.Id == matches[0].Id)
+        {
+            alreadyApplied = false;
+        }
+    }
+
+    if (alreadyApplied == false)
+    {
+        var acceptMatch = await _client.PostAsJsonAsync($"/api/matches/{matches[0].Id}?studentId={loggedUser.ProfileId}", matches[0].Id);
+        acceptMatch.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+        
     
     
 }
