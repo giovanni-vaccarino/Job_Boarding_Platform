@@ -104,7 +104,13 @@ export const CompanyJobsTable = (props: CompanyJobsTableProps) => {
             <TableRow>
               <TableCell
                 colSpan={5}
-                sx={{ textAlign: 'center', fontStyle: 'italic' }}
+                sx={{
+                  fontStyle: 'italic',
+                  color: 'gray',
+                  fontSize: '1.2rem',
+                  textAlign: 'center',
+                  mt: '2rem',
+                }}
               >
                 NO AVAILABLE JOBS
               </TableCell>

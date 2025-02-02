@@ -93,9 +93,15 @@ export const ReceivedApplicationTable = (
               <TableCell
                 colSpan={4}
                 align="center"
-                sx={{ textAlign: 'center', fontStyle: 'italic' }}
+                sx={{
+                  fontStyle: 'italic',
+                  color: 'black',
+                  fontSize: '1.2rem',
+                  textAlign: 'center',
+                  mt: '2rem',
+                }}
               >
-                NO AVAILABLE APPLICATIONS
+                There is no available application yet
               </TableCell>
             </TableRow>
           ) : (

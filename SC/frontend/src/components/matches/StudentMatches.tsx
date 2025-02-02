@@ -114,8 +114,17 @@ export const StudentMatches = (props: StudentMatchesProps) => {
                 )
             )
           ) : (
-            <Typography sx={{ fontStyle: 'italic' }}>
-              NO AVAILABLE MATCHES
+            <Typography
+              sx={{
+                fontStyle: 'italic',
+                color: 'black',
+                fontSize: '1.2rem',
+                textAlign: 'center',
+                mt: '2rem',
+              }}
+            >
+              There are not available matches yet, update your skills to exploit
+              the recommendation system
             </Typography>
           )}
         </Stack>
