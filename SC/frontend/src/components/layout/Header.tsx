@@ -58,7 +58,7 @@ export const Header = () => {
             display: 'flex',
             gap: 5,
             marginLeft:
-              authState.profileType === TypeProfile.Company ? '-5rem' : '0',
+              authState.profileType === null ? '2.5rem' : authState.profileType === TypeProfile.Company ? '-5rem' : '-4.5rem',
           }}
         >
           {profileType !== TypeProfile.Company && (
