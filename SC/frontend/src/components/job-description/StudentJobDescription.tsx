@@ -78,7 +78,8 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
                 );
                 navigate(AppRoutes.ConfirmPage);
               } catch (error: any) {
-                const errorMessage = "You have already applied to this internship";
+                const errorMessage =
+                  'You have already applied to this internship';
 
                 console.error(
                   'Full error object:',

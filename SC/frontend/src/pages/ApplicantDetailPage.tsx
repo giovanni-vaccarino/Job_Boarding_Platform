@@ -185,24 +185,27 @@ export const ApplicantDetailPage = () => {
               <CreateFeedback applicationId={-1} />
             </Box>
           )}
-            {student.feedbacks != undefined && student.feedbacks.length > 0 && (
-                <>
-                    <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
-                        Feedback:
-                    </Typography>
-                    {student.feedbacks?.map((feedback, index) => (
-                        <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
-                            <Typography
-                                sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
-                            >{`${index + 1})`}</Typography>
-                            <ViewFeedback
-                                feedbackText={feedback.text}
-                                rating={feedback.rating}
-                            />
-                        </Box>
-                    ))}
-                </>
-            )}
+          {student.feedbacks != undefined && student.feedbacks.length > 0 && (
+            <>
+              <Typography sx={{ fontSize: '2.0rem', fontWeight: '500' }}>
+                Feedback:
+              </Typography>
+              {student.feedbacks?.map((feedback, index) => (
+                <Box
+                  key={index}
+                  sx={{ display: 'flex', flexDirection: 'column' }}
+                >
+                  <Typography
+                    sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}
+                  >{`${index + 1})`}</Typography>
+                  <ViewFeedback
+                    feedbackText={feedback.text}
+                    rating={feedback.rating}
+                  />
+                </Box>
+              ))}
+            </>
+          )}
         </Box>
         {applicationStatus ===
           ApplicationStatus[ApplicationStatus.LastEvaluation] && (
