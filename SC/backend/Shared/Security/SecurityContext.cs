@@ -72,7 +72,7 @@ public class SecurityContext
         var key = Encoding.ASCII.GetBytes(_jwtConfig.Key);
 
         var expiryDate = tokenType == TokenType.Access
-            ? DateTime.UtcNow.AddMinutes(_jwtConfig.ExpiryAccessToken)
+            ? DateTime.UtcNow.AddDays(_jwtConfig.ExpiryAccessToken)
             : DateTime.UtcNow.AddDays(_jwtConfig.ExpiryRefreshToken);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
