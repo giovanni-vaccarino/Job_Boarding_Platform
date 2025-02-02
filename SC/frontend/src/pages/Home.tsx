@@ -77,6 +77,7 @@ export const Home = () => {
           alignItems: 'center',
           pb: '4rem',
         }}
+        id = "jobList"
       >
         <Box sx={{ display: 'flex', gap: '2rem' }}>
           <Select

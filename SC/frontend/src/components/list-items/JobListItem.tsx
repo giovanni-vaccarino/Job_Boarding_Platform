@@ -76,6 +76,7 @@ export const JobListItem = (props: JobListItemProps) => {
           fontSize: '1.25rem',
           borderRadius: '8px',
         }}
+        id={"viewDetailsJob_" + props.id}
       >
         View Details
       </Button>

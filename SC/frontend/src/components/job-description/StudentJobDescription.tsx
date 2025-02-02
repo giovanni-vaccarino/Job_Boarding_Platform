@@ -61,6 +61,7 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
             variant="contained"
             color="primary"
             disabled={!isLogged}
+            id="applyButton"
             onClick={async () => {
               const inputPostApplyToInternship: ApplyToInternshipInput = {
                 studentId: studentId?.toString(),
@@ -78,17 +79,12 @@ export const StudentJobDescription = (props: JobDescriptionProps) => {
                 );
                 navigate(AppRoutes.ConfirmPage);
               } catch (error: any) {
-                const errorMessage =
-                  'You have already applied to this internship';
-
-                console.error(
-                  'Full error object:',
-                  JSON.stringify(error, null, 2)
-                );
+                let errorMessage = 'You have already applied to this internship or you need to insert a valid name, Cf and CV';
 
                 setSnackbarMessage(errorMessage);
                 setSnackbarOpen(true);
               }
+
             }}
             sx={{
               textTransform: 'none',

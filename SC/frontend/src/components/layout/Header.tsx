@@ -71,6 +71,7 @@ export const Header = () => {
         >
           {profileType !== TypeProfile.Company && (
             <Typography
+              id = "homePageButton"
               onClick={() => {
                 navigate(AppRoutes.Home);
                 dispatch(

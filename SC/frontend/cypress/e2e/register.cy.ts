@@ -6,9 +6,9 @@ describe('User Registration Test', () => {
     cy.visit('http://localhost:5173/register'); // Update if necessary
 
     // Step 2: Fill in the registration form
-    cy.get('#emailField').type('testuser1@example.com');
-    cy.get('#passwordField').type('SecurePassword123!');
-    cy.get('#confirmPasswordField').type('SecurePassword123!');
+    cy.get('#emailField').type('student1@gmail.com');
+    cy.get('#passwordField').type('Password123!');
+    cy.get('#confirmPasswordField').type('Password123!');
     cy.get('#profileField').click(); // Open the dropdown
     cy.get('li[role="option"]').contains('Student').click(); // Select "Student" option from the list
     cy.get('#registerButton').click();

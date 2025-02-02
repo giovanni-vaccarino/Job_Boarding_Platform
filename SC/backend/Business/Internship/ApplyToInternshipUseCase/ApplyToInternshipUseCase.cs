@@ -76,7 +76,7 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
         
         if (string.IsNullOrWhiteSpace(student.Name) || string.IsNullOrWhiteSpace(student.Cf) || string.IsNullOrWhiteSpace(student.CvPath))
         {
-            throw new ArgumentException("The student must have a name, a valid CF, and an uploaded CV to apply for an internship.");
+            throw new InvalidOperationException("ERR1:The student must have a name, a valid CF, and an uploaded CV to apply for an internship.", "ERR1");
         }
 
         var internship = await _dbContext.Internships.FirstOrDefaultAsync(i => i.Id == internshipId, cancellationToken);
@@ -94,7 +94,7 @@ public class ApplyToInternshipUseCase : IRequestHandler<ApplyToInternshipCommand
             .AnyAsync(a => a.StudentId == studentId && a.InternshipId == internshipId, cancellationToken);
         if (alreadyApplied)
         {
-            throw new ArgumentException("The student has already applied to this internship.");
+            throw new ArgumentException("ERR2:The student has already applied to this internship.");
         }
     }
 }
