@@ -90,3 +90,6 @@ Once both the backend and frontend are set up, follow these steps to run the ent
    ```sh
    dotnet test
    ```
+
+## Mail-Related Features
+All features related to mail sending, such as password recovery or email verification, require authorization through AWS SES (Simple Email Service). Since we are using SES in sandbox mode, these features are currently unavailable unless the email address is authorized. Due to this limitation, we have not restricted access for users who have not been verified.
