@@ -5,6 +5,24 @@
 - **Vaccarino Giovanni**
 - **Vacis Nicolò**
 
+## Introduction
+
+For this project, we were tasked with developing a job boarding platform called **S&C**. The platform is designed to facilitate internship postings and applications, providing an intuitive interface for both companies and students. Our solution integrates a backend built with ASP.NET Core and a frontend developed using React with TypeScript.
+
+Below are two example of the platform in action:
+
+### Login Page
+
+![Login Page](DD/Images/img1.jpg)
+
+---
+
+### Home Page
+
+![Home Page](DD/Images/img.jpg)
+
+---
+
 ## Installation Instructions
 Following the instructions for setting up and running the platform locally, including both the backend (written in ASP.NET Core) and the frontend (developed in React with TypeScript). Follow these steps carefully to ensure proper configuration and execution.
 
