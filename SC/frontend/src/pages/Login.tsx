@@ -144,7 +144,7 @@ export const Login = () => {
               });
               setInterval(function () {
                 window.location.reload();
-              }, 500);
+              }, 1000);
             } catch (error: any) {
               setIsLoading(false);
               const errorMessage =

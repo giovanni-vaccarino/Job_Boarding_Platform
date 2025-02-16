@@ -28,7 +28,7 @@ public class SendForgotPasswordUseCase : IRequestHandler<SendForgotPasswordComma
 
         var resetToken = _securityContext.CreateVerificationToken(user.Id.ToString());
 
-        var resetLink = $"https://localhost:5173/reset-password?token={resetToken}";
+        var resetLink = $"http://localhost:5173/reset-password?token={resetToken}";
         await _emailService.SendEmailAsync(user.Email, "Password Reset", $"Reset your password using this link: {resetLink}");
 
         _logger.LogInformation("Password reset email sent to {Email}", user.Email);

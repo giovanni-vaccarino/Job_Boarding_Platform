@@ -8,7 +8,7 @@ export interface JobListItemProps {
   companyName: string;
   jobTitle: string;
   location: string;
-  datePosted: Date;
+  datePosted: Date | null;
   important?: boolean;
   id?: string;
 }
@@ -56,7 +56,7 @@ export const JobListItem = (props: JobListItemProps) => {
 
           {props.datePosted != undefined && (
             <Typography variant="body2">
-              Posted {props.datePosted?.toLocaleDateString()}
+              {props.datePosted === null ? "" : "Posted " + props.datePosted?.toLocaleDateString()}
             </Typography>
           )}
         </Box>

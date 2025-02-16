@@ -108,7 +108,7 @@ export const StudentMatches = (props: StudentMatchesProps) => {
                     companyName={job.companyName}
                     jobTitle={job.jobTitle}
                     location={job.location}
-                    datePosted={job.datePosted}
+                    datePosted={null}
                     id={job.jobId}
                   />
                 )
