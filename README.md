@@ -1,4 +1,4 @@
-# Software Engineering 2 Project RASD,DD and I&T
+# S&C
 
 ## Authors
 - **Palladino Vittorio**
